@@ -3,8 +3,12 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require File.dirname(__FILE__) + "/ap/core_ext/string"
-require File.dirname(__FILE__) + "/ap/core_ext/kernel"
-require File.dirname(__FILE__) + "/ap/awesome_print"
+module Kernel
 
-require File.dirname(__FILE__) + "/ap/mixin/rails" if defined?(::Rails)
+  def ap(object, options = {})
+    ap = AwesomePrint.new(options)
+    ap.puts object
+  end
+
+  module_function :ap
+end
