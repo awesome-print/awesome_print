@@ -183,12 +183,12 @@ class AwesomePrint
 
   #------------------------------------------------------------------------------
   def indent
-    ' ' * @indentation
+    @indent ||= ' ' * @indentation
   end
 
   #------------------------------------------------------------------------------
   def outdent
-    ' ' * (@indentation - @options[:indent])
+    @outdent ||= ' ' * (@indentation - @options[:indent])
   end
 
 end
