@@ -1,7 +1,7 @@
 ## Awesome Print ##
-    Awesome Print is Ruby library that pretty prints Ruby objects in full color
-    exposing their internal structure with proper indentation. Rails ActiveRecord
-    objects are supported via included mixin.
+Awesome Print is Ruby library that pretty prints Ruby objects in full color
+exposing their internal structure with proper indentation. Rails ActiveRecord
+objects are supported via included mixin.
 
 ### Installation ###
     $ # Installing as Ruby gem
@@ -121,14 +121,14 @@
     rails>
 
 ### Note on Patches/Pull Requests ###
-    * Fork the project on Github.
-    * Make your feature addition or bug fix.
-    * Add specs for it, making sure $ rake spec is all green.
-    * Commit, do not mess with rakefile, version, or history.
-    * Send me a pull request.
+* Fork the project on Github.
+* Make your feature addition or bug fix.
+* Add specs for it, making sure $ rake spec is all green.
+* Commit, do not mess with rakefile, version, or history.
+* Send me a pull request.
 
 ### License ###
-    Copyright (c) 2010 Michael Dvorkin  
-    %w(mike dvorkin.net) * "@" || %w(mike fatfreecrm.com) * "@"
+Copyright (c) 2010 Michael Dvorkin  
+%w(mike dvorkin.net) * "@" || %w(mike fatfreecrm.com) * "@"
 
-    Released under the MIT license. See LICENSE file for details.
+Released under the MIT license. See LICENSE file for details.
