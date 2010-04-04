@@ -20,6 +20,7 @@ objects are supported via included mixin.
     Default options:
       :miltiline => true,
       :plain  => false,
+      :indent => 4,
       :colors => {
         :array      => :white,
         :bignum     => :blue,
@@ -119,6 +120,10 @@ objects are supported via included mixin.
         :background_info => :string
     }
     rails>
+
+### Known Issues ###
+
+* Windows...
 
 ### Note on Patches/Pull Requests ###
 * Fork the project on Github.
