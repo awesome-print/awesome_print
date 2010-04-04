@@ -38,7 +38,7 @@ module AwesomePrintRails
   # Format ActiveRecord class object.
   #------------------------------------------------------------------------------
   def awesome_active_record_class(object)
-    if object.table_exists?
+    if object.respond_to?(:columns)
       data = object.columns.inject(ActiveSupport::OrderedHash.new) do |hash, c|
         hash[c.name.to_sym] = c.type
         hash
