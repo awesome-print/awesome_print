@@ -59,6 +59,12 @@ objects are supported via included mixin.
             :distance => 4.2e+43
         }
     ]
+    irb> ap data[3], :indent => -2 # Left align hash keys.
+    {
+      :class    => Time < Object,
+      :now      => Fri Apr 02 19:55:53 -0700 2010,
+      :distance => 4.2e+43
+    }
     irb> ap data, :multiline => false
     [ false, 42, [ "fourty", "two" ], { :class => Time < Object, :distance => 4.2e+43, :now => Fri Apr 02 19:44:52 -0700 2010 } ]
     irb>

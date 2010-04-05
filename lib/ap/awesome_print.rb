@@ -72,7 +72,7 @@ class AwesomePrint
   
     data = data.inject([]) do |arr, (key, value)|
       if @options[:multiline]
-        formatted_key = (@options[:indent] > 0 ? key.rjust(width) : indent + key.ljust(width))
+        formatted_key = (@options[:indent] >= 0 ? key.rjust(width) : indent + key.ljust(width))
       else
         formatted_key = key
       end
