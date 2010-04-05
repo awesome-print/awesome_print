@@ -11,7 +11,7 @@ class String # :nodoc:
       define_method :"#{color}ish" do "\033[0;#{30+i}m#{self}\033[0m" end
     else
       define_method color do self end
-      alias_method :"#{color}ish", color # <- This break Rdoc: Name or symbol expected (got #<RubyToken::TkDSTRING
+      alias_method :"#{color}ish", color 
     end
   end
 
