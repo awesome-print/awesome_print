@@ -228,6 +228,23 @@ EOS
   end
 
   #------------------------------------------------------------------------------
+  describe "Negative options[:indent]" do
+    before(:each) do
+      @hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
+    end
+
+    it "hash keys must be left aligned" do
+      ap = AwesomePrint.new(:plain => true, :indent => -4)
+      out = ap.send(:awesome, @hash)
+      out.start_with?("{\n").should == true
+      out.include?('    :red          => "rgb(255, 0, 0)"').should == true
+      out.include?('    "magenta"     => "rgb(255, 0, 255)"').should == true
+      out.include?('    [ 0, 0, 255 ] => :yellow').should == true
+      out.end_with?("\n}").should == true
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe "Class" do
     it "shoud show superclass (plain)" do
       ap = AwesomePrint.new(:plain => true)

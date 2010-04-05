@@ -29,7 +29,7 @@ class AwesomePrint
       }.merge(options.delete(:color) || {})
     }.merge(options)
 
-    @indentation = @options[:indent]
+    @indentation = @options[:indent].abs
     Thread.current[AP] ||= []
   end
 
@@ -58,7 +58,7 @@ class AwesomePrint
     end
   end
 
-  # Format a hash.
+  # Format a hash. If @options[:indent] if negative left align hash keys.
   #------------------------------------------------------------------------------
   def awesome_hash(h)
     data = h.keys.inject([]) do |arr, key|
@@ -67,12 +67,17 @@ class AwesomePrint
       end
     end
       
-    width = data.map { |key, | key.size }.max + @indentation
+    width = data.map { |key, | key.size }.max
+    width += @indentation if @options[:indent] > 0
   
     data = data.inject([]) do |arr, (key, value)|
-      formatted_key = (@options[:multiline] ? key.rjust(width) : key) << colorize(" => ", :hash)
+      if @options[:multiline]
+        formatted_key = (@options[:indent] > 0 ? key.rjust(width) : indent + key.ljust(width))
+      else
+        formatted_key = key
+      end
       indented do
-        arr << (formatted_key << awesome(value))
+        arr << (formatted_key << colorize(" => ", :hash) << awesome(value))
       end
     end
     if @options[:multiline]
@@ -175,10 +180,10 @@ class AwesomePrint
 
   #------------------------------------------------------------------------------
   def indented
-    @indentation += @options[:indent]
+    @indentation += @options[:indent].abs
     yield
   ensure
-    @indentation -= @options[:indent]
+    @indentation -= @options[:indent].abs
   end
 
   #------------------------------------------------------------------------------
@@ -188,7 +193,7 @@ class AwesomePrint
 
   #------------------------------------------------------------------------------
   def outdent
-    @outdent = ' ' * (@indentation - @options[:indent])
+    @outdent = ' ' * (@indentation - @options[:indent].abs)
   end
 
 end
