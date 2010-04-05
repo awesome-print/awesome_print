@@ -124,7 +124,16 @@ EOS
     before(:each) do
       @hash = { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } }
     end
+    
+    it "empty hash" do
+      ap = AwesomePrint.new(:plain => true)
+      ap.send(:awesome, {}).should == <<-EOS.strip
+{
 
+}
+EOS
+    end
+    
     it "plain multiline" do
       ap = AwesomePrint.new(:plain => true)
       ap.send(:awesome, @hash).should == <<-EOS.strip

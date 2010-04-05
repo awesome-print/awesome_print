@@ -67,7 +67,7 @@ class AwesomePrint
       end
     end
       
-    width = data.map { |key, | key.size }.max
+    width = data.map { |key, | key.size }.max || 0
     width += @indentation if @options[:indent] > 0
   
     data = data.inject([]) do |arr, (key, value)|
