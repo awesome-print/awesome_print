@@ -33,10 +33,6 @@ class AwesomePrint
     Thread.current[AP] ||= []
   end
 
-  def puts(object)
-    Kernel.puts awesome(object)
-  end
-
 
   private
 

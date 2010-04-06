@@ -12,8 +12,7 @@ module Kernel
   alias :awesome_inspect :ai
 
   def ap(object, options = {})
-    ap = AwesomePrint.new(options)
-    ap.puts object.ai
+    puts object.ai(options)
   end
   alias :awesome_print :ap
 
