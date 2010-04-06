@@ -3,7 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-class String # :nodoc:
+class String
 
   [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
     if STDOUT.tty? && ENV['TERM'] && ENV['TERM'] != 'dumb'

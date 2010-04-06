@@ -14,38 +14,43 @@ objects are supported via included mixin.
     $ git clone git://github.com/michaeldv/awesome_print_.git
 
 ### Usage ###
+
     require "ap"
-    ap(object, options = {})
+    ap object, options = {}
 
-    Default options:
-      :miltiline => true,
-      :plain  => false,
-      :indent => 4,
-      :colors => {
-        :array      => :white,
-        :bignum     => :blue,
-        :class      => :yellow,
-        :date       => :greenish,
-        :falseclass => :red,
-        :fixnum     => :blue,
-        :float      => :blue,
-        :hash       => :gray,
-        :nilclass   => :red,
-        :string     => :yellowish,
-        :symbol     => :cyanish,
-        :time       => :greenish,
-        :trueclass  => :green
-      }
+Default options:
 
-    Supported color names:
-      :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white
-      :black, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :pale
+    :miltiline => true,
+    :plain  => false,
+    :indent => 4,
+    :colors => {
+      :array      => :white,
+      :bignum     => :blue,
+      :class      => :yellow,
+      :date       => :greenish,
+      :falseclass => :red,
+      :fixnum     => :blue,
+      :float      => :blue,
+      :hash       => :gray,
+      :nilclass   => :red,
+      :string     => :yellowish,
+      :symbol     => :cyanish,
+      :time       => :greenish,
+      :trueclass  => :green
+    }
 
-### Example (IRB) ###
-    $ irb
-    irb> require "ap"
-    irb> data = [ false, 42, %w(fourty two), { :now => Time.now, :class => Time.now.class, :distance => 42e42 } ]
-    irb> ap data
+Supported color names:
+
+    :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white
+    :black, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :pale
+
+### Examples ###
+    $ cat > 1.rb
+    require "ap"
+    data = [ false, 42, %w(fourty two), { :now => Time.now, :class => Time.now.class, :distance => 42e42 } ]
+    ap data
+    ^D
+    $ ruby 1.rb
     [
         [0] false,
         [1] 42,
@@ -59,17 +64,29 @@ objects are supported via included mixin.
             :distance => 4.2e+43
         }
     ]
-    irb> ap data[3], :indent => -2 # Left align hash keys.
+
+    $ cat > 2.rb
+    require "ap"
+    data = { :now => Time.now, :class => Time.now.class, :distance => 42e42 }
+    ap data, :indent => -2  # <-- Left align hash keys.
+    ^D
+    $ ruby 2.rb
     {
       :class    => Time < Object,
       :now      => Fri Apr 02 19:55:53 -0700 2010,
       :distance => 4.2e+43
     }
-    irb> ap data, :multiline => false
-    [ false, 42, [ "fourty", "two" ], { :class => Time < Object, :distance => 4.2e+43, :now => Fri Apr 02 19:44:52 -0700 2010 } ]
-    irb>
 
-### Example (Rails) ###
+    $ cat > 3.rb
+    require "ap"
+    data = [ false, 42, %w(fourty two) ]
+    data << data  # <-- Nested array.
+    ap data, :multiline => false
+    ^D
+    $ ruby 3.rb
+    [ false, 42, [ "fourty", "two" ], [...] ]
+
+### Example (Rails console) ###
     $ ruby script/console
     Loading development environment (Rails 2.3.5)
     rails> require "ap"
