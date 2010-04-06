@@ -12,6 +12,11 @@ describe "AwesomePrint" do
       @arr = [ 1, :two, "three", [ nil, [ true, false] ] ]
     end
 
+    it "empty array" do
+      ap = AwesomePrint.new
+      ap.send(:awesome, []).should == "[]"
+    end
+
     it "plain multiline" do
       ap = AwesomePrint.new(:plain => true)
       ap.send(:awesome, @arr).should == <<-EOS.strip
@@ -126,12 +131,8 @@ EOS
     end
     
     it "empty hash" do
-      ap = AwesomePrint.new(:plain => true)
-      ap.send(:awesome, {}).should == <<-EOS.strip
-{
-
-}
-EOS
+      ap = AwesomePrint.new
+      ap.send(:awesome, {}).should == "{}"
     end
     
     it "plain multiline" do

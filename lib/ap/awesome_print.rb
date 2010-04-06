@@ -43,6 +43,8 @@ class AwesomePrint
   # Format an array.
   #------------------------------------------------------------------------------
   def awesome_array(a)
+    return "[]" if a == []
+
     if @options[:multiline]
       width = (a.size - 1).to_s.size 
       data = a.inject([]) do |arr, item|
@@ -61,6 +63,8 @@ class AwesomePrint
   # Format a hash. If @options[:indent] if negative left align hash keys.
   #------------------------------------------------------------------------------
   def awesome_hash(h)
+    return "{}" if h == {}
+
     data = h.keys.inject([]) do |arr, key|
       plain_single_line do
         arr << [ awesome(key), h[key] ]
