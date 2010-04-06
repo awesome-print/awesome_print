@@ -5,10 +5,17 @@
 #------------------------------------------------------------------------------
 module Kernel
 
+  def ai(options = {})
+    ap = AwesomePrint.new(options)
+    ap.send(:awesome, self)
+  end
+  alias :awesome_inspect :ai
+
   def ap(object, options = {})
     ap = AwesomePrint.new(options)
-    ap.puts object
+    ap.puts object.ai
   end
+  alias :awesome_print :ap
 
   module_function :ap
 end

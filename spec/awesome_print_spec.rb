@@ -1,25 +1,18 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "AwesomePrint" do
-  before(:each) do
-    @color_ap = AwesomePrint.new
-    @plain_ap = AwesomePrint.new(:plain => true)
-  end
 
-  #------------------------------------------------------------------------------
   describe "Array" do
     before(:each) do
       @arr = [ 1, :two, "three", [ nil, [ true, false] ] ]
     end
 
     it "empty array" do
-      ap = AwesomePrint.new
-      ap.send(:awesome, []).should == "[]"
+      [].ai.should == "[]"
     end
 
     it "plain multiline" do
-      ap = AwesomePrint.new(:plain => true)
-      ap.send(:awesome, @arr).should == <<-EOS.strip
+      @arr.ai(:plain => true).should == <<-EOS.strip
 [
     [0] 1,
     [1] :two,
@@ -36,8 +29,7 @@ EOS
       end
 
     it "plain multiline indented" do
-      ap = AwesomePrint.new(:plain => true, :indent => 2)
-      ap.send(:awesome, @arr).should == <<-EOS.strip
+      @arr.ai(:plain => true, :indent => 2).should == <<-EOS.strip
 [
   [0] 1,
   [1] :two,
@@ -54,13 +46,11 @@ EOS
     end
 
     it "plain single line" do
-      ap = AwesomePrint.new(:plain => true, :multiline => false)
-      ap.send(:awesome, @arr).should == '[ 1, :two, "three", [ nil, [ true, false ] ] ]'
+      @arr.ai(:plain => true, :multiline => false).should == '[ 1, :two, "three", [ nil, [ true, false ] ] ]'
     end
 
-    it "colored multiline" do
-      ap = AwesomePrint.new
-      ap.send(:awesome, @arr).should == <<-EOS.strip
+    it "colored multiline (default)" do
+      @arr.ai.should == <<-EOS.strip
 [
 \e[1;37m    [0] \e[0m\e[1;34m1\e[0m,
 \e[1;37m    [1] \e[0m\e[0;36m:two\e[0m,
@@ -77,8 +67,7 @@ EOS
       end
 
     it "colored multiline indented" do
-      ap = AwesomePrint.new(:indent => 8)
-      ap.send(:awesome, @arr).should == <<-EOS.strip
+      @arr.ai(:indent => 8).should == <<-EOS.strip
 [
 \e[1;37m        [0] \e[0m\e[1;34m1\e[0m,
 \e[1;37m        [1] \e[0m\e[0;36m:two\e[0m,
@@ -95,8 +84,7 @@ EOS
     end
 
     it "colored single line" do
-      ap = AwesomePrint.new(:multiline => false)
-      ap.send(:awesome, @arr).should == "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]"
+      @arr.ai(:multiline => false).should == "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]"
     end
   end
 
@@ -108,8 +96,7 @@ EOS
     end
 
     it "plain multiline" do
-      ap = AwesomePrint.new(:plain => true)
-      ap.send(:awesome, @arr).should == <<-EOS.strip
+      @arr.ai(:plain => true).should == <<-EOS.strip
 [
     [0] 1,
     [1] 2,
@@ -119,8 +106,7 @@ EOS
     end
 
     it "plain single line" do
-      ap = AwesomePrint.new(:plain => true, :multiline => false)
-      ap.send(:awesome, @arr).should == "[ 1, 2, [...] ]"
+      @arr.ai(:plain => true, :multiline => false).should == "[ 1, 2, [...] ]"
     end
   end
 
@@ -131,13 +117,11 @@ EOS
     end
     
     it "empty hash" do
-      ap = AwesomePrint.new
-      ap.send(:awesome, {}).should == "{}"
+      {}.ai.should == "{}"
     end
     
     it "plain multiline" do
-      ap = AwesomePrint.new(:plain => true)
-      ap.send(:awesome, @hash).should == <<-EOS.strip
+      @hash.ai(:plain => true).should == <<-EOS.strip
 {
     1 => {
         :sym => {
@@ -153,8 +137,7 @@ EOS
     end
 
     it "plain multiline indented" do
-      ap = AwesomePrint.new(:plain => true, :indent => 1)
-      ap.send(:awesome, @hash).should == <<-EOS.strip
+      @hash.ai(:plain => true, :indent => 1).should == <<-EOS.strip
 {
  1 => {
   :sym => {
@@ -170,13 +153,11 @@ EOS
     end
 
     it "plain single line" do
-      ap = AwesomePrint.new(:plain => true, :multiline => false)
-      ap.send(:awesome, @hash).should == '{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }'
+      @hash.ai(:plain => true, :multiline => false).should == '{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }'
     end
 
-    it "colored multiline" do
-      ap = AwesomePrint.new
-      ap.send(:awesome, @hash).should == <<-EOS.strip
+    it "colored multiline (default)" do
+      @hash.ai.should == <<-EOS.strip
 {
     1\e[1;30m => \e[0m{
         :sym\e[1;30m => \e[0m{
@@ -192,8 +173,7 @@ EOS
     end
 
     it "colored multiline indented" do
-      ap = AwesomePrint.new(:indent => 2)
-      ap.send(:awesome, @hash).should == <<-EOS.strip
+      @hash.ai(:indent => 2).should == <<-EOS.strip
 {
   1\e[1;30m => \e[0m{
     :sym\e[1;30m => \e[0m{
@@ -209,8 +189,7 @@ EOS
     end
 
     it "colored single line" do
-      ap = AwesomePrint.new(:multiline => false)
-      ap.send(:awesome, @hash).should == "{ 1\e[1;30m => \e[0m{ :sym\e[1;30m => \e[0m{ \"str\"\e[1;30m => \e[0m{ [ 1, 2, 3 ]\e[1;30m => \e[0m{ { :k => :v }\e[1;30m => \e[0m\e[1;33mHash < Object\e[0m } } } } }"
+      @hash.ai(:multiline => false).should == "{ 1\e[1;30m => \e[0m{ :sym\e[1;30m => \e[0m{ \"str\"\e[1;30m => \e[0m{ [ 1, 2, 3 ]\e[1;30m => \e[0m{ { :k => :v }\e[1;30m => \e[0m\e[1;33mHash < Object\e[0m } } } } }"
     end
 
   end
@@ -223,8 +202,7 @@ EOS
     end
 
     it "plain multiline" do
-      ap = AwesomePrint.new(:plain => true)
-      ap.send(:awesome, @hash).should == <<-EOS.strip
+      @hash.ai(:plain => true).should == <<-EOS.strip
 {
     :a => {...}
 }
@@ -232,8 +210,7 @@ EOS
     end
 
     it "plain single line" do
-      ap = AwesomePrint.new(:plain => true, :multiline => false)
-      ap.send(:awesome, @hash).should == '{ :a => {...} }'
+      @hash.ai(:plain => true, :multiline => false).should == '{ :a => {...} }'
     end
   end
 
@@ -244,8 +221,7 @@ EOS
     end
 
     it "hash keys must be left aligned" do
-      ap = AwesomePrint.new(:plain => true, :indent => -4)
-      out = ap.send(:awesome, @hash)
+      out = @hash.ai(:plain => true, :indent => -4)
       out.start_with?("{\n").should == true
       out.include?('    :red          => "rgb(255, 0, 0)"').should == true
       out.include?('    "magenta"     => "rgb(255, 0, 255)"').should == true
@@ -257,13 +233,11 @@ EOS
   #------------------------------------------------------------------------------
   describe "Class" do
     it "shoud show superclass (plain)" do
-      ap = AwesomePrint.new(:plain => true)
-      ap.send(:awesome, self.class).should == "#{self.class} < #{self.class.superclass}"
+      self.class.ai(:plain => true).should == "#{self.class} < #{self.class.superclass}"
     end
 
     it "shoud show superclass (color)" do
-      ap = AwesomePrint.new
-      ap.send(:awesome_class, self.class).should == "#{self.class} < #{self.class.superclass}".yellow
+      self.class.ai.should == "#{self.class} < #{self.class.superclass}".yellow
     end
   end
 
@@ -271,7 +245,7 @@ EOS
   describe "File" do
     it "should display a file (plain)" do
       File.open(__FILE__, "r") do |f|
-        @plain_ap.send(:awesome_file, f).should == "#{f.inspect}\n" << `ls -alF #{f.path}`.chop
+        f.ai(:plain => true).should == "#{f.inspect}\n" << `ls -alF #{f.path}`.chop
       end
     end
   end
@@ -280,7 +254,7 @@ EOS
   describe "Dir" do
     it "should display a direcory (plain)" do
       Dir.open(File.dirname(__FILE__)) do |d|
-        @plain_ap.send(:awesome_dir, d).should == "#{d.inspect}\n" << `ls -alF #{d.path}`.chop
+        d.ai(:plain => true).should == "#{d.inspect}\n" << `ls -alF #{d.path}`.chop
       end
     end
   end
