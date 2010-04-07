@@ -4,13 +4,13 @@ exposing their internal structure with proper indentation. Rails ActiveRecord
 objects are supported via included mixin.
 
 ### Installation ###
-    $ # Installing as Ruby gem
+    # Installing as Ruby gem
     $ gem install awesome_print
 
     # Installing as Rails plugin
     $ ruby script/plugin install http://github.com/michaeldv/awesome_print_.git
 
-    $ # Cloning the repository
+    # Cloning the repository
     $ git clone git://github.com/michaeldv/awesome_print_.git
 
 ### Usage ###
@@ -20,7 +20,7 @@ objects are supported via included mixin.
 
 Default options:
 
-    :miltiline => true,
+    :multiline => true,
     :plain  => false,
     :indent => 4,
     :colors => {
