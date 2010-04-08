@@ -144,9 +144,19 @@ Supported color names:
     }
     rails>
 
-### Known Issues ###
+### Setting Custom Defaults ###
+You can set your own default options by creating ``.aprc`` file in your home
+directory. Within that file assign your  defaults to ``AwesomePrint.defaults``.
+For example:
 
-* Windows...
+    # ~/.aprc file.
+    AwesomePrint.defaults = {
+      :indent => -2,
+      :color => {
+        :hash  => :pale,
+        :class => :white
+      }
+    }
 
 ### Note on Patches/Pull Requests ###
 * Fork the project on Github.

@@ -1,0 +1,15 @@
+0.1.3
+  - Added support for setting custom defaults in ~/.aprc
+  
+0.1.2
+  - Correctly handle empty arrays and hashes
+  - Use alias_method instead of alias (fixes non-tty method aliasing)
+  - Added awesome_inspect method
+
+0.1.1
+  - Added support for tableless ActiveRecord models
+  - Left align hash keys if @options[:indent] is negative
+  
+0.1.0
+  - Initial Release.
+  

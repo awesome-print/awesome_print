@@ -29,6 +29,8 @@ class AwesomePrint
       }.merge(options.delete(:color) || {})
     }.merge(options)
 
+    load_custom_defaults
+
     @indentation = @options[:indent].abs
     Thread.current[AP] ||= []
   end
@@ -194,6 +196,36 @@ class AwesomePrint
   #------------------------------------------------------------------------------
   def outdent
     @outdent = ' ' * (@indentation - @options[:indent].abs)
+  end
+
+  # Load ~/.aprc file that can store custom defaults, for example:
+  #
+  # AwesomePrint.defaults = {
+  #   :indent => -2,
+  #   :color => {
+  #     :trueclass => :red
+  #   }
+  # }
+  #------------------------------------------------------------------------------
+  def load_custom_defaults
+    dotfile = File.join(ENV["HOME"], ".aprc")
+    if File.readable?(dotfile)
+      load dotfile
+      @options[:color].merge!(self.class.defaults.delete(:color) || {})
+      @options.merge!(self.class.defaults)
+    end
+  rescue => e
+    $stderr.puts "Could not load #{dotfile}: #{e}"
+  end
+
+  # Class accessors for custom defaults.
+  #------------------------------------------------------------------------------
+  def self.defaults
+    @@defaults ||= {}
+  end
+
+  def self.defaults=(*args)
+    @@defaults = *args
   end
 
 end
