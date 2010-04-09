@@ -1,6 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "AwesomePrint" do
+  before(:each) do
+    stub_dotfile!
+  end
 
   describe "Array" do
     before(:each) do
