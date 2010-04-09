@@ -259,4 +259,15 @@ EOS
     end
   end
 
+  #------------------------------------------------------------------------------
+  describe "Utility methods" do
+    it "should merge options" do
+      ap = AwesomePrint.new
+      ap.send(:merge_options!, { :color => { :array => :black }, :indent => 0 })
+      options = ap.instance_variable_get("@options")
+      options[:color][:array].should == :black
+      options[:indent].should == 0
+    end
+  end
+
 end

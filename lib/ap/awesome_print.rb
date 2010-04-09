@@ -26,10 +26,12 @@ class AwesomePrint
         :symbol     => :cyanish,
         :time       => :greenish,
         :trueclass  => :green
-      }.merge(options.delete(:color) || {})
-    }.merge(options)
+      }
+    }
 
-    load_custom_defaults
+    # Merge custom defaults and let explicit options parameter override them.
+    merge_custom_defaults!
+    merge_options!(options)
 
     @indentation = @options[:indent].abs
     Thread.current[AP] ||= []
@@ -188,31 +190,28 @@ class AwesomePrint
     @indentation -= @options[:indent].abs
   end
 
-  #------------------------------------------------------------------------------
   def indent
     @indent = ' ' * @indentation
   end
 
-  #------------------------------------------------------------------------------
   def outdent
     @outdent = ' ' * (@indentation - @options[:indent].abs)
   end
 
-  # Load ~/.aprc file that can store custom defaults, for example:
-  #
-  # AwesomePrint.defaults = {
-  #   :indent => -2,
-  #   :color => {
-  #     :trueclass => :red
-  #   }
-  # }
+  # Update @options by first merging the :color hash and then the remaining keys.
   #------------------------------------------------------------------------------
-  def load_custom_defaults
+  def merge_options!(options = {})
+    @options[:color].merge!(options.delete(:color) || {})
+    @options.merge!(options)
+  end
+
+  # Load ~/.aprc file with custom defaults that override default options.
+  #------------------------------------------------------------------------------
+  def merge_custom_defaults!
     dotfile = File.join(ENV["HOME"], ".aprc")
     if File.readable?(dotfile)
       load dotfile
-      @options[:color].merge!(self.class.defaults.delete(:color) || {})
-      @options.merge!(self.class.defaults)
+      merge_options!(self.class.defaults)
     end
   rescue => e
     $stderr.puts "Could not load #{dotfile}: #{e}"
