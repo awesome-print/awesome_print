@@ -23,7 +23,7 @@ Default options:
     :multiline => true,
     :plain  => false,
     :indent => 4,
-    :colors => {
+    :color => {
       :array      => :white,
       :bignum     => :blue,
       :class      => :yellow,
@@ -47,7 +47,7 @@ Supported color names:
 ### Examples ###
     $ cat > 1.rb
     require "ap"
-    data = [ false, 42, %w(fourty two), { :now => Time.now, :class => Time.now.class, :distance => 42e42 } ]
+    data = [ false, 42, %w(forty two), { :now => Time.now, :class => Time.now.class, :distance => 42e42 } ]
     ap data
     ^D
     $ ruby 1.rb
@@ -55,7 +55,7 @@ Supported color names:
         [0] false,
         [1] 42,
         [2] [
-            [0] "fourty",
+            [0] "forty",
             [1] "two"
         ],
         [3] {
@@ -79,12 +79,12 @@ Supported color names:
 
     $ cat > 3.rb
     require "ap"
-    data = [ false, 42, %w(fourty two) ]
+    data = [ false, 42, %w(forty two) ]
     data << data  # <-- Nested array.
     ap data, :multiline => false
     ^D
     $ ruby 3.rb
-    [ false, 42, [ "fourty", "two" ], [...] ]
+    [ false, 42, [ "forty", "two" ], [...] ]
 
 ### Example (Rails console) ###
     $ ruby script/console
