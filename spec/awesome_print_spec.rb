@@ -1,4 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require "bigdecimal"
+require "rational"
 
 describe "AwesomePrint" do
   before(:each) do
@@ -259,6 +261,19 @@ EOS
       Dir.open(File.dirname(__FILE__)) do |d|
         d.ai(:plain => true).should == "#{d.inspect}\n" << `ls -alF #{d.path}`.chop
       end
+    end
+  end
+
+  #------------------------------------------------------------------------------
+  describe "BigDecimal and Rational" do
+    it "should present BigDecimal object as Float scalar" do
+      big = BigDecimal("2010.04")
+      big.ai(:plain => true).should == "2010.4"
+    end
+
+    it "should present Rational object as Float scalar" do
+      rat = Rational(2010, 2)
+      rat.ai(:plain => true).should == "1005.0"
     end
   end
 

@@ -5,7 +5,7 @@
 #------------------------------------------------------------------------------
 class AwesomePrint
   AP = :__awesome_print__
-  CORE = [ :array, :hash, :class, :file, :dir ]
+  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational ]
 
   def initialize(options = {})
     @options = { 
@@ -14,7 +14,7 @@ class AwesomePrint
       :indent    => 4,
       :color     => { 
         :array      => :white,
-        :bignum     => :blue,
+        :bigdecimal => :blue,
         :class      => :yellow,
         :date       => :greenish,
         :falseclass => :red,
@@ -114,6 +114,13 @@ class AwesomePrint
     ls = `ls -alF #{d.path}`
     awesome_self(d, :with => ls.empty? ? nil : "\n#{ls.chop}")
   end
+
+  # Format BigDecimal and Rational objects by convering them to Float.
+  #------------------------------------------------------------------------------
+  def awesome_bigdecimal(n)
+    awesome_self(n.to_f, :as => :bigdecimal)
+  end
+  alias :awesome_rational :awesome_bigdecimal
 
   # Catch all method to format an arbitrary object.
   #------------------------------------------------------------------------------
