@@ -36,8 +36,7 @@ class AwesomePrint
     @indentation = @options[:indent].abs
     Thread.current[AP] ||= []
   end
-
-
+  
   private
 
   # Format an array.

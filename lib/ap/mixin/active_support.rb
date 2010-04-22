@@ -6,7 +6,8 @@
 module AwesomePrintActiveSupport
 
   def self.included(base)
-    base.alias_method_chain :printable, :active_support
+    base.send :alias_method, :printable_without_active_support, :printable
+    base.send :alias_method, :printable, :printable_with_active_support
   end
 
   # Add ActiveSupport class names to the dispatcher pipeline.

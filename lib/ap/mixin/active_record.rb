@@ -6,7 +6,8 @@
 module AwesomePrintActiveRecord
 
   def self.included(base)
-    base.alias_method_chain :printable, :active_record
+    base.send :alias_method, :printable_without_active_record, :printable
+    base.send :alias_method, :printable, :printable_with_active_record
   end
 
   # Add ActiveRecord class names to the dispatcher pipeline.
@@ -17,7 +18,7 @@ module AwesomePrintActiveRecord
       if object.is_a?(ActiveRecord::Base)
         printable = :active_record_instance
       end
-    elsif printable == :class && object.class.is_a?(ActiveRecord::Base.class)
+    elsif printable == :class && object.class.is_a?(ActiveRecord::Base)
       printable = :active_record_class
     end
     printable

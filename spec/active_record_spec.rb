@@ -1,5 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
+require 'active_record'
+require 'ap/mixin/active_record'
+
+
 if defined?(::ActiveRecord)
 
   # Create tableless ActiveRecord model.
@@ -41,7 +45,7 @@ if defined?(::ActiveRecord)
           :name => "Diana",
           :rank => 1,
          :admin => false,
-    :created_at => Sat, 10 Oct 1992 12:30:00 UTC +00:00
+    :created_at => Sat Oct 10 12:30:00 -0400 1992
 }
 EOS
       end
@@ -55,14 +59,14 @@ EOS
               :name => "Diana",
               :rank => 1,
              :admin => false,
-        :created_at => Sat, 10 Oct 1992 12:30:00 UTC +00:00
+        :created_at => Sat Oct 10 12:30:00 -0400 1992
     },
     [1] #<User:0x01234567> {
                 :id => nil,
               :name => "Laura",
               :rank => 2,
              :admin => true,
-        :created_at => Mon, 26 May 2003 14:15:00 UTC +00:00
+        :created_at => Mon May 26 14:15:00 -0400 2003
     }
 ]
 EOS
