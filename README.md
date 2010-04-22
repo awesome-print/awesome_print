@@ -144,6 +144,21 @@ Supported color names:
     }
     rails>
 
+### Logger Convenience Method ###
+awesome_print adds an ap method to the Logger and ActiveSupport::BufferedLogger classes,
+allowing you to call:
+
+    logger.ap object
+
+By default, this logs at the :debug level. You can override that globally with
+
+    :log_level => :info
+
+in the custom defaults (see below), or you can override on a per call basis with
+
+    logger.ap object, :warn
+
+
 ### Setting Custom Defaults ###
 You can set your own default options by creating ``.aprc`` file in your home
 directory. Within that file assign your  defaults to ``AwesomePrint.defaults``.
