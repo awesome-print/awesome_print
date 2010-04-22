@@ -18,7 +18,7 @@ module AwesomePrintActiveRecord
       if object.is_a?(ActiveRecord::Base)
         printable = :active_record_instance
       end
-    elsif printable == :class && object.class.is_a?(ActiveRecord::Base)
+    elsif printable == :class and class_inherits_from(object, ActiveRecord::Base)
       printable = :active_record_class
     end
     printable
@@ -47,7 +47,14 @@ module AwesomePrintActiveRecord
       object.inspect
     end
   end
-
+  
+  private
+  def class_inherits_from(klass, parent_class)
+    while klass do
+      return true if klass == parent_class
+      klass = klass.superclass
+    end
+  end
 end
 
 AwesomePrint.send(:include, AwesomePrintActiveRecord)

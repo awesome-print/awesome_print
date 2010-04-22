@@ -22,8 +22,18 @@ if defined?(::ActiveRecord)
     column :rank, :integer
     column :admin, :boolean
     column :created_at, :datetime
-  end
 
+    def self.table_exists?
+      true
+    end
+  end
+  
+  class SubUser < User
+    def self.columns
+      User.columns
+    end
+  end
+  
   describe "AwesomePrint/ActiveRecord" do
     before(:each) do
       stub_dotfile!
@@ -75,7 +85,7 @@ EOS
 
     #------------------------------------------------------------------------------
     describe "ActiveRecord class" do
-      it "should" do
+      it "should print the class" do
         @ap = AwesomePrint.new(:plain => true)
         @ap.send(:awesome, User).should == <<-EOS.strip
 class User < ActiveRecord::Base {
@@ -85,7 +95,22 @@ class User < ActiveRecord::Base {
          :admin => :boolean,
     :created_at => :datetime
 }
-EOS
+        EOS
+  
+end
+
+it "should print the class for non-direct subclasses of AR::Base" do
+  @ap = AwesomePrint.new(:plain => true)
+  @ap.send(:awesome, SubUser).should == <<-EOS.strip
+class SubUser < User {
+            :id => :integer,
+          :name => :string,
+          :rank => :integer,
+         :admin => :boolean,
+    :created_at => :datetime
+}
+  EOS
+  
       end
     end
   end
