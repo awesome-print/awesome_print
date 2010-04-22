@@ -3,21 +3,19 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-module AwesomePrintRails
+module AwesomePrintActiveRecord
 
   def self.included(base)
-    base.alias_method_chain :printable, :rails
+    base.alias_method_chain :printable, :active_record
   end
 
   # Add ActiveRecord class names to the dispatcher pipeline.
   #------------------------------------------------------------------------------
-  def printable_with_rails(object)
-    printable = printable_without_rails(object)
+  def printable_with_active_record(object)
+    printable = printable_without_active_record(object)
     if printable == :self
       if object.is_a?(ActiveRecord::Base)
         printable = :active_record_instance
-      elsif object.is_a?(ActiveSupport::TimeWithZone)
-        printable = :active_support_time
       end
     elsif printable == :class && object.class.is_a?(ActiveRecord::Base.class)
       printable = :active_record_class
@@ -49,12 +47,6 @@ module AwesomePrintRails
     end
   end
 
-  # Format ActiveSupport::TimeWithZone as standard Time.
-  #------------------------------------------------------------------------------
-  def awesome_active_support_time(object)
-    awesome_self(object, :as => :time)
-  end
-
 end
 
-AwesomePrint.send(:include, AwesomePrintRails)
+AwesomePrint.send(:include, AwesomePrintActiveRecord)

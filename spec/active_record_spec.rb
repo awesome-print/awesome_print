@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-if defined?(::Rails)
+if defined?(::ActiveRecord)
 
   # Create tableless ActiveRecord model.
   #------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ if defined?(::Rails)
     column :created_at, :datetime
   end
 
-  describe "AwesomePrint/Rails" do
+  describe "AwesomePrint/ActiveRecord" do
     before(:each) do
       stub_dotfile!
     end

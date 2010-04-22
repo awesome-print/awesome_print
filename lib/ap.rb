@@ -7,4 +7,6 @@ require File.dirname(__FILE__) + "/ap/core_ext/string"
 require File.dirname(__FILE__) + "/ap/core_ext/kernel"
 require File.dirname(__FILE__) + "/ap/awesome_print"
 
-require File.dirname(__FILE__) + "/ap/mixin/rails" if defined?(::Rails)
+require File.dirname(__FILE__) + "/ap/mixin/active_record" if defined?(::ActiveRecord)
+require File.dirname(__FILE__) + "/ap/mixin/active_support" if defined?(::ActiveSupport)
+

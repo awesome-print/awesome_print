@@ -267,7 +267,7 @@ EOS
   #------------------------------------------------------------------------------
   describe "BigDecimal and Rational" do
     it "should present BigDecimal object as Float scalar" do
-      big = BigDecimal("2010.04")
+      big = BigDecimal("2010.4")
       big.ai(:plain => true).should == "2010.4"
     end
 
