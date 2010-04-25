@@ -42,6 +42,7 @@ if defined?(::ActiveRecord)
     #------------------------------------------------------------------------------
     describe "ActiveRecord instance" do
       before(:each) do
+        ActiveRecord::Base.default_timezone = :utc
         @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
         @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
         @ap = AwesomePrint.new(:plain => true)
@@ -55,7 +56,7 @@ if defined?(::ActiveRecord)
           :name => "Diana",
           :rank => 1,
          :admin => false,
-    :created_at => Sat Oct 10 12:30:00 -0400 1992
+    :created_at => Sat Oct 10 12:30:00 UTC 1992
 }
 EOS
       end
@@ -69,14 +70,14 @@ EOS
               :name => "Diana",
               :rank => 1,
              :admin => false,
-        :created_at => Sat Oct 10 12:30:00 -0400 1992
+        :created_at => Sat Oct 10 12:30:00 UTC 1992
     },
     [1] #<User:0x01234567> {
                 :id => nil,
               :name => "Laura",
               :rank => 2,
              :admin => true,
-        :created_at => Mon May 26 14:15:00 -0400 2003
+        :created_at => Mon May 26 14:15:00 UTC 2003
     }
 ]
 EOS
