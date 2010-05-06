@@ -22,7 +22,7 @@ class AwesomePrint
         :falseclass => :red,
         :fixnum     => :blue,
         :float      => :blue,
-        :hash       => :gray,
+        :hash       => :pale,
         :nilclass   => :red,
         :string     => :yellowish,
         :symbol     => :cyanish,
