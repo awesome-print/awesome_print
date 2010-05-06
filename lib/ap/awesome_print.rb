@@ -3,6 +3,8 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+require "shellwords"
+
 class AwesomePrint
   AP = :__awesome_print__
   CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational ]
@@ -103,14 +105,14 @@ class AwesomePrint
   # Format File object.
   #------------------------------------------------------------------------------
   def awesome_file(f)
-    ls = File.directory?(f) ? `ls -adlF #{f.path}` : `ls -alF #{f.path}`
+    ls = File.directory?(f) ? `ls -adlF #{f.path.shellescape}` : `ls -alF #{f.path.shellescape}`
     awesome_self(f, :with => ls.empty? ? nil : "\n#{ls.chop}")
   end
 
   # Format Dir object.
   #------------------------------------------------------------------------------
   def awesome_dir(d)
-    ls = `ls -alF #{d.path}`
+    ls = `ls -alF #{d.path.shellescape}`
     awesome_self(d, :with => ls.empty? ? nil : "\n#{ls.chop}")
   end
 

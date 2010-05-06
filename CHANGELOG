@@ -1,3 +1,8 @@
+0.2.0
+  - Added support for logger.ap (including Rails logger)
+  - ap now works with scripts that use ActiveRecord/ActiveSupport outside Rails
+  - ap now correctly shows file and directory names with fancy characters (shell escape)
+
 0.1.4
   - Format BigDecimal and Rational objects as Float scalars
   - Explicit options parameter can override custom defaults

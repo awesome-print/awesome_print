@@ -144,6 +144,18 @@ Supported color names:
     }
     rails>
 
+### IRB integration ###
+To use awesome_print as default formatter in irb and Rails console add the following
+lines into your ~/.irbrc file:
+
+	require "rubygems"
+	require "ap"
+	IRB::Irb.class_eval do
+	  def output_value
+	    ap @context.last_value
+	  end
+	end
+
 ### Logger Convenience Method ###
 awesome_print adds an ap method to the Logger and ActiveSupport::BufferedLogger classes,
 allowing you to call:
@@ -157,7 +169,6 @@ By default, this logs at the :debug level. You can override that globally with
 in the custom defaults (see below), or you can override on a per call basis with
 
     logger.ap object, :warn
-
 
 ### Setting Custom Defaults ###
 You can set your own default options by creating ``.aprc`` file in your home
@@ -179,6 +190,12 @@ For example:
 * Add specs for it, making sure $ rake spec is all green.
 * Commit, do not mess with rakefile, version, or history.
 * Send me a pull request.
+
+### Contributors ###
+
+* Daniel Bretoi -- http://github.com/danielb2
+* eregon -- http://github.com/eregon
+* Tobias Crawley -- http://github.com/tobias
 
 ### License ###
 Copyright (c) 2010 Michael Dvorkin  
