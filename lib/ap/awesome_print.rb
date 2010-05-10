@@ -7,7 +7,7 @@ require "shellwords"
 
 class AwesomePrint
   AP = :__awesome_print__
-  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational ]
+  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct ]
 
   def initialize(options = {})
     @options = { 
@@ -23,6 +23,7 @@ class AwesomePrint
         :fixnum     => :blue,
         :float      => :blue,
         :hash       => :pale,
+        :struct     => :pale,
         :nilclass   => :red,
         :string     => :yellowish,
         :symbol     => :cyanish,
@@ -92,6 +93,14 @@ class AwesomePrint
     end
   end
 
+  # Format a Struct. If @options[:indent] if negative left align hash keys.
+  #------------------------------------------------------------------------------
+  def awesome_struct(s)
+    h = {}
+    s.each_pair { |k,v| h[k] = v }
+    awesome_hash(h)
+  end
+
   # Format Class object.
   #------------------------------------------------------------------------------
   def awesome_class(c)
@@ -154,6 +163,7 @@ class AwesomePrint
     case printable(object)
       when :array then colorize("[...]", :array)
       when :hash  then colorize("{...}", :hash)
+      when :struct then colorize("{...}", :struct)
       else colorize("...#{object.class}...", :class)
     end
   end
@@ -167,12 +177,20 @@ class AwesomePrint
   # Turn class name into symbol, ex: Hello::World => :hello_world.
   #------------------------------------------------------------------------------
   def declassify(object)
-    object.class.to_s.gsub(/:+/, "_").downcase.to_sym
+    if object.class.to_s.downcase =~ /^struct/
+      result = :struct
+    else
+      result = object.class.to_s.gsub(/:+/, "_").downcase.to_sym
+    end
+    result
   end
 
   # Pick the color and apply it to the given string as necessary.
   #------------------------------------------------------------------------------
   def colorize(s, type)
+    if type && !type.to_s.empty?
+      type = type.to_s.gsub(/^struct_.*/,'struct').to_sym
+    end
     if @options[:plain] || @options[:color][type].nil?
       s
     else

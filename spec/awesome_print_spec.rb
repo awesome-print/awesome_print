@@ -288,4 +288,51 @@ EOS
     end
   end
 
+
+  #------------------------------------------------------------------------------
+  describe "Struct" do
+    before(:each) do
+      struct = Struct.new("SimpleStruct", :name, :address)
+      @struct = struct.new
+      @struct.name = "Herman Munster"
+      @struct.address = "1313 Mockingbird Lane"
+    end
+    
+    it "empty struct" do
+      Struct.new("EmptyStruct").ai.should ==  "\e[1;33mStruct::EmptyStruct < Struct\e[0m"
+    end
+    
+    it "plain multiline" do
+      @struct.ai(:plain => true).should == <<-EOS.strip
+{
+    :address => "1313 Mockingbird Lane",
+       :name => "Herman Munster"
+}
+EOS
+    end
+
+    it "plain multiline indented" do
+      @struct.ai(:plain => true, :indent => 1).should == <<-EOS.strip
+{
+ :address => "1313 Mockingbird Lane",
+    :name => "Herman Munster"
+}
+EOS
+    end
+
+    it "plain single line" do
+      @struct.ai(:plain => true, :multiline => false).should == "{ :address => \"1313 Mockingbird Lane\", :name => \"Herman Munster\" }"
+    end
+
+    it "colored multiline (default)" do
+      @struct.ai.should == <<-EOS.strip
+{
+    :address\e[0;37m => \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
+       :name\e[0;37m => \e[0m\e[0;33m\"Herman Munster\"\e[0m
+}
+EOS
+    end
+  end
+
+
 end
