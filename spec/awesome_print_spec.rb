@@ -164,11 +164,11 @@ EOS
     it "colored multiline (default)" do
       @hash.ai.should == <<-EOS.strip
 {
-    1\e[1;30m => \e[0m{
-        :sym\e[1;30m => \e[0m{
-            \"str\"\e[1;30m => \e[0m{
-                [ 1, 2, 3 ]\e[1;30m => \e[0m{
-                    { :k => :v }\e[1;30m => \e[0m\e[1;33mHash < Object\e[0m
+    1\e[0;37m => \e[0m{
+        :sym\e[0;37m => \e[0m{
+            \"str\"\e[0;37m => \e[0m{
+                [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                    { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
             }
         }
@@ -180,11 +180,11 @@ EOS
     it "colored multiline indented" do
       @hash.ai(:indent => 2).should == <<-EOS.strip
 {
-  1\e[1;30m => \e[0m{
-    :sym\e[1;30m => \e[0m{
-      \"str\"\e[1;30m => \e[0m{
-        [ 1, 2, 3 ]\e[1;30m => \e[0m{
-          { :k => :v }\e[1;30m => \e[0m\e[1;33mHash < Object\e[0m
+  1\e[0;37m => \e[0m{
+    :sym\e[0;37m => \e[0m{
+      \"str\"\e[0;37m => \e[0m{
+        [ 1, 2, 3 ]\e[0;37m => \e[0m{
+          { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
         }
       }
     }
@@ -194,7 +194,7 @@ EOS
     end
 
     it "colored single line" do
-      @hash.ai(:multiline => false).should == "{ 1\e[1;30m => \e[0m{ :sym\e[1;30m => \e[0m{ \"str\"\e[1;30m => \e[0m{ [ 1, 2, 3 ]\e[1;30m => \e[0m{ { :k => :v }\e[1;30m => \e[0m\e[1;33mHash < Object\e[0m } } } } }"
+      @hash.ai(:multiline => false).should == "{ 1\e[0;37m => \e[0m{ :sym\e[0;37m => \e[0m{ \"str\"\e[0;37m => \e[0m{ [ 1, 2, 3 ]\e[0;37m => \e[0m{ { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m } } } } }"
     end
 
   end

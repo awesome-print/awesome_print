@@ -14,5 +14,7 @@ describe "String extensions" do
   it "should have black and pale colors" do
     "black".send(:black).should == "black".send(:grayish)
     "pale".send(:pale).should  == "pale".send(:whiteish)
+    "pale".send(:pale).should == "\e[0;37mpale\e[0m"
+    "whiteish".send(:whiteish).should == "\e[0;37mwhiteish\e[0m"
   end
 end
