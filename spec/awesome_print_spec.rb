@@ -292,8 +292,11 @@ EOS
   #------------------------------------------------------------------------------
   describe "Struct" do
     before(:each) do
-      struct = Struct.new("SimpleStruct", :name, :address)
-      @struct = struct.new
+      @struct = unless defined?(Struct::SimpleStruct)
+        Struct.new("SimpleStruct", :name, :address).new
+      else
+        Struct::SimpleStruct.new
+      end
       @struct.name = "Herman Munster"
       @struct.address = "1313 Mockingbird Lane"
     end

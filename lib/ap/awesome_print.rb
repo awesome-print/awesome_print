@@ -161,8 +161,8 @@ class AwesomePrint
   #------------------------------------------------------------------------------
   def nested(object)
     case printable(object)
-      when :array then colorize("[...]", :array)
-      when :hash  then colorize("{...}", :hash)
+      when :array  then colorize("[...]", :array)
+      when :hash   then colorize("{...}", :hash)
       when :struct then colorize("{...}", :struct)
       else colorize("...#{object.class}...", :class)
     end
@@ -177,20 +177,16 @@ class AwesomePrint
   # Turn class name into symbol, ex: Hello::World => :hello_world.
   #------------------------------------------------------------------------------
   def declassify(object)
-    if object.class.to_s.downcase =~ /^struct/
-      result = :struct
+    if object.is_a?(Struct)
+      :struct
     else
-      result = object.class.to_s.gsub(/:+/, "_").downcase.to_sym
+      object.class.to_s.gsub(/:+/, "_").downcase.to_sym
     end
-    result
   end
 
   # Pick the color and apply it to the given string as necessary.
   #------------------------------------------------------------------------------
   def colorize(s, type)
-    if type && !type.to_s.empty?
-      type = type.to_s.gsub(/^struct_.*/,'struct').to_sym
-    end
     if @options[:plain] || @options[:color][type].nil?
       s
     else
