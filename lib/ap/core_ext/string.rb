@@ -4,15 +4,17 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class String
-  ANSI_ESCAPE = "\033"
-  ANSI_COLOR_BASE = 30
-  ANSI_BRIGHT = 1
-  ANSI_NORMAL = 0
+
+  # ANSI color codes:
+  # \033 => escape
+  #   30 => color base
+  #    1 => bright
+  #    0 => normal
 
   [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
     if STDOUT.tty? && ENV['TERM'] && ENV['TERM'] != 'dumb'
-      define_method color          do "#{ANSI_ESCAPE}[#{ANSI_BRIGHT};#{ANSI_COLOR_BASE+i}m#{self}#{ANSI_ESCAPE}[#{ANSI_NORMAL}m" end
-      define_method :"#{color}ish" do "#{ANSI_ESCAPE}[#{ANSI_NORMAL};#{ANSI_COLOR_BASE+i}m#{self}#{ANSI_ESCAPE}[#{ANSI_NORMAL}m" end
+      define_method color          do "\033[1;#{30+i}m#{self}\033[0m" end
+      define_method :"#{color}ish" do "\033[0;#{30+i}m#{self}\033[0m" end
     else
       define_method color do self end
       alias_method :"#{color}ish", color 
