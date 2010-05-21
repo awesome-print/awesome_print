@@ -11,4 +11,5 @@ require File.dirname(__FILE__) + "/ap/core_ext/logger" if defined?(::Logger) or 
 
 require File.dirname(__FILE__) + "/ap/mixin/active_record" if defined?(::ActiveRecord)
 require File.dirname(__FILE__) + "/ap/mixin/active_support" if defined?(::ActiveSupport)
+require File.dirname(__FILE__) + "/ap/mixin/application_helper" if defined?(::ApplicationHelper)
 
