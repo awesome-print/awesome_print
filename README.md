@@ -1,7 +1,7 @@
 ## Awesome Print ##
 Awesome Print is Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
-objects are supported via included mixin.
+objects and usage within Rails templates are supported via included mixins.
 
 ### Installation ###
     # Installing as Ruby gem
@@ -169,6 +169,12 @@ By default, this logs at the :debug level. You can override that globally with
 in the custom defaults (see below), or you can override on a per call basis with
 
     logger.ap object, :warn
+
+### ActionView Convenience Method ###
+awesome_print adds an ap method to the ActionView::Base class making it available
+within Rails templates. For example:
+
+    <%= ap @accounts.first %>
 
 ### Setting Custom Defaults ###
 You can set your own default options by creating ``.aprc`` file in your home

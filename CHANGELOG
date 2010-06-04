@@ -1,3 +1,7 @@
+0.2.1
+  - ap can now be used within Rails templates (ex. <%= ap object %>)
+  - Added support for printing Struct
+
 0.2.0
   - Added support for logger.ap (including Rails logger)
   - Added support for HashWithIndifferentAccess from ActiveSupport
