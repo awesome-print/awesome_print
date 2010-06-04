@@ -1,3 +1,8 @@
+# Copyright (c) 2010 Michael Dvorkin
+#
+# Awesome Print is freely distributable under the terms of MIT license.
+# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
+#------------------------------------------------------------------------------
 module AwesomePrintActionView
 
   def self.included(base)
@@ -6,7 +11,7 @@ module AwesomePrintActionView
       [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
         hash["\033[1;#{30+i}m"] = color
       end
-      [ :black, :darkred, :darkgreen, :sienna, :navy, :darkmagenta, :darkcyan, :slategray ].each_with_index do |color, i|
+      [ :black, :darkred, :darkgreen, :brown, :navy, :darkmagenta, :darkcyan, :slategray ].each_with_index do |color, i|
         hash["\033[0;#{30+i}m"] = color
       end
       base.const_set(:AP_ANSI_TO_HTML, hash.freeze)
@@ -14,20 +19,18 @@ module AwesomePrintActionView
   end
 
   def ap_debug(object, options = {})
-    formatted = object.ai(options)
+    formatted = h(object.ai(options))
 
-    if options[:plain]
-      %Q|<pre class="debug_dump">#{h(formatted).gsub("  ", "&nbsp; ")}</pre>|
-    else
-      formatted = h(formatted).gsub("  ", "&nbsp; ")
+    unless options[:plain]
       self.class::AP_ANSI_TO_HTML.each do |key, value|
         formatted.gsub!(key, %Q|<font color="#{value}">|)
       end
       formatted.gsub!("\033[0m", "</font>")
-      %Q|<pre class="debug_dump">#{formatted}</pre>|
     end
 
+    content_tag(:pre, formatted, :class => "debug_dump")
   end
+
   alias_method :ap, :ap_debug
 
 end

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 require 'action_view'
-require 'ap/core_ext/action_view'
+require 'ap/mixin/action_view'
 
 describe "AwesomePrint ActionView extensions" do
   before(:each) do
@@ -15,7 +15,7 @@ describe "AwesomePrint ActionView extensions" do
 
   it "should encode HTML entities" do
     obj = "  &<hello>"
-    @view.ap(obj, :plain => true).should == '<pre class="debug_dump">&quot;&nbsp; &amp;&lt;hello&gt;&quot;</pre>'
+    @view.ap(obj, :plain => true).should == '<pre class="debug_dump">&quot;  &amp;&lt;hello&gt;&quot;</pre>'
   end
 
   it "should convert primary ANSI colors to HTML" do
@@ -28,7 +28,7 @@ describe "AwesomePrint ActionView extensions" do
   it "should convert mixed ANSI colors to HTML" do
     obj = 42
     [ :grayish, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :whiteish, :black, :pale ].zip(
-    [ :black, :darkred, :darkgreen, :sienna, :navy, :darkmagenta, :darkcyan, :slategray, :black, :slategray ]) do |ansi, html|
+    [ :black, :darkred, :darkgreen, :brown, :navy, :darkmagenta, :darkcyan, :slategray, :black, :slategray ]) do |ansi, html|
       @view.ap(obj, :color => { :fixnum => ansi }).should == %Q|<pre class="debug_dump"><font color="#{html}">42</font></pre>|
     end
   end
