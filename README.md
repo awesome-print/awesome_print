@@ -8,10 +8,10 @@ objects and usage within Rails templates are supported via included mixins.
     $ gem install awesome_print
 
     # Installing as Rails plugin
-    $ ruby script/plugin install http://github.com/michaeldv/awesome_print_.git
+    $ ruby script/plugin install http://github.com/michaeldv/awesome_print.git
 
     # Cloning the repository
-    $ git clone git://github.com/michaeldv/awesome_print_.git
+    $ git clone git://github.com/michaeldv/awesome_print.git
 
 ### Usage ###
 
