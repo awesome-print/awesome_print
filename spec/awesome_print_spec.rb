@@ -33,6 +33,23 @@ describe "AwesomePrint" do
 EOS
       end
 
+    it "plain multiline without index" do
+      @arr.ai(:plain => true, :index => false).should == <<-EOS.strip
+[
+    1,
+    :two,
+    "three",
+    [
+        nil,
+        [
+            true,
+            false
+        ]
+    ]
+]
+EOS
+      end
+
     it "plain multiline indented" do
       @arr.ai(:plain => true, :indent => 2).should == <<-EOS.strip
 [
@@ -44,6 +61,23 @@ EOS
     [1] [
       [0] true,
       [1] false
+    ]
+  ]
+]
+EOS
+    end
+
+    it "plain multiline indented without index" do
+      @arr.ai(:plain => true, :indent => 2, :index => false).should == <<-EOS.strip
+[
+  1,
+  :two,
+  "three",
+  [
+    nil,
+    [
+      true,
+      false
     ]
   ]
 ]
@@ -106,6 +140,16 @@ EOS
     [0] 1,
     [1] 2,
     [2] [...]
+]
+EOS
+    end
+
+    it "plain multiline without index" do
+      @arr.ai(:plain => true, :index => false).should == <<-EOS.strip
+[
+    1,
+    2,
+    [...]
 ]
 EOS
     end

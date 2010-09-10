@@ -14,6 +14,7 @@ class AwesomePrint
       :multiline => true,
       :plain     => false,
       :indent    => 4,
+      :index     => true,
       :color     => { 
         :array      => :white,
         :bigdecimal => :blue,
@@ -50,7 +51,11 @@ class AwesomePrint
     if @options[:multiline]
       width = (a.size - 1).to_s.size 
       data = a.inject([]) do |arr, item|
-        index = colorize("#{indent}[#{arr.size.to_s.rjust(width)}] ", :array)
+        index = if @options[:index]
+          colorize("#{indent}[#{arr.size.to_s.rjust(width)}] ", :array)
+        else
+          colorize(indent, :array)
+        end
         indented do
           arr << (index << awesome(item))
         end
