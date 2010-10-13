@@ -405,4 +405,16 @@ EOS
   end
 
 
+  #------------------------------------------------------------------------------
+  describe "Misc" do
+    it "handle weird objects that return nil on inspect" do
+      weird = Class.new do
+        def inspect
+          nil
+        end
+      end
+      weird.new.ai(:plain => true).should == ''
+    end
+  end
+
 end
