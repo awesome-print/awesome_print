@@ -150,10 +150,19 @@ lines into your ~/.irbrc file:
 
 	require "rubygems"
 	require "ap"
-	IRB::Irb.class_eval do
-	  def output_value
-	    ap @context.last_value
+
+	unless IRB.version.include?('DietRB')
+	  IRB::Irb.class_eval do
+	    def output_value
+	      ap @context.last_value
+	    end
 	  end
+	else # MacRuby
+	  IRB.formatter = Class.new(IRB::Formatter) do
+	    def inspect_object(object)
+	      object.ai
+	    end
+	  end.new
 	end
 
 ### Logger Convenience Method ###
