@@ -7,7 +7,7 @@ require "shellwords"
 
 class AwesomePrint
   AP = :__awesome_print__
-  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct ]
+  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method ]
 
   def initialize(options = {})
     @options = { 
@@ -29,7 +29,9 @@ class AwesomePrint
         :string     => :yellowish,
         :symbol     => :cyanish,
         :time       => :greenish,
-        :trueclass  => :green
+        :trueclass  => :green,
+        :method     => :purple,
+        :args       => :pale
       }
     }
 
@@ -137,6 +139,13 @@ class AwesomePrint
   end
   alias :awesome_rational :awesome_bigdecimal
 
+  # Format a method.
+  #------------------------------------------------------------------------------
+  def awesome_method(m)
+    name, args, owner = method_tuple(m)
+    "#{colorize(owner, :class)}##{colorize(name, :method)}(#{colorize(args, :args)})"
+  end
+
   # Catch all method to format an arbitrary object.
   #------------------------------------------------------------------------------
   def awesome_self(object, appear = {})
@@ -197,6 +206,16 @@ class AwesomePrint
     else
       s.send(@options[:color][type])
     end
+  end
+
+  # Return [ name, argument, owner ] tuple for a given method.
+  #------------------------------------------------------------------------------
+  def method_tuple(method)
+    args = method.arity.abs.times.map { |i| "arg#{i+1}" }.join(', ')
+    args << ', ...' if method.arity < 0
+    owner = $1.sub('(', ' (') if method.to_s =~ /Method: (.*?)#/
+
+    [ method.name, args, owner || 'self' ]
   end
 
   # Format hash keys as plain string regardless of underlying data type.
