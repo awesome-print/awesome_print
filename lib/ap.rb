@@ -4,6 +4,8 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 require File.dirname(__FILE__) + "/ap/core_ext/string"
+require File.dirname(__FILE__) + "/ap/core_ext/object"
+require File.dirname(__FILE__) + "/ap/core_ext/class"
 require File.dirname(__FILE__) + "/ap/core_ext/kernel"
 require File.dirname(__FILE__) + "/ap/awesome_print"
 

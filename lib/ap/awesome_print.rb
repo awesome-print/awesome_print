@@ -7,7 +7,7 @@ require "shellwords"
 
 class AwesomePrint
   AP = :__awesome_print__
-  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method ]
+  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ]
 
   def initialize(options = {})
     @options = { 
@@ -50,7 +50,9 @@ class AwesomePrint
   def awesome_array(a)
     return "[]" if a == []
 
-    if @options[:multiline]
+    if a.instance_variable_defined?('@__awesome_methods__')
+      methods_array(a)
+    elsif @options[:multiline]
       width = (a.size - 1).to_s.size 
       data = a.inject([]) do |arr, item|
         index = if @options[:index]
@@ -143,8 +145,9 @@ class AwesomePrint
   #------------------------------------------------------------------------------
   def awesome_method(m)
     name, args, owner = method_tuple(m)
-    "#{colorize(owner, :class)}##{colorize(name, :method)}(#{colorize(args, :args)})"
+    "#{colorize(owner, :class)}##{colorize(name, :method)}#{colorize(args, :args)}"
   end
+  alias :awesome_unboundmethod :awesome_method
 
   # Catch all method to format an arbitrary object.
   #------------------------------------------------------------------------------
@@ -165,6 +168,38 @@ class AwesomePrint
         Thread.current[AP].pop
       end
     end
+  end
+
+  # Format object.methods array.
+  #------------------------------------------------------------------------------
+  def methods_array(a)
+    object = a.instance_variable_get('@__awesome_methods__')
+    tuples = a.map do |name|
+      if object.respond_to?(name, true)           # Regular method?
+        method_tuple(object.method(name))
+      elsif object.respond_to?(:instance_method)  # Unbound method?
+        method_tuple(object.instance_method(name))
+      else                                        # WTF method.
+        [ name.to_s, '(?)', '' ]
+      end
+    end
+
+    width = (tuples.size - 1).to_s.size
+    name_width = tuples.map { |item| item[0].size }.max || 0
+    args_width = tuples.map { |item| item[1].size }.max || 0
+
+    data = tuples.inject([]) do |arr, item|
+      index = if @options[:index]
+        "#{indent}[#{arr.size.to_s.rjust(width)}]"
+      else
+        indent
+      end
+      indented do
+        arr << "#{index} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
+      end
+    end
+
+    "[\n" << data.join("\n") << "\n#{outdent}]"
   end
 
   # Format nested data, for example:
@@ -208,14 +243,16 @@ class AwesomePrint
     end
   end
 
-  # Return [ name, argument, owner ] tuple for a given method.
+  # Return [ name, arguments, owner ] tuple for a given method.
   #------------------------------------------------------------------------------
   def method_tuple(method)
     args = method.arity.abs.times.map { |i| "arg#{i+1}" }.join(', ')
     args << ', ...' if method.arity < 0
-    owner = $1.sub('(', ' (') if method.to_s =~ /Method: (.*?)#/
+    if method.to_s =~ /(Unbound)*Method: (.*?)[#\.]/
+      owner = "#{$2}#{$1 ? '(unbound)' : ''}".gsub('(', ' (')
+    end
 
-    [ method.name, args, owner || 'self' ]
+    [ method.name, "(#{args})", owner.to_s ]
   end
 
   # Format hash keys as plain string regardless of underlying data type.
