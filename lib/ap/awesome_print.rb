@@ -252,7 +252,7 @@ class AwesomePrint
       owner = "#{$2}#{$1 ? '(unbound)' : ''}".gsub('(', ' (')
     end
 
-    [ method.name, "(#{args})", owner.to_s ]
+    [ method.name.to_s, "(#{args})", owner.to_s ]
   end
 
   # Format hash keys as plain string regardless of underlying data type.

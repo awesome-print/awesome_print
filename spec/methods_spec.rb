@@ -12,13 +12,13 @@ describe "Single method" do
   end
 
   it "plain: should handle a method with one argument" do
-    method = ''.method(:match)
-    method.ai(:plain => true).should == 'String#match(arg1)'
+    method = ''.method(:include?)
+    method.ai(:plain => true).should == 'String#include?(arg1)'
   end
 
   it "color: should handle a method with one argument" do
-    method = ''.method(:match)
-    method.ai.should == "\e[1;33mString\e[0m#\e[1;35mmatch\e[0m\e[0;37m(arg1)\e[0m"
+    method = ''.method(:include?)
+    method.ai.should == "\e[1;33mString\e[0m#\e[1;35minclude?\e[0m\e[0;37m(arg1)\e[0m"
   end
 
   it "plain: should handle a method with two arguments" do
@@ -42,13 +42,13 @@ describe "Single method" do
   end
 
   it "plain: should handle a method defined in mixin" do
-    method = ''.method(:grep)
-    method.ai(:plain => true).should == 'String (Enumerable)#grep(arg1)'
+    method = ''.method(:is_a?)
+    method.ai(:plain => true).should == 'String (Kernel)#is_a?(arg1)'
   end
 
   it "color: should handle a method defined in mixin" do
-    method = ''.method(:grep)
-    method.ai.should == "\e[1;33mString (Enumerable)\e[0m#\e[1;35mgrep\e[0m\e[0;37m(arg1)\e[0m"
+    method = ''.method(:is_a?)
+    method.ai.should == "\e[1;33mString (Kernel)\e[0m#\e[1;35mis_a?\e[0m\e[0;37m(arg1)\e[0m"
   end
 
   it "plain: should handle an unbound method" do
@@ -71,37 +71,37 @@ end
 
 describe "object.methods" do
   it "index: should handle object.methods" do
-    out = nil.methods.ai(:plain => true).grep(/is_a\?/).first
-    out.should =~ /^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)\n$/
+    out = nil.methods.ai(:plain => true).split("\n").grep(/is_a\?/).first
+    out.should =~ /^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
   end
 
   it "no index: should handle object.methods" do
-    out = nil.methods.ai(:plain => true, :index => false).grep(/is_a\?/).first
-    out.should =~ /^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)\n$/
+    out = nil.methods.ai(:plain => true, :index => false).split("\n").grep(/is_a\?/).first
+    out.should =~ /^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
   end
 end
 
 describe "object.public_methods" do
   it "index: should handle object.public_methods" do
-    out = nil.public_methods.ai(:plain => true).grep(/is_a\?/).first
-    out.should =~ /^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)\n$/
+    out = nil.public_methods.ai(:plain => true).split("\n").grep(/is_a\?/).first
+    out.should =~ /^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
   end
 
   it "no index: should handle object.public_methods" do
-    out = nil.public_methods.ai(:plain => true, :index => false).grep(/is_a\?/).first
-    out.should =~ /^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)\n$/
+    out = nil.public_methods.ai(:plain => true, :index => false).split("\n").grep(/is_a\?/).first
+    out.should =~ /^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
   end
 end
 
 describe "object.private_methods" do
   it "index: should handle object.private_methods" do
-    out = nil.private_methods.ai(:plain => true).grep(/sleep/).first
-    out.should =~ /^\s+\[\s*\d+\]\s+sleep\(arg1,\s\.{3}\)\s+NilClass \(Kernel\)\n$/
+    out = nil.private_methods.ai(:plain => true).split("\n").grep(/sleep/).first
+    out.should =~ /^\s+\[\s*\d+\]\s+sleep\(arg1,\s\.{3}\)\s+NilClass \(Kernel\)$/
   end
 
   it "no index: should handle object.private_methods" do
-    out = nil.private_methods.ai(:plain => true, :index => false).grep(/sleep/).first
-    out.should =~ /^\s+sleep\(arg1,\s\.{3}\)\s+NilClass \(Kernel\)\n$/
+    out = nil.private_methods.ai(:plain => true, :index => false).split("\n").grep(/sleep/).first
+    out.should =~ /^\s+sleep\(arg1,\s\.{3}\)\s+NilClass \(Kernel\)$/
   end
 end
 
