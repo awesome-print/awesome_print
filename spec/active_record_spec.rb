@@ -50,37 +50,53 @@ if defined?(::ActiveRecord)
 
       it "display single record" do
         out = @ap.send(:awesome, @diana)
-        out.gsub(/0x([a-f\d]+)/, "0x01234567").should == <<-EOS.strip
+        str = <<-EOS.strip
 #<User:0x01234567> {
             :id => nil,
           :name => "Diana",
           :rank => 1,
          :admin => false,
-    :created_at => Sat Oct 10 12:30:00 UTC 1992
+    :created_at => ?
 }
 EOS
+        if RUBY_VERSION.to_f < 1.9
+          str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
+        else
+          str.sub!('?', '1992-10-10 12:30:00 UTC')
+        end
+
+        out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
       end
 
       it "display multiple records" do
         out = @ap.send(:awesome, [ @diana, @laura ])
-        out.gsub(/0x([a-f\d]+)/, "0x01234567").should == <<-EOS.strip
+        str = <<-EOS.strip
 [
     [0] #<User:0x01234567> {
                 :id => nil,
               :name => "Diana",
               :rank => 1,
              :admin => false,
-        :created_at => Sat Oct 10 12:30:00 UTC 1992
+        :created_at => ?
     },
     [1] #<User:0x01234567> {
                 :id => nil,
               :name => "Laura",
               :rank => 2,
              :admin => true,
-        :created_at => Mon May 26 14:15:00 UTC 2003
+        :created_at => !
     }
 ]
 EOS
+        if RUBY_VERSION.to_f < 1.9
+          str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
+          str.sub!('!', 'Mon May 26 14:15:00 UTC 2003')
+        else
+          str.sub!('?', '1992-10-10 12:30:00 UTC')
+          str.sub!('!', '2003-05-26 14:15:00 UTC')
+        end
+
+        out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
       end
     end
 
