@@ -86,6 +86,34 @@ Supported color names:
     $ ruby 3.rb
     [ false, 42, [ "forty", "two" ], [...] ]
 
+    $ cat > 4.rb
+    require "ap"
+    ap (''.methods - Object.methods).grep(/!/)
+    ^D
+    $ ruby 4.rb
+    [
+        [ 0] capitalize!()           String
+        [ 1]      chomp!(*arg1)      String
+        [ 2]       chop!()           String
+        [ 3]     delete!(*arg1)      String
+        [ 4]   downcase!()           String
+        [ 5]     encode!(*arg1)      String
+        [ 6]       gsub!(*arg1)      String
+        [ 7]     lstrip!()           String
+        [ 8]       next!()           String
+        [ 9]    reverse!()           String
+        [10]     rstrip!()           String
+        [11]      slice!(*arg1)      String
+        [12]    squeeze!(*arg1)      String
+        [13]      strip!()           String
+        [14]        sub!(*arg1)      String
+        [15]       succ!()           String
+        [16]   swapcase!()           String
+        [17]         tr!(arg1, arg2) String
+        [18]       tr_s!(arg1, arg2) String
+        [19]     upcase!()           String
+    ]
+
 ### Example (Rails console) ###
     $ ruby script/console
     Loading development environment (Rails 2.3.5)
@@ -199,6 +227,18 @@ For example:
       }
     }
 
+### Running Specs ###
+
+Ruby 1.8.7 and RSpec 1.3+:
+
+    $ rake spec                           # Entire spec suite.
+    $ ruby -rubygems spec/logger_spec.rb  # Individual spec file.
+
+Ruby 1.9.2 and RSpec 2.0+:
+
+    $ rake spec                           # Entire spec suite.
+    $ rspec spec/logger_spec.rb           # Individual spec file.
+
 ### Note on Patches/Pull Requests ###
 * Fork the project on Github.
 * Make your feature addition or bug fix.
@@ -209,7 +249,9 @@ For example:
 ### Contributors ###
 
 * Daniel Bretoi -- http://github.com/danielb2
-* eregon -- http://github.com/eregon
+* Eloy Duran -- http://github.com/alloy
+* Benoit Daloze -- http://github.com/eregon
+* Sean Gallagher -- http://github.com/torandu
 * Tobias Crawley -- http://github.com/tobias
 
 ### License ###
