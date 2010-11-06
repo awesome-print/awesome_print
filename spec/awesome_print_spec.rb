@@ -417,4 +417,63 @@ EOS
     end
   end
 
+  #------------------------------------------------------------------------------
+  describe "Inherited from standard Ruby classes" do
+    after do
+      Object.instance_eval{ remove_const :My } if defined?(My)
+    end
+
+    it "inherited from Array should be displayed as Array" do
+      class My < Array; end
+
+      my = My.new([ 1, :two, "three", [ nil, [ true, false ] ] ])
+      my.ai(:plain => true).should == <<-EOS.strip
+[
+    [0] 1,
+    [1] :two,
+    [2] "three",
+    [3] [
+        [0] nil,
+        [1] [
+            [0] true,
+            [1] false
+        ]
+    ]
+]
+EOS
+    end
+
+    it "inherited from Hash should be displayed as Hash" do
+      class My < Hash; end
+
+      my = My[ { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } } ]
+      my.ai(:plain => true).should == <<-EOS.strip
+{
+    1 => {
+        :sym => {
+            "str" => {
+                [ 1, 2, 3 ] => {
+                    { :k => :v } => Hash < Object
+                }
+            }
+        }
+    }
+}
+EOS
+    end
+
+    it "inherited from File should be displayed as File" do
+      class My < File; end
+
+      my = File.new('/dev/null')
+      my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
+    end
+
+    it "inherited from Dir should be displayed as Dir" do
+      class My < Dir; end
+
+      my = My.new('/tmp')
+      my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
+    end
+  end
 end

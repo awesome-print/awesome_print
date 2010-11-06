@@ -6,8 +6,8 @@
 require "shellwords"
 
 class AwesomePrint
-  AP = :__awesome_print__
-  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ]
+  AP = :__awesome_print__ unless defined?(AwesomePrint::AP)
+  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ].freeze unless defined?(AwesomePrint::CORE)
 
   def initialize(options = {})
     @options = { 
@@ -223,13 +223,17 @@ class AwesomePrint
     CORE.grep(declassify(object))[0] || :self
   end
 
-  # Turn class name into symbol, ex: Hello::World => :hello_world.
+  # Turn class name into symbol, ex: Hello::World => :hello_world. Classes that
+  # inherit from Array, Hash, File, Dir, and Struct are treated as the base class.
   #------------------------------------------------------------------------------
   def declassify(object)
-    if object.is_a?(Struct)
-      :struct
-    else
-      object.class.to_s.gsub(/:+/, "_").downcase.to_sym
+    case object
+    when Array  then :array
+    when Hash   then :hash
+    when File   then :file
+    when Dir    then :dir
+    when Struct then :struct
+    else object.class.to_s.gsub(/:+/, "_").downcase.to_sym
     end
   end
 
