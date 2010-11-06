@@ -246,11 +246,21 @@ class AwesomePrint
   # Return [ name, arguments, owner ] tuple for a given method.
   #------------------------------------------------------------------------------
   def method_tuple(method)
-    # arity: For Ruby methods that take a variable number of arguments, returns -N - 1,
-    # where N is the number of required arguments. For methods written in C, returns -1
-    # if the call takes a variable number of arguments.
-    args = method.arity.abs.times.map { |i| "arg#{i+1}" }
-    args[-1] = "*#{args[-1]}" if method.arity < 0
+    if method.respond_to?(:parameters) # Ruby 1.9.2+
+      # See http://ruby.runpaint.org/methods#method-objects-parameters
+      args = method.parameters.inject([]) do |arr, (type, name)|
+        name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
+        arr << case type
+          when :req        then name.to_s
+          when :opt, :rest then "*#{name}"
+          when :block      then "&#{name}"
+          else '?'
+        end
+      end
+    else # See http://ruby-doc.org/core/classes/Method.html#M001902
+      args = method.arity.abs.times.map { |i| "arg#{i+1}" }
+      args[-1] = "*#{args[-1]}" if method.arity < 0
+    end
 
     if method.to_s =~ /(Unbound)*Method: (.*?)[#\.]/
       owner = "#{$2}#{$1 ? '(unbound)' : ''}".gsub('(', ' (')
