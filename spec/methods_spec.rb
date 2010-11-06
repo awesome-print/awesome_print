@@ -12,7 +12,7 @@ describe "Single method" do
 
   it "color: should handle a method with no arguments" do
     method = ''.method(:upcase)
-    method.ai.should == "\e[1;33mString\e[0m#\e[1;35mupcase\e[0m\e[0;37m()\e[0m"
+    method.ai.should == "\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m()\e[0m"
   end
 
   it "plain: should handle a method with one argument" do
@@ -22,7 +22,7 @@ describe "Single method" do
 
   it "color: should handle a method with one argument" do
     method = ''.method(:include?)
-    method.ai.should == "\e[1;33mString\e[0m#\e[1;35minclude?\e[0m\e[0;37m(arg1)\e[0m"
+    method.ai.should == "\e[1;33mString\e[0m#\e[0;35minclude?\e[0m\e[0;37m(arg1)\e[0m"
   end
 
   it "plain: should handle a method with two arguments" do
@@ -32,7 +32,7 @@ describe "Single method" do
 
   it "color: should handle a method with two arguments" do
     method = ''.method(:tr)
-    method.ai.should == "\e[1;33mString\e[0m#\e[1;35mtr\e[0m\e[0;37m(arg1, arg2)\e[0m"
+    method.ai.should == "\e[1;33mString\e[0m#\e[0;35mtr\e[0m\e[0;37m(arg1, arg2)\e[0m"
   end
 
   it "plain: should handle a method with multiple arguments" do
@@ -42,7 +42,7 @@ describe "Single method" do
 
   it "color: should handle a method with multiple arguments" do
     method = ''.method(:split)
-    method.ai.should == "\e[1;33mString\e[0m#\e[1;35msplit\e[0m\e[0;37m(*arg1)\e[0m"
+    method.ai.should == "\e[1;33mString\e[0m#\e[0;35msplit\e[0m\e[0;37m(*arg1)\e[0m"
   end
 
   it "plain: should handle a method defined in mixin" do
@@ -52,7 +52,7 @@ describe "Single method" do
 
   it "color: should handle a method defined in mixin" do
     method = ''.method(:is_a?)
-    method.ai.should == "\e[1;33mString (Kernel)\e[0m#\e[1;35mis_a?\e[0m\e[0;37m(arg1)\e[0m"
+    method.ai.should == "\e[1;33mString (Kernel)\e[0m#\e[0;35mis_a?\e[0m\e[0;37m(arg1)\e[0m"
   end
 
   it "plain: should handle an unbound method" do
@@ -69,9 +69,9 @@ describe "Single method" do
     end
     method = Hello.instance_method(:world)
     if RUBY_VERSION < '1.9.2'
-      method.ai.should == "\e[1;33mHello (unbound)\e[0m#\e[1;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m"
+      method.ai.should == "\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m"
     else
-      method.ai.should == "\e[1;33mHello (unbound)\e[0m#\e[1;35mworld\e[0m\e[0;37m(a, b)\e[0m"
+      method.ai.should == "\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m"
     end
   end
 end

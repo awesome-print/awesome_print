@@ -30,7 +30,7 @@ class AwesomePrint
         :symbol     => :cyanish,
         :time       => :greenish,
         :trueclass  => :green,
-        :method     => :purple,
+        :method     => :purpleish,
         :args       => :pale
       }
     }
