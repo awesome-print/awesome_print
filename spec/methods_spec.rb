@@ -346,3 +346,42 @@ if RUBY_VERSION >= '1.9.2'
     end
   end
 end
+
+describe "Methods arrays" do
+  after do
+    Object.instance_eval{ remove_const :Hello } if defined?(Hello)
+    Object.instance_eval{ remove_const :World } if defined?(World)
+  end
+
+  it "obj1.methods - obj2.methods should be awesome printed" do
+    class Hello
+      def self.m1; end
+    end
+    out = (Hello.methods - Class.methods).ai(:plain => true)
+    out.should == "[\n    [0] m1() Hello\n]"
+  end
+
+  it "obj1.methods & obj2.methods should be awesome printed" do
+    class Hello
+      def self.m1; end
+      def self.m2; end
+    end
+    class World
+      def self.m1; end
+    end
+    out = (Hello.methods & World.methods - Class.methods).ai(:plain => true)
+    out.should == "[\n    [0] m1() Hello\n]"
+  end
+
+  it "obj1.methods.grep(pattern) should be awesome printed" do
+    class Hello
+      def self.m1; end
+      def self.m2; end
+      def self.m3; end
+    end
+    out = Hello.methods.grep(/^m1$/).ai(:plain => true)
+    out.should == "[\n    [0] m1() Hello\n]"
+    out = Hello.methods.grep(/^m\d$/).ai(:plain => true)
+    out.should == "[\n    [0] m1() Hello\n    [1] m2() Hello\n    [2] m3() Hello\n]"
+  end
+end

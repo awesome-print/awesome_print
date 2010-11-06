@@ -5,10 +5,10 @@
 #------------------------------------------------------------------------------
 class Class
   methods.grep(/instance_methods$/) do |name|
+    alias_method :"original_#{name}", name
     define_method name do |*args|
-      methods = super(*args)
-      # And now the evil part :-)
-      methods.instance_variable_set('@__awesome_methods__', self)
+      methods = self.send(:"original_#{name}", *args)
+      methods.instance_variable_set('@__awesome_methods__', self) # Evil?!
       methods.sort!
     end
   end
