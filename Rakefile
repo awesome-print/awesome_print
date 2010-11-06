@@ -11,7 +11,11 @@ begin
     gem.email = "mike@dvorkin.net"
     gem.homepage = "http://github.com/michaeldv/awesome_print"
     gem.authors = ["Michael Dvorkin"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
+    if RUBY_VERSION.to_f >= 1.9
+      gem.add_development_dependency "rspec", ">= 2.0.0"
+    else
+      gem.add_development_dependency "rspec", ">= 1.3.0"
+    end
     gem.files = FileList["[A-Z]*", "lib/**/*.rb", "rails/*.rb", "spec/*", "init.rb"]
     gem.has_rdoc = false
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings

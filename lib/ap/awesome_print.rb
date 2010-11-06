@@ -246,13 +246,17 @@ class AwesomePrint
   # Return [ name, arguments, owner ] tuple for a given method.
   #------------------------------------------------------------------------------
   def method_tuple(method)
-    args = method.arity.abs.times.map { |i| "arg#{i+1}" }.join(', ')
-    args << ', ...' if method.arity < 0
+    # arity: For Ruby methods that take a variable number of arguments, returns -N - 1,
+    # where N is the number of required arguments. For methods written in C, returns -1
+    # if the call takes a variable number of arguments.
+    args = method.arity.abs.times.map { |i| "arg#{i+1}" }
+    args[-1] = "*#{args[-1]}" if method.arity < 0
+
     if method.to_s =~ /(Unbound)*Method: (.*?)[#\.]/
       owner = "#{$2}#{$1 ? '(unbound)' : ''}".gsub('(', ' (')
     end
 
-    [ method.name.to_s, "(#{args})", owner.to_s ]
+    [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
   end
 
   # Format hash keys as plain string regardless of underlying data type.
