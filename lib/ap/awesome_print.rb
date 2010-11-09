@@ -7,7 +7,7 @@ require "shellwords"
 
 class AwesomePrint
   AP = :__awesome_print__ unless defined?(AwesomePrint::AP)
-  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ].freeze unless defined?(AwesomePrint::CORE)
+  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ] unless defined?(AwesomePrint::CORE)
 
   def initialize(options = {})
     @options = { 

@@ -88,9 +88,22 @@ Supported color names:
 
     $ cat > 4.rb
     require "ap"
-    ap (''.methods - Object.methods).grep(/!/)
+    class Hello
+      def self.world(x, y, z = nil, &blk)
+      end
+    end
+    ap Hello.methods - Class.methods
     ^D
     $ ruby 4.rb
+    [
+        [0] world(x, y, *z, &blk) Hello
+    ]
+
+    $ cat > 5.rb
+    require "ap"
+    ap (''.methods - Object.methods).grep(/!/)
+    ^D
+    $ ruby 5.rb
     [
         [ 0] capitalize!()           String
         [ 1]      chomp!(*arg1)      String
@@ -229,15 +242,9 @@ For example:
 
 ### Running Specs ###
 
-Ruby 1.8.7 and RSpec 1.3+:
-
     $ rake spec                           # Entire spec suite.
-    $ ruby -rubygems spec/logger_spec.rb  # Individual spec file.
-
-Ruby 1.9.2 and RSpec 2.0+:
-
-    $ rake spec                           # Entire spec suite.
-    $ rspec spec/logger_spec.rb           # Individual spec file.
+    $ ruby -rubygems spec/logger_spec.rb  # Individual spec file (Ruby 1.8.7 and RSpec 1.3+)
+    $ rspec spec/logger_spec.rb           # Individual spec file (Ruby 1.9.2 and RSpec 2.0+)
 
 ### Note on Patches/Pull Requests ###
 * Fork the project on Github.
