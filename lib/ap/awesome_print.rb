@@ -66,8 +66,7 @@ class AwesomePrint
       end
       "[\n" << data.join(",\n") << "\n#{outdent}]"
     else
-      data = a.inject([]) { |arr, item| arr << awesome(item) }
-      "[ #{data.join(', ')} ]"
+      "[ " << a.map{ |item| awesome(item) }.join(", ") << " ]"
     end
   end
 
@@ -76,23 +75,23 @@ class AwesomePrint
   def awesome_hash(h)
     return "{}" if h == {}
 
-    data = h.keys.inject([]) do |arr, key|
+    data = h.keys.map do |key|
       plain_single_line do
-        arr << [ awesome(key), h[key] ]
+        [ awesome(key), h[key] ]
       end
     end
       
     width = data.map { |key, | key.size }.max || 0
     width += @indentation if @options[:indent] > 0
   
-    data = data.inject([]) do |arr, (key, value)|
+    data = data.map do |key, value|
       if @options[:multiline]
         formatted_key = (@options[:indent] >= 0 ? key.rjust(width) : indent + key.ljust(width))
       else
         formatted_key = key
       end
       indented do
-        arr << (formatted_key << colorize(" => ", :hash) << awesome(value))
+        formatted_key << colorize(" => ", :hash) << awesome(value)
       end
     end
     if @options[:multiline]
