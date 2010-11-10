@@ -3,7 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-class Class
+class Class #:nodoc:
   methods.grep(/instance_methods$/) do |name|
     alias :"original_#{name}" :"#{name}"
     define_method name do |*args|

@@ -3,7 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-class Object
+class Object #:nodoc:
   methods.grep(/methods$/) do |name|
     next if name.to_s.include? 'instance' # Instance methods are trapped in Class.
 

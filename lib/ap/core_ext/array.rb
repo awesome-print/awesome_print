@@ -12,7 +12,7 @@
 #
 # If you could think of a better way please let me know: twitter.com/mid :-)
 #
-class Array
+class Array #:nodoc:
   [ :-, :& ].each do |operator|
     alias :"original_#{operator.object_id}" :"#{operator}"
     define_method operator do |*args|
