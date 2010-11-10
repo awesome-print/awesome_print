@@ -384,4 +384,26 @@ describe "Methods arrays" do
     out = Hello.methods.grep(/^m\d$/).ai(:plain => true)
     out.should == "[\n    [0] m1() Hello\n    [1] m2() Hello\n    [2] m3() Hello\n]"
   end
+
+  it "obj1.methods.grep(pattern, &block) should pass the matching string within the block" do
+    class Hello
+      def self.m_one; end
+      def self.m_two; end
+    end
+
+    out = Hello.methods.grep(/^m_(.+)$/) { $1.to_sym }
+    out.should == [:one, :two]
+  end
+
+  it "obj1.methods.grep(pattern, &block) should be awesome printed" do
+    class Hello
+      def self.m0; end
+      def self.none; end
+      def self.m1; end
+      def self.one; end
+    end
+
+    out = Hello.methods.grep(/^m(\d)$/) { %w(none one)[$1.to_i] }.ai(:plain => true)
+    out.should == "[\n    [0] none() Hello\n    [1]  one() Hello\n]"
+  end
 end
