@@ -1,3 +1,7 @@
+0.3.1 RubyConf X edition
+  - Fixed Ruby 1.8.6 compatibility issues (thanks, Tim!)
+  - Fixed stack overflow issue with Rails 2.3.x console
+
 0.3.0
   - Display object.methods and family in human readable format
   - Objects inherited from Array, Hash, File, Dir, and Struct are shown as their base class

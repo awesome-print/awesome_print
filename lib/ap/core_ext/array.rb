@@ -10,7 +10,7 @@
 #   ap [].methods - Object.methods
 #   ap ''.methods.grep(/!|\?/)
 #
-# If you could think of a better way please let me know: twitter.com/mid :-)
+# If you could think of a better way please let me know :-)
 #
 class Array #:nodoc:
   [ :-, :& ].each do |operator|
@@ -44,7 +44,7 @@ class Array #:nodoc:
     # doesn't set $1 within the grep block which causes nil.to_sym failure.
     # The workaround below has been tested with Ruby 1.8.7/Rails 2.3.8 and
     # Ruby 1.9.2/Rails 3.0.0. For more info see the following thread dating
-    # back to 1993 when Ruby 1.8.0 was as fresh off the grill as Ruby 1.9.2
+    # back to 2003 when Ruby 1.8.0 was as fresh off the grill as Ruby 1.9.2
     # is in 2010 :-)
     #
     # http://www.justskins.com/forums/bug-when-rerouting-string-52852.html

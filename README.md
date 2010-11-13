@@ -259,10 +259,12 @@ For example:
 * Eloy Duran -- http://github.com/alloy
 * Benoit Daloze -- http://github.com/eregon
 * Sean Gallagher -- http://github.com/torandu
+* Tim Harper -- http://github.com/timcharper
 * Tobias Crawley -- http://github.com/tobias
 
 ### License ###
-Copyright (c) 2010 Michael Dvorkin  
+Copyright (c) 2010 Michael Dvorkin
+twitter.com/mid
 %w(mike dvorkin.net) * "@" || %w(mike fatfreecrm.com) * "@"
 
 Released under the MIT license. See LICENSE file for details.
