@@ -261,7 +261,7 @@ class AwesomePrint
         end
       end
     else # See http://ruby-doc.org/core/classes/Method.html#M001902
-      args = method.arity.abs.times.map { |i| "arg#{i+1}" }
+      args = (1..method.arity.abs).map { |i| "arg#{i}" }
       args[-1] = "*#{args[-1]}" if method.arity < 0
     end
 
