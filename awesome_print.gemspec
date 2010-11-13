@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{awesome_print}
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Dvorkin"]
-  s.date = %q{2010-11-09}
+  s.date = %q{2010-11-13}
   s.description = %q{Great Ruby dubugging companion: pretty print Ruby objects to visualize their structure. Supports Rails ActiveRecord objects via included mixin.}
   s.email = %q{mike@dvorkin.net}
   s.extra_rdoc_files = [
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
      "lib/ap/core_ext/class.rb",
      "lib/ap/core_ext/kernel.rb",
      "lib/ap/core_ext/logger.rb",
+     "lib/ap/core_ext/method.rb",
      "lib/ap/core_ext/object.rb",
      "lib/ap/core_ext/string.rb",
      "lib/ap/mixin/action_view.rb",
