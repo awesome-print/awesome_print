@@ -14,5 +14,5 @@ module AwesomePrintLogger
 
 end
 
-Logger.send(:include, AwesomePrintLogger) if defined?(Logger)
+Logger.send(:include, AwesomePrintLogger)
 ActiveSupport::BufferedLogger.send(:include, AwesomePrintLogger) if defined?(::ActiveSupport::BufferedLogger)
