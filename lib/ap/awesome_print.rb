@@ -75,7 +75,8 @@ class AwesomePrint
   def awesome_hash(h)
     return "{}" if h == {}
 
-    data = h.keys.map do |key|
+    keys = @options[:sorted_hash_keys] ? h.keys.sort { |a, b| a.to_s <=> b.to_s } : h.keys
+    data = keys.map do |key|
       plain_single_line do
         [ awesome(key), h[key] ]
       end

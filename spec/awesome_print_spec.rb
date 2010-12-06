@@ -264,6 +264,36 @@ EOS
   end
 
   #------------------------------------------------------------------------------
+  describe "Hash with several keys" do
+    before(:each) do
+      @hash = {"b" => "b", :a => "a", :z => "z", "alpha" => "alpha"}
+    end
+
+    it "plain multiline" do
+      @hash.ai(:plain => true).should == <<-EOS.strip
+{
+        "b" => "b",
+         :a => "a",
+         :z => "z",
+    "alpha" => "alpha"
+}
+EOS
+    end
+    
+    it "plain multiline with sorted keys" do
+      @hash.ai(:plain => true, :sorted_hash_keys => true).should == <<-EOS.strip
+{
+         :a => "a",
+    "alpha" => "alpha",
+        "b" => "b",
+         :z => "z"
+}
+EOS
+    end
+
+  end
+
+  #------------------------------------------------------------------------------
   describe "Negative options[:indent]" do
     before(:each) do
       @hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
