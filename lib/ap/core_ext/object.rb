@@ -9,7 +9,7 @@ class Object #:nodoc:
 
     alias :"original_#{name}" :"#{name}"
     define_method name do |*args|
-      methods = self.send(:"original_#{name}", *args)
+      methods = Object.send(:"original_#{name}", *args)
       methods.instance_variable_set('@__awesome_methods__', self) # Evil?!
       methods.sort!
     end
