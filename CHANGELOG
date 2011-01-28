@@ -1,3 +1,8 @@
+0.3.2 (unreleased)
+  - Fixed an issue with classes that define their own #send method (ex: Socket)
+  - Fixed compatibility issue with Liquid gem that defines Module#liquid_methods
+  - Fixed hash spec for Ruby < 1.9 where order of hash keys is not guaranteed
+
 0.3.1 RubyConf X edition
   - Fixed Ruby 1.8.6 compatibility issues (thanks, Tim!)
   - Fixed stack overflow issue with Rails 2.3.x console

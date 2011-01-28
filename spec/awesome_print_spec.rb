@@ -514,5 +514,14 @@ EOS
       my = My.new('/tmp')
       my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
     end
+
+    it "should handle a class that defines its own #send method" do
+      class My
+        def send(arg1, arg2, arg3); end
+      end
+
+      my = My.new
+      my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
+    end
   end
 end

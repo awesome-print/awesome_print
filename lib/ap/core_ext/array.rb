@@ -16,7 +16,7 @@ class Array #:nodoc:
   [ :-, :& ].each do |operator|
     alias :"original_#{operator.object_id}" :"#{operator}"
     define_method operator do |*args|
-      arr = self.send(:"original_#{operator.object_id}", *args)
+      arr = self.__send__(:"original_#{operator.object_id}", *args)
       if self.instance_variable_defined?('@__awesome_methods__')
         arr.instance_variable_set('@__awesome_methods__', self.instance_variable_get('@__awesome_methods__'))
         arr.sort!
