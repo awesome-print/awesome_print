@@ -270,7 +270,15 @@ EOS
     end
 
     it "plain multiline" do
-      @hash.ai(:plain => true).should == <<-EOS.strip
+      out = @hash.ai(:plain => true)
+      if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
+        out.should =~ /^\{[^\}]+\}/m
+        out.should =~ /        "b" => "b",?/
+        out.should =~ /         :a => "a",?/
+        out.should =~ /         :z => "z",?/
+        out.should =~ /    "alpha" => "alpha",?$/
+      else
+        out.should == <<-EOS.strip
 {
         "b" => "b",
          :a => "a",
@@ -278,6 +286,7 @@ EOS
     "alpha" => "alpha"
 }
 EOS
+      end
     end
     
     it "plain multiline with sorted keys" do
