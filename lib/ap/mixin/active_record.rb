@@ -14,6 +14,8 @@ module AwesomePrintActiveRecord
   #------------------------------------------------------------------------------
   def printable_with_active_record(object)
     printable = printable_without_active_record(object)
+    return printable if !defined?(ActiveRecord::Base)
+
     if printable == :self
       if object.is_a?(ActiveRecord::Base)
         printable = :active_record_instance
@@ -27,6 +29,8 @@ module AwesomePrintActiveRecord
   # Format ActiveRecord instance object.
   #------------------------------------------------------------------------------
   def awesome_active_record_instance(object)
+    return object.inspect if !defined?(ActiveSupport::OrderedHash)
+
     data = object.class.column_names.inject(ActiveSupport::OrderedHash.new) do |hash, name|
       hash[name.to_sym] = object.send(name) if object.has_attribute?(name) || object.new_record?
       hash
@@ -37,17 +41,14 @@ module AwesomePrintActiveRecord
   # Format ActiveRecord class object.
   #------------------------------------------------------------------------------
   def awesome_active_record_class(object)
-    if object.respond_to?(:columns)
-      data = object.columns.inject(ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c.name.to_sym] = c.type
-        hash
-      end
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
-    else
-      object.inspect
+    return object.inspect if !defined?(ActiveSupport::OrderedHash) || !object.respond_to?(:columns)
+
+    data = object.columns.inject(ActiveSupport::OrderedHash.new) do |hash, c|
+      hash[c.name.to_sym] = c.type
+      hash
     end
+    "class #{object} < #{object.superclass} " << awesome_hash(data)
   end
-  
 end
 
 AwesomePrint.send(:include, AwesomePrintActiveRecord)

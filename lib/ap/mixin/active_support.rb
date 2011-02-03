@@ -14,6 +14,8 @@ module AwesomePrintActiveSupport
   #------------------------------------------------------------------------------
   def printable_with_active_support(object)
     printable = printable_without_active_support(object)
+    return printable if !defined?(ActiveSupport::TimeWithZone) || !defined?(HashWithIndifferentAccess)
+
     if printable == :self
       if object.is_a?(ActiveSupport::TimeWithZone)
         printable = :active_support_time
