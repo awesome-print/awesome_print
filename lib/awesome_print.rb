@@ -15,7 +15,10 @@
 end
 
 require File.dirname(__FILE__) + "/ap/awesome_print"
-require File.dirname(__FILE__) + "/ap/core_ext/logger"      if defined?(::Logger)
-require File.dirname(__FILE__) + "/ap/mixin/action_view"    if defined?(::ActionView)
-require File.dirname(__FILE__) + "/ap/mixin/active_record"  if defined?(::ActiveRecord)
-require File.dirname(__FILE__) + "/ap/mixin/active_support" if defined?(::ActiveSupport)
+require File.dirname(__FILE__) + "/ap/core_ext/logger"   if defined?(Logger)
+require File.dirname(__FILE__) + "/ap/mixin/action_view" if defined?(ActionView)
+
+# Load the following under normal circumstatnces as well as in Rails
+# console when required from ~/.irbrc.
+require File.dirname(__FILE__) + "/ap/mixin/active_record"  if defined?(ActiveRecord)  || (defined?(IRB) && ENV['RAILS_ENV'])
+require File.dirname(__FILE__) + "/ap/mixin/active_support" if defined?(ActiveSupport) || (defined?(IRB) && ENV['RAILS_ENV'])
