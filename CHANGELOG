@@ -1,7 +1,9 @@
-0.3.2 (unreleased)
+0.3.2
+  - Make sure Rails mixins get loaded in Rails console when required from .irbrc
   - Fixed an issue with classes that define their own #send method (ex: Socket)
   - Fixed compatibility issue with Liquid gem that defines Module#liquid_methods
   - Fixed hash spec for Ruby < 1.9 where order of hash keys is not guaranteed
+  - Added :sorted_hash_keys option to sort hash keys (Ed Ruder)
 
 0.3.1 RubyConf X edition
   - Fixed Ruby 1.8.6 compatibility issues (thanks, Tim!)

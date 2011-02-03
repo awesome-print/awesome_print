@@ -15,6 +15,7 @@ class AwesomePrint
       :plain     => false,
       :indent    => 4,
       :index     => true,
+      :sorted_hash_keys => false,
       :color     => { 
         :array      => :white,
         :bigdecimal => :blue,
