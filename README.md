@@ -265,7 +265,7 @@ For example:
 * Tobias Crawley -- http://github.com/tobias
 
 ### License ###
-Copyright (c) 2010 Michael Dvorkin
+Copyright (c) 2010-2011 Michael Dvorkin
 twitter.com/mid
 %w(mike dvorkin.net) * "@" || %w(mike fatfreecrm.com) * "@"
 
