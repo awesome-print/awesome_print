@@ -4,7 +4,7 @@ require 'action_view'
 require 'ap/mixin/action_view'
 
 describe "AwesomePrint ActionView extensions" do
-  before(:each) do
+  before do
     @view = ActionView::Base.new
   end
     

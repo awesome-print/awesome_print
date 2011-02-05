@@ -7,7 +7,8 @@
   require File.dirname(__FILE__) + "/ap/core_ext/#{file}"
 end
 
-require File.dirname(__FILE__) + "/ap/awesome_print"
+require File.dirname(__FILE__) + "/ap/inspector"
+require File.dirname(__FILE__) + "/ap/formatter"
 require File.dirname(__FILE__) + "/ap/core_ext/logger"   if defined?(Logger)
 require File.dirname(__FILE__) + "/ap/mixin/action_view" if defined?(ActionView)
 

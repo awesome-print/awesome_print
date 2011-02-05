@@ -6,7 +6,7 @@
 module Kernel
 
   def ai(options = {})
-    ap = AwesomePrint.new(options)
+    ap = AwesomePrint::Inspector.new(options)
     ap.send(:awesome, self)
   end
   alias :awesome_inspect :ai

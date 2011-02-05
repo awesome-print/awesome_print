@@ -17,8 +17,8 @@ describe "AwesomePrint logging extensions" do
     end
     
     describe "the log level" do
-      before(:each) do
-        AwesomePrint.defaults = { }
+      before do
+        AwesomePrint.defaults = {}
       end
       
       it "should fallback to the default :debug log level" do

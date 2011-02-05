@@ -3,12 +3,12 @@ require "bigdecimal"
 require "rational"
 
 describe "AwesomePrint" do
-  before(:each) do
+  before do
     stub_dotfile!
   end
 
   describe "Array" do
-    before(:each) do
+    before do
       @arr = [ 1, :two, "three", [ nil, [ true, false] ] ]
     end
 
@@ -129,7 +129,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Nested Array" do
-    before(:each) do
+    before do
       @arr = [ 1, 2 ]
       @arr << @arr
     end
@@ -161,7 +161,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Hash" do
-    before(:each) do
+    before do
       @hash = { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } }
     end
     
@@ -245,7 +245,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Nested Hash" do
-    before(:each) do
+    before do
       @hash = {}
       @hash[:a] = @hash
     end
@@ -265,7 +265,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Hash with several keys" do
-    before(:each) do
+    before do
       @hash = {"b" => "b", :a => "a", :z => "z", "alpha" => "alpha"}
     end
 
@@ -290,7 +290,7 @@ EOS
     end
     
     it "plain multiline with sorted keys" do
-      @hash.ai(:plain => true, :sorted_hash_keys => true).should == <<-EOS.strip
+      @hash.ai(:plain => true, :sort_keys => true).should == <<-EOS.strip
 {
          :a => "a",
     "alpha" => "alpha",
@@ -304,7 +304,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Negative options[:indent]" do
-    before(:each) do
+    before do
       @hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
     end
 
@@ -363,7 +363,7 @@ EOS
   #------------------------------------------------------------------------------
   describe "Utility methods" do
     it "should merge options" do
-      ap = AwesomePrint.new
+      ap = AwesomePrint::Inspector.new
       ap.send(:merge_options!, { :color => { :array => :black }, :indent => 0 })
       options = ap.instance_variable_get("@options")
       options[:color][:array].should == :black
@@ -374,7 +374,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Struct" do
-    before(:each) do
+    before do
       @struct = unless defined?(Struct::SimpleStruct)
         Struct.new("SimpleStruct", :name, :address).new
       else
