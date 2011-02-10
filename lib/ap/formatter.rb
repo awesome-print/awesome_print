@@ -19,13 +19,12 @@ module AwesomePrint
     # Main entry point to format an object.
     #------------------------------------------------------------------------------
     def format(object, type = nil)
-      klass = cast(object, type)
-      return send(:"awesome_#{klass}", object) if klass != :self
-      send(:awesome_self, object, :as => type) # Catch all that falls back on object.inspect.
+      core_class = cast(object, type)
+      return send(:"awesome_#{core_class}", object) if core_class != :self
+      awesome_self(object, :as => type) # Catch all that falls back on object.inspect.
     end
 
-    # Hook this when adding custom formatters. Check out how it's done in
-    # ap/lib/mixin/active_record.rb
+    # Hook this when adding custom formatters.
     #------------------------------------------------------------------------------
     def cast(object, type)
       CORE.grep(type)[0] || :self
@@ -44,7 +43,8 @@ module AwesomePrint
     # Catch all method to format an arbitrary object.
     #------------------------------------------------------------------------------
     def awesome_self(object, appear = {})
-      colorize(object.inspect.to_s << appear[:with].to_s, appear[:as])
+      return awesome_object(object) if object.instance_variables.any?
+      colorize(object.inspect.to_s, appear[:as])
     end
 
     # Format an array.
@@ -56,19 +56,17 @@ module AwesomePrint
         methods_array(a)
       elsif @options[:multiline]
         width = (a.size - 1).to_s.size 
+
         data = a.inject([]) do |arr, item|
-          index = if @options[:index]
-            colorize("#{indent}[#{arr.size.to_s.rjust(width)}] ", :array)
-          else
-            colorize(indent, :array)
-          end
+          index = indent
+          index << colorize("[#{arr.size.to_s.rjust(width)}] ", :array) if @options[:index]
           indented do
-            arr << (index << @inspector.send(:awesome, item))
+            arr << (index << @inspector.awesome(item))
           end
         end
         "[\n" << data.join(",\n") << "\n#{outdent}]"
       else
-        "[ " << a.map{ |item| @inspector.send(:awesome, item) }.join(", ") << " ]"
+        "[ " << a.map{ |item| @inspector.awesome(item) }.join(", ") << " ]"
       end
     end
 
@@ -80,7 +78,7 @@ module AwesomePrint
       keys = @options[:sort_keys] ? h.keys.sort { |a, b| a.to_s <=> b.to_s } : h.keys
       data = keys.map do |key|
         plain_single_line do
-          [ @inspector.send(:awesome, key), h[key] ]
+          [ @inspector.awesome(key), h[key] ]
         end
       end
       
@@ -94,7 +92,31 @@ module AwesomePrint
           formatted_key = key
         end
         indented do
-          formatted_key << colorize(" => ", :hash) << @inspector.send(:awesome, value)
+          formatted_key << colorize(" => ", :hash) << @inspector.awesome(value)
+        end
+      end
+      if @options[:multiline]
+        "{\n" << data.join(",\n") << "\n#{outdent}}"
+      else
+        "{ #{data.join(', ')} }"
+      end
+    end
+
+    # Format an object.
+    #------------------------------------------------------------------------------
+    def awesome_object(o)
+      vars = o.instance_variables.sort
+      width = vars.map { |var| var.size }.max || 0
+      width += @indentation if @options[:indent] > 0
+
+      data = vars.map do |var|
+        if @options[:multiline]
+          formatted_key = (@options[:indent] >= 0 ? var.rjust(width) : indent + var.ljust(width))
+        else
+          formatted_key = var
+        end
+        indented do
+          formatted_key << colorize(" => ", :hash) + @inspector.awesome(o.instance_variable_get(var))
         end
       end
       if @options[:multiline]
@@ -116,9 +138,9 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_class(c)
       if superclass = c.superclass # <-- Assign and test if nil.
-        awesome_self(c, :as => :class, :with => " < #{superclass}")
+        colorize("#{c.inspect} < #{superclass}", :class)
       else
-        awesome_self(c, :as => :class)
+        colorize(c.inspect, :class)
       end
     end
 
@@ -126,20 +148,20 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_file(f)
       ls = File.directory?(f) ? `ls -adlF #{f.path.shellescape}` : `ls -alF #{f.path.shellescape}`
-      awesome_self(f, :as => :file, :with => ls.empty? ? nil : "\n#{ls.chop}")
+      colorize(ls.empty? ? f.inspect : "#{f.inspect}\n#{ls.chop}", :file)
     end
 
     # Format Dir object.
     #------------------------------------------------------------------------------
     def awesome_dir(d)
       ls = `ls -alF #{d.path.shellescape}`
-      awesome_self(d, :as => :dir, :with => ls.empty? ? nil : "\n#{ls.chop}")
+      colorize(ls.empty? ? d.inspect : "#{d.inspect}\n#{ls.chop}", :dir)
     end
 
     # Format BigDecimal and Rational objects by convering them to Float.
     #------------------------------------------------------------------------------
     def awesome_bigdecimal(n)
-      awesome_self(n.to_f, :as => :bigdecimal)
+      colorize(n.to_f.inspect, :bigdecimal)
     end
     alias :awesome_rational :awesome_bigdecimal
 
@@ -170,11 +192,8 @@ module AwesomePrint
       args_width = tuples.map { |item| item[1].size }.max || 0
 
       data = tuples.inject([]) do |arr, item|
-        index = if @options[:index]
-          "#{indent}[#{arr.size.to_s.rjust(width)}]"
-        else
-          indent
-        end
+        index = indent
+        index << "[#{arr.size.to_s.rjust(width)}]" if @options[:index]
         indented do
           arr << "#{index} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
         end

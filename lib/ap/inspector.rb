@@ -49,8 +49,6 @@ module AwesomePrint
       Thread.current[AP] ||= []
     end
   
-    private
-
     # Dispatcher that detects data nesting and invokes object-aware formatter.
     #------------------------------------------------------------------------------
     def awesome(object)
@@ -65,6 +63,8 @@ module AwesomePrint
         end
       end
     end
+
+    private
 
     # Format nested data, for example:
     #   arr = [1, 2]; arr << arr

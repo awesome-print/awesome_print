@@ -26,7 +26,7 @@ module AwesomePrint
     # Format ActiveSupport::TimeWithZone as standard Time.
     #------------------------------------------------------------------------------
     def awesome_active_support_time(object)
-      awesome_self(object, :as => :time)
+      colorize(object.inspect, :time)
     end
 
     # Format HashWithIndifferentAccess as standard Hash.

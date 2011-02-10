@@ -91,14 +91,14 @@ EOS
     it "colored multiline (default)" do
       @arr.ai.should == <<-EOS.strip
 [
-\e[1;37m    [0] \e[0m\e[1;34m1\e[0m,
-\e[1;37m    [1] \e[0m\e[0;36m:two\e[0m,
-\e[1;37m    [2] \e[0m\e[0;33m\"three\"\e[0m,
-\e[1;37m    [3] \e[0m[
-\e[1;37m        [0] \e[0m\e[1;31mnil\e[0m,
-\e[1;37m        [1] \e[0m[
-\e[1;37m            [0] \e[0m\e[1;32mtrue\e[0m,
-\e[1;37m            [1] \e[0m\e[1;31mfalse\e[0m
+    \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
+    \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
+    \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+    \e[1;37m[3] \e[0m[
+        \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
+        \e[1;37m[1] \e[0m[
+            \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
+            \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
         ]
     ]
 ]
@@ -108,14 +108,14 @@ EOS
     it "colored multiline indented" do
       @arr.ai(:indent => 8).should == <<-EOS.strip
 [
-\e[1;37m        [0] \e[0m\e[1;34m1\e[0m,
-\e[1;37m        [1] \e[0m\e[0;36m:two\e[0m,
-\e[1;37m        [2] \e[0m\e[0;33m\"three\"\e[0m,
-\e[1;37m        [3] \e[0m[
-\e[1;37m                [0] \e[0m\e[1;31mnil\e[0m,
-\e[1;37m                [1] \e[0m[
-\e[1;37m                        [0] \e[0m\e[1;32mtrue\e[0m,
-\e[1;37m                        [1] \e[0m\e[1;31mfalse\e[0m
+        \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
+        \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
+        \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+        \e[1;37m[3] \e[0m[
+                \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
+                \e[1;37m[1] \e[0m[
+                        \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
+                        \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
                 ]
         ]
 ]
