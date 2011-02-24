@@ -32,7 +32,9 @@ module AwesomePrint
           :time       => :greenish,
           :trueclass  => :green,
           :method     => :purpleish,
-          :args       => :pale
+          :args       => :pale,
+          :keyword    => :cyan,
+          :variable   => :cyanish
         },
         :indent    => 4,
         :index     => true,

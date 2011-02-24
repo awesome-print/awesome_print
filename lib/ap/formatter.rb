@@ -86,13 +86,8 @@ module AwesomePrint
       width += @indentation if @options[:indent] > 0
   
       data = data.map do |key, value|
-        if @options[:multiline]
-          formatted_key = (@options[:indent] >= 0 ? key.rjust(width) : indent + key.ljust(width))
-        else
-          formatted_key = key
-        end
         indented do
-          formatted_key << colorize(" => ", :hash) << @inspector.awesome(value)
+          align(key, width) << colorize(" => ", :hash) << @inspector.awesome(value)
         end
       end
       if @options[:multiline]
@@ -105,24 +100,40 @@ module AwesomePrint
     # Format an object.
     #------------------------------------------------------------------------------
     def awesome_object(o)
-      vars = o.instance_variables.sort
-      width = vars.map { |var| var.size }.max || 0
+      vars = o.instance_variables.map do |var|
+        property = var[1..-1].to_sym
+        accessor = if o.respond_to?(:"#{property}=")
+          o.respond_to?(property) ? :accessor : :writer
+        else
+          o.respond_to?(property) ? :reader : nil
+        end
+        if accessor
+          [ "attr_#{accessor} :#{property}", var ]
+        else
+          [ var.to_s, var ]
+        end
+      end
+
+      width = vars.map { |declaration,| declaration.size }.max || 0
       width += @indentation if @options[:indent] > 0
 
-      data = vars.map do |var|
-        if @options[:multiline]
-          formatted_key = (@options[:indent] >= 0 ? var.rjust(width) : indent + var.ljust(width))
-        else
-          formatted_key = var
+      data = vars.sort.map do |declaration, var|
+        key = align(declaration, width)
+        unless @options[:plain]
+          if key =~ /(@\w+)/
+            key.sub!($1, colorize($1, :variable))
+          else
+            key.sub!(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
+          end
         end
         indented do
-          formatted_key << colorize(" => ", :hash) + @inspector.awesome(o.instance_variable_get(var))
+          key << colorize(" = ", :hash) + @inspector.awesome(o.instance_variable_get(var))
         end
       end
       if @options[:multiline]
-        "{\n" << data.join(",\n") << "\n#{outdent}}"
+        "#<#{awesome_instance(o)}\n#{data.join(%Q/,\n/)}\n#{outdent}>"
       else
-        "{ #{data.join(', ')} }"
+        "#<#{awesome_instance(o)} #{data.join(', ')}>"
       end
     end
 
@@ -172,6 +183,12 @@ module AwesomePrint
       "#{colorize(owner, :class)}##{colorize(name, :method)}#{colorize(args, :args)}"
     end
     alias :awesome_unboundmethod :awesome_method
+
+    # Format object instance.
+    #------------------------------------------------------------------------------
+    def awesome_instance(o)
+      "#{o.class}:0x%08x" % (o.__id__ * 2)
+    end
 
     # Format object.methods array.
     #------------------------------------------------------------------------------
@@ -238,7 +255,20 @@ module AwesomePrint
       @options[:plain], @options[:multiline] = plain, multiline
     end
 
+    # Utility methods.
     #------------------------------------------------------------------------------
+    def align(value, width)
+      if @options[:multiline]
+        if @options[:indent] >= 0
+          value.rjust(width)
+        else
+          indent + value.ljust(width)
+        end
+      else
+        value
+      end
+    end
+
     def indented
       @indentation += @options[:indent].abs
       yield
