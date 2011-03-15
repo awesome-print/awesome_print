@@ -12,7 +12,7 @@ class String
   #    0 => normal
 
   [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
-    if STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb')  || ENV['ANSICON'])
+    if STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON'])
       define_method color          do "\033[1;#{30+i}m#{self}\033[0m" end
       define_method :"#{color}ish" do "\033[0;#{30+i}m#{self}\033[0m" end
     else
