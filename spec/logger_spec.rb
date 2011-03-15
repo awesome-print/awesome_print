@@ -6,7 +6,7 @@ require 'ap/core_ext/logger'
 
 describe "AwesomePrint logging extensions" do
   before(:all) do
-    @logger = Logger.new('/dev/null')
+    @logger = Logger.new('nul')
   end
 
   describe "ap method" do

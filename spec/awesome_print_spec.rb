@@ -504,14 +504,15 @@ EOS
     it "inherited from File should be displayed as File" do
       class My < File; end
 
-      my = File.new('/dev/null')
+      my = File.new('nul')
       my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
     end
 
     it "inherited from Dir should be displayed as Dir" do
       class My < Dir; end
 
-      my = My.new('/tmp')
+      require 'tmpdir'
+      my = My.new(Dir.tmpdir)
       my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
     end
 
