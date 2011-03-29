@@ -15,15 +15,12 @@ module AwesomePrintMongoMapper
   def printable_with_mongo_mapper(object)
     printable = printable_without_mongo_mapper(object)
     return printable if !defined?(MongoMapper::Document)
-    
-    is_mongo = object.class.include?(MongoMapper::Document) ||
-               object.class.include?(MongoMapper::EmbeddedDocument)
 
     if printable == :self
-      if is_mongo
+      if object.is_a?(MongoMapper::Document) || object.is_a?(MongoMapper::EmbeddedDocument)
         printable = :mongo_mapper_instance
       end
-    elsif printable == :class and is_mongo
+    elsif printable == :class && (object.ancestors & [MongoMapper::Document, MongoMapper::EmbeddedDocument]).size > 0
       printable = :mongo_mapper_class
     end
     printable
@@ -44,10 +41,10 @@ module AwesomePrintMongoMapper
   # Format MongoMapper class object.
   #------------------------------------------------------------------------------
   def awesome_mongo_mapper_class(object)
-    return object.inspect if !defined?(ActiveSupport::OrderedHash) || !object.respond_to?(:columns)
+    return object.inspect if !defined?(ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
 
     data = object.keys.inject(ActiveSupport::OrderedHash.new) do |hash, c|
-      hash[c.first] = c.last.type.to_s
+      hash[c.first] = c.last.type.to_s.underscore.intern
       hash
     end
     "class #{object} < #{object.superclass} " << awesome_hash(data)
