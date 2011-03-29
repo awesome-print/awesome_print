@@ -44,7 +44,7 @@ module AwesomePrintMongoMapper
     return object.inspect if !defined?(ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
 
     data = object.keys.inject(ActiveSupport::OrderedHash.new) do |hash, c|
-      hash[c.first] = c.last.type.to_s.underscore.intern
+      hash[c.first] = (c.last.type || "undefined").to_s.underscore.intern
       hash
     end
     "class #{object} < #{object.superclass} " << awesome_hash(data)

@@ -40,5 +40,19 @@ class User < Object {
 }
 EOS
     end
+
+    it "should print for a class when type is undefined" do
+      class Chamelion
+        include MongoMapper::Document
+        key :last_attribute
+      end
+
+      @ap.send(:awesome, Chamelion).should == <<-EOS.strip
+class Chamelion < Object {
+               "_id" => :object_id,
+    "last_attribute" => :undefined
+}
+EOS
+    end
   end
 end
