@@ -22,3 +22,4 @@ require File.dirname(__FILE__) + "/ap/mixin/action_view" if defined?(ActionView)
 # console when required from ~/.irbrc.
 require File.dirname(__FILE__) + "/ap/mixin/active_record"  if defined?(ActiveRecord)  || (defined?(IRB) && ENV['RAILS_ENV'])
 require File.dirname(__FILE__) + "/ap/mixin/active_support" if defined?(ActiveSupport) || (defined?(IRB) && ENV['RAILS_ENV'])
+require File.dirname(__FILE__) + "/ap/mixin/mongo_mapper" if defined?(MongoMapper)
