@@ -9,7 +9,8 @@ describe "AwesomePrint" do
 
   describe "ap method" do
     it "return value" do
-      object = ""
+      object = rand
+      self.stub!(:puts)
       (ap object).should eql(object)
     end
   end
