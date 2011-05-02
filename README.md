@@ -129,6 +129,14 @@ Supported color names:
         [19]     upcase!()           String
     ]
 
+    $ cat > 6.rb
+    require "ap"
+    ap(42 == ap(42))
+    ^D
+    $ ruby 6.rb
+    42
+    true
+
 ### Example (Rails console) ###
     $ ruby script/console
     Loading development environment (Rails 2.3.5)
