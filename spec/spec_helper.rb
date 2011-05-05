@@ -17,8 +17,8 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'ap'
 
 if RUBY_VERSION.to_f < 1.9
-  require 'spec'
-  require 'spec/autorun'
+  require 'rspec'
+  require 'rspec/autorun'
   require 'rubygems'
 end
 
