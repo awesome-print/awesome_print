@@ -26,3 +26,7 @@ def stub_dotfile!
   dotfile = File.join(ENV["HOME"], ".aprc")
   File.should_receive(:readable?).at_least(:once).with(dotfile).and_return(false)
 end
+
+# Infinity Test runs tests as subprocesses, which sets STDOUT.tty? to false and 
+# would otherwise prematurely disallow colors. We'll test the defaults later.
+AwesomePrint.force_colors!
