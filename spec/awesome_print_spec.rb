@@ -7,6 +7,14 @@ describe "AwesomePrint" do
     stub_dotfile!
   end
 
+  describe "ap method" do
+    it "return value" do
+      object = rand
+      self.stub!(:puts)
+      (ap object).should eql(object)
+    end
+  end
+
   describe "Array" do
     before(:each) do
       @arr = [ 1, :two, "three", [ nil, [ true, false] ] ]
