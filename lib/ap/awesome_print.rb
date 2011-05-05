@@ -43,7 +43,16 @@ class AwesomePrint
     @indentation = @options[:indent].abs
     Thread.current[AP] ||= []
   end
-  
+
+  def self.allow_colors?
+    (STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON'])) || @@force_colors
+  end
+
+  @@force_colors = false
+  def self.force_colors!(value = true)
+    @@force_colors = value
+  end
+
   private
 
   # Format an array.
