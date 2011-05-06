@@ -13,7 +13,6 @@ begin
     gem.authors = ["Michael Dvorkin"]
     gem.add_development_dependency "rspec", ">= 2.5.0"
     gem.files = FileList["[A-Z]*", "lib/**/*.rb", "rails/*.rb", "spec/*", "init.rb"]
-    gem.has_rdoc = false
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
