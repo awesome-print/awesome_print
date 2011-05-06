@@ -277,9 +277,9 @@ class AwesomePrint
 
       unless @options[:plain]
         AP_ANSI_TO_HTML.each do |key, value|
-          formatted = formatted.gsub(key, %Q|<font color="#{value}">|)
+          formatted = formatted.gsub(key, %Q|<span style="color:#{value}">|)
         end
-        formatted = formatted.gsub("\033[0m", "</font>")
+        formatted = formatted.gsub("\033[0m", "</span>")
       end
 
       %{<pre class="debug_dump">#{formatted}</pre>}
