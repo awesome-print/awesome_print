@@ -31,7 +31,7 @@ module AwesomePrintMongoMapper
   def awesome_mongo_mapper_instance(object)
     return object.inspect if !defined?(ActiveSupport::OrderedHash)
 
-    data = object.keys.keys.inject(ActiveSupport::OrderedHash.new) do |hash, name|
+    data = object.keys.keys.sort_by{|k| k}.inject(ActiveSupport::OrderedHash.new) do |hash, name|
       hash[name] = object[name]
       hash
     end
@@ -43,7 +43,7 @@ module AwesomePrintMongoMapper
   def awesome_mongo_mapper_class(object)
     return object.inspect if !defined?(ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
 
-    data = object.keys.inject(ActiveSupport::OrderedHash.new) do |hash, c|
+    data = object.keys.sort_by{|k| k}.inject(ActiveSupport::OrderedHash.new) do |hash, c|
       hash[c.first] = (c.last.type || "undefined").to_s.underscore.intern
       hash
     end

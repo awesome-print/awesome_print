@@ -4,7 +4,7 @@ begin
   require "mongo_mapper"
   require "ap/mixin/mongo_mapper"
 
-  if defined?(MongoMapper)
+  if defined?(::MongoMapper)
     class User
       include MongoMapper::Document
 
@@ -23,8 +23,8 @@ begin
         str = <<-EOS.strip
 #<User:0x01234567> {
            "_id" => BSON::ObjectId('4d9183739a546f6806000001'),
-     "last_name" => "Capone",
-    "first_name" => "Al"
+    "first_name" => "Al",
+     "last_name" => "Capone"
 }
 EOS
         out.gsub!(/'([\w]+){23}'/, "'4d9183739a546f6806000001'")
@@ -36,8 +36,8 @@ EOS
         @ap.send(:awesome, User).should == <<-EOS.strip
 class User < Object {
            "_id" => :object_id,
-     "last_name" => :string,
-    "first_name" => :string
+    "first_name" => :string,
+     "last_name" => :string
 }
 EOS
       end
