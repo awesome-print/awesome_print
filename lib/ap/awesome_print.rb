@@ -7,7 +7,7 @@ require "shellwords"
 
 class AwesomePrint
   AP = :__awesome_print__ unless defined?(AwesomePrint::AP)
-  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ] unless defined?(AwesomePrint::CORE)
+  CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :openstruct, :method, :unboundmethod ] unless defined?(AwesomePrint::CORE)
 
   def initialize(options = {})
     @options = { 
@@ -108,6 +108,13 @@ class AwesomePrint
   def awesome_struct(s)
     h = {}
     s.each_pair { |k,v| h[k] = v }
+    awesome_hash(h)
+  end
+
+  # Format a OpenStruct.
+  def awesome_openstruct(s)
+    h = {}
+    s.marshal_dump.each_pair { |k,v| h[k] = v }
     awesome_hash(h)
   end
 
