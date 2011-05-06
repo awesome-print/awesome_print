@@ -113,9 +113,7 @@ class AwesomePrint
 
   # Format a OpenStruct.
   def awesome_openstruct(s)
-    h = {}
-    s.marshal_dump.each_pair { |k,v| h[k] = v }
-    awesome_hash(h)
+    awesome_hash(s.marshal_dump)
   end
 
   # Format Class object.
