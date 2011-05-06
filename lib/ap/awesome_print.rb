@@ -4,6 +4,7 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 require "shellwords"
+require "cgi"
 
 class AwesomePrint
   AP = :__awesome_print__ unless defined?(AwesomePrint::AP)
@@ -16,6 +17,7 @@ class AwesomePrint
       :indent    => 4,
       :index     => true,
       :sorted_hash_keys => false,
+      :html => false,
       :color     => { 
         :array      => :white,
         :bigdecimal => :blue,
@@ -169,11 +171,11 @@ class AwesomePrint
   #------------------------------------------------------------------------------
   def awesome(object)
     if Thread.current[AP].include?(object.object_id)
-      nested(object)
+      htmlize(nested(object))
     else
       begin
         Thread.current[AP] << object.object_id
-        send(:"awesome_#{printable(object)}", object)
+        htmlize(send(:"awesome_#{printable(object)}", object))
       ensure
         Thread.current[AP].pop
       end
@@ -254,6 +256,35 @@ class AwesomePrint
       s
     else
       s.send(@options[:color][type])
+    end
+  end
+
+  unless const_defined?(:AP_ANSI_TO_HTML)
+    hash = {} # Build ANSI => HTML color map.
+    [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
+      hash["\033[1;#{30+i}m"] = color
+    end
+    [ :black, :darkred, :darkgreen, :brown, :navy, :darkmagenta, :darkcyan, :slategray ].each_with_index do |color, i|
+      hash["\033[0;#{30+i}m"] = color
+    end
+    AP_ANSI_TO_HTML = hash.freeze
+  end
+
+  def htmlize(value)
+    if @options[:html]
+
+      formatted = CGI.escapeHTML(value.to_s)
+
+      unless @options[:plain]
+        AP_ANSI_TO_HTML.each do |key, value|
+          formatted = formatted.gsub(key, %Q|<font color="#{value}">|)
+        end
+        formatted = formatted.gsub("\033[0m", "</font>")
+      end
+
+      %{<pre class="debug_dump">#{formatted}</pre>}
+    else
+      value
     end
   end
 

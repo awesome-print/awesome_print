@@ -533,4 +533,32 @@ EOS
       my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
     end
   end
+  
+  describe "HTML output" do
+    it "should wrap ap output with <pre> tag" do
+      obj = 42
+      obj.ai(:html => true, :plain => true).should == '<pre class="debug_dump">42</pre>'
+    end
+  
+    it "should encode HTML entities" do
+      obj = "  &<hello>"
+      obj.ai(:html => true, :plain => true).should == '<pre class="debug_dump">&quot;  &amp;&lt;hello&gt;&quot;</pre>'
+    end
+  
+    it "should convert primary ANSI colors to HTML" do
+      obj = 42
+      [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each do |color|
+        obj.ai(:html => true, :color => { :fixnum => color }).should == %Q|<pre class="debug_dump"><font color="#{color}">42</font></pre>|
+      end
+    end
+  
+    it "should convert mixed ANSI colors to HTML" do
+      obj = 42
+      [ :grayish, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :whiteish, :black, :pale ].zip(
+      [ :black, :darkred, :darkgreen, :brown, :navy, :darkmagenta, :darkcyan, :slategray, :black, :slategray ]) do |ansi, html|
+        obj.ai(:html => true, :color => { :fixnum => ansi }).should == %Q|<pre class="debug_dump"><font color="#{html}">42</font></pre>|
+      end
+    end
+  end
+  
 end
