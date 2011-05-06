@@ -1,6 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "AwesomePrint" do
+  before(:each) do
+    stub_dotfile!
+  end
+
   describe "colorization" do
     PLAIN = '[ 1, :two, "three", [ nil, [ true, false ] ] ]'
     COLORIZED = "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]"
