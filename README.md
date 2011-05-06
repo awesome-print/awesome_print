@@ -252,9 +252,9 @@ For example:
 
 ### Running Specs ###
 
-    $ rake spec                           # Entire spec suite.
-    $ ruby -rubygems spec/logger_spec.rb  # Individual spec file (Ruby 1.8.7 and RSpec 1.3+)
-    $ rspec spec/logger_spec.rb           # Individual spec file (Ruby 1.9.2 and RSpec 2.0+)
+    $ gem install rspec           # RSpec 2.x is the requirement.
+    $ rake spec                   # Run the entire spec suite.
+    $ rspec spec/logger_spec.rb   # Run individual spec file.
 
 ### Note on Patches/Pull Requests ###
 * Fork the project on Github.
