@@ -56,7 +56,7 @@ class Array #:nodoc:
     arr = unless blk
       original_grep(pattern)
     else
-      original_grep(pattern) { |match| eval("%Q/#{match}/ =~ #{pattern.inspect}", blk.binding); yield match }
+      original_grep(pattern) { |match| eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding); yield match }
     end
     if self.instance_variable_defined?('@__awesome_methods__')
       arr.instance_variable_set('@__awesome_methods__', self.instance_variable_get('@__awesome_methods__'))

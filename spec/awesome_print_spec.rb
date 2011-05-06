@@ -462,6 +462,13 @@ EOS
       end
       weird.new.ai(:plain => true).should == ''
     end
+
+    # See https://github.com/michaeldv/awesome_print/issues/35
+    it "handle array grep when pattern contains / chapacter" do
+      hash = { "1/x" => 1,  "2//x" => :"2" }
+      grepped = hash.keys.grep(/^(\d+)\//) { $1 }
+      grepped.ai(:plain => true, :multiline => false).should == '[ "1", "2" ]'
+    end
   end
 
   #------------------------------------------------------------------------------
