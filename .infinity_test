@@ -1,0 +1,3 @@
+infinity_test do
+  use :test_framework => :rspec
+end
