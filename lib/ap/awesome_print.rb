@@ -44,14 +44,6 @@ class AwesomePrint
     Thread.current[AP] ||= []
   end
 
-  def self.allow_colors?
-    (STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON'])) || @@force_colors
-  end
-
-  @@force_colors = false
-  def self.force_colors!(value = true)
-    @@force_colors = value
-  end
 
   private
 
@@ -250,7 +242,7 @@ class AwesomePrint
   # Pick the color and apply it to the given string as necessary.
   #------------------------------------------------------------------------------
   def colorize(s, type)
-    if @options[:plain] || @options[:color][type].nil?
+    if @options[:plain] || @options[:color][type].nil? || !colorize?
       s
     else
       s.send(@options[:color][type])
@@ -328,6 +320,12 @@ class AwesomePrint
     $stderr.puts "Could not load #{dotfile}: #{e}"
   end
 
+  # Return true if we are to colorize the output.
+  #------------------------------------------------------------------------------
+  def colorize?
+    @@force_colors || (STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON']))
+  end
+
   # Class accessors for custom defaults.
   #------------------------------------------------------------------------------
   def self.defaults
@@ -336,6 +334,13 @@ class AwesomePrint
 
   def self.defaults=(args = {})
     @@defaults = args
+  end
+
+  # Class accessor to force colorized output (ex. forked subprocess where TERM
+  # might be dumb).
+  #------------------------------------------------------------------------------
+  def self.force_colors!(value = true)
+    @@force_colors = value
   end
 
 end

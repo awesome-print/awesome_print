@@ -13,19 +13,11 @@ class String
 
   [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
     define_method color do
-      if AwesomePrint.allow_colors?
-        "\033[1;#{30+i}m#{self}\033[0m"
-      else
-        self
-      end
+      "\033[1;#{30+i}m#{self}\033[0m"
     end
 
     define_method :"#{color}ish" do
-      if AwesomePrint.allow_colors?
-        "\033[0;#{30+i}m#{self}\033[0m"
-      else
-        self
-      end
+      "\033[0;#{30+i}m#{self}\033[0m"
     end
   end
 
