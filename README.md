@@ -25,6 +25,7 @@ Default options:
     :indent => 4,                 # Indent using 4 spaces.
     :index  => true,              # Display array indices.
     :sorted_hash_keys => false,   # Do not sort hash keys.
+    :html => false,               # Do not wrap output in HTML tags.
     :color => {
       :array      => :white,
       :bignum     => :blue,
