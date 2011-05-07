@@ -406,4 +406,23 @@ describe "Methods arrays" do
     out = Hello.methods.grep(/^m(\d)$/) { %w(none one)[$1.to_i] }.ai(:plain => true)
     out.should == "[\n    [0] none() Hello\n    [1]  one() Hello\n]"
   end
+
+  # See https://github.com/michaeldv/awesome_print/issues/30 for details.
+  it "grepping methods and converting them to_sym should work as expected" do
+    class Hello
+      private
+      def him; end
+
+      def his
+        private_methods.grep(/^h..$/) { |n| n.to_sym }
+      end
+
+      def her
+        private_methods.grep(/^.e.$/) { |n| n.to_sym }
+      end
+    end
+
+    hello = Hello.new
+    (hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }.should == [ :him, :his ]
+  end
 end

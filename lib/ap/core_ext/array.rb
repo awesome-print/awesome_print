@@ -19,7 +19,7 @@ class Array #:nodoc:
       arr = self.__send__(:"original_#{operator.object_id}", *args)
       if self.instance_variable_defined?('@__awesome_methods__')
         arr.instance_variable_set('@__awesome_methods__', self.instance_variable_get('@__awesome_methods__'))
-        arr.sort!
+        arr.sort! { |a, b| a.to_s <=> b.to_s }  # Need the block since Ruby 1.8.x can't sort arrays of symbols.
       end
       arr
     end
