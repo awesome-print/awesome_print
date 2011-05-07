@@ -5,8 +5,8 @@
 #------------------------------------------------------------------------------
 #
 # Running specs from the command line:
-#   $ rake spec                           # Entire spec suite.
-#   $ ruby -S rspec spec/logger_spec.rb   # Individual spec file.
+#   $ rake spec                   # Entire spec suite.
+#   $ rspec spec/logger_spec.rb   # Individual spec file.
 #
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))

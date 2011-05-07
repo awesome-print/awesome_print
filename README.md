@@ -265,12 +265,16 @@ For example:
 
 ### Contributors ###
 
+* Andrew O'Brien -- https://github.com/AndrewO
 * Daniel Bretoi -- http://github.com/danielb2
 * Eloy Duran -- http://github.com/alloy
+* Elpizo Choi -- https://github.com/fuJiin
 * Benoit Daloze -- http://github.com/eregon
 * Sean Gallagher -- http://github.com/torandu
+* Stephan Hagemann -- https://github.com/shageman
 * Tim Harper -- http://github.com/timcharper
 * Tobias Crawley -- http://github.com/tobias
+* Viktar Basharymau -- https://github.com/DNNX
 
 ### License ###
 Copyright (c) 2010-2011 Michael Dvorkin
