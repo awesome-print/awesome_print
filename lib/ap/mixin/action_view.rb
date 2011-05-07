@@ -5,30 +5,9 @@
 #------------------------------------------------------------------------------
 module AwesomePrintActionView
 
-  def self.included(base)
-    unless base.const_defined?(:AP_ANSI_TO_HTML)
-      hash = {} # Build ANSI => HTML color map.
-      [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
-        hash["\033[1;#{30+i}m"] = color
-      end
-      [ :black, :darkred, :darkgreen, :brown, :navy, :darkmagenta, :darkcyan, :slategray ].each_with_index do |color, i|
-        hash["\033[0;#{30+i}m"] = color
-      end
-      base.const_set(:AP_ANSI_TO_HTML, hash.freeze)
-    end
-  end
-
+  # Use HTML colors and add default "debug_dump" class to the resulting HTML.
   def ap_debug(object, options = {})
-    formatted = h(object.ai(options))
-
-    unless options[:plain]
-      self.class::AP_ANSI_TO_HTML.each do |key, value|
-        formatted.gsub!(key, %Q|<font color="#{value}">|)
-      end
-      formatted.gsub!("\033[0m", "</font>")
-    end
-
-    content_tag(:pre, formatted, :class => "debug_dump")
+    object.ai(options.merge(:html => true)).sub(/^<pre([\s>])/, '<pre class="debug_dump"\\1')
   end
 
   alias_method :ap, :ap_debug

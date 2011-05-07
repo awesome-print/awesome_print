@@ -7,14 +7,6 @@ describe "AwesomePrint" do
     stub_dotfile!
   end
 
-  describe "ap method" do
-    it "return value" do
-      object = rand
-      self.stub!(:puts)
-      (ap object).should eql(object)
-    end
-  end
-
   describe "Array" do
     before(:each) do
       @arr = [ 1, :two, "three", [ nil, [ true, false] ] ]
@@ -468,6 +460,34 @@ EOS
       hash = { "1/x" => 1,  "2//x" => :"2" }
       grepped = hash.keys.grep(/^(\d+)\//) { $1 }
       grepped.ai(:plain => true, :multiline => false).should == '[ "1", "2" ]'
+    end
+
+    it "returns value passed as a parameter" do
+      object = rand
+      self.stub!(:puts)
+      (ap object).should == object
+    end
+  end
+
+  describe "HTML output" do
+    it "wraps ap output with plain <pre> tag" do
+      markup = rand
+      markup.ai(:html => true, :plain => true).should == "<pre>#{markup}</pre>"
+    end
+
+    it "wraps ap output with colorized <pre> tag" do
+      markup = rand
+      markup.ai(:html => true).should == %Q|<pre style="color:blue">#{markup}</pre>|
+    end
+
+    it "encodes HTML entities (plain)" do
+      markup = ' &<hello>'
+      markup.ai(:html => true, :plain => true).should == '<pre>&quot; &amp;&lt;hello&gt;&quot;</pre>'
+    end
+
+    it "encodes HTML entities (color)" do
+      markup = ' &<hello>'
+      markup.ai(:html => true).should == '<pre style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</pre>'
     end
   end
 

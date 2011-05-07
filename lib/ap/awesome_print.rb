@@ -3,19 +3,22 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+require "cgi"
 require "shellwords"
 
 class AwesomePrint
   AP = :__awesome_print__ unless defined?(AwesomePrint::AP)
   CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ] unless defined?(AwesomePrint::CORE)
+  @@force_colors = false
 
   def initialize(options = {})
     @options = { 
-      :multiline => true,
-      :plain     => false,
-      :indent    => 4,
-      :index     => true,
-      :sorted_hash_keys => false,
+      :multiline => true,           # Display in multiple lines.
+      :plain     => false,          # Use colors.
+      :indent    => 4,              # Indent using 4 spaces.
+      :index     => true,           # Display array indices.
+      :html      => false,          # Use ANSI color codes rather than HTML.
+      :sorted_hash_keys => false,   # Do not sort hash keys.
       :color     => { 
         :array      => :white,
         :bigdecimal => :blue,
@@ -104,7 +107,7 @@ class AwesomePrint
     end
   end
 
-  # Format a Struct. If @options[:indent] if negative left align hash keys.
+  # Format a Struct. If @options[:indent] is negative left align hash keys.
   #------------------------------------------------------------------------------
   def awesome_struct(s)
     h = {}
@@ -242,10 +245,11 @@ class AwesomePrint
   # Pick the color and apply it to the given string as necessary.
   #------------------------------------------------------------------------------
   def colorize(s, type)
-    if @options[:plain] || @options[:color][type].nil? || !colorize?
-      s
+    s = CGI.escapeHTML(s) if @options[:html]
+    if @options[:plain] || !@options[:color][type] || !colorize?
+      @options[:html] ? "<pre>#{s}</pre>" : s
     else
-      s.send(@options[:color][type])
+      s.send(@options[:color][type], @options[:html])
     end
   end
 
@@ -326,6 +330,13 @@ class AwesomePrint
     @@force_colors || (STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON']))
   end
 
+  # Class accessor to force colorized output (ex. forked subprocess where TERM
+  # might be dumb).
+  #------------------------------------------------------------------------------
+  def self.force_colors!(value = true)
+    @@force_colors = value
+  end
+
   # Class accessors for custom defaults.
   #------------------------------------------------------------------------------
   def self.defaults
@@ -334,13 +345,6 @@ class AwesomePrint
 
   def self.defaults=(args = {})
     @@defaults = args
-  end
-
-  # Class accessor to force colorized output (ex. forked subprocess where TERM
-  # might be dumb).
-  #------------------------------------------------------------------------------
-  def self.force_colors!(value = true)
-    @@force_colors = value
   end
 
 end

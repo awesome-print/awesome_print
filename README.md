@@ -20,10 +20,11 @@ objects and usage within Rails templates are supported via included mixins.
 
 Default options:
 
-    :multiline => true,           # Display in multipe lines.
-    :plain  => false,             # Use colors.
-    :indent => 4,                 # Indent using 4 spaces.
-    :index  => true,              # Display array indices.
+    :multiline => true,           # Display in multiple lines.
+    :plain     => false,          # Use colors.
+    :indent    => 4,              # Indent using 4 spaces.
+    :index     => true,           # Display array indices.
+    :html      => false,          # Use ANSI color codes rather than HTML.
     :sorted_hash_keys => false,   # Do not sort hash keys.
     :color => {
       :array      => :white,
@@ -131,7 +132,7 @@ Supported color names:
 
     $ cat > 6.rb
     require "ap"
-    ap(42 == ap(42))
+    ap 42 == ap(42)
     ^D
     $ ruby 6.rb
     42
@@ -217,24 +218,29 @@ lines into your ~/.irbrc file:
 	end
 
 ### Logger Convenience Method ###
-awesome_print adds an ap method to the Logger and ActiveSupport::BufferedLogger classes,
-allowing you to call:
+awesome_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
+letting you call:
 
     logger.ap object
 
-By default, this logs at the :debug level. You can override that globally with
+By default, this logs at the :debug level. You can override that globally with:
 
     :log_level => :info
 
-in the custom defaults (see below), or you can override on a per call basis with
+in the custom defaults (see below). You can also override on a per call basis with:
 
     logger.ap object, :warn
 
 ### ActionView Convenience Method ###
-awesome_print adds an ap method to the ActionView::Base class making it available
+awesome_print adds the 'ap' method to the ActionView::Base class making it available
 within Rails templates. For example:
 
     <%= ap @accounts.first %>
+
+With other web frameworks (ex: in Sinatra templates) you can explicitly request HTML
+formatting:
+
+    <%= ap @accounts.first, :html => true %>
 
 ### Setting Custom Defaults ###
 You can set your own default options by creating ``.aprc`` file in your home
@@ -278,7 +284,9 @@ For example:
 
 ### License ###
 Copyright (c) 2010-2011 Michael Dvorkin
+
 twitter.com/mid
+
 %w(mike dvorkin.net) * "@" || %w(mike fatfreecrm.com) * "@"
 
 Released under the MIT license. See LICENSE file for details.
