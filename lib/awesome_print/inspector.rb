@@ -6,7 +6,7 @@
 module AwesomePrint
 
   class << self # Class accessors for custom defaults.
-    attr_accessor :defaults
+    attr_accessor :defaults, :force_colors
   end
 
   class Inspector
@@ -64,6 +64,13 @@ module AwesomePrint
           Thread.current[AP].pop
         end
       end
+    end
+
+    # Return true if we are to colorize the output.
+    #------------------------------------------------------------------------------
+    def colorize?
+      @@force_colors ||= false
+      @@force_colors || (STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON']))
     end
 
     private
