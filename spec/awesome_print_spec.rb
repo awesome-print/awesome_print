@@ -467,6 +467,12 @@ EOS
       self.stub!(:puts)
       (ap object).should == object
     end
+
+    # Require different file name this time (lib/ap.rb vs. lib/awesome_print).
+    it "several require 'awesome_print' should do no harm" do
+      require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
+      lambda { rand.ai }.should_not raise_error
+    end
   end
 
   describe "HTML output" do
