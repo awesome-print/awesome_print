@@ -15,7 +15,7 @@ objects and usage within Rails templates are supported via included mixins.
 
 ### Usage ###
 
-    require "ap"
+    require "awesome_print"
     ap object, options = {}
 
 Default options:
@@ -49,7 +49,7 @@ Supported color names:
 
 ### Examples ###
     $ cat > 1.rb
-    require "ap"
+    require "awesome_print"
     data = [ false, 42, %w(forty two), { :now => Time.now, :class => Time.now.class, :distance => 42e42 } ]
     ap data
     ^D
@@ -69,7 +69,7 @@ Supported color names:
     ]
 
     $ cat > 2.rb
-    require "ap"
+    require "awesome_print"
     data = { :now => Time.now, :class => Time.now.class, :distance => 42e42 }
     ap data, :indent => -2  # <-- Left align hash keys.
     ^D
@@ -81,7 +81,7 @@ Supported color names:
     }
 
     $ cat > 3.rb
-    require "ap"
+    require "awesome_print"
     data = [ false, 42, %w(forty two) ]
     data << data  # <-- Nested array.
     ap data, :multiline => false
@@ -90,7 +90,7 @@ Supported color names:
     [ false, 42, [ "forty", "two" ], [...] ]
 
     $ cat > 4.rb
-    require "ap"
+    require "awesome_print"
     class Hello
       def self.world(x, y, z = nil, &blk)
       end
@@ -103,7 +103,7 @@ Supported color names:
     ]
 
     $ cat > 5.rb
-    require "ap"
+    require "awesome_print"
     ap (''.methods - Object.methods).grep(/!/)
     ^D
     $ ruby 5.rb
@@ -131,7 +131,7 @@ Supported color names:
     ]
 
     $ cat > 6.rb
-    require "ap"
+    require "awesome_print"
     ap 42 == ap(42)
     ^D
     $ ruby 6.rb
@@ -139,9 +139,8 @@ Supported color names:
     true
 
 ### Example (Rails console) ###
-    $ ruby script/console
-    Loading development environment (Rails 2.3.5)
-    rails> require "ap"
+    $ rails console
+    rails> require "awesome_print"
     rails> ap Account.all(:limit => 2)
     [
         [0] #<Account:0x1033220b8> {
@@ -201,7 +200,7 @@ To use awesome_print as default formatter in irb and Rails console add the follo
 lines into your ~/.irbrc file:
 
 	require "rubygems"
-	require "ap"
+	require "awesome_print"
 
 	unless IRB.version.include?('DietRB')
 	  IRB::Irb.class_eval do
