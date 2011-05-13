@@ -1,8 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 
 require 'logger'
-require 'ap/core_ext/logger'
+require 'awesome_print/core_ext/logger'
 
 describe "AwesomePrint logging extensions" do
   before(:all) do

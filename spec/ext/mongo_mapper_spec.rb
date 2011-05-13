@@ -1,8 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 begin
   require "mongo_mapper"
-  require "ap/mixin/mongo_mapper"
+  require "awesome_print/ext/mongo_mapper"
 
   describe "AwesomePrint/MongoMapper" do
     before :all do
