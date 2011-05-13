@@ -559,5 +559,16 @@ EOS
       my = My.new
       my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
     end
+
+    it "should handle a class defines its own #method method (ex. request.method)" do
+      class My
+        def method
+          'POST'
+        end
+      end
+
+      my = My.new
+      my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
+    end
   end
 end

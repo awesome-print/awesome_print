@@ -180,13 +180,15 @@ class AwesomePrint
   def methods_array(a)
     object = a.instance_variable_get('@__awesome_methods__')
     tuples = a.map do |name|
-      if object.respond_to?(name, true)           # Regular method?
-        method_tuple(object.method(name))
-      elsif object.respond_to?(:instance_method)  # Unbound method?
+      tuple = if object.respond_to?(name, true)         # Is this a regular method?
+        the_method = object.method(name) rescue nil     # Avoid potential ArgumentError if object#method is overridden.
+        if the_method && the_method.respond_to?(:arity) # Is this original object#method?
+          method_tuple(the_method)                      # Yes, we are good.
+        end
+      elsif object.respond_to?(:instance_method)        # Is this an unbound method?
         method_tuple(object.instance_method(name))
-      else                                        # WTF method.
-        [ name.to_s, '(?)', '' ]
       end
+      tuple || [ name.to_s, '(?)', '' ]                 # Return WTF default if all the above fails.
     end
 
     width = (tuples.size - 1).to_s.size
