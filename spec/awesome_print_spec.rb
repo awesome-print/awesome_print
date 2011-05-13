@@ -454,6 +454,47 @@ EOS
       end
       weird.new.ai(:plain => true).should == ''
     end
+
+    # See https://github.com/michaeldv/awesome_print/issues/35
+    it "handle array grep when pattern contains / chapacter" do
+      hash = { "1/x" => 1,  "2//x" => :"2" }
+      grepped = hash.keys.grep(/^(\d+)\//) { $1 }
+      grepped.ai(:plain => true, :multiline => false).should == '[ "1", "2" ]'
+    end
+
+    it "returns value passed as a parameter" do
+      object = rand
+      self.stub!(:puts)
+      (ap object).should == object
+    end
+
+    # Require different file name this time (lib/ap.rb vs. lib/awesome_print).
+    it "several require 'awesome_print' should do no harm" do
+      require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
+      lambda { rand.ai }.should_not raise_error
+    end
+  end
+
+  describe "HTML output" do
+    it "wraps ap output with plain <pre> tag" do
+      markup = rand
+      markup.ai(:html => true, :plain => true).should == "<pre>#{markup}</pre>"
+    end
+
+    it "wraps ap output with colorized <pre> tag" do
+      markup = rand
+      markup.ai(:html => true).should == %Q|<pre style="color:blue">#{markup}</pre>|
+    end
+
+    it "encodes HTML entities (plain)" do
+      markup = ' &<hello>'
+      markup.ai(:html => true, :plain => true).should == '<pre>&quot; &amp;&lt;hello&gt;&quot;</pre>'
+    end
+
+    it "encodes HTML entities (color)" do
+      markup = ' &<hello>'
+      markup.ai(:html => true).should == '<pre style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</pre>'
+    end
   end
 
   #------------------------------------------------------------------------------
@@ -504,20 +545,32 @@ EOS
     it "inherited from File should be displayed as File" do
       class My < File; end
 
-      my = File.new('/dev/null')
+      my = File.new('/dev/null') rescue File.new('nul')
       my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
     end
 
     it "inherited from Dir should be displayed as Dir" do
       class My < Dir; end
 
-      my = My.new('/tmp')
+      require 'tmpdir'
+      my = My.new(Dir.tmpdir)
       my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
     end
 
     it "should handle a class that defines its own #send method" do
       class My
         def send(arg1, arg2, arg3); end
+      end
+
+      my = My.new
+      my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
+    end
+
+    it "should handle a class defines its own #method method (ex. request.method)" do
+      class My
+        def method
+          'POST'
+        end
       end
 
       my = My.new

@@ -14,12 +14,13 @@
 #
 class Array #:nodoc:
   [ :-, :& ].each do |operator|
-    alias :"original_#{operator.object_id}" :"#{operator}"
+    original_operator = instance_method(operator)
+
     define_method operator do |*args|
-      arr = self.__send__(:"original_#{operator.object_id}", *args)
+      arr = original_operator.bind(self).call(*args)
       if self.instance_variable_defined?('@__awesome_methods__')
         arr.instance_variable_set('@__awesome_methods__', self.instance_variable_get('@__awesome_methods__'))
-        arr.sort!
+        arr.sort! { |a, b| a.to_s <=> b.to_s }  # Need the block since Ruby 1.8.x can't sort arrays of symbols.
       end
       arr
     end
@@ -56,7 +57,10 @@ class Array #:nodoc:
     arr = unless blk
       original_grep(pattern)
     else
-      original_grep(pattern) { |match| eval("%Q/#{match}/ =~ #{pattern.inspect}", blk.binding); yield match }
+      original_grep(pattern) do |match|
+        eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding)
+        yield match
+      end
     end
     if self.instance_variable_defined?('@__awesome_methods__')
       arr.instance_variable_set('@__awesome_methods__', self.instance_variable_get('@__awesome_methods__'))

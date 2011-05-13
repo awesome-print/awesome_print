@@ -11,13 +11,14 @@ class String
   #    1 => bright
   #    0 => normal
 
-  [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
-    if STDOUT.tty? && ENV['TERM'] && ENV['TERM'] != 'dumb'
-      define_method color          do "\033[1;#{30+i}m#{self}\033[0m" end
-      define_method :"#{color}ish" do "\033[0;#{30+i}m#{self}\033[0m" end
-    else
-      define_method color do self end
-      alias_method :"#{color}ish", color 
+  %w(gray red green yellow blue purple cyan white).zip(
+  %w(black darkred darkgreen brown navy darkmagenta darkcyan slategray)).each_with_index do |(color, shade), i|
+    define_method color do |*html|
+      html[0] ? %Q|<pre style="color:#{color}">#{self}</pre>| : "\033[1;#{30+i}m#{self}\033[0m"
+    end
+
+    define_method "#{color}ish" do |*html|
+      html[0] ? %Q|<pre style="color:#{shade}">#{self}</pre>| : "\033[0;#{30+i}m#{self}\033[0m"
     end
   end
 

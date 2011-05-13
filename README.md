@@ -15,15 +15,16 @@ objects and usage within Rails templates are supported via included mixins.
 
 ### Usage ###
 
-    require "ap"
+    require "awesome_print"
     ap object, options = {}
 
 Default options:
 
-    :multiline => true,           # Display in multipe lines.
-    :plain  => false,             # Use colors.
-    :indent => 4,                 # Indent using 4 spaces.
-    :index  => true,              # Display array indices.
+    :multiline => true,           # Display in multiple lines.
+    :plain     => false,          # Use colors.
+    :indent    => 4,              # Indent using 4 spaces.
+    :index     => true,           # Display array indices.
+    :html      => false,          # Use ANSI color codes rather than HTML.
     :sorted_hash_keys => false,   # Do not sort hash keys.
     :color => {
       :array      => :white,
@@ -48,7 +49,7 @@ Supported color names:
 
 ### Examples ###
     $ cat > 1.rb
-    require "ap"
+    require "awesome_print"
     data = [ false, 42, %w(forty two), { :now => Time.now, :class => Time.now.class, :distance => 42e42 } ]
     ap data
     ^D
@@ -68,7 +69,7 @@ Supported color names:
     ]
 
     $ cat > 2.rb
-    require "ap"
+    require "awesome_print"
     data = { :now => Time.now, :class => Time.now.class, :distance => 42e42 }
     ap data, :indent => -2  # <-- Left align hash keys.
     ^D
@@ -80,7 +81,7 @@ Supported color names:
     }
 
     $ cat > 3.rb
-    require "ap"
+    require "awesome_print"
     data = [ false, 42, %w(forty two) ]
     data << data  # <-- Nested array.
     ap data, :multiline => false
@@ -89,7 +90,7 @@ Supported color names:
     [ false, 42, [ "forty", "two" ], [...] ]
 
     $ cat > 4.rb
-    require "ap"
+    require "awesome_print"
     class Hello
       def self.world(x, y, z = nil, &blk)
       end
@@ -102,7 +103,7 @@ Supported color names:
     ]
 
     $ cat > 5.rb
-    require "ap"
+    require "awesome_print"
     ap (''.methods - Object.methods).grep(/!/)
     ^D
     $ ruby 5.rb
@@ -129,10 +130,17 @@ Supported color names:
         [19]     upcase!()           String
     ]
 
+    $ cat > 6.rb
+    require "awesome_print"
+    ap 42 == ap(42)
+    ^D
+    $ ruby 6.rb
+    42
+    true
+
 ### Example (Rails console) ###
-    $ ruby script/console
-    Loading development environment (Rails 2.3.5)
-    rails> require "ap"
+    $ rails console
+    rails> require "awesome_print"
     rails> ap Account.all(:limit => 2)
     [
         [0] #<Account:0x1033220b8> {
@@ -192,7 +200,7 @@ To use awesome_print as default formatter in irb and Rails console add the follo
 lines into your ~/.irbrc file:
 
 	require "rubygems"
-	require "ap"
+	require "awesome_print"
 
 	unless IRB.version.include?('DietRB')
 	  IRB::Irb.class_eval do
@@ -209,24 +217,29 @@ lines into your ~/.irbrc file:
 	end
 
 ### Logger Convenience Method ###
-awesome_print adds an ap method to the Logger and ActiveSupport::BufferedLogger classes,
-allowing you to call:
+awesome_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
+letting you call:
 
     logger.ap object
 
-By default, this logs at the :debug level. You can override that globally with
+By default, this logs at the :debug level. You can override that globally with:
 
     :log_level => :info
 
-in the custom defaults (see below), or you can override on a per call basis with
+in the custom defaults (see below). You can also override on a per call basis with:
 
     logger.ap object, :warn
 
 ### ActionView Convenience Method ###
-awesome_print adds an ap method to the ActionView::Base class making it available
+awesome_print adds the 'ap' method to the ActionView::Base class making it available
 within Rails templates. For example:
 
     <%= ap @accounts.first %>
+
+With other web frameworks (ex: in Sinatra templates) you can explicitly request HTML
+formatting:
+
+    <%= ap @accounts.first, :html => true %>
 
 ### Setting Custom Defaults ###
 You can set your own default options by creating ``.aprc`` file in your home
@@ -244,9 +257,9 @@ For example:
 
 ### Running Specs ###
 
-    $ rake spec                           # Entire spec suite.
-    $ ruby -rubygems spec/logger_spec.rb  # Individual spec file (Ruby 1.8.7 and RSpec 1.3+)
-    $ rspec spec/logger_spec.rb           # Individual spec file (Ruby 1.9.2 and RSpec 2.0+)
+    $ gem install rspec           # RSpec 2.x is the requirement.
+    $ rake spec                   # Run the entire spec suite.
+    $ rspec spec/logger_spec.rb   # Run individual spec file.
 
 ### Note on Patches/Pull Requests ###
 * Fork the project on Github.
@@ -257,16 +270,22 @@ For example:
 
 ### Contributors ###
 
+* Andrew O'Brien -- https://github.com/AndrewO
 * Daniel Bretoi -- http://github.com/danielb2
 * Eloy Duran -- http://github.com/alloy
+* Elpizo Choi -- https://github.com/fuJiin
 * Benoit Daloze -- http://github.com/eregon
 * Sean Gallagher -- http://github.com/torandu
+* Stephan Hagemann -- https://github.com/shageman
 * Tim Harper -- http://github.com/timcharper
 * Tobias Crawley -- http://github.com/tobias
+* Viktar Basharymau -- https://github.com/DNNX
 
 ### License ###
 Copyright (c) 2010-2011 Michael Dvorkin
+
 twitter.com/mid
+
 %w(mike dvorkin.net) * "@" || %w(mike fatfreecrm.com) * "@"
 
 Released under the MIT license. See LICENSE file for details.
