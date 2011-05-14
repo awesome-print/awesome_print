@@ -15,7 +15,7 @@ begin
     end
 
     before :each do
-      @ap = AwesomePrint.new(:plain => true)
+      @ap = AwesomePrint::Inspector.new(:plain => true)
     end
 
     it "should print for a class instance" do

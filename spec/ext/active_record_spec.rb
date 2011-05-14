@@ -43,7 +43,7 @@ begin
         ActiveRecord::Base.default_timezone = :utc
         @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
         @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
-        @ap = AwesomePrint.new(:plain => true)
+        @ap = AwesomePrint::Inspector.new(:plain => true)
       end
 
       it "display single record" do
@@ -101,7 +101,7 @@ EOS
     #------------------------------------------------------------------------------
     describe "ActiveRecord class" do
       it "should print the class" do
-        @ap = AwesomePrint.new(:plain => true)
+        @ap = AwesomePrint::Inspector.new(:plain => true)
         @ap.send(:awesome, User).should == <<-EOS.strip
 class User < ActiveRecord::Base {
             :id => :integer,
@@ -114,7 +114,7 @@ EOS
       end
 
       it "should print the class for non-direct subclasses of AR::Base" do
-        @ap = AwesomePrint.new(:plain => true)
+        @ap = AwesomePrint::Inspector.new(:plain => true)
         @ap.send(:awesome, SubUser).should == <<-EOS.strip
 class SubUser < User {
             :id => :integer,

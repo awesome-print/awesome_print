@@ -7,7 +7,7 @@ begin
   describe "AwesomePrint::ActiveSupport" do
     before do
       stub_dotfile!
-      @ap = AwesomePrint::Inspector.new()
+      @ap = AwesomePrint::Inspector.new
     end
 
     it "should format ActiveSupport::TimeWithZone as regular Time" do
