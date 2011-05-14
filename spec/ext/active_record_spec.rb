@@ -33,13 +33,13 @@ begin
   end
 
   describe "AwesomePrint/ActiveRecord" do
-    before(:each) do
+    before do
       stub_dotfile!
     end
 
     #------------------------------------------------------------------------------
     describe "ActiveRecord instance" do
-      before(:each) do
+      before do
         ActiveRecord::Base.default_timezone = :utc
         @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
         @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")

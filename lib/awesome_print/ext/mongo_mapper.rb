@@ -15,7 +15,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_mongo_mapper(object, type)
       cast = cast_without_mongo_mapper(object, type)
-      if defined?(MongoMapper::Document) && object.is_a?(Class) && (object.ancestors & [ MongoMapper::Document, MongoMapper::EmbeddedDocument ]).size > 0
+      if defined?(::MongoMapper::Document) && object.is_a?(Class) && (object.ancestors & [ ::MongoMapper::Document, ::MongoMapper::EmbeddedDocument ]).size > 0
         cast = :mongo_mapper_class
       end
       cast
@@ -24,9 +24,9 @@ module AwesomePrint
     # Format MongoMapper class object.
     #------------------------------------------------------------------------------
     def awesome_mongo_mapper_class(object)
-      return object.inspect if !defined?(ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
 
-      data = object.keys.sort_by{|k| k}.inject(ActiveSupport::OrderedHash.new) do |hash, c|
+      data = object.keys.sort.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
         hash[c.first] = (c.last.type || "undefined").to_s.underscore.intern
         hash
       end
