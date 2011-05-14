@@ -33,8 +33,6 @@ module AwesomePrint
 
     # Pick the color and apply it to the given string as necessary.
     #------------------------------------------------------------------------------
-    # Pick the color and apply it to the given string as necessary.
-    #------------------------------------------------------------------------------
     def colorize(s, type)
       s = CGI.escapeHTML(s) if @options[:html]
       if @options[:plain] || !@options[:color][type] || !@inspector.colorize?

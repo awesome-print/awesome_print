@@ -16,6 +16,12 @@ module AwesomePrint
 
     def initialize(options = {})
       @options = { 
+        :indent    => 4,      # Indent using 4 spaces.
+        :index     => true,   # Display array indices.
+        :html      => false,  # Use ANSI color codes rather than HTML.
+        :multiline => true,   # Display in multiple lines.
+        :plain     => false,  # Use colors.
+        :sort_keys => false,  # Do not sort hash keys.
         :color => { 
           :array      => :white,
           :bigdecimal => :blue,
@@ -35,12 +41,7 @@ module AwesomePrint
           :args       => :pale,
           :keyword    => :cyan,
           :variable   => :cyanish
-        },
-        :indent    => 4,
-        :index     => true,
-        :multiline => true,
-        :plain     => false,
-        :sort_keys => false
+        }
       }
 
       # Merge custom defaults and let explicit options parameter override them.

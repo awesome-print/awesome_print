@@ -20,12 +20,12 @@ objects and usage within Rails templates are supported via included mixins.
 
 Default options:
 
-    :multiline => true,           # Display in multiple lines.
-    :plain     => false,          # Use colors.
-    :indent    => 4,              # Indent using 4 spaces.
-    :index     => true,           # Display array indices.
-    :html      => false,          # Use ANSI color codes rather than HTML.
-    :sorted_hash_keys => false,   # Do not sort hash keys.
+    :indent    => 4,      # Indent using 4 spaces.
+    :index     => true,   # Display array indices.
+    :html      => false,  # Use ANSI color codes rather than HTML.
+    :multiline => true,   # Display in multiple lines.
+    :plain     => false,  # Use colors.
+    :sort_keys => false,  # Do not sort hash keys.
     :color => {
       :array      => :white,
       :bignum     => :blue,
