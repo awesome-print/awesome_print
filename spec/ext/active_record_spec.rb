@@ -43,26 +43,34 @@ begin
         ActiveRecord::Base.default_timezone = :utc
         @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
         @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
-        @ap = AwesomePrint::Inspector.new(:plain => true)
+        @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
       end
 
       it "display single record" do
         out = @ap.send(:awesome, @diana)
         str = <<-EOS.strip
-#<User:0x01234567> {
-            :id => nil,
-          :name => "Diana",
-          :rank => 1,
-         :admin => false,
-    :created_at => ?
-}
+#<User:0x01234567
+                  @attributes_cache = {},
+                         @destroyed = false,
+            @marked_for_destruction = false,
+                        @new_record = true,
+                @previously_changed = {},
+                          @readonly = false,
+          attr_accessor :attributes = {
+             "admin" => false,
+        "created_at" => "?",
+              "name" => "Diana",
+              "rank" => 1
+    },
+    attr_reader :changed_attributes = {
+             "admin" => nil,
+        "created_at" => nil,
+              "name" => nil,
+              "rank" => nil
+    }
+>
 EOS
-        if RUBY_VERSION.to_f < 1.9
-          str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
-        else
-          str.sub!('?', '1992-10-10 12:30:00 UTC')
-        end
-
+        str.sub!('?', '1992-10-10 12:30:00')
         out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
       end
 
@@ -70,30 +78,50 @@ EOS
         out = @ap.send(:awesome, [ @diana, @laura ])
         str = <<-EOS.strip
 [
-    [0] #<User:0x01234567> {
-                :id => nil,
-              :name => "Diana",
-              :rank => 1,
-             :admin => false,
-        :created_at => ?
-    },
-    [1] #<User:0x01234567> {
-                :id => nil,
-              :name => "Laura",
-              :rank => 2,
-             :admin => true,
-        :created_at => !
-    }
+    [0] #<User:0x01234567
+                      @attributes_cache = {},
+                             @destroyed = false,
+                @marked_for_destruction = false,
+                            @new_record = true,
+                    @previously_changed = {},
+                              @readonly = false,
+              attr_accessor :attributes = {
+                 "admin" => false,
+            "created_at" => "?",
+                  "name" => "Diana",
+                  "rank" => 1
+        },
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        }
+    >,
+    [1] #<User:0x01234567
+                      @attributes_cache = {},
+                             @destroyed = false,
+                @marked_for_destruction = false,
+                            @new_record = true,
+                    @previously_changed = {},
+                              @readonly = false,
+              attr_accessor :attributes = {
+                 "admin" => true,
+            "created_at" => "?",
+                  "name" => "Laura",
+                  "rank" => 2
+        },
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        }
+    >
 ]
 EOS
-        if RUBY_VERSION.to_f < 1.9
-          str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
-          str.sub!('!', 'Mon May 26 14:15:00 UTC 2003')
-        else
-          str.sub!('?', '1992-10-10 12:30:00 UTC')
-          str.sub!('!', '2003-05-26 14:15:00 UTC')
-        end
-
+        str.sub!('?', '1992-10-10 12:30:00')
+        str.sub!('?', '2003-05-26 14:15:00')
         out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
       end
     end

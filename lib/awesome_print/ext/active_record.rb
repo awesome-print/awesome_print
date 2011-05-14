@@ -11,6 +11,8 @@ module AwesomePrint
       base.send :alias_method, :cast, :cast_with_active_record
     end
 
+    # Add ActiveRecord class names to the dispatcher pipeline.
+    #------------------------------------------------------------------------------
     def cast_with_active_record(object, type)
       cast = cast_without_active_record(object, type)
       if defined?(::ActiveRecord) && object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
