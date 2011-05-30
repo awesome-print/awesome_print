@@ -190,6 +190,41 @@ EOS
 ]
 EOS
     end
+
+    it "plain limited output with 10 lines" do
+      @arr.ai(:plain => true, :limit_size => 10).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] 4,
+    [  4] 5,
+    [  5] .. [995],
+    [996] 997,
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+
+    it "plain limited output with 11 lines" do
+      @arr.ai(:plain => true, :limit_size => 11).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] 4,
+    [  4] 5,
+    [  5] .. [994],
+    [995] 996,
+    [996] 997,
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
   end
 
   #------------------------------------------------------------------------------

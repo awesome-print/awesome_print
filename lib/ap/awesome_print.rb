@@ -13,13 +13,14 @@ class AwesomePrint
 
   def initialize(options = {})
     @options = { 
-      :multiline => true,           # Display in multiple lines.
-      :plain     => false,          # Use colors.
-      :indent    => 4,              # Indent using 4 spaces.
-      :index     => true,           # Display array indices.
-      :html      => false,          # Use ANSI color codes rather than HTML.
-      :sorted_hash_keys => false,   # Do not sort hash keys.
-      :limited   => false,          # Limit large output.
+      :multiline  => true,           # Display in multiple lines.
+      :plain      => false,          # Use colors.
+      :indent     => 4,              # Indent using 4 spaces.
+      :index      => true,           # Display array indices.
+      :html       => false,          # Use ANSI color codes rather than HTML.
+      :sorted_hash_keys => false,    # Do not sort hash keys.
+      :limited    => false,          # Limit large output.
+      :limit_size => 7,              # Total number of data lines in limited output.
       :color     => { 
         :array      => :white,
         :bigdecimal => :blue,
@@ -70,7 +71,7 @@ class AwesomePrint
           arr << (index << awesome(item))
         end
       end
-      if @options[:limited]
+      if @options[:limited] or @options[:limit_size] != 7
         data = limited(data, width)
       end
       "[\n" << data.join(",\n") << "\n#{outdent}]"
@@ -353,16 +354,24 @@ class AwesomePrint
     @@defaults = args
   end
 
+  # To support limited output.
   #------------------------------------------------------------------------------
   def limited(arr, width)
-    arr = if arr.length <= 6
+    if arr.length <= 6 or arr.length <= @options[:limit_size]
       arr
     else
-      temp = Array.new(7)
-      difference = arr.length - 6
-      temp[0..2] = arr[0..2]
-      temp[3] = "#{indent}[#{"3".rjust(width)}] .. [#{2 + difference}]"
-      temp[-3, 3] = arr[-3, 3]
+      temp = Array.new(@options[:limit_size])
+      
+      # Calculate how many elements to be displayed above and below the 
+      # separator. 
+      diff = @options[:limit_size] - 1
+      es = (diff / 2).floor
+      ss = (diff % 2 == 0) ? es : es + 1
+
+      # In the temp array, add the proper elements and then return.
+      temp[0, ss] = arr[0, ss]
+      temp[ss] = "#{indent}[#{ss.to_s.rjust(width)}] .. [#{arr.length - es - 1}]"
+      temp[-es, es] = arr[-es, es]
       temp
     end
   end
