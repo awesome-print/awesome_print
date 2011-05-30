@@ -19,6 +19,7 @@ class AwesomePrint
       :index     => true,           # Display array indices.
       :html      => false,          # Use ANSI color codes rather than HTML.
       :sorted_hash_keys => false,   # Do not sort hash keys.
+      :limited   => false,          # Limit large output.
       :color     => { 
         :array      => :white,
         :bigdecimal => :blue,
@@ -68,6 +69,9 @@ class AwesomePrint
         indented do
           arr << (index << awesome(item))
         end
+      end
+      if @options[:limited]
+        data = limited(data)
       end
       "[\n" << data.join(",\n") << "\n#{outdent}]"
     else
@@ -347,6 +351,20 @@ class AwesomePrint
 
   def self.defaults=(args = {})
     @@defaults = args
+  end
+
+  #------------------------------------------------------------------------------
+  def limited(arr)
+    arr = if arr.length <= 6
+      arr
+    else
+      temp = Array.new(7)
+      difference = arr.length - 6
+      temp[0..2] = arr[0..2]
+      temp[3] = "#{indent}[3] .. [#{2 + difference}]"
+      temp[-3, 3] = arr[-3, 3]
+      temp
+    end
   end
 
 end

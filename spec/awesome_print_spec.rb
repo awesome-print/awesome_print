@@ -160,6 +160,27 @@ EOS
   end
 
   #------------------------------------------------------------------------------
+  describe "Large Array" do
+    before(:each) do
+      @arr = (1..1000).to_a
+    end
+
+    it "plain limited output" do
+      @arr.ai(:plain => true, :limited => true).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [3] .. [996],
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe "Hash" do
     before(:each) do
       @hash = { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } }
