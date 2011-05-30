@@ -71,7 +71,7 @@ class AwesomePrint
         end
       end
       if @options[:limited]
-        data = limited(data)
+        data = limited(data, width)
       end
       "[\n" << data.join(",\n") << "\n#{outdent}]"
     else
@@ -354,14 +354,14 @@ class AwesomePrint
   end
 
   #------------------------------------------------------------------------------
-  def limited(arr)
+  def limited(arr, width)
     arr = if arr.length <= 6
       arr
     else
       temp = Array.new(7)
       difference = arr.length - 6
       temp[0..2] = arr[0..2]
-      temp[3] = "#{indent}[3] .. [#{2 + difference}]"
+      temp[3] = "#{indent}[#{"3".rjust(width)}] .. [#{2 + difference}]"
       temp[-3, 3] = arr[-3, 3]
       temp
     end

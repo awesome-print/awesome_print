@@ -160,21 +160,33 @@ EOS
   end
 
   #------------------------------------------------------------------------------
-  describe "Large Array" do
+  describe "Limited Output Array" do
     before(:each) do
       @arr = (1..1000).to_a
     end
 
-    it "plain limited output" do
+    it "plain limited output large" do
       @arr.ai(:plain => true, :limited => true).should == <<-EOS.strip
 [
     [  0] 1,
     [  1] 2,
     [  2] 3,
-    [3] .. [996],
+    [  3] .. [996],
     [997] 998,
     [998] 999,
     [999] 1000
+]
+EOS
+    end
+
+    it "plain limited output small" do
+      @arr = @arr[0..3]
+      @arr.ai(:plain => true, :limited => true).should == <<-EOS.strip
+[
+    [0] 1,
+    [1] 2,
+    [2] 3,
+    [3] 4
 ]
 EOS
     end
