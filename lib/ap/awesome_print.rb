@@ -71,9 +71,8 @@ class AwesomePrint
           arr << (index << awesome(item))
         end
       end
-      if @options[:limited] or @options[:limit_size] != 7
-        data = limited(data, width)
-      end
+      
+      data = limited(data, width) if should_be_limited?
       "[\n" << data.join(",\n") << "\n#{outdent}]"
     else
       "[ " << a.map{ |item| awesome(item) }.join(", ") << " ]"
@@ -105,6 +104,8 @@ class AwesomePrint
         formatted_key << colorize(" => ", :hash) << awesome(value)
       end
     end
+
+    data = limited(data, width, true) if should_be_limited?
     if @options[:multiline]
       "{\n" << data.join(",\n") << "\n#{outdent}}"
     else
@@ -356,22 +357,31 @@ class AwesomePrint
 
   # To support limited output.
   #------------------------------------------------------------------------------
-  def limited(arr, width)
-    if arr.length <= 6 or arr.length <= @options[:limit_size]
-      arr
+  def should_be_limited?
+    @options[:limited] || @options[:limit_size] != 7
+  end
+
+  def limited(data, width, is_hash = false)
+    if data.length <= 6 or data.length <= @options[:limit_size]
+      data
     else
-      temp = Array.new(@options[:limit_size])
-      
       # Calculate how many elements to be displayed above and below the 
       # separator. 
       diff = @options[:limit_size] - 1
       es = (diff / 2).floor
       ss = (diff % 2 == 0) ? es : es + 1
 
-      # In the temp array, add the proper elements and then return.
-      temp[0, ss] = arr[0, ss]
-      temp[ss] = "#{indent}[#{ss.to_s.rjust(width)}] .. [#{arr.length - es - 1}]"
-      temp[-es, es] = arr[-es, es]
+      # In the temp dataay, add the proper elements and then return.
+      temp = Array.new(@options[:limit_size])
+      temp[0, ss]   = data[0, ss]
+      temp[-es, es] = data[-es, es]
+
+      if is_hash
+        temp[ss] = "#{indent}#{data[ss].strip} .. #{data[data.length - es - 1].strip}"
+      else
+        temp[ss] = "#{indent}[#{ss.to_s.rjust(width)}] .. [#{data.length - es - 1}]"
+      end
+
       temp
     end
   end

@@ -228,6 +228,27 @@ EOS
   end
 
   #------------------------------------------------------------------------------
+  describe "Limited Output Hash" do
+    before(:each) do
+      @hash = ("a".."z").inject({}) { |h, v| h.merge({ v => v.to_sym }) }
+    end
+
+    it "plain limited output" do
+      @hash.ai(:plain => true, :limited => true).should == <<-EOS.strip
+{
+    "a" => :a,
+    "b" => :b,
+    "c" => :c,
+    "d" => :d .. "w" => :w,
+    "x" => :x,
+    "y" => :y,
+    "z" => :z
+}
+EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe "Hash" do
     before(:each) do
       @hash = { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } }
