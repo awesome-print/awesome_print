@@ -69,6 +69,8 @@ module AwesomePrint
             arr << (index << @inspector.awesome(item))
           end
         end
+
+        data = limited(data, width) if should_be_limited?
         "[\n" << data.join(",\n") << "\n#{outdent}]"
       else
         "[ " << a.map{ |item| @inspector.awesome(item) }.join(", ") << " ]"
@@ -95,6 +97,8 @@ module AwesomePrint
           align(key, width) << colorize(" => ", :hash) << @inspector.awesome(value)
         end
       end
+
+      data = limited(data, width, true) if should_be_limited?
       if @options[:multiline]
         "{\n" << data.join(",\n") << "\n#{outdent}}"
       else
@@ -290,5 +294,37 @@ module AwesomePrint
     def outdent
       ' ' * (@indentation - @options[:indent].abs)
     end
+
+    # To support limited output.
+    #------------------------------------------------------------------------------
+    def should_be_limited?
+      @options[:limited] || @options[:limit_size] != 7
+    end
+
+    def limited(data, width, is_hash = false)
+      if data.length <= 6 or data.length <= @options[:limit_size]
+        data
+      else
+        # Calculate how many elements to be displayed above and below the
+        # separator.
+        diff = @options[:limit_size] - 1
+        es = (diff / 2).floor
+        ss = (diff % 2 == 0) ? es : es + 1
+
+        # In the temp data array, add the proper elements and then return.
+        temp = Array.new(@options[:limit_size])
+        temp[0, ss]   = data[0, ss]
+        temp[-es, es] = data[-es, es]
+
+        if is_hash
+          temp[ss] = "#{indent}#{data[ss].strip} .. #{data[data.length - es - 1].strip}"
+        else
+          temp[ss] = "#{indent}[#{ss.to_s.rjust(width)}] .. [#{data.length - es - 1}]"
+        end
+
+        temp
+      end
+    end
+
   end
 end

@@ -16,12 +16,14 @@ module AwesomePrint
 
     def initialize(options = {})
       @options = { 
-        :indent    => 4,      # Indent using 4 spaces.
-        :index     => true,   # Display array indices.
-        :html      => false,  # Use ANSI color codes rather than HTML.
-        :multiline => true,   # Display in multiple lines.
-        :plain     => false,  # Use colors.
-        :sort_keys => false,  # Do not sort hash keys.
+        :indent     => 4,      # Indent using 4 spaces.
+        :index      => true,   # Display array indices.
+        :html       => false,  # Use ANSI color codes rather than HTML.
+        :multiline  => true,   # Display in multiple lines.
+        :plain      => false,  # Use colors.
+        :sort_keys  => false,  # Do not sort hash keys.
+        :limited    => true,   # Limit large output.
+        :limit_size => 7,      # Total number of data lines in limited output.
         :color => { 
           :array      => :white,
           :bigdecimal => :blue,
