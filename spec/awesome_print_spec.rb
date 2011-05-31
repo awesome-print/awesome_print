@@ -166,7 +166,7 @@ EOS
     end
 
     it "plain limited output large" do
-      @arr.ai(:plain => true, :limited => true).should == <<-EOS.strip
+      @arr.ai(:plain => true, :limit => true).should == <<-EOS.strip
 [
     [  0] 1,
     [  1] 2,
@@ -181,7 +181,7 @@ EOS
 
     it "plain limited output small" do
       @arr = @arr[0..3]
-      @arr.ai(:plain => true, :limited => true).should == <<-EOS.strip
+      @arr.ai(:plain => true, :limit => true).should == <<-EOS.strip
 [
     [0] 1,
     [1] 2,
@@ -192,7 +192,7 @@ EOS
     end
 
     it "plain limited output with 10 lines" do
-      @arr.ai(:plain => true, :limit_size => 10).should == <<-EOS.strip
+      @arr.ai(:plain => true, :limit => 10).should == <<-EOS.strip
 [
     [  0] 1,
     [  1] 2,
@@ -209,7 +209,7 @@ EOS
     end
 
     it "plain limited output with 11 lines" do
-      @arr.ai(:plain => true, :limit_size => 11).should == <<-EOS.strip
+      @arr.ai(:plain => true, :limit => 11).should == <<-EOS.strip
 [
     [  0] 1,
     [  1] 2,
@@ -234,7 +234,7 @@ EOS
     end
 
     it "plain limited output" do
-      @hash.ai(:sort_keys => true, :plain => true, :limited => true).should == <<-EOS.strip
+      @hash.ai(:sort_keys => true, :plain => true, :limit => true).should == <<-EOS.strip
 {
     "a" => :a,
     "b" => :b,

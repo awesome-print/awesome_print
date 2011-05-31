@@ -298,11 +298,11 @@ module AwesomePrint
     # To support limited output.
     #------------------------------------------------------------------------------
     def should_be_limited?
-      @options[:limit] or (@options[:limit].class == Fixnum and @options[:limit] > 0)
+      @options[:limit] or (@options[:limit].is_a? Fixnum and @options[:limit] > 0)
     end
 
     def get_limit_size
-      return @options[:limit] if @options[:limit].class == Fixnum
+      return @options[:limit] if @options[:limit].is_a? Fixnum
       return AwesomePrint::Inspector::DEFAULT_LIMIT_SIZE
     end
 
