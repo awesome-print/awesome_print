@@ -298,21 +298,26 @@ module AwesomePrint
     # To support limited output.
     #------------------------------------------------------------------------------
     def should_be_limited?
-      @options[:limited] || @options[:limit_size] != 7
+      @options[:limited] or (@options[:limited].class == Fixnum and @options[:limited] > 0)
+    end
+
+    def get_limit_size
+      return @options[:limited] if @options[:limited].class == Fixnum
+      return AwesomePrint::Inspector::DEFAULT_LIMIT_SIZE
     end
 
     def limited(data, width, is_hash = false)
-      if data.length <= 6 or data.length <= @options[:limit_size]
+      if data.length <= get_limit_size
         data
       else
         # Calculate how many elements to be displayed above and below the
         # separator.
-        diff = @options[:limit_size] - 1
+        diff = get_limit_size - 1
         es = (diff / 2).floor
         ss = (diff % 2 == 0) ? es : es + 1
 
         # In the temp data array, add the proper elements and then return.
-        temp = Array.new(@options[:limit_size])
+        temp = Array.new(get_limit_size)
         temp[0, ss]   = data[0, ss]
         temp[-es, es] = data[-es, es]
 

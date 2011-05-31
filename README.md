@@ -26,8 +26,7 @@ Default options:
     :multiline  => true,   # Display in multiple lines.
     :plain      => false,  # Use colors.
     :sort_keys  => false,  # Do not sort hash keys.
-    :limited    => false,  # Limit large output.
-    :limit_size => 7,      # Total number of data lines in limited output.
+    :limited    => false,  # Limit large output. Set to a boolean or integer.
     :color => {
       :array      => :white,
       :bignum     => :blue,
@@ -158,7 +157,7 @@ Supported color names:
     $ cat 8.rb
     require "awesome_print"
     some_array = (1..1000).to_a
-    ap some_array, :limit_size => 5
+    ap some_array, :limited => 5
     ^D
     $ ruby 8.rb
     [

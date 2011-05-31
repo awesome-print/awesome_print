@@ -13,6 +13,7 @@ module AwesomePrint
     attr_accessor :options
 
     AP = :__awesome_print__
+    DEFAULT_LIMIT_SIZE = 7
 
     def initialize(options = {})
       @options = { 
@@ -22,8 +23,7 @@ module AwesomePrint
         :multiline  => true,   # Display in multiple lines.
         :plain      => false,  # Use colors.
         :sort_keys  => false,  # Do not sort hash keys.
-        :limited    => false,  # Limit large output.
-        :limit_size => 7,      # Total number of data lines in limited output.
+        :limited    => false,  # Limit large output. Set to a boolean or integer.
         :color => { 
           :array      => :white,
           :bigdecimal => :blue,
