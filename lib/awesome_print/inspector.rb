@@ -22,7 +22,7 @@ module AwesomePrint
         :multiline  => true,   # Display in multiple lines.
         :plain      => false,  # Use colors.
         :sort_keys  => false,  # Do not sort hash keys.
-        :limited    => true,   # Limit large output.
+        :limited    => false,  # Limit large output.
         :limit_size => 7,      # Total number of data lines in limited output.
         :color => { 
           :array      => :white,
