@@ -160,6 +160,95 @@ EOS
   end
 
   #------------------------------------------------------------------------------
+  describe "Limited Output Array" do
+    before(:each) do
+      @arr = (1..1000).to_a
+    end
+
+    it "plain limited output large" do
+      @arr.ai(:plain => true, :limited => true).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] .. [996],
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+
+    it "plain limited output small" do
+      @arr = @arr[0..3]
+      @arr.ai(:plain => true, :limited => true).should == <<-EOS.strip
+[
+    [0] 1,
+    [1] 2,
+    [2] 3,
+    [3] 4
+]
+EOS
+    end
+
+    it "plain limited output with 10 lines" do
+      @arr.ai(:plain => true, :limit_size => 10).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] 4,
+    [  4] 5,
+    [  5] .. [995],
+    [996] 997,
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+
+    it "plain limited output with 11 lines" do
+      @arr.ai(:plain => true, :limit_size => 11).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] 4,
+    [  4] 5,
+    [  5] .. [994],
+    [995] 996,
+    [996] 997,
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
+  describe "Limited Output Hash" do
+    before(:each) do
+      @hash = ("a".."z").inject({}) { |h, v| h.merge({ v => v.to_sym }) }
+    end
+
+    it "plain limited output" do
+      @hash.ai(:sorted_hash_keys => true, :plain => true, :limited => true).should == <<-EOS.strip
+{
+    "a" => :a,
+    "b" => :b,
+    "c" => :c,
+    "d" => :d .. "w" => :w,
+    "x" => :x,
+    "y" => :y,
+    "z" => :z
+}
+EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
   describe "Hash" do
     before do
       @hash = { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } }
