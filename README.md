@@ -26,7 +26,7 @@ Default options:
     :multiline  => true,   # Display in multiple lines.
     :plain      => false,  # Use colors.
     :sort_keys  => false,  # Do not sort hash keys.
-    :limited    => false,  # Limit large output. Set to a boolean or integer.
+    :limit      => false,  # Limit large output. Set to a boolean or integer.
     :color => {
       :array      => :white,
       :bignum     => :blue,
@@ -141,7 +141,7 @@ Supported color names:
     $ cat 7.rb
     require "awesome_print"
     some_array = (1..1000).to_a
-    ap some_array, :limited => true
+    ap some_array, :limit => true
     ^D
     $ ruby 7.rb
     [
@@ -157,7 +157,7 @@ Supported color names:
     $ cat 8.rb
     require "awesome_print"
     some_array = (1..1000).to_a
-    ap some_array, :limited => 5
+    ap some_array, :limit => 5
     ^D
     $ ruby 8.rb
     [
