@@ -234,7 +234,7 @@ EOS
     end
 
     it "plain limited output" do
-      @hash.ai(:sorted_hash_keys => true, :plain => true, :limited => true).should == <<-EOS.strip
+      @hash.ai(:sort_keys => true, :plain => true, :limited => true).should == <<-EOS.strip
 {
     "a" => :a,
     "b" => :b,
