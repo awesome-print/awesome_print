@@ -1,8 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 
 require 'logger'
-require 'ap/core_ext/logger'
+require 'awesome_print/core_ext/logger'
 
 describe "AwesomePrint logging extensions" do
   before(:all) do
@@ -17,8 +17,8 @@ describe "AwesomePrint logging extensions" do
     end
     
     describe "the log level" do
-      before(:each) do
-        AwesomePrint.defaults = { }
+      before do
+        AwesomePrint.defaults = {}
       end
       
       it "should fallback to the default :debug log level" do

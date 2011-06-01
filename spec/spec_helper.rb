@@ -19,7 +19,7 @@ end
 
 # The following is needed for the Infinity Test. It runs tests as subprocesses,
 # which sets STDOUT.tty? to false and would otherwise prematurely disallow colors.
-AwesomePrint.force_colors!
+### AwesomePrint.force_colors!
 
 # Ruby 1.8.6 only: define missing String methods that are needed for the specs to pass.
 if RUBY_VERSION < '1.8.7'

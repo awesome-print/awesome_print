@@ -3,12 +3,12 @@ require "bigdecimal"
 require "rational"
 
 describe "AwesomePrint" do
-  before(:each) do
+  before do
     stub_dotfile!
   end
 
   describe "Array" do
-    before(:each) do
+    before do
       @arr = [ 1, :two, "three", [ nil, [ true, false] ] ]
     end
 
@@ -91,14 +91,14 @@ EOS
     it "colored multiline (default)" do
       @arr.ai.should == <<-EOS.strip
 [
-\e[1;37m    [0] \e[0m\e[1;34m1\e[0m,
-\e[1;37m    [1] \e[0m\e[0;36m:two\e[0m,
-\e[1;37m    [2] \e[0m\e[0;33m\"three\"\e[0m,
-\e[1;37m    [3] \e[0m[
-\e[1;37m        [0] \e[0m\e[1;31mnil\e[0m,
-\e[1;37m        [1] \e[0m[
-\e[1;37m            [0] \e[0m\e[1;32mtrue\e[0m,
-\e[1;37m            [1] \e[0m\e[1;31mfalse\e[0m
+    \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
+    \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
+    \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+    \e[1;37m[3] \e[0m[
+        \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
+        \e[1;37m[1] \e[0m[
+            \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
+            \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
         ]
     ]
 ]
@@ -108,14 +108,14 @@ EOS
     it "colored multiline indented" do
       @arr.ai(:indent => 8).should == <<-EOS.strip
 [
-\e[1;37m        [0] \e[0m\e[1;34m1\e[0m,
-\e[1;37m        [1] \e[0m\e[0;36m:two\e[0m,
-\e[1;37m        [2] \e[0m\e[0;33m\"three\"\e[0m,
-\e[1;37m        [3] \e[0m[
-\e[1;37m                [0] \e[0m\e[1;31mnil\e[0m,
-\e[1;37m                [1] \e[0m[
-\e[1;37m                        [0] \e[0m\e[1;32mtrue\e[0m,
-\e[1;37m                        [1] \e[0m\e[1;31mfalse\e[0m
+        \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
+        \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
+        \e[1;37m[2] \e[0m\e[0;33m\"three\"\e[0m,
+        \e[1;37m[3] \e[0m[
+                \e[1;37m[0] \e[0m\e[1;31mnil\e[0m,
+                \e[1;37m[1] \e[0m[
+                        \e[1;37m[0] \e[0m\e[1;32mtrue\e[0m,
+                        \e[1;37m[1] \e[0m\e[1;31mfalse\e[0m
                 ]
         ]
 ]
@@ -129,7 +129,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Nested Array" do
-    before(:each) do
+    before do
       @arr = [ 1, 2 ]
       @arr << @arr
     end
@@ -160,8 +160,97 @@ EOS
   end
 
   #------------------------------------------------------------------------------
-  describe "Hash" do
+  describe "Limited Output Array" do
     before(:each) do
+      @arr = (1..1000).to_a
+    end
+
+    it "plain limited output large" do
+      @arr.ai(:plain => true, :limit => true).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] .. [996],
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+
+    it "plain limited output small" do
+      @arr = @arr[0..3]
+      @arr.ai(:plain => true, :limit => true).should == <<-EOS.strip
+[
+    [0] 1,
+    [1] 2,
+    [2] 3,
+    [3] 4
+]
+EOS
+    end
+
+    it "plain limited output with 10 lines" do
+      @arr.ai(:plain => true, :limit => 10).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] 4,
+    [  4] 5,
+    [  5] .. [995],
+    [996] 997,
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+
+    it "plain limited output with 11 lines" do
+      @arr.ai(:plain => true, :limit => 11).should == <<-EOS.strip
+[
+    [  0] 1,
+    [  1] 2,
+    [  2] 3,
+    [  3] 4,
+    [  4] 5,
+    [  5] .. [994],
+    [995] 996,
+    [996] 997,
+    [997] 998,
+    [998] 999,
+    [999] 1000
+]
+EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
+  describe "Limited Output Hash" do
+    before(:each) do
+      @hash = ("a".."z").inject({}) { |h, v| h.merge({ v => v.to_sym }) }
+    end
+
+    it "plain limited output" do
+      @hash.ai(:sort_keys => true, :plain => true, :limit => true).should == <<-EOS.strip
+{
+    "a" => :a,
+    "b" => :b,
+    "c" => :c,
+    "d" => :d .. "w" => :w,
+    "x" => :x,
+    "y" => :y,
+    "z" => :z
+}
+EOS
+    end
+  end
+
+  #------------------------------------------------------------------------------
+  describe "Hash" do
+    before do
       @hash = { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } }
     end
     
@@ -245,7 +334,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Nested Hash" do
-    before(:each) do
+    before do
       @hash = {}
       @hash[:a] = @hash
     end
@@ -265,7 +354,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Hash with several keys" do
-    before(:each) do
+    before do
       @hash = {"b" => "b", :a => "a", :z => "z", "alpha" => "alpha"}
     end
 
@@ -290,7 +379,7 @@ EOS
     end
     
     it "plain multiline with sorted keys" do
-      @hash.ai(:plain => true, :sorted_hash_keys => true).should == <<-EOS.strip
+      @hash.ai(:plain => true, :sort_keys => true).should == <<-EOS.strip
 {
          :a => "a",
     "alpha" => "alpha",
@@ -304,7 +393,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Negative options[:indent]" do
-    before(:each) do
+    before do
       @hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
     end
 
@@ -363,7 +452,7 @@ EOS
   #------------------------------------------------------------------------------
   describe "Utility methods" do
     it "should merge options" do
-      ap = AwesomePrint.new
+      ap = AwesomePrint::Inspector.new
       ap.send(:merge_options!, { :color => { :array => :black }, :indent => 0 })
       options = ap.instance_variable_get("@options")
       options[:color][:array].should == :black
@@ -374,7 +463,7 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Struct" do
-    before(:each) do
+    before do
       @struct = unless defined?(Struct::SimpleStruct)
         Struct.new("SimpleStruct", :name, :address).new
       else

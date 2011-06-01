@@ -1,11 +1,11 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 begin
   require 'action_view'
-  require 'ap/mixin/action_view'
+  require 'awesome_print/ext/action_view'
 
-  describe "AwesomePrint ActionView extension" do
-    before(:each) do
+  describe "AwesomePrint ActionView extensions" do
+    before do
       @view = ActionView::Base.new
     end
     
