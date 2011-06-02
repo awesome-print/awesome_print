@@ -10,6 +10,7 @@ module AwesomePrint
   class Formatter
 
     CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ]
+    DEFAULT_LIMIT_SIZE = 7
 
     def initialize(inspector)
       @inspector   = inspector
@@ -98,7 +99,7 @@ module AwesomePrint
         end
       end
 
-      data = limited(data, width, true) if should_be_limited?
+      data = limited(data, width, :hash => true) if should_be_limited?
       if @options[:multiline]
         "{\n" << data.join(",\n") << "\n#{outdent}}"
       else
@@ -298,33 +299,29 @@ module AwesomePrint
     # To support limited output.
     #------------------------------------------------------------------------------
     def should_be_limited?
-      @options[:limit] or (@options[:limit].is_a? Fixnum and @options[:limit] > 0)
+      @options[:limit] == true or (@options[:limit].is_a?(Fixnum) and @options[:limit] > 0)
     end
 
     def get_limit_size
-      return @options[:limit] if @options[:limit].is_a? Fixnum
-      return AwesomePrint::Inspector::DEFAULT_LIMIT_SIZE
+      @options[:limit] == true ? DEFAULT_LIMIT_SIZE : @options[:limit]
     end
 
     def limited(data, width, is_hash = false)
-      if data.length <= get_limit_size
+      limit = get_limit_size
+      if data.length <= limit
         data
       else
-        # Calculate how many elements to be displayed above and below the
-        # separator.
-        diff = get_limit_size - 1
-        es = (diff / 2).floor
-        ss = (diff % 2 == 0) ? es : es + 1
+        # Calculate how many elements to be displayed above and below the separator.
+        head = limit / 2
+        tail = head - (limit - 1) % 2
 
-        # In the temp data array, add the proper elements and then return.
-        temp = Array.new(get_limit_size)
-        temp[0, ss]   = data[0, ss]
-        temp[-es, es] = data[-es, es]
+        # Add the proper elements to the temp array and format the separator.
+        temp = data[0, head] + [ nil ] + data[-tail, tail]
 
         if is_hash
-          temp[ss] = "#{indent}#{data[ss].strip} .. #{data[data.length - es - 1].strip}"
+          temp[head] = "#{indent}#{data[head].strip} .. #{data[data.length - tail - 1].strip}"
         else
-          temp[ss] = "#{indent}[#{ss.to_s.rjust(width)}] .. [#{data.length - es - 1}]"
+          temp[head] = "#{indent}[#{head.to_s.rjust(width)}] .. [#{data.length - tail - 1}]"
         end
 
         temp

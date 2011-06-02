@@ -13,7 +13,6 @@ module AwesomePrint
     attr_accessor :options
 
     AP = :__awesome_print__
-    DEFAULT_LIMIT_SIZE = 7
 
     def initialize(options = {})
       @options = { 
