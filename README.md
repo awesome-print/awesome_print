@@ -26,7 +26,7 @@ Default options:
     :multiline  => true,   # Display in multiple lines.
     :plain      => false,  # Use colors.
     :sort_keys  => false,  # Do not sort hash keys.
-    :limit      => false,  # Limit large output. Set to a boolean or integer.
+    :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
     :color => {
       :array      => :white,
       :bignum     => :blue,
@@ -301,6 +301,7 @@ For example:
 ### Contributors ###
 
 * Andrew O'Brien -- https://github.com/AndrewO
+* Andrew Horsman -- https://github.com/basicxman
 * Daniel Bretoi -- http://github.com/danielb2
 * Eloy Duran -- http://github.com/alloy
 * Elpizo Choi -- https://github.com/fuJiin
