@@ -117,6 +117,7 @@ module AwesomePrint
       @options[:color].merge!(options.delete(:color) || {})
       @options.merge!(options)
     end
+    alias_method :merge_options_without_themes!, :merge_options!
 
     # Load ~/.aprc file with custom defaults that override default options.
     #------------------------------------------------------------------------------
