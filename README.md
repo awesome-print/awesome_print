@@ -20,12 +20,13 @@ objects and usage within Rails templates are supported via included mixins.
 
 Default options:
 
-    :multiline => true,           # Display in multiple lines.
-    :plain     => false,          # Use colors.
-    :indent    => 4,              # Indent using 4 spaces.
-    :index     => true,           # Display array indices.
-    :html      => false,          # Use ANSI color codes rather than HTML.
-    :sorted_hash_keys => false,   # Do not sort hash keys.
+    :indent     => 4,      # Indent using 4 spaces.
+    :index      => true,   # Display array indices.
+    :html       => false,  # Use ANSI color codes rather than HTML.
+    :multiline  => true,   # Display in multiple lines.
+    :plain      => false,  # Use colors.
+    :sort_keys  => false,  # Do not sort hash keys.
+    :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
     :color => {
       :array      => :white,
       :bignum     => :blue,
@@ -137,6 +138,35 @@ Supported color names:
     $ ruby 6.rb
     42
     true
+    $ cat 7.rb
+    require "awesome_print"
+    some_array = (1..1000).to_a
+    ap some_array, :limit => true
+    ^D
+    $ ruby 7.rb
+    [
+        [  0] 1,
+        [  1] 2,
+        [  2] 3,
+        [  3] .. [996],
+        [997] 998,
+        [998] 999,
+        [999] 1000
+    ]
+
+    $ cat 8.rb
+    require "awesome_print"
+    some_array = (1..1000).to_a
+    ap some_array, :limit => 5
+    ^D
+    $ ruby 8.rb
+    [
+        [  0] 1,
+        [  1] 2,
+        [  2] .. [997],
+        [998] 999,
+        [999] 1000
+    ]
 
 ### Example (Rails console) ###
     $ rails console
@@ -271,6 +301,7 @@ For example:
 ### Contributors ###
 
 * Andrew O'Brien -- https://github.com/AndrewO
+* Andrew Horsman -- https://github.com/basicxman
 * Daniel Bretoi -- http://github.com/danielb2
 * Eloy Duran -- http://github.com/alloy
 * Elpizo Choi -- https://github.com/fuJiin
