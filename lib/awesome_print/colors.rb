@@ -11,7 +11,7 @@ module AwesomePrint
     end
 
     def self.hex(c)
-      if c.length != 6 and c.length != 7
+      if (c =~ /^#?[0-9A-Fa-f]{6}$/).nil?
         c
       else
         c = "#" + c if c.length == 6
@@ -34,6 +34,7 @@ module AwesomePrint
     end
 
     def self.lookup_by_num(n)
+      n = 255 if n < 16 or n > 255
       colors[n - 16][2]
     end
     
