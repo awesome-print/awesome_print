@@ -48,6 +48,21 @@ Supported color names:
     :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white
     :black, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :pale
 
+Extended Colors:
+
+If your terminal emulator supports extended 8-bit colors you can use these quite easily.
+
+    ap "Test", :color => { :string => 17 }        # Raw ANSI color number.
+    ap "Test", :color => { :string => "#00005F" } # HTML-style hex code.
+    ap "Test", :color => { :string => "00005F" }  # HTML-style hex code.
+    ap "Test", :color => { :string => "00005f" }  # HTML-style hex code.
+    ap "Test", :color => { :string => [0,0,95] }  # RGB values.
+
+If the HTML option is given extended color values will be converted and used in a style.
+
+    ap "Test", :color => { :string => 17 }, :html => true
+    #=> <pre style="color:#00005F">&quot;Test&quot;</pre>
+
 ### Examples ###
     $ cat > 1.rb
     require "awesome_print"
