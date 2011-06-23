@@ -15,6 +15,7 @@ begin
     end
 
     before :each do
+      stub_dotfile!
       @ap = AwesomePrint.new(:plain => true)
     end
 
