@@ -19,8 +19,13 @@ class AwesomePrint
       :index     => true,           # Display array indices.
       :html      => false,          # Use ANSI color codes rather than HTML.
       :sorted_hash_keys => false,   # Do not sort hash keys.
+      :mongo_mapper => {
+        :show_associations => false, # Display association data for MongoMapper documents and classes
+        :inline_embedded => false    # Display embedded associations inline with MongoMapper documents
+      },
       :color     => { 
         :array      => :white,
+        :assoc      => :greenish,
         :bigdecimal => :blue,
         :class      => :yellow,
         :date       => :greenish,
@@ -307,9 +312,10 @@ class AwesomePrint
     @outdent = ' ' * (@indentation - @options[:indent].abs)
   end
 
-  # Update @options by first merging the :color hash and then the remaining keys.
+  # Update @options by first merging the :mongo_mapper and :color hash and then the remaining keys.
   #------------------------------------------------------------------------------
   def merge_options!(options = {})
+    @options[:mongo_mapper].merge!(options.delete(:mongo_mapper) || {})
     @options[:color].merge!(options.delete(:color) || {})
     @options.merge!(options)
   end
