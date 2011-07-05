@@ -19,6 +19,8 @@ module AwesomePrintMongoMapper
     if printable == :self
       if object.is_a?(MongoMapper::Document) || object.is_a?(MongoMapper::EmbeddedDocument)
         printable = :mongo_mapper_instance
+      elsif object.is_a?(MongoMapper::Plugins::Associations::Base)
+        printable = :mongo_mapper_association
       end
     elsif printable == :class && (object.ancestors & [MongoMapper::Document, MongoMapper::EmbeddedDocument]).size > 0
       printable = :mongo_mapper_class
@@ -35,7 +37,34 @@ module AwesomePrintMongoMapper
       hash[name] = object[name]
       hash
     end
-    "#{object} " + awesome_hash(data)
+
+    # Add in associations
+    if @options[:mongo_mapper][:show_associations]
+      object.associations.each do |name, assoc|
+        if @options[:mongo_mapper][:inline_embedded] and assoc.embeddable?
+          data[name.to_s] = object.send(name)
+        else
+          data[name.to_s] = assoc
+        end
+      end
+    end
+
+    label = object.to_s
+    label = "#{colorize('embedded', :assoc)} #{label}" if object.is_a?(MongoMapper::EmbeddedDocument)
+
+    "#{label} #{awesome_hash(data)}"
+  end
+
+  # Format MongoMapper association object.
+  #------------------------------------------------------------------------------
+  def awesome_mongo_mapper_association(object)
+    return object.inspect if !defined?(ActiveSupport::OrderedHash)
+
+    association = object.class.name.split('::').last.titleize.downcase.sub(/ association$/,'')
+    association = "embeds #{association}" if object.embeddable?
+    class_name = object.class_name
+
+    "#{colorize(association, :assoc)} #{colorize(class_name, :class)}"
   end
 
   # Format MongoMapper class object.
@@ -47,6 +76,14 @@ module AwesomePrintMongoMapper
       hash[c.first] = (c.last.type || "undefined").to_s.underscore.intern
       hash
     end
+
+    # Add in associations
+    if @options[:mongo_mapper][:show_associations]
+      object.associations.each do |name, assoc|
+        data[name.to_s] = assoc
+      end
+    end
+
     "class #{object} < #{object.superclass} " << awesome_hash(data)
   end
 end

@@ -26,8 +26,13 @@ Default options:
     :index     => true,           # Display array indices.
     :html      => false,          # Use ANSI color codes rather than HTML.
     :sorted_hash_keys => false,   # Do not sort hash keys.
+    :mongo_mapper => {
+      :show_associations => false, # Display association data for MongoMapper documents and classes
+      :inline_embedded => false    # Display embedded associations inline with MongoMapper documents
+    },
     :color => {
       :array      => :white,
+      :assoc      => :greenish,
       :bignum     => :blue,
       :class      => :yellow,
       :date       => :greenish,

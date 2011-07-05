@@ -118,6 +118,10 @@ describe "Object methods" do
   end
 
   describe "object.protected_methods" do
+    before do
+      stub_dotfile!
+    end
+
     it "index: should handle object.protected_methods" do
       class Hello
         protected
@@ -354,6 +358,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods - obj2.methods should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m1; end
     end
@@ -362,6 +367,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods & obj2.methods should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m1; end
       def self.m2; end
@@ -374,6 +380,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods.grep(pattern) should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m1; end
       def self.m2; end
@@ -396,6 +403,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods.grep(pattern, &block) should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m0; end
       def self.none; end
