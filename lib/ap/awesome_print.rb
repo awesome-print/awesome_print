@@ -316,9 +316,9 @@ class AwesomePrint
 
   # Load ~/.aprc file with custom defaults that override default options.
   #------------------------------------------------------------------------------
-  def self.merge_custom_defaults!
-    return @merge_custom_defaults unless @merge_custom_defaults.nil?
-    @merge_custom_defaults = 
+  def self.load_custom_defaults!
+    return @load_custom_defaults unless @load_custom_defaults.nil?
+    @load_custom_defaults = 
       unless h = ENV["HOME"] and h != ''
         false
       else
@@ -338,7 +338,7 @@ class AwesomePrint
   end
 
   def merge_custom_defaults!
-    if self.class.merge_custom_defaults
+    if self.class.load_custom_defaults!
       merge_options!(self.class.defaults)
     end
   end
