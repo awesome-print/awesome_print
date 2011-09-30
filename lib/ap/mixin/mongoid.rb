@@ -30,7 +30,12 @@ module AwesomePrintMongoid
     object.attributes.sort_by { |key| key }.each do |key, value|
       hash[key.to_sym] = value
     end
-    "#{object} #{awesome_hash(hash)}"
+    if object.errors.empty?
+      "#{object} #{awesome_hash(hash)}"
+    else
+      h = {:errors => object.errors, :attributes => hash}
+      "#{object} #{awesome_hash(h)}"
+    end
   end
 
   def awesome_mongoid_document(object)
