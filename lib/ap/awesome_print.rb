@@ -316,14 +316,31 @@ class AwesomePrint
 
   # Load ~/.aprc file with custom defaults that override default options.
   #------------------------------------------------------------------------------
+  def self.merge_custom_defaults!
+    return @merge_custom_defaults unless @merge_custom_defaults.nil?
+    @merge_custom_defaults = 
+      unless h = ENV["HOME"] and h != ''
+        false
+      else
+        begin
+          dotfile = File.join(h, ".aprc")
+          unless File.readable?(dotfile)
+            false
+          else
+            load dotfile
+            true
+          end
+        rescue => e
+          $stderr.puts "Could not load #{dotfile}: #{e}"
+          false
+        end
+      end
+  end
+
   def merge_custom_defaults!
-    dotfile = File.join(ENV["HOME"], ".aprc")
-    if File.readable?(dotfile)
-      load dotfile
+    if self.class.merge_custom_defaults
       merge_options!(self.class.defaults)
     end
-  rescue => e
-    $stderr.puts "Could not load #{dotfile}: #{e}"
   end
 
   # Return true if we are to colorize the output.
