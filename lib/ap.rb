@@ -21,5 +21,4 @@ unless defined?(AwesomePrint)
   require File.dirname(__FILE__) + "/ap/mixin/active_record"  if defined?(ActiveRecord)  || (defined?(IRB) && ENV['RAILS_ENV'])
   require File.dirname(__FILE__) + "/ap/mixin/active_support" if defined?(ActiveSupport) || (defined?(IRB) && ENV['RAILS_ENV'])
   require File.dirname(__FILE__) + "/ap/mixin/mongo_mapper"   if defined?(MongoMapper)
-  require File.dirname(__FILE__) + "/ap/mixin/mongoid"        if defined?(Mongoid)  
 end
