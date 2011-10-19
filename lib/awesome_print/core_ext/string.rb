@@ -25,4 +25,24 @@ class String
   alias :black :grayish
   alias :pale  :whiteish
 
+  0.upto(255) do |c|
+    define_method "fg#{c}" do |*html|
+      if html[0]
+        hex = AwesomePrint::Colors.lookup_by_num(c)
+        %Q|<pre style="color:#{hex}">#{self}</pre>|
+      else
+        "\033[38;5;#{c}m#{self}\033[0m"
+      end
+    end
+
+    define_method "bg#{c}" do |*html|
+      if html[0]
+        hex = AwesomePrint::Colors.lookup_by_num(c)
+        %Q|<pre style="background-color:#{hex}">#{self}</pre>|
+      else
+        "\033[48;5;#{c}m#{self}\033[0m"
+      end
+    end
+  end
+
 end

@@ -11,16 +11,18 @@
 #
 unless defined?(AwesomePrint)
   %w(array string method object class kernel).each do |file|
-    require File.dirname(__FILE__) + "/ap/core_ext/#{file}"
+    require File.dirname(__FILE__) + "/awesome_print/core_ext/#{file}"
   end
 
-  require File.dirname(__FILE__) + "/ap/awesome_print"
-  require File.dirname(__FILE__) + "/ap/core_ext/logger"   if defined?(Logger)
-  require File.dirname(__FILE__) + "/ap/mixin/action_view" if defined?(ActionView)
+  require File.dirname(__FILE__) + "/awesome_print/colors"
+  require File.dirname(__FILE__) + "/awesome_print/inspector"
+  require File.dirname(__FILE__) + "/awesome_print/formatter"
+  require File.dirname(__FILE__) + "/awesome_print/core_ext/logger" if defined?(Logger)
+  require File.dirname(__FILE__) + "/awesome_print/ext/action_view" if defined?(ActionView)
 
   # Load the following under normal circumstatnces as well as in Rails
   # console when required from ~/.irbrc.
-  require File.dirname(__FILE__) + "/ap/mixin/active_record"  if defined?(ActiveRecord)  || (defined?(IRB) && ENV['RAILS_ENV'])
-  require File.dirname(__FILE__) + "/ap/mixin/active_support" if defined?(ActiveSupport) || (defined?(IRB) && ENV['RAILS_ENV'])
-  require File.dirname(__FILE__) + "/ap/mixin/mongo_mapper"   if defined?(MongoMapper)
+  require File.dirname(__FILE__) + "/awesome_print/ext/active_record"  if defined?(ActiveRecord)  || (defined?(IRB) && ENV['RAILS_ENV'])
+  require File.dirname(__FILE__) + "/awesome_print/ext/active_support" if defined?(ActiveSupport) || (defined?(IRB) && ENV['RAILS_ENV'])
+  require File.dirname(__FILE__) + "/awesome_print/ext/mongo_mapper"   if defined?(MongoMapper)
 end
