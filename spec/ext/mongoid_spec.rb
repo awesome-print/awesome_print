@@ -62,10 +62,10 @@ EOS
     it "should print the class" do
       @ap.send(:awesome, MongoUser).should == <<-EOS.strip
 class MongoUser < Object {
-           "_id" => BSON::ObjectId < Object,
-         "_type" => String < Object,
-    "first_name" => String < Object,
-     "last_name" => String < Object
+           "_id" => :"bson/object_id",
+         "_type" => :string,
+    "first_name" => :string,
+     "last_name" => :string
 }
 EOS
     end
@@ -78,9 +78,9 @@ EOS
 
       @ap.send(:awesome, Chamelion).should == <<-EOS.strip
 class Chamelion < Object {
-               "_id" => BSON::ObjectId < Object,
-             "_type" => String < Object,
-    "last_attribute" => Mongoid::Fields::Serializable::Object < Object
+               "_id" => :"bson/object_id",
+             "_type" => :string,
+    "last_attribute" => :"mongoid/fields/serializable/object"
 }
 EOS
     end

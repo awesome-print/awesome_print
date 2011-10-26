@@ -22,10 +22,10 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
       data = object.fields.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[1].name] = c[1].type
+        hash[c[1].name] = (c[1].type || "undefined").to_s.underscore.intern
+        # hash[c[1].name] = (c[1].type || "undefined").to_s.underscore.intern rescue c[1].type
         hash
       end
-
       "class #{object} < #{object.superclass} " << awesome_hash(data)
     end
   end
