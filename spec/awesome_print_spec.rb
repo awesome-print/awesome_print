@@ -544,6 +544,15 @@ EOS
       weird.new.ai(:plain => true).should == ''
     end
 
+    it "handle frozen object.inspect" do
+      weird = Class.new do
+        def inspect
+          "ice".freeze
+        end
+      end
+      weird.new.ai(:plain => false).should == "ice"
+    end
+
     # See https://github.com/michaeldv/awesome_print/issues/35
     it "handle array grep when pattern contains / chapacter" do
       hash = { "1/x" => 1,  "2//x" => :"2" }
