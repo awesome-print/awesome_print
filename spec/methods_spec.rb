@@ -1,6 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Single method" do
+  before do
+    stub_dotfile!
+  end
+
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end
@@ -77,6 +81,10 @@ describe "Single method" do
 end
 
 describe "Object methods" do
+  before do
+    stub_dotfile!
+  end
+
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end
@@ -194,6 +202,10 @@ describe "Object methods" do
 end
 
 describe "Class methods" do
+  before do
+    stub_dotfile!
+  end
+
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end
@@ -301,6 +313,10 @@ end
 
 if RUBY_VERSION >= '1.9.2'
   describe "Ruby 1.9.2+ Method#parameters" do
+    before do
+      stub_dotfile!
+    end
+
     after do
       Object.instance_eval{ remove_const :Hello } if defined?(Hello)
     end
@@ -354,6 +370,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods - obj2.methods should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m1; end
     end
@@ -362,6 +379,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods & obj2.methods should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m1; end
       def self.m2; end
@@ -374,6 +392,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods.grep(pattern) should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m1; end
       def self.m2; end
@@ -396,6 +415,7 @@ describe "Methods arrays" do
   end
 
   it "obj1.methods.grep(pattern, &block) should be awesome printed" do
+    stub_dotfile!
     class Hello
       def self.m0; end
       def self.none; end

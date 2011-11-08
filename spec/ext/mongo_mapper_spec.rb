@@ -5,6 +5,10 @@ begin
   require "awesome_print/ext/mongo_mapper"
 
   describe "AwesomePrint/MongoMapper" do
+    before do
+      stub_dotfile!
+    end
+
     before :all do
       class MongoUser
         include MongoMapper::Document
