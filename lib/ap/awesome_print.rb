@@ -83,18 +83,18 @@ class AwesomePrint
     keys = @options[:sorted_hash_keys] ? h.keys.sort { |a, b| a.to_s <=> b.to_s } : h.keys
     data = keys.map do |key|
       plain_single_line do
-        [ awesome(key), h[key] ]
+        [ awesome(key), h[key], key ]
       end
     end
       
     width = data.map { |key, | key.size }.max || 0
     width += @indentation if @options[:indent] > 0
   
-    data = data.map do |key, value|
+    data = data.map do |key, value, hkey|
       if @options[:multiline]
-        formatted_key = (@options[:indent] >= 0 ? key.rjust(width) : indent + key.ljust(width))
+        formatted_key = (@options[:indent] >= 0 ? key.rjust(width).sub!(/#{key}/, awesome(hkey)) : indent + key.ljust(width)).sub!(/#{key}/, awesome(hkey))
       else
-        formatted_key = key
+        formatted_key = awesome(hkey)
       end
       indented do
         formatted_key << colorize(" => ", :hash) << awesome(value)
