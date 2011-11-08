@@ -7,6 +7,13 @@ module AwesomePrint
 
   class << self # Class accessors for custom defaults.
     attr_accessor :defaults, :force_colors
+
+    # Class accessor to force colorized output (ex. forked subprocess where TERM
+    # might be dumb).
+    #------------------------------------------------------------------------------
+    def force_colors!(value = true)
+      @force_colors = value
+    end
   end
 
   class Inspector
@@ -71,8 +78,8 @@ module AwesomePrint
     # Return true if we are to colorize the output.
     #------------------------------------------------------------------------------
     def colorize?
-      @@force_colors ||= false
-      @@force_colors || (STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON']))
+      AwesomePrint.force_colors ||= false
+      AwesomePrint.force_colors || (STDOUT.tty? && ((ENV['TERM'] && ENV['TERM'] != 'dumb') || ENV['ANSICON']))
     end
 
     private
