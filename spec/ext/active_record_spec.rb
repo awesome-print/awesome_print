@@ -128,8 +128,11 @@ EOS
 
     #------------------------------------------------------------------------------
     describe "ActiveRecord class" do
-      it "should print the class" do
+      before do
         @ap = AwesomePrint::Inspector.new(:plain => true)
+      end
+
+      it "should print the class" do
         @ap.send(:awesome, User).should == <<-EOS.strip
 class User < ActiveRecord::Base {
             :id => :integer,
@@ -141,8 +144,7 @@ class User < ActiveRecord::Base {
 EOS
       end
 
-      it "should print the class for non-direct subclasses of AR::Base" do
-        @ap = AwesomePrint::Inspector.new(:plain => true)
+      it "should print the class for non-direct subclasses of ActiveRecord::Base" do
         @ap.send(:awesome, SubUser).should == <<-EOS.strip
 class SubUser < User {
             :id => :integer,
@@ -152,6 +154,10 @@ class SubUser < User {
     :created_at => :datetime
 }
 EOS
+      end
+
+      it "should print ActiveRecord::Base objects (ex. ancestors)" do
+        lambda { @ap.send(:awesome, User.ancestors) }.should_not raise_error
       end
     end
   end

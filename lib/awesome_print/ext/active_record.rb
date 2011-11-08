@@ -26,7 +26,7 @@ module AwesomePrint
     # Format ActiveRecord class object.
     #------------------------------------------------------------------------------
     def awesome_active_record_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns)
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == "ActiveRecord::Base"
 
       data = object.columns.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
         hash[c.name.to_sym] = c.type
