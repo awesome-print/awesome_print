@@ -271,10 +271,12 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def align(value, width)
       if @options[:multiline]
-        if @options[:indent] >= 0
+        if @options[:indent] > 0
           value.rjust(width)
+        elsif @options[:indent] == 0
+          indent + value.ljust(width)
         else
-          indent[0, -@options[:indent]] + value.ljust(width)
+          indent[0, @indentation + @options[:indent]] + value.ljust(width)
         end
       else
         value
@@ -289,7 +291,7 @@ module AwesomePrint
     end
 
     def left_aligned
-      current, @options[:indent] = @options[:indent], @options[:indent].abs * -1
+      current, @options[:indent] = @options[:indent], 0
       yield
     ensure
       @options[:indent] = current

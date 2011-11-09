@@ -27,8 +27,8 @@ begin
       out = @ap.send(:awesome, user)
       str = <<-EOS.strip
 #<MongoUser:0x01234567
-                                       @_new = true,
-                          attr_accessor :_id = #<BSON::ObjectId:0x01234567
+    @_new = true,
+    attr_accessor :_id = #<BSON::ObjectId:0x01234567
         attr_accessor :data = [
             [ 0] 42,
             [ 1] 42,
@@ -44,9 +44,9 @@ begin
             [11] 42
         ]
     >,
-                   attr_accessor :first_name = "Al",
-                    attr_accessor :last_name = "Capone",
-           attr_reader :_id_before_type_cast = #<BSON::ObjectId:0x01234567
+    attr_accessor :first_name = "Al",
+    attr_accessor :last_name = "Capone",
+    attr_reader :_id_before_type_cast = #<BSON::ObjectId:0x01234567
         attr_accessor :data = [
             [ 0] 42,
             [ 1] 42,
@@ -62,12 +62,12 @@ begin
             [11] 42
         ]
     >,
-             attr_reader :changed_attributes = {
+    attr_reader :changed_attributes = {
         "first_name" => nil,
          "last_name" => nil
     },
     attr_reader :first_name_before_type_cast = "Al",
-     attr_reader :last_name_before_type_cast = "Capone"
+    attr_reader :last_name_before_type_cast = "Capone"
 >
 EOS
       out.gsub!(/0x([a-f\d]+)/, "0x01234567")

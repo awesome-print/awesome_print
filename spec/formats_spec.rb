@@ -393,16 +393,75 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Negative options[:indent]" do
-    before do
-      @hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
-    end
-
+    #
+    # With Ruby < 1.9 the order of hash keys is not defined so we can't
+    # reliably compare the output string.
+    #
     it "hash keys must be left aligned" do
-      out = @hash.ai(:plain => true, :indent => -4)
+      hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
+      out = hash.ai(:plain => true, :indent => -4)
+      # {
+      #     [ 0, 0, 255 ] => :yellow,
+      #     :red          => "rgb(255, 0, 0)",
+      #     "magenta"     => "rgb(255, 0, 255)"
+      # }
       out.start_with?("{\n").should == true
       out.match(/^\s{4}:red          => "rgb\(255, 0, 0\)"/m).should_not == nil
       out.match(/^\s{4}"magenta"     => "rgb\(255, 0, 255\)"/m).should_not == nil
       out.match(/^\s{4}\[ 0, 0, 255 \] => :yellow/m).should_not == nil
+      out.end_with?("\n}").should == true
+    end
+
+    it "nested hash keys should be indented (array of hashes)" do
+      arr = [ { :a => 1, :bb => 22, :ccc => 333}, { 1 => :a, 22 => :bb, 333 => :ccc} ]
+      out = arr.ai(:plain => true, :indent => -4)
+      # [
+      #     [0] {
+      #         :a   => 1,
+      #         :bb  => 22,
+      #         :ccc => 333
+      #     },
+      #     [1] {
+      #         1   => :a,
+      #         22  => :bb,
+      #         333 => :ccc
+      #     }
+      # ]
+      out.start_with?("[\n").should == true
+      out.match(/^\s{4}\[0|1\] {/m).should_not == nil
+      out.match(/^\s{8}:a   => 1,/m).should_not == nil
+      out.match(/^\s{8}:bb  => 22,/m).should_not == nil
+      out.match(/^\s{8}:ccc => 333/m).should_not == nil
+      out.match(/^\s{8}1   => :a,/m).should_not == nil
+      out.match(/^\s{8}22  => :bb,/m).should_not == nil
+      out.match(/^\s{8}333 => :ccc/m).should_not == nil
+      out.end_with?("\n]").should == true
+    end
+
+    it "nested hash keys should be indented (hash of hashes)" do
+      arr = { :first => { :a => 1, :bb => 22, :ccc => 333}, :second => { 1 => :a, 22 => :bb, 333 => :ccc} }
+      out = arr.ai(:plain => true, :indent => -4)
+      # {
+      #     :first  => {
+      #         :a   => 1,
+      #         :bb  => 22,
+      #         :ccc => 333
+      #     },
+      #     :second => {
+      #         1   => :a,
+      #         22  => :bb,
+      #         333 => :ccc
+      #     }
+      # }
+      out.start_with?("{\n").should == true
+      out.match(/^\s{4}:first  => {/m).should_not == nil
+      out.match(/^\s{8}:a   => 1,/m).should_not == nil
+      out.match(/^\s{8}:bb  => 22,/m).should_not == nil
+      out.match(/^\s{8}:ccc => 333/m).should_not == nil
+      out.match(/^\s{4}:second => {/m).should_not == nil
+      out.match(/^\s{8}1   => :a,/m).should_not == nil
+      out.match(/^\s{8}22  => :bb,/m).should_not == nil
+      out.match(/^\s{8}333 => :ccc/m).should_not == nil
       out.end_with?("\n}").should == true
     end
   end

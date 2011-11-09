@@ -50,13 +50,13 @@ begin
         out = @ap.send(:awesome, @diana)
         str = <<-EOS.strip
 #<User:0x01234567
-                  @attributes_cache = {},
-                         @destroyed = false,
-            @marked_for_destruction = false,
-                        @new_record = true,
-                @previously_changed = {},
-                          @readonly = false,
-          attr_accessor :attributes = {
+    @attributes_cache = {},
+    @destroyed = false,
+    @marked_for_destruction = false,
+    @new_record = true,
+    @previously_changed = {},
+    @readonly = false,
+    attr_accessor :attributes = {
              "admin" => false,
         "created_at" => "?",
               "name" => "Diana",
@@ -79,13 +79,13 @@ EOS
         str = <<-EOS.strip
 [
     [0] #<User:0x01234567
-                      @attributes_cache = {},
-                             @destroyed = false,
-                @marked_for_destruction = false,
-                            @new_record = true,
-                    @previously_changed = {},
-                              @readonly = false,
-              attr_accessor :attributes = {
+        @attributes_cache = {},
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @previously_changed = {},
+        @readonly = false,
+        attr_accessor :attributes = {
                  "admin" => false,
             "created_at" => "?",
                   "name" => "Diana",
@@ -99,13 +99,13 @@ EOS
         }
     >,
     [1] #<User:0x01234567
-                      @attributes_cache = {},
-                             @destroyed = false,
-                @marked_for_destruction = false,
-                            @new_record = true,
-                    @previously_changed = {},
-                              @readonly = false,
-              attr_accessor :attributes = {
+        @attributes_cache = {},
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @previously_changed = {},
+        @readonly = false,
+        attr_accessor :attributes = {
                  "admin" => true,
             "created_at" => "?",
                   "name" => "Laura",
