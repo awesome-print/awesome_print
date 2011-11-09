@@ -124,11 +124,11 @@ module AwesomePrint
         end
       end
 
-      width = vars.map { |declaration,| declaration.size }.max || 0
-      width += @indentation if @options[:indent] > 0
-
       data = vars.sort.map do |declaration, var|
-        key = align(declaration, width)
+        key = left_aligned do
+          align(declaration, declaration.size)
+        end
+
         unless @options[:plain]
           if key =~ /(@\w+)/
             key.sub!($1, colorize($1, :variable))
@@ -286,6 +286,13 @@ module AwesomePrint
       yield
     ensure
       @indentation -= @options[:indent].abs
+    end
+
+    def left_aligned
+      current, @options[:indent] = @options[:indent], @options[:indent].abs * -1
+      yield
+    ensure
+      @options[:indent] = current
     end
 
     def indent
