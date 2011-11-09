@@ -400,9 +400,9 @@ EOS
     it "hash keys must be left aligned" do
       out = @hash.ai(:plain => true, :indent => -4)
       out.start_with?("{\n").should == true
-      out.include?('    :red          => "rgb(255, 0, 0)"').should == true
-      out.include?('    "magenta"     => "rgb(255, 0, 255)"').should == true
-      out.include?('    [ 0, 0, 255 ] => :yellow').should == true
+      out.match(/^\s{4}:red          => "rgb\(255, 0, 0\)"/m).should_not == nil
+      out.match(/^\s{4}"magenta"     => "rgb\(255, 0, 255\)"/m).should_not == nil
+      out.match(/^\s{4}\[ 0, 0, 255 \] => :yellow/m).should_not == nil
       out.end_with?("\n}").should == true
     end
   end

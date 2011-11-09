@@ -274,7 +274,7 @@ module AwesomePrint
         if @options[:indent] >= 0
           value.rjust(width)
         else
-          indent + value.ljust(width)
+          indent[0, -@options[:indent]] + value.ljust(width)
         end
       else
         value
