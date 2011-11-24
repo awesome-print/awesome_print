@@ -56,7 +56,7 @@ begin
 EOS
       out.gsub!(/0x([a-f\d]+)/, "0x01234567")
       out.gsub!(/(\[\s?\d+\])\s\d+/, "\\1 42")
-      out.should eq str
+      out.should == str
     end
 
     it "should print the class" do

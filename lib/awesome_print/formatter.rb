@@ -151,10 +151,17 @@ module AwesomePrint
       end
     end
 
-    # Format a Struct. If @options[:indent] if negative left align hash keys.
+    # Format a Struct.
     #------------------------------------------------------------------------------
     def awesome_struct(s)
-      awesome_hash(Hash[s.members.zip(s.values)])
+      #
+      # The code is slightly uglier because of Ruby 1.8.6 quirks:
+      # awesome_hash(Hash[s.members.zip(s.values)]) <-- ArgumentError: odd number of arguments for Hash)
+      # awesome_hash(Hash[*s.members.zip(s.values).flatten]) <-- s.members returns strings, not symbols.
+      #
+      hash = {}
+      s.each_pair { |key, value| hash[key] = value }
+      awesome_hash(hash)
     end
 
     # Format Class object.
