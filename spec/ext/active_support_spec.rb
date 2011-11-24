@@ -22,6 +22,6 @@ begin
     end
   end
 
-rescue LoadError
-  puts "Skipping ActiveSupport specs..."
+rescue LoadError => error
+  puts "Skipping ActiveSupport specs: #{error}"
 end

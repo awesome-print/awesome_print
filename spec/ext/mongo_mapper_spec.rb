@@ -100,6 +100,6 @@ EOS
     end
   end
 
-rescue LoadError
-  puts "Skipping MongoMapper specs..."
+rescue LoadError => error
+  puts "Skipping MongoMapper specs: #{error}"
 end

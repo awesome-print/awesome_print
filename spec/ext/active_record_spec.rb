@@ -162,6 +162,6 @@ EOS
     end
   end
 
-rescue LoadError
-  puts "Skipping ActiveRecord specs..."
+rescue LoadError => error
+  puts "Skipping ActiveRecord specs: #{error}"
 end

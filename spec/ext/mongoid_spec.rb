@@ -87,6 +87,5 @@ EOS
   end
 
 rescue LoadError => error
-  puts "Missing mongoid gem, skipping mongoid specs"
-  puts "Skipping mongoid specs: #{error}"
+  puts "Skipping Mongoid specs: #{error}"
 end

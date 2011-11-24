@@ -20,6 +20,6 @@ begin
     end
   end
 
-rescue LoadError
-  puts "Skipping ActionView specs..."
+rescue LoadError => error
+  puts "Skipping ActionView specs: #{error}"
 end
