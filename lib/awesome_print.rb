@@ -14,6 +14,7 @@ unless defined?(AwesomePrint)
 
   require File.dirname(__FILE__) + "/awesome_print/inspector"
   require File.dirname(__FILE__) + "/awesome_print/formatter"
+  require File.dirname(__FILE__) + "/awesome_print/version"
   require File.dirname(__FILE__) + "/awesome_print/core_ext/logger" if defined?(Logger)
   require File.dirname(__FILE__) + "/awesome_print/ext/action_view" if defined?(ActionView)
 

@@ -4,6 +4,7 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 require "rake"
+require File.dirname(__FILE__) + "/lib/awesome_print/version"
 
 task :default => :spec
 
@@ -15,7 +16,7 @@ end
 
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
-  s.version     = "1.0.0"
+  s.version     = AwesomePrint.version
 # s.platform    = Gem::Platform::RUBY
   s.authors     = "Michael Dvorkin"
   s.date        = "2011-11-08"
