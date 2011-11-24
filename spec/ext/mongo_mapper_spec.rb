@@ -28,40 +28,8 @@ begin
       str = <<-EOS.strip
 #<MongoUser:0x01234567
     @_new = true,
-    attr_accessor :_id = #<BSON::ObjectId:0x01234567
-        attr_accessor :data = [
-            [ 0] 42,
-            [ 1] 42,
-            [ 2] 42,
-            [ 3] 42,
-            [ 4] 42,
-            [ 5] 42,
-            [ 6] 42,
-            [ 7] 42,
-            [ 8] 42,
-            [ 9] 42,
-            [10] 42,
-            [11] 42
-        ]
-    >,
     attr_accessor :first_name = "Al",
     attr_accessor :last_name = "Capone",
-    attr_reader :_id_before_type_cast = #<BSON::ObjectId:0x01234567
-        attr_accessor :data = [
-            [ 0] 42,
-            [ 1] 42,
-            [ 2] 42,
-            [ 3] 42,
-            [ 4] 42,
-            [ 5] 42,
-            [ 6] 42,
-            [ 7] 42,
-            [ 8] 42,
-            [ 9] 42,
-            [10] 42,
-            [11] 42
-        ]
-    >,
     attr_reader :changed_attributes = {
         "first_name" => nil,
          "last_name" => nil
@@ -71,7 +39,6 @@ begin
 >
 EOS
       out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-      out.gsub!(/(\[\s?\d+\])\s\d+/, "\\1 42")
       out.should == str
     end
 

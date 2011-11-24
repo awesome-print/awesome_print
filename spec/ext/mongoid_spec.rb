@@ -24,7 +24,7 @@ begin
 
       str = <<-EOS.strip
 #<MongoUser:0x01234567
-          attr_accessor :attributes = {
+    attr_accessor :attributes = {
                "_id" => #<BSON::ObjectId:0x01234567
             attr_accessor :data = [
                 [ 0] 42,
@@ -44,14 +44,14 @@ begin
         "first_name" => "Al",
          "last_name" => "Capone"
     },
-          attr_accessor :new_record = true,
+    attr_accessor :new_record = true,
     attr_reader :changed_attributes = {
                "_id" => nil,
         "first_name" => nil,
          "last_name" => nil
     },
-        attr_reader :pending_nested = {},
-     attr_reader :pending_relations = {}
+    attr_reader :pending_nested = {},
+    attr_reader :pending_relations = {}
 >
 EOS
       out.gsub!(/0x([a-f\d]+)/, "0x01234567")
