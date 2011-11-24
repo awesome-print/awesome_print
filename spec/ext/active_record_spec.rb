@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 begin
   require 'active_record'
   require 'awesome_print/ext/active_record'
+  return if !defined?(ActiveRecord::VERSION::MAJOR) || ActiveRecord::VERSION::MAJOR < 2
 
   # Create tableless ActiveRecord model.
   #------------------------------------------------------------------------------
@@ -48,7 +49,8 @@ begin
 
       it "display single record" do
         out = @ap.send(:awesome, @diana)
-        str = <<-EOS.strip
+        if ActiveRecord::VERSION::MAJOR == 3
+          str = <<-EOS.strip
 #<User:0x01234567
     @attributes_cache = {},
     @destroyed = false,
@@ -70,13 +72,34 @@ begin
     }
 >
 EOS
+        else # ActiveRecord 2.x
+          str = <<-EOS.strip
+#<User:0x01234567
+    @attributes_cache = {},
+    @changed_attributes = {
+             "admin" => nil,
+        "created_at" => nil,
+              "name" => nil,
+              "rank" => nil
+    },
+    @new_record = true,
+    attr_accessor :attributes = {
+             "admin" => false,
+        "created_at" => "1992-10-10 12:30:00",
+              "name" => "Diana",
+              "rank" => 1
+    }
+>
+EOS
+        end
         str.sub!('?', '1992-10-10 12:30:00')
         out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
       end
 
       it "display multiple records" do
         out = @ap.send(:awesome, [ @diana, @laura ])
-        str = <<-EOS.strip
+        if ActiveRecord::VERSION::MAJOR == 3
+          str = <<-EOS.strip
 [
     [0] #<User:0x01234567
         @attributes_cache = {},
@@ -120,6 +143,44 @@ EOS
     >
 ]
 EOS
+        else # ActiveRecord 2.x
+          str = <<-EOS.strip
+[
+    [0] #<User:0x01234567
+        @attributes_cache = {},
+        @changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        },
+        @new_record = true,
+        attr_accessor :attributes = {
+                 "admin" => false,
+            "created_at" => "1992-10-10 12:30:00",
+                  "name" => "Diana",
+                  "rank" => 1
+        }
+    >,
+    [1] #<User:0x01234567
+        @attributes_cache = {},
+        @changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        },
+        @new_record = true,
+        attr_accessor :attributes = {
+                 "admin" => true,
+            "created_at" => "2003-05-26 14:15:00",
+                  "name" => "Laura",
+                  "rank" => 2
+        }
+    >
+]
+EOS
+        end
         str.sub!('?', '1992-10-10 12:30:00')
         str.sub!('?', '2003-05-26 14:15:00')
         out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
