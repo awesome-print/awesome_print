@@ -6,7 +6,7 @@
 class String
   #
   # ANSI color codes:
-  # \033 => escape
+  #   \e => escape
   #   30 => color base
   #    1 => bright
   #    0 => normal
@@ -17,11 +17,11 @@ class String
   %w(gray red green yellow blue purple cyan white).zip(
   %w(black darkred darkgreen brown navy darkmagenta darkcyan slategray)).each_with_index do |(color, shade), i|
     define_method color do |*html|
-      html[0] ? %Q|<kbd style="color:#{color}">#{self}</kbd>| : "\033[1;#{30+i}m#{self}\033[0m"
+      html[0] ? %Q|<kbd style="color:#{color}">#{self}</kbd>| : "\e[1;#{30+i}m#{self}\e[0m"
     end
 
     define_method "#{color}ish" do |*html|
-      html[0] ? %Q|<kbd style="color:#{shade}">#{self}</kbd>| : "\033[0;#{30+i}m#{self}\033[0m"
+      html[0] ? %Q|<kbd style="color:#{shade}">#{self}</kbd>| : "\e[0;#{30+i}m#{self}\e[0m"
     end
   end
 

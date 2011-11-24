@@ -154,9 +154,7 @@ module AwesomePrint
     # Format a Struct. If @options[:indent] if negative left align hash keys.
     #------------------------------------------------------------------------------
     def awesome_struct(s)
-      h = {}
-      s.each_pair { |k,v| h[k] = v }
-      awesome_hash(h)
+      awesome_hash(Hash[s.members.zip(s.values)])
     end
 
     # Format Class object.
