@@ -16,7 +16,7 @@ begin
 
     it "uses HTML and adds 'debug_dump' class to colorized <pre> tag" do
       markup = ' &<hello>'
-      @view.ap(markup).should == '<pre class="debug_dump" style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</pre>'
+      @view.ap(markup).should == '<pre class="debug_dump"><kbd style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</kbd></pre>'
     end
   end
 

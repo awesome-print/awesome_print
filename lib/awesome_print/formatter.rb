@@ -22,8 +22,12 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def format(object, type = nil)
       core_class = cast(object, type)
-      return send(:"awesome_#{core_class}", object) if core_class != :self
-      awesome_self(object, :as => type) # Catch all that falls back on object.inspect.
+      awesome = if core_class != :self
+        send(:"awesome_#{core_class}", object) # Core formatters.
+      else
+        awesome_self(object, type) # Catch all that falls back on object.inspect.
+      end
+      @options[:html] ? "<pre>#{awesome}</pre>" : awesome
     end
 
     # Hook this when adding custom formatters.
@@ -37,7 +41,7 @@ module AwesomePrint
     def colorize(s, type)
       s = CGI.escapeHTML(s) if @options[:html]
       if @options[:plain] || !@options[:color][type] || !@inspector.colorize?
-        @options[:html] ? "<pre>#{s}</pre>" : s
+        s
       else
         s.send(@options[:color][type], @options[:html])
       end
@@ -48,9 +52,9 @@ module AwesomePrint
 
     # Catch all method to format an arbitrary object.
     #------------------------------------------------------------------------------
-    def awesome_self(object, appear = {})
+    def awesome_self(object, type)
       return awesome_object(object) if object.instance_variables.any?
-      colorize(object.inspect.to_s, appear[:as])
+      colorize(object.inspect.to_s, type)
     end
 
     # Format an array.

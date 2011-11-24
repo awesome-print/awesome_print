@@ -638,9 +638,20 @@ EOS
       markup.ai(:html => true, :plain => true).should == "<pre>#{markup}</pre>"
     end
 
-    it "wraps ap output with colorized <pre> tag" do
+    it "wraps ap output with <pre> tag with colorized <kbd>" do
       markup = rand
-      markup.ai(:html => true).should == %Q|<pre style="color:blue">#{markup}</pre>|
+      markup.ai(:html => true).should == %Q|<pre><kbd style="color:blue">#{markup}</kbd></pre>|
+    end
+
+    it "wraps multiline ap output with <pre> tag with colorized <kbd>" do
+      markup = [ 1, :two, "three" ]
+      markup.ai(:html => true).should == <<-EOS.strip
+<pre>[
+    <kbd style="color:white">[0] </kbd><pre><kbd style="color:blue">1</kbd></pre>,
+    <kbd style="color:white">[1] </kbd><pre><kbd style="color:darkcyan">:two</kbd></pre>,
+    <kbd style="color:white">[2] </kbd><pre><kbd style="color:brown">&quot;three&quot;</kbd></pre>
+]</pre>
+EOS
     end
 
     it "encodes HTML entities (plain)" do
@@ -650,7 +661,7 @@ EOS
 
     it "encodes HTML entities (color)" do
       markup = ' &<hello>'
-      markup.ai(:html => true).should == '<pre style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</pre>'
+      markup.ai(:html => true).should == '<pre><kbd style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</kbd></pre>'
     end
   end
 
