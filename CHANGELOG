@@ -1,4 +1,4 @@
-?.?.?
+1.0.0 Thanksgiving edition
   - Added ability to format *arbitrary* Ruby object
   - Added :limit option to limit large output for arrays and hashes (Andrew Horsman)
   - Improved HTML formatting when :html => true (Daniel Johnson)
