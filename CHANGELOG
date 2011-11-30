@@ -1,3 +1,6 @@
+1.0.1
+  - Updated repo tags for Rubygems.org
+
 1.0.0 Thanksgiving edition
   - Added ability to format *arbitrary* Ruby object
   - Added :limit option to limit large output for arrays and hashes (Andrew Horsman)
