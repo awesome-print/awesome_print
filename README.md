@@ -1,14 +1,11 @@
 ## Awesome Print ##
-Awesome Print is Ruby library that pretty prints Ruby objects in full color
+Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
 objects and usage within Rails templates are supported via included mixins.
 
 ### Installation ###
     # Installing as Ruby gem
     $ gem install awesome_print
-
-    # Installing as Rails plugin
-    $ ruby script/plugin install http://github.com/michaeldv/awesome_print.git
 
     # Cloning the repository
     $ git clone git://github.com/michaeldv/awesome_print.git
@@ -28,19 +25,24 @@ Default options:
     :sort_keys  => false,  # Do not sort hash keys.
     :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
     :color => {
+      :args       => :pale,
       :array      => :white,
-      :bignum     => :blue,
+      :bigdecimal => :blue,
       :class      => :yellow,
       :date       => :greenish,
       :falseclass => :red,
       :fixnum     => :blue,
       :float      => :blue,
-      :hash       => :gray,
+      :hash       => :pale,
+      :keyword    => :cyan,
+      :method     => :purpleish,
       :nilclass   => :red,
       :string     => :yellowish,
+      :struct     => :pale,
       :symbol     => :cyanish,
       :time       => :greenish,
-      :trueclass  => :green
+      :trueclass  => :green,
+      :variable   => :cyanish
     }
 
 Supported color names:
@@ -300,12 +302,17 @@ For example:
 
 ### Contributors ###
 
+* Adam Doppelt -- https://github.com/gurgeous
 * Andrew O'Brien -- https://github.com/AndrewO
 * Andrew Horsman -- https://github.com/basicxman
+* Benoit Daloze -- http://github.com/eregon
+* Brandon Zylstra -- https://github.com/brandondrew
+* Daniel Johnson -- https://github.com/adhd360
 * Daniel Bretoi -- http://github.com/danielb2
 * Eloy Duran -- http://github.com/alloy
 * Elpizo Choi -- https://github.com/fuJiin
-* Benoit Daloze -- http://github.com/eregon
+* Greg Weber -- https://github.com/gregwebs
+* Jeff Felchner -- https://github.com/jfelchner
 * Sean Gallagher -- http://github.com/torandu
 * Stephan Hagemann -- https://github.com/shageman
 * Tim Harper -- http://github.com/timcharper

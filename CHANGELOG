@@ -1,6 +1,10 @@
 ?.?.?
   - Added ability to format *arbitrary* Ruby object
   - Added :limit option to limit large output for arrays and hashes (Andrew Horsman)
+  - Improved HTML formatting when :html => true (Daniel Johnson)
+  - Added Mongoid extension (Adam Doppelt)
+  - Added Nokogiri extension (Adam Doppelt)
+  - Removed Jeweler gem dependency
 
 0.4.0
   - 'ap object' now returns the object (Stephan Hagemann)

@@ -31,6 +31,7 @@ module AwesomePrint
         :sort_keys  => false,  # Do not sort hash keys.
         :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
         :color => { 
+          :args       => :pale,
           :array      => :white,
           :bigdecimal => :blue,
           :class      => :yellow,
@@ -39,15 +40,14 @@ module AwesomePrint
           :fixnum     => :blue,
           :float      => :blue,
           :hash       => :pale,
-          :struct     => :pale,
+          :keyword    => :cyan,
+          :method     => :purpleish,
           :nilclass   => :red,
           :string     => :yellowish,
+          :struct     => :pale,
           :symbol     => :cyanish,
           :time       => :greenish,
           :trueclass  => :green,
-          :method     => :purpleish,
-          :args       => :pale,
-          :keyword    => :cyan,
           :variable   => :cyanish
         }
       }
