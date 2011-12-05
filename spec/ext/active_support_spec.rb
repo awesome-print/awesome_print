@@ -20,6 +20,14 @@ begin
       hash = HashWithIndifferentAccess.new({ :hello => "world" })
       @ap.send(:awesome, hash).should == "{\n    \"hello\"\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}"
     end
+
+    # ActiveSupport sticks in instance variables to the date object. Make sure
+    # we ignore that and format Date instance as regular date.
+    it "should formate Date object as date" do
+      date = Date.new(2003, 5, 26)
+      date.ai(:plain => true).should == "Mon, 26 May 2003"
+      date.ai.should == "\e[0;32mMon, 26 May 2003\e[0m"
+    end
   end
 
 rescue LoadError => error

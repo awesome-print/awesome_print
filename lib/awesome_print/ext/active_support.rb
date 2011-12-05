@@ -14,7 +14,7 @@ module AwesomePrint
     def cast_with_active_support(object, type)
       cast = cast_without_active_support(object, type)
       if defined?(::ActiveSupport) && defined?(::HashWithIndifferentAccess)
-        if object.is_a?(::ActiveSupport::TimeWithZone)
+        if object.is_a?(::ActiveSupport::TimeWithZone) || object.is_a?(::Date)
           cast = :active_support_time
         elsif object.is_a?(::HashWithIndifferentAccess)
           cast = :hash_with_indifferent_access
