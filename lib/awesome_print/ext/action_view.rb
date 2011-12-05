@@ -15,4 +15,4 @@ module AwesomePrint
   end
 end
 
-ActionView::Base.send(:include, AwesomePrint::ActionView) if defined?(ActionView)
+ActionView::Base.send(:include, AwesomePrint::ActionView)

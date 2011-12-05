@@ -23,7 +23,7 @@ unless defined?(AwesomePrint)
   require File.dirname(__FILE__) + "/awesome_print/ext/active_support" if defined?(ActiveSupport) || (defined?(IRB) && ENV['RAILS_ENV'])
 
   # Load remaining extensions.
-  require File.dirname(__FILE__) + "/awesome_print/ext/action_view"    if defined?(ActionView)
+  require File.dirname(__FILE__) + "/awesome_print/ext/action_view"    if defined?(ActionView::Base)
   require File.dirname(__FILE__) + "/awesome_print/ext/mongo_mapper"   if defined?(MongoMapper)
   require File.dirname(__FILE__) + "/awesome_print/ext/mongoid"        if defined?(Mongoid)
   require File.dirname(__FILE__) + "/awesome_print/ext/nokogiri"       if defined?(Nokogiri)
