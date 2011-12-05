@@ -445,4 +445,10 @@ describe "Methods arrays" do
     hello = Hello.new
     (hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }.should == [ :him, :his ]
   end
+
+  it "appending garbage to methods array should not raise error" do
+    arr = 42.methods << [ :wtf ]
+    arr.ai(:plain => true).should_not raise_error(TypeError)
+    arr.ai(:plain => true).should =~ /\s+wtf\(\?\)\s+\?/
+  end
 end
