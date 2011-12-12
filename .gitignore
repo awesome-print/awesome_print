@@ -13,10 +13,19 @@ tmtags
 ## VIM
 *.swp
 
+## RUBINIUS
+.rbx
+*.rbc
+
+## BUNDLER
+.bundle
+Gemfile.lock
+
 ## PROJECT::GENERAL
 coverage
 rdoc
 pkg
+*.gem
 
 ## PROJECT::SPECIFIC
 .rvmrc
