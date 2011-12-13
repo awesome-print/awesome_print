@@ -15,8 +15,14 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_mongoid(object, type)
       cast = cast_without_mongoid(object, type)
-      if defined?(::Mongoid::Document) && object.is_a?(Class) && object.ancestors.include?(::Mongoid::Document)
-        cast = :mongoid_class
+      if defined?(::Mongoid::Document)
+        if object.is_a?(Class) && object.ancestors.include?(::Mongoid::Document)
+          cast = :mongoid_class
+        elsif object.class.ancestors.include?(::Mongoid::Document)
+          cast = :mongoid_document
+        elsif object.is_a?(::BSON::ObjectId)
+          cast = :mongoid_bson_id
+        end
       end
       cast
     end
@@ -26,12 +32,32 @@ module AwesomePrint
     def awesome_mongoid_class(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
-      data = object.fields.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[1].name] = (c[1].type || "undefined").to_s.underscore.intern
-        # hash[c[1].name] = (c[1].type || "undefined").to_s.underscore.intern rescue c[1].type
+      data = object.fields.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
+        hash[c[1].name.to_sym] = (c[1].type || "undefined").to_s.underscore.intern
         hash
       end
       "class #{object} < #{object.superclass} " << awesome_hash(data)
+    end
+
+    # Format Mongoid Document object.
+    #------------------------------------------------------------------------------
+    def awesome_mongoid_document(object)
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+
+      data = object.attributes.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
+        hash[c[0].to_sym] = c[1]
+        hash
+      end
+      if !object.errors.empty?
+        data = {:errors => object.errors, :attributes => data}
+      end
+      "#{object} #{awesome_hash(data)}"
+    end
+
+    # Format BSON::ObjectId
+    #------------------------------------------------------------------------------
+    def awesome_mongoid_bson_id(object)
+      object.inspect
     end
   end
 end
