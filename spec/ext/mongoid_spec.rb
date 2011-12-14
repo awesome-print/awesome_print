@@ -23,49 +23,24 @@ begin
       out = @ap.send :awesome, user
 
       str = <<-EOS.strip
-#<MongoUser:0x01234567
-    attr_accessor :attributes = {
-               "_id" => #<BSON::ObjectId:0x01234567
-            attr_accessor :data = [
-                [ 0] 42,
-                [ 1] 42,
-                [ 2] 42,
-                [ 3] 42,
-                [ 4] 42,
-                [ 5] 42,
-                [ 6] 42,
-                [ 7] 42,
-                [ 8] 42,
-                [ 9] 42,
-                [10] 42,
-                [11] 42
-            ]
-        >,
-        "first_name" => "Al",
-         "last_name" => "Capone"
-    },
-    attr_accessor :new_record = true,
-    attr_reader :changed_attributes = {
-               "_id" => nil,
-        "first_name" => nil,
-         "last_name" => nil
-    },
-    attr_reader :pending_nested = {},
-    attr_reader :pending_relations = {}
->
+#<MongoUser:0x01234567> {
+           :_id => BSON::ObjectId('424242424242424242424242'),
+    :first_name => "Al",
+     :last_name => "Capone"
+}
 EOS
       out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-      out.gsub!(/(\[\s?\d+\])\s\d+/, "\\1 42")
+      out.gsub!(/Id\('[^']+/, "Id('424242424242424242424242")
       out.should == str
     end
 
     it "should print the class" do
       @ap.send(:awesome, MongoUser).should == <<-EOS.strip
 class MongoUser < Object {
-           "_id" => :"bson/object_id",
-         "_type" => :string,
-    "first_name" => :string,
-     "last_name" => :string
+           :_id => :"bson/object_id",
+         :_type => :string,
+    :first_name => :string,
+     :last_name => :string
 }
 EOS
     end
@@ -78,9 +53,9 @@ EOS
 
       @ap.send(:awesome, Chamelion).should == <<-EOS.strip
 class Chamelion < Object {
-               "_id" => :"bson/object_id",
-             "_type" => :string,
-    "last_attribute" => :"mongoid/fields/serializable/object"
+               :_id => :"bson/object_id",
+             :_type => :string,
+    :last_attribute => :"mongoid/fields/serializable/object"
 }
 EOS
     end
