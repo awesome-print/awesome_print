@@ -449,6 +449,10 @@ describe "Methods arrays" do
   it "appending garbage to methods array should not raise error" do
     arr = 42.methods << [ :wtf ]
     arr.ai(:plain => true).should_not raise_error(TypeError)
-    arr.ai(:plain => true).should =~ /\s+wtf\(\?\)\s+\?/
+    if RUBY_VERSION < '1.9.2'
+      arr.ai(:plain => true).should =~ /\s+wtf\(\?\)\s+\?/      # [ :wtf ].to_s => "wtf"
+    else
+      arr.ai(:plain => true).should =~ /\s+\[:wtf\]\(\?\)\s+\?/ # [ :wtf ].to_s => [:wtf]
+    end
   end
 end
