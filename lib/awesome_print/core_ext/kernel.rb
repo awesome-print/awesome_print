@@ -13,7 +13,6 @@ module Kernel
 
   def ap(object, options = {})
     puts object.ai(options)
-    nil
   end
   alias :awesome_print :ap
 
