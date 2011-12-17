@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.version     = AwesomePrint.version
 # s.platform    = Gem::Platform::RUBY
   s.authors     = "Michael Dvorkin"
-  s.date        = "2011-11-08"
+  s.date        = Time.now.strftime("%Y-%m-%d")
   s.email       = "mike@dvorkin.net"
   s.homepage    = "http://github.com/michaeldv/awesome_print"
   s.summary     = "Pretty print Ruby objects with proper indentation and colors"
