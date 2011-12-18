@@ -55,12 +55,59 @@ begin
       end
 
       #------------------------------------------------------------------------------
-      describe "ActiveRecord instance" do
+      describe "ActiveRecord instance, attributes only (default)" do
         before do
           ActiveRecord::Base.default_timezone = :utc
           @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
           @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
           @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
+        end
+
+        it "display single record" do
+          out = @ap.send(:awesome, @diana)
+          str = <<-EOS.strip
+#<User:0x01234567> {
+         :admin => false,
+    :created_at => 1992-10-10 12:30:00 UTC,
+            :id => nil,
+          :name => "Diana",
+          :rank => 1
+}
+EOS
+          out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+        end
+
+        it "display multiple records" do
+          out = @ap.send(:awesome, [ @diana, @laura ])
+          str = <<-EOS.strip
+[
+    [0] #<User:0x01234567> {
+             :admin => false,
+        :created_at => 1992-10-10 12:30:00 UTC,
+                :id => nil,
+              :name => "Diana",
+              :rank => 1
+    },
+    [1] #<User:0x01234567> {
+             :admin => true,
+        :created_at => 2003-05-26 14:15:00 UTC,
+                :id => nil,
+              :name => "Laura",
+              :rank => 2
+    }
+]
+EOS
+          out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+        end
+      end
+
+      #------------------------------------------------------------------------------
+      describe "ActiveRecord instance (raw)" do
+        before do
+          ActiveRecord::Base.default_timezone = :utc
+          @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
+          @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
+          @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true, :raw => true)
         end
 
         it "display single record" do
@@ -299,6 +346,7 @@ EOS
           out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
         end
       end
+
 
       #------------------------------------------------------------------------------
       describe "ActiveRecord class" do
