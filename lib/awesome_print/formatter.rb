@@ -261,8 +261,21 @@ module AwesomePrint
         args[-1] = "*#{args[-1]}" if method.arity < 0
       end
 
-      if method.to_s =~ /(Unbound)*Method: (.*?)[#\.]/
-        owner = "#{$2}#{$1 ? '(unbound)' : ''}".gsub('(', ' (')
+      # method.to_s formats that to handle:
+      #
+      # #<Method: Fixnum#zero?>
+      # #<Method: Fixnum(Integer)#years>
+      # #<Method: User(#<Module:0x00000103207c00>)#_username>
+      # #<Method: User(id: integer, username: string).table_name>
+      # #<Method: User(id: integer, username: string)(ActiveRecord::Base).current>
+      # #<UnboundMethod: Hello#world>
+      #
+      if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
+        unbound, klass = $1 && '(unbound)', $2
+        if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord class?
+          klass.sub!($1, '')                    # Yes, strip the fields leaving class name only.
+        end
+        owner = "#{klass}#{unbound}".gsub('(', ' (')
       end
 
       [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]

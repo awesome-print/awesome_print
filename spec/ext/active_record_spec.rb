@@ -68,12 +68,17 @@ begin
           str = <<-EOS.strip
 #<User:0x01234567> {
          :admin => false,
-    :created_at => 1992-10-10 12:30:00 UTC,
+    :created_at => ?,
             :id => nil,
           :name => "Diana",
           :rank => 1
 }
 EOS
+          if RUBY_VERSION < '1.9'
+            str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
+          else
+            str.sub!('?', '1992-10-10 12:30:00 UTC')
+          end
           out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
         end
 
@@ -83,20 +88,27 @@ EOS
 [
     [0] #<User:0x01234567> {
              :admin => false,
-        :created_at => 1992-10-10 12:30:00 UTC,
+        :created_at => ??,
                 :id => nil,
               :name => "Diana",
               :rank => 1
     },
     [1] #<User:0x01234567> {
              :admin => true,
-        :created_at => 2003-05-26 14:15:00 UTC,
+        :created_at => ?!,
                 :id => nil,
               :name => "Laura",
               :rank => 2
     }
 ]
 EOS
+          if RUBY_VERSION < '1.9'
+            str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
+            str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
+          else
+            str.sub!('??', '1992-10-10 12:30:00 UTC')
+            str.sub!('?!', '2003-05-26 14:15:00 UTC')
+          end
           out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
         end
       end
@@ -380,6 +392,28 @@ EOS
 
         it "should print ActiveRecord::Base objects (ex. ancestors)" do
           lambda { @ap.send(:awesome, User.ancestors) }.should_not raise_error
+        end
+      end
+
+      #------------------------------------------------------------------------------
+      describe "ActiveRecord methods formatting" do
+        before do
+          @ap = AwesomePrint::Inspector.new(:plain => true)
+        end
+
+        it "should format class methods properly" do
+          out = @ap.send(:awesome, User.methods.grep(/first/))
+          out.should =~ /\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
+
+          out = @ap.send(:awesome, User.methods.grep(/primary_key/))
+          out.should =~ /\sprimary_key\(.*?\)\s+User/
+
+          out = @ap.send(:awesome, User.methods.grep(/validate/))
+          if ActiveRecord::VERSION::MAJOR < 3
+            out.should =~ /\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
+          else
+            out.should =~ /\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/
+          end
         end
       end
     end
