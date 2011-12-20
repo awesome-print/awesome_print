@@ -25,12 +25,13 @@ module AwesomePrint
       awesome = if core_class != :self
         send(:"awesome_#{core_class}", object) # Core formatters.
       else
-        awesome_self(object, type) # Catch all that falls back on object.inspect.
+        awesome_self(object, type) # Catch all that falls back to object.inspect.
       end
       @options[:html] ? "<pre>#{awesome}</pre>" : awesome
     end
 
-    # Hook this when adding custom formatters.
+    # Hook this when adding custom formatters. Check out lib/awesome_print/ext
+    # directory for custom formatters that ship with awesome_print.
     #------------------------------------------------------------------------------
     def cast(object, type)
       CORE.grep(type)[0] || :self
@@ -262,7 +263,7 @@ module AwesomePrint
         args[-1] = "*#{args[-1]}" if method.arity < 0
       end
 
-      # method.to_s formats that to handle:
+      # method.to_s formats to handle:
       #
       # #<Method: Fixnum#zero?>
       # #<Method: Fixnum(Integer)#years>
@@ -273,7 +274,7 @@ module AwesomePrint
       #
       if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
         unbound, klass = $1 && '(unbound)', $2
-        if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord class?
+        if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord-style class?
           klass.sub!($1, '')                    # Yes, strip the fields leaving class name only.
         end
         owner = "#{klass}#{unbound}".gsub('(', ' (')
@@ -282,7 +283,7 @@ module AwesomePrint
       [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
     end
 
-    # Format hash keys as plain string regardless of underlying data type.
+    # Format hash keys as plain strings regardless of underlying data type.
     #------------------------------------------------------------------------------
     def plain_single_line
       plain, multiline = @options[:plain], @options[:multiline]
@@ -330,7 +331,25 @@ module AwesomePrint
       ' ' * (@indentation - @options[:indent].abs)
     end
 
-    # To support limited output.
+    # To support limited output, for example:
+    #
+    # ap ('a'..'z').to_a, :limit => 3
+    # [
+    #     [ 0] "a",
+    #     [ 1] .. [24],
+    #     [25] "z"
+    # ]
+    #
+    # ap (1..100).to_a, :limit => true # Default limit is 7.
+    # [
+    #     [ 0] 1,
+    #     [ 1] 2,
+    #     [ 2] 3,
+    #     [ 3] .. [96],
+    #     [97] 98,
+    #     [98] 99,
+    #     [99] 100
+    # ]
     #------------------------------------------------------------------------------
     def should_be_limited?
       @options[:limit] == true or (@options[:limit].is_a?(Fixnum) and @options[:limit] > 0)
@@ -361,6 +380,5 @@ module AwesomePrint
         temp
       end
     end
-
   end
 end
