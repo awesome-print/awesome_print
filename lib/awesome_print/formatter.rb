@@ -212,6 +212,7 @@ module AwesomePrint
     # Format object.methods array.
     #------------------------------------------------------------------------------
     def methods_array(a)
+      a.sort! { |x, y| x.to_s <=> y.to_s }                  # Can't simply a.sort! because of o.methods << [ :blah ]
       object = a.instance_variable_get('@__awesome_methods__')
       tuples = a.map do |name|
         if name.is_a?(Symbol) || name.is_a?(String)         # Ignore garbage, ex. 42.methods << [ :blah ]
