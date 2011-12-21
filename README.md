@@ -229,7 +229,7 @@ Supported color names:
 
 ### IRB integration ###
 To use awesome_print as default formatter in irb and Rails console add the following
-lines into your ~/.irbrc file:
+code to your ~/.irbrc file:
 
 	require "rubygems"
 	require "awesome_print"
@@ -247,6 +247,15 @@ lines into your ~/.irbrc file:
 	    end
 	  end.new
 	end
+
+### PRY integration ###
+If you miss awesome_print's way of formatting output, here's how you can use it in place
+of the formatting which comes with pry. Add the following code to your ~/.pryrc:
+
+	require "rubygems"
+	require "awesome_print"
+	
+	Pry.print = proc { |output, value| output.puts value.ai }
 
 ### Logger Convenience Method ###
 awesome_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
@@ -266,7 +275,8 @@ in the custom defaults (see below). You can also override on a per call basis wi
 awesome_print adds the 'ap' method to the ActionView::Base class making it available
 within Rails templates. For example:
 
-    <%= ap @accounts.first %>
+    <%= ap @accounts.first %>   # ERB
+    != ap @accounts.first       # HAML
 
 With other web frameworks (ex: in Sinatra templates) you can explicitly request HTML
 formatting:

@@ -1,3 +1,10 @@
+1.0.2
+  - Added formatting of Mongoid documents (Adam Doppelt)
+  - ActiveRecord objects display attributes only. Use :raw => true to display the entire object
+  - ActiveSupport::Date objects get formatted as regular Date
+  - Rails.logger.ap colorizes output based on ActiveSupport::LogSubscriber.colorize_logging (default is true)
+  - Improved formatting of methods array
+
 1.0.1
   - Updated repo tags for Rubygems.org
 
