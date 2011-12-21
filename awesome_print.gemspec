@@ -1,23 +1,16 @@
+# -*- encoding: utf-8 -*-
 # Copyright (c) 2010-2011 Michael Dvorkin
 #
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require "rake"
-require File.dirname(__FILE__) + "/lib/awesome_print/version"
-
-task :default => :spec
-
-desc "Run all awesome_print gem specs"
-task :spec do
-  # Run plain rspec command without RSpec::Core::RakeTask overrides.
-  exec "rspec -c spec"
-end
+$:.push File.expand_path("../lib", __FILE__)
+require 'awesome_print/version'
 
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
   s.version     = AwesomePrint.version
-# s.platform    = Gem::Platform::RUBY
+  s.platform    = Gem::Platform::RUBY
   s.authors     = "Michael Dvorkin"
   s.date        = Time.now.strftime("%Y-%m-%d")
   s.email       = "mike@dvorkin.net"
@@ -27,11 +20,13 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "awesome_print"
 
-  s.files         = Rake::FileList["[A-Z]*", "lib/**/*.rb", "spec/*", ".gitignore"]
-  s.test_files    = Rake::FileList["spec/*"]
-  s.executables   = []
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {spec}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_development_dependency "rspec",  ">= 2.6.0"
-  s.add_development_dependency "fakefs", ">= 0.2.1"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "bundler"
+  s.add_development_dependency "rspec",  "~> 2.6.0"
+  s.add_development_dependency "fakefs", "~> 0.2.0"
 end
