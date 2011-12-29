@@ -411,7 +411,7 @@ describe "Methods arrays" do
     end
 
     out = Hello.methods.grep(/^m_(.+)$/) { $1.to_sym }
-    out.should == [:one, :two]
+    out.should =~ [:one, :two]
   end
 
   it "obj1.methods.grep(pattern, &block) should be awesome printed" do
