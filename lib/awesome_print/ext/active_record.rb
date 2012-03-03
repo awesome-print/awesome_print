@@ -3,6 +3,8 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+require "cgi"
+
 module AwesomePrint
   module ActiveRecord
 
@@ -44,7 +46,9 @@ module AwesomePrint
         hash[name.to_sym] = object.send(name) if object.has_attribute?(name) || object.new_record?
         hash
       end
-      "#{object} " << awesome_hash(data)
+      prefix = "#{object} "
+      prefix = CGI.escapeHTML(prefix) if @options[:html]
+      prefix << awesome_hash(data)
     end
 
     # Format ActiveRecord class object.
