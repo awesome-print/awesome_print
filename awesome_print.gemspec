@@ -27,9 +27,9 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "awesome_print"
 
-  s.files         = Rake::FileList["[A-Z]*", "lib/**/*.rb", "spec/*", ".gitignore"]
-  s.test_files    = Rake::FileList["spec/*"]
-  s.executables   = []
+  s.files            = `git ls-files`.split("\n")
+  s.test_files       = `git ls-files -- spec/*`.split("\n")
+  s.executables      = []
   s.require_paths = ["lib"]
 
   s.add_development_dependency "rspec",  ">= 2.6.0"
