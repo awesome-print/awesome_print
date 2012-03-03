@@ -27,6 +27,7 @@ module AwesomePrint
       else
         awesome_self(object, type) # Catch all that falls back to object.inspect.
       end
+      #@options[:html] ? "<pre>#{awesome}</pre>" : awesome
     end
 
     # Hook this when adding custom formatters. Check out lib/awesome_print/ext
