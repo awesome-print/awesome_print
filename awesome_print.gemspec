@@ -3,16 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require "rake"
 require File.dirname(__FILE__) + "/lib/awesome_print/version"
-
-task :default => :spec
-
-desc "Run all awesome_print gem specs"
-task :spec do
-  # Run plain rspec command without RSpec::Core::RakeTask overrides.
-  exec "rspec -c spec"
-end
 
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
