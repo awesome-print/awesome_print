@@ -144,10 +144,12 @@ module AwesomePrint
           key << colorize(" = ", :hash) + @inspector.awesome(o.instance_variable_get(var))
         end
       end
+      lt = @options[:html] ? '&lt;' : '<'
+      gt = @options[:html] ? '&gt;' : '>'
       if @options[:multiline]
-        "#<#{awesome_instance(o)}\n#{data.join(%Q/,\n/)}\n#{outdent}>"
+        "##{lt}#{awesome_instance(o)}\n#{data.join(%Q/,\n/)}\n#{outdent}#{gt}"
       else
-        "#<#{awesome_instance(o)} #{data.join(', ')}>"
+        "##{lt}#{awesome_instance(o)} #{data.join(', ')}#{gt}"
       end
     end
 
