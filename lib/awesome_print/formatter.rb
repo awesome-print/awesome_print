@@ -3,7 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require "cgi"
+autoload :CGI, "cgi"
 require "shellwords"
 
 module AwesomePrint
