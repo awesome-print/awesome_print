@@ -15,9 +15,19 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_mongo_mapper(object, type)
       cast = cast_without_mongo_mapper(object, type)
-      if defined?(::MongoMapper::Document) && object.is_a?(Class) && (object.ancestors & [ ::MongoMapper::Document, ::MongoMapper::EmbeddedDocument ]).size > 0
-        cast = :mongo_mapper_class
+
+      if defined?(::MongoMapper::Document) 
+        if object.is_a?(Class) && (object.ancestors & [ ::MongoMapper::Document, ::MongoMapper::EmbeddedDocument ]).size > 0
+          cast = :mongo_mapper_class
+        elsif object.is_a?(::MongoMapper::Document) || object.is_a?(::MongoMapper::EmbeddedDocument)
+          cast = :mongo_mapper_instance
+        elsif object.is_a?(::MongoMapper::Plugins::Associations::Base)
+          cast = :mongo_mapper_association
+        elsif object.is_a?(::BSON::ObjectId)
+          cast = :mongo_mapper_bson_id
+        end
       end
+
       cast
     end
 
@@ -30,7 +40,69 @@ module AwesomePrint
         hash[c.first] = (c.last.type || "undefined").to_s.underscore.intern
         hash
       end
+
+      # Add in associations
+      if @options[:mongo_mapper][:show_associations]
+        object.associations.each do |name, assoc|
+          data[name.to_s] = assoc
+        end
+      end
+
       "class #{object} < #{object.superclass} " << awesome_hash(data)
+    end
+    
+    # Format MongoMapper instance object.
+    #
+    # NOTE: by default only instance attributes (i.e. keys) are shown. To format
+    # MongoMapper instance as regular object showing its instance variables and
+    # accessors use :raw => true option:
+    #
+    # ap record, :raw => true
+    #
+    #------------------------------------------------------------------------------
+    def awesome_mongo_mapper_instance(object)
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return awesome_object(object) if @options[:raw]
+
+      data = object.keys.keys.sort_by{|k| k}.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+        hash[name] = object[name]
+        hash
+      end
+
+      # Add in associations
+      if @options[:mongo_mapper][:show_associations]
+        object.associations.each do |name, assoc|
+          if @options[:mongo_mapper][:inline_embedded] and assoc.embeddable?
+            data[name.to_s] = object.send(name)
+          else
+            data[name.to_s] = assoc
+          end
+        end
+      end
+
+      label = object.to_s
+      label = "#{colorize('embedded', :assoc)} #{label}" if object.is_a?(::MongoMapper::EmbeddedDocument)
+
+      "#{label} " << awesome_hash(data)
+    end
+
+    # Format MongoMapper association object.
+    #------------------------------------------------------------------------------
+    def awesome_mongo_mapper_association(object)
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return awesome_object(object) if @options[:raw]
+
+      association = object.class.name.split('::').last.titleize.downcase.sub(/ association$/,'')
+      association = "embeds #{association}" if object.embeddable?
+      class_name = object.class_name
+
+      "#{colorize(association, :assoc)} #{colorize(class_name, :class)}"
+    end
+
+    # Format BSON::ObjectId
+    #------------------------------------------------------------------------------
+    def awesome_mongo_mapper_bson_id(object)
+      object.inspect
     end
   end
 end
