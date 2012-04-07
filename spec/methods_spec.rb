@@ -155,9 +155,9 @@ describe "Object methods" do
         def m1; end
         def m2; end
       end
-      out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\d+\]\s+m1\(\)\s+Hello$/
-      out.last.should  =~ /^\s+\[\d+\]\s+m2\(\)\s+Hello$/
+      out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/\bm\d/)
+      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/
+      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello$/
     end
 
     it "no index: should handle object.private_methods" do
@@ -165,11 +165,11 @@ describe "Object methods" do
         private
         def m3(a,b); end
       end
-      out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/m\d/)
+      out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/\bm\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+\[\d+\]\s+m3\(arg1, arg2\)\s+Hello$/
+        out.first.should =~ /^\s+\[\s*\d+\]\s+m3\(arg1, arg2\)\s+Hello$/
       else
-        out.first.should =~ /^\s+\[\d+\]\s+m3\(a, b\)\s+Hello$/
+        out.first.should =~ /^\s+\[\s*\d+\]\s+m3\(a, b\)\s+Hello$/
       end
     end
   end
@@ -291,7 +291,7 @@ describe "Class methods" do
         def m1; end
         def m2; end
       end
-      out = Hello.private_instance_methods.ai(:plain => true).split("\n").grep(/m\d/)
+      out = Hello.private_instance_methods.ai(:plain => true).split("\n").grep(/\bm\d/)
       out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/
       out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/
     end
@@ -301,7 +301,7 @@ describe "Class methods" do
         private
         def m3(a,b); end
       end
-      out = Hello.private_instance_methods.ai(:plain => true, :index => false).split("\n").grep(/m\d/)
+      out = Hello.private_instance_methods.ai(:plain => true, :index => false).split("\n").grep(/\bm\d/)
       if RUBY_VERSION < '1.9.2'
         out.first.should =~ /^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/
       else

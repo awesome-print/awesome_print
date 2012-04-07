@@ -18,11 +18,11 @@ Gem::Specification.new do |s|
   s.name        = "gardelea-awesome_print"
   s.version     = AwesomePrint.version
 # s.platform    = Gem::Platform::RUBY
-  s.authors     = "Michael Dvorkin"
+  s.authors     = ["Michael Dvorkin", "Christopher Giroir", "George Ardeleanu"]
   s.date        = Time.now.strftime("%Y-%m-%d")
   s.email       = "mike@dvorkin.net"
   s.homepage    = "http://github.com/gardelea/awesome_print"
-  s.summary     = "Pretty print Ruby objects with proper indentation and colors"
+  s.summary     = "Pretty print Ruby objects with proper indentation and colors (with MongoMapper instance support)"
   s.description = "Great Ruby dubugging companion: pretty print Ruby objects to visualize their structure. Supports custom object formatting via plugins"
 
   s.rubyforge_project = "awesome_print"
