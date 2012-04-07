@@ -37,7 +37,7 @@ module AwesomePrint
         :color => { 
           :args       => :pale,
           :array      => :white,
-          :assoc      => :greenish,
+          :assoc      => :greenish, # MongoMapper Associations color
           :bigdecimal => :blue,
           :class      => :yellow,
           :date       => :greenish,
