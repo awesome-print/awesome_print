@@ -1,3 +1,6 @@
+
+[![Build Status](https://secure.travis-ci.org/gardelea/awesome_print.png)](http://travis-ci.org/gardelea/awesome_print)
+
 ## Awesome Print ##
 Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
