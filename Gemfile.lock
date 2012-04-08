@@ -41,6 +41,7 @@ GEM
       activemodel (~> 3.0)
       activesupport (~> 3.0)
       plucky (~> 0.4.0)
+    nokogiri (1.5.2)
     plucky (0.4.4)
       mongo (~> 1.5)
     rack (1.2.5)
@@ -69,5 +70,6 @@ DEPENDENCIES
   fakefs (>= 0.2.1)
   gardelea-awesome_print!
   mongo_mapper (= 0.11.1)
+  nokogiri
   rake (= 0.9.2.2)
   rspec (>= 2.6.0)
