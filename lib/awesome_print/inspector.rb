@@ -30,9 +30,14 @@ module AwesomePrint
         :plain      => false,  # Use colors.
         :sort_keys  => false,  # Do not sort hash keys.
         :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
+        :mongo_mapper => {
+          :show_associations => false, # Display association data for MongoMapper documents and classes
+          :inline_embedded => false    # Display embedded associations inline with MongoMapper documents
+        },
         :color => { 
           :args       => :pale,
           :array      => :white,
+          :assoc      => :greenish, # MongoMapper Associations color
           :bigdecimal => :blue,
           :class      => :yellow,
           :date       => :greenish,

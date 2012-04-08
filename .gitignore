@@ -20,3 +20,6 @@ pkg
 
 ## PROJECT::SPECIFIC
 .rvmrc
+.bundle
+bundle
+*.gem

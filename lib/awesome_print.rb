@@ -7,7 +7,7 @@
 # AwesomePrint might be loaded implicitly through ~/.irbrc so do nothing
 # for subsequent requires.
 #
-unless defined?(AwesomePrint)
+unless defined?(AwesomePrint::Formatter)
   %w(array string method object class kernel).each do |file|
     require File.dirname(__FILE__) + "/awesome_print/core_ext/#{file}"
   end

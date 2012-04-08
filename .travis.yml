@@ -1,0 +1,5 @@
+rvm:
+  - 1.9.2
+branches:
+  only:
+    - mongo-mapper-associations-1.0
