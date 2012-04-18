@@ -7,7 +7,8 @@ module Kernel
 
   def ai(options = {})
     ap = AwesomePrint::Inspector.new(options)
-    ap.awesome self
+    awesome = ap.awesome self
+    options[:html] ? "<pre>#{awesome}</pre>" : awesome
   end
   alias :awesome_inspect :ai
 

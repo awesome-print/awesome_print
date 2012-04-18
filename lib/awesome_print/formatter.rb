@@ -27,7 +27,6 @@ module AwesomePrint
       else
         awesome_self(object, type) # Catch all that falls back to object.inspect.
       end
-      @options[:html] ? "<pre>#{awesome}</pre>" : awesome
     end
 
     # Hook this when adding custom formatters. Check out lib/awesome_print/ext
@@ -145,10 +144,12 @@ module AwesomePrint
           key << colorize(" = ", :hash) + @inspector.awesome(o.instance_variable_get(var))
         end
       end
+      lt = @options[:html] ? '&lt;' : '<'
+      gt = @options[:html] ? '&gt;' : '>'
       if @options[:multiline]
-        "#<#{awesome_instance(o)}\n#{data.join(%Q/,\n/)}\n#{outdent}>"
+        "##{lt}#{awesome_instance(o)}\n#{data.join(%Q/,\n/)}\n#{outdent}#{gt}"
       else
-        "#<#{awesome_instance(o)} #{data.join(', ')}>"
+        "##{lt}#{awesome_instance(o)} #{data.join(', ')}#{gt}"
       end
     end
 

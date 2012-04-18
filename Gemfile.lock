@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    awesome_print (1.0.0)
+    awesome_print (1.0.3)
 
 GEM
   remote: http://rubygems.org/
