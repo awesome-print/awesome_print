@@ -18,9 +18,9 @@ unless defined?(AwesomePrint)
   require File.dirname(__FILE__) + "/awesome_print/core_ext/logger" if defined?(Logger)
 
   # Load the following under normal circumstances as well as in Rails
-  # console when required from ~/.irbrc.
-  require File.dirname(__FILE__) + "/awesome_print/ext/active_record"  if defined?(ActiveRecord)  || (defined?(IRB) && ENV['RAILS_ENV'])
-  require File.dirname(__FILE__) + "/awesome_print/ext/active_support" if defined?(ActiveSupport) || (defined?(IRB) && ENV['RAILS_ENV'])
+  # console when required from ~/.irbrc or ~/.pryrc.
+  require File.dirname(__FILE__) + "/awesome_print/ext/active_record"  if defined?(ActiveRecord)  || (defined?(Pry) || (defined?(IRB) && ENV['RAILS_ENV']))
+  require File.dirname(__FILE__) + "/awesome_print/ext/active_support" if defined?(ActiveSupport) || (defined?(Pry) || (defined?(IRB) && ENV['RAILS_ENV']))
 
   # Load remaining extensions.
   require File.dirname(__FILE__) + "/awesome_print/ext/action_view"    if defined?(ActionView::Base)
