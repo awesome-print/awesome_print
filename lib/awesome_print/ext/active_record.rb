@@ -21,6 +21,8 @@ module AwesomePrint
         cast = :active_record_instance
       elsif object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
         cast = :active_record_class
+      elsif type == :activerecord_relation
+        cast = :array
       end
       cast
     end
