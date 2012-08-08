@@ -22,23 +22,14 @@ begin
       user = MongoUser.new :first_name => "Al", :last_name => "Capone"
       out = @ap.send :awesome, user
 
-      if defined?(::Moped)
-        str = <<-EOS.strip
+      object_id = defined?(::Moped) ? '"424242424242424242424242"' : "BSON::ObjectId('424242424242424242424242')"
+      str = <<-EOS.strip
 #<MongoUser:0x01234567> {
-           :_id => "424242424242424242424242",
+           :_id => #{object_id},
     :first_name => "Al",
      :last_name => "Capone"
 }
 EOS
-      else
-        str = <<-EOS.strip
-#<MongoUser:0x01234567> {
-           :_id => BSON::ObjectId('424242424242424242424242'),
-    :first_name => "Al",
-     :last_name => "Capone"
-}
-EOS
-      end
       out.gsub!(/0x([a-f\d]+)/, "0x01234567")
       if defined?(::Moped)
         out.gsub!(/:_id => \"[^"]+/, ":_id => \"424242424242424242424242")
@@ -67,7 +58,7 @@ EOS
       end
 
       moped_or_not = defined?(::Moped) ? 'moped/' : ''
-      last_attribute = defined?(::BSON) ? '"mongoid/fields/serializable/object"' : 'object'
+      last_attribute = defined?(::Moped) ? 'object' : '"mongoid/fields/serializable/object"'
       @ap.send(:awesome, Chamelion).should == <<-EOS.strip
 class Chamelion < Object {
                :_id => :"#{moped_or_not}bson/object_id",
