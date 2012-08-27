@@ -58,7 +58,9 @@ class Array #:nodoc:
       original_grep(pattern)
     else
       original_grep(pattern) do |match|
-        eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding)
+        unless blk.source_location.nil?
+          eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding)
+        end
         yield match
       end
     end
