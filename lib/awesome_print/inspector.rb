@@ -129,10 +129,8 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def merge_custom_defaults!
       dotfile = File.join(ENV["HOME"], ".aprc")
-      if File.readable?(dotfile)
-        load dotfile
-        merge_options!(AwesomePrint.defaults)
-      end
+      load dotfile if File.readable?(dotfile)
+      merge_options!(AwesomePrint.defaults) if AwesomePrint.defaults.is_a?(Hash)
     rescue => e
       $stderr.puts "Could not load #{dotfile}: #{e}"
     end

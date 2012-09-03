@@ -86,4 +86,20 @@ EOS
       markup.ai(:html => true).should == '<pre><kbd style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</kbd></pre>'
     end
   end
+
+  describe "AwesomePrint.defaults" do
+    # See https://github.com/michaeldv/awesome_print/issues/98
+    it "should properly merge the defaults" do
+      AwesomePrint.defaults = { :indent => -2, :sort_keys => true }
+      hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
+      out = hash.ai(:plain => true)
+      out.should == <<-EOS.strip
+{
+  [ 0, 0, 255 ] => :yellow,
+  "magenta"     => "rgb(255, 0, 255)",
+  :red          => "rgb(255, 0, 0)"
+}
+EOS
+    end
+  end
 end
