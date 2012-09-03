@@ -155,9 +155,10 @@ describe "Object methods" do
         def m1; end
         def m2; end
       end
+
       out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\d+\]\s+m1\(\)\s+Hello$/
-      out.last.should  =~ /^\s+\[\d+\]\s+m2\(\)\s+Hello$/
+      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/
+      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello$/
     end
 
     it "no index: should handle object.private_methods" do
@@ -167,9 +168,9 @@ describe "Object methods" do
       end
       out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+\[\d+\]\s+m3\(arg1, arg2\)\s+Hello$/
+        out.first.should =~ /^\s+\[\s*\d+\]\s+m3\(arg1, arg2\)\s+Hello$/
       else
-        out.first.should =~ /^\s+\[\d+\]\s+m3\(a, b\)\s+Hello$/
+        out.first.should =~ /^\s+\[\s*\d+\]\s+m3\(a, b\)\s+Hello$/
       end
     end
   end
@@ -183,8 +184,8 @@ describe "Object methods" do
         end
       end
       out = Hello.singleton_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\d+\]\s+m1\(\)\s+Hello$/
-      out.last.should  =~ /^\s+\[\d+\]\s+m2\(\)\s+Hello$/
+      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/
+      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello$/
     end
 
     it "no index: should handle object.singleton_methods" do
@@ -266,8 +267,8 @@ describe "Class methods" do
         def m2; end
       end
       out = Hello.protected_instance_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/
-      out.last.should  =~ /^\s+\[\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/
+      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/
+      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/
     end
 
     it "no index: should handle class.protected_instance_methods" do
