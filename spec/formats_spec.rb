@@ -601,6 +601,15 @@ EOS
       grepped.ai(:plain => true, :multiline => false).should == '[ "1", "2" ]'
     end
 
+    # See https://github.com/michaeldv/awesome_print/issues/85
+    if RUBY_VERSION >= "1.8.7"
+      it "handle array grep when a method is defined in C and thus doesn't have a binding" do
+        arr = (0..6).to_a
+        grepped = arr.grep(1..4, &:succ)
+        grepped.ai(:plain => true, :multiline => false).should == '[ 2, 3, 4, 5 ]'
+      end
+    end
+
     it "returns value passed as a parameter" do
       object = rand
       self.stub!(:puts)

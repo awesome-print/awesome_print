@@ -58,7 +58,17 @@ class Array #:nodoc:
       original_grep(pattern)
     else
       original_grep(pattern) do |match|
-        eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding)
+        #
+        # The binding can only be used with Ruby-defined methods, therefore
+        # we must rescue potential "ArgumentError: Can't create Binding from
+        # C level Proc" error.
+        #
+        # For example, the following raises ArgumentError since #succ method
+        # is defined in C.
+        #
+        # [ 0, 1, 2, 3, 4 ].grep(1..2, &:succ)
+        #
+        eval("%Q/#{match.to_s.gsub('/', '\/')}/ =~ #{pattern.inspect}", blk.binding) rescue ArgumentError
         yield match
       end
     end
