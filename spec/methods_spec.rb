@@ -411,7 +411,7 @@ describe "Methods arrays" do
       def self.m_two; end
     end
 
-    out = Hello.methods.grep(/^m_(.+)$/) { $1.to_sym }
+    out = Hello.methods.sort.grep(/^m_(.+)$/) { $1.to_sym }
     out.should == [:one, :two]
   end
 
