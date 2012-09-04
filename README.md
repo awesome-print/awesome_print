@@ -37,6 +37,7 @@ Default options:
       :keyword    => :cyan,
       :method     => :purpleish,
       :nilclass   => :red,
+      :rational   => :blue,
       :string     => :yellowish,
       :struct     => :pale,
       :symbol     => :cyanish,

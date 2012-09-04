@@ -201,7 +201,7 @@ module AwesomePrint
     def awesome_bigdecimal(n)
       colorize(n.to_s("F"), :bigdecimal)
     end
-    
+
     # Format Rational object.
     #------------------------------------------------------------------------------
     def awesome_rational(n)
