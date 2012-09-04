@@ -101,5 +101,43 @@ EOS
 }
 EOS
     end
+
+    describe "Coexistence with the colorize gem" do
+      before do # Redefine String#red just like colorize gem does it.
+        @awesome_method = "".method(:red)
+        String.instance_eval do
+          define_method :red do   # Method arity is 0.
+            "[red]#{self}[/red]"
+          end
+        end
+      end
+
+      after do # Restore String#red method.
+        awesome_method = @awesome_method
+        String.instance_eval do
+          define_method :red, awesome_method
+        end
+      end
+
+      it "shoud not raise ArgumentError when formatting HTML" do
+        out = "hello".ai(:color => { :string => :red }, :html => true)
+        out.should == %Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|
+      end
+
+      it "shoud not raise ArgumentError when formatting HTML (shade color)" do
+        out = "hello".ai(:color => { :string => :redish }, :html => true)
+        out.should == %Q|<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>|
+      end
+
+      it "shoud not raise ArgumentError when formatting non-HTML" do
+        out = "hello".ai(:color => { :string => :red }, :html => false)
+        out.should == %Q|[red]"hello"[/red]|
+      end
+
+      it "shoud not raise ArgumentError when formatting non-HTML (shade color)" do
+        out = "hello".ai(:color => { :string => :redish }, :html => false)
+        out.should == %Q|\e[0;31m"hello"\e[0m|
+      end
+    end
   end
 end
