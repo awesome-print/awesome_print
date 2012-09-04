@@ -196,12 +196,17 @@ module AwesomePrint
       colorize(ls.empty? ? d.inspect : "#{d.inspect}\n#{ls.chop}", :dir)
     end
 
-    # Format BigDecimal and Rational objects by convering them to Float.
+    # Format BigDecimal object.
     #------------------------------------------------------------------------------
     def awesome_bigdecimal(n)
-      colorize(n.to_f.inspect, :bigdecimal)
+      colorize(n.to_s("F"), :bigdecimal)
     end
-    alias :awesome_rational :awesome_bigdecimal
+    
+    # Format Rational object.
+    #------------------------------------------------------------------------------
+    def awesome_rational(n)
+      colorize(n.to_s, :rational)
+    end
 
     # Format a method.
     #------------------------------------------------------------------------------

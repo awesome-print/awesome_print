@@ -479,14 +479,14 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "BigDecimal and Rational" do
-    it "should present BigDecimal object as Float scalar" do
-      big = BigDecimal("2010.4")
-      big.ai(:plain => true).should == "2010.4"
+    it "should present BigDecimal object with arbitrary precision" do
+      big = BigDecimal("201020102010201020102010201020102010.4")
+      big.ai(:plain => true).should == "201020102010201020102010201020102010.4"
     end
 
-    it "should present Rational object as Float scalar" do
-      rat = Rational(2010, 2)
-      rat.ai(:plain => true).should == "1005.0"
+    it "should present Rational object with arbitrary precision" do
+      rat = Rational(201020102010201020102010201020102010, 2)
+      rat.ai(:plain => true).should == "100510051005100510051005100510051005/1"
     end
   end
 
