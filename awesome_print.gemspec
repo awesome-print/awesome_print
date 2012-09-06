@@ -6,14 +6,6 @@
 require "rake"
 require File.dirname(__FILE__) + "/lib/awesome_print/version"
 
-task :default => :spec
-
-desc "Run all awesome_print gem specs"
-task :spec do
-  # Run plain rspec command without RSpec::Core::RakeTask overrides.
-  exec "rspec -c spec"
-end
-
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
   s.version     = AwesomePrint.version
@@ -27,8 +19,8 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "awesome_print"
 
-  s.files         = Rake::FileList["[A-Z]*", "lib/**/*.rb", "spec/*", ".gitignore"]
-  s.test_files    = Rake::FileList["spec/*"]
+  s.files         = Dir["[A-Z]*[^~]"] + Dir["lib/**/*.rb"] + Dir["spec/*"] + [".gitignore"]
+  s.test_files    = Dir["spec/*"]
   s.executables   = []
   s.require_paths = ["lib"]
 
