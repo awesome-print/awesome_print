@@ -125,9 +125,9 @@ EOS
         it "display single record" do
           out = @ap.send(:awesome, @diana)
 
-          # ActiveRecord 3.1
+          # ActiveRecord 3.1 and on.
           #--------------------------------------------------------------------------
-          if ActiveRecord::VERSION::STRING.start_with?('3.1')
+          if ActiveRecord::VERSION::STRING >= "3.1"
             str = <<-EOS.strip
 #<User:0x01234567
     @aggregation_cache = {},
@@ -182,7 +182,7 @@ EOS
 EOS
           # ActiveRecord 2.x
           #--------------------------------------------------------------------------
-          else
+          elsif ActiveRecord::VERSION::STRING.start_with?('2.')
             str = <<-EOS.strip
 #<User:0x01234567
     @attributes_cache = {},
@@ -209,9 +209,9 @@ EOS
         it "display multiple records" do
           out = @ap.send(:awesome, [ @diana, @laura ])
 
-          # ActiveRecord 3.1
+          # ActiveRecord 3.1 and on.
           #--------------------------------------------------------------------------
-          if ActiveRecord::VERSION::STRING.start_with?('3.1')
+          if ActiveRecord::VERSION::STRING >= "3.1"
             str = <<-EOS.strip
 [
     [0] #<User:0x01234567
@@ -315,7 +315,7 @@ EOS
 EOS
           # ActiveRecord 2.0.x
           #--------------------------------------------------------------------------
-          else
+          elsif ActiveRecord::VERSION::STRING.start_with?('2.')
             str = <<-EOS.strip
 [
     [0] #<User:0x01234567
@@ -358,7 +358,6 @@ EOS
           out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
         end
       end
-
 
       #------------------------------------------------------------------------------
       describe "ActiveRecord class" do
@@ -403,7 +402,16 @@ EOS
 
         it "should format class methods properly" do
           out = @ap.send(:awesome, User.methods.grep(/first/))
-          out.should =~ /\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
+
+          if ActiveRecord::VERSION::STRING >= "3.2"
+            if RUBY_VERSION >= "1.9"
+              out.should =~ /\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/
+            else
+              out.should =~ /\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/
+            end
+          else
+            out.should =~ /\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
+          end
 
           out = @ap.send(:awesome, User.methods.grep(/primary_key/))
           out.should =~ /\sprimary_key\(.*?\)\s+User/
