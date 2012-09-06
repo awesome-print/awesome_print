@@ -127,7 +127,7 @@ EOS
       @awesome_method = "".method(:red)
 
       String.instance_eval do
-        define_method :red do   # Method arity is 0.
+        define_method :red do   # Method arity is now 0 in Ruby 1.9+.
           "[red]#{self}[/red]"
         end
       end
@@ -142,7 +142,11 @@ EOS
 
     it "shoud not raise ArgumentError when formatting HTML" do
       out = "hello".ai(:color => { :string => :red }, :html => true)
-      out.should == %Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|
+      if RUBY_VERSION >= "1.9"
+        out.should == %Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|
+      else
+        out.should == %Q|<pre>[red]&quot;hello&quot;[/red]</pre>|
+      end
     end
 
     it "shoud not raise ArgumentError when formatting HTML (shade color)" do
