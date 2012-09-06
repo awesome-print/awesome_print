@@ -16,11 +16,11 @@ module AwesomePrint
     end
 
     def console?
-      defined?(IRB) || defined?(Pry)
+      !!(defined?(IRB) || defined?(Pry))
     end
 
     def rails_console?
-      console? && (defined?(Rails::Console) || ENV["RAILS_ENV"])
+      console? && !!(defined?(Rails::Console) || ENV["RAILS_ENV"])
     end
   end
 

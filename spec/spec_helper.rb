@@ -23,6 +23,13 @@ def stub_dotfile!
   File.should_receive(:readable?).at_least(:once).with(dotfile).and_return(false)
 end
 
+def capture!
+  standard, $stdout = $stdout, StringIO.new
+  yield
+ensure
+  $stdout = standard
+end
+
 # The following is needed for the Infinity Test. It runs tests as subprocesses,
 # which sets STDOUT.tty? to false and would otherwise prematurely disallow colors.
 ### AwesomePrint.force_colors!

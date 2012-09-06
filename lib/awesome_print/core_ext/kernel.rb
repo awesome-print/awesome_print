@@ -13,7 +13,7 @@ module Kernel
 
   def ap(object, options = {})
     puts object.ai(options)
-    object
+    object unless AwesomePrint.console?
   end
   alias :awesome_print :ap
 

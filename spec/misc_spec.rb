@@ -1,12 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "AwesomePrint" do
-  before do
-    stub_dotfile!
-  end
 
-  #------------------------------------------------------------------------------
   describe "Misc" do
+    before do
+      stub_dotfile!
+    end
+
     it "handle weird objects that return nil on inspect" do
       weird = Class.new do
         def inspect
@@ -54,7 +54,12 @@ describe "AwesomePrint" do
     end
   end
 
+  #------------------------------------------------------------------------------
   describe "HTML output" do
+    before do
+      stub_dotfile!
+    end
+
     it "wraps ap output with plain <pre> tag" do
       markup = rand
       markup.ai(:html => true, :plain => true).should == "<pre>#{markup}</pre>"
@@ -87,7 +92,16 @@ EOS
     end
   end
 
+  #------------------------------------------------------------------------------
   describe "AwesomePrint.defaults" do
+    before do
+      stub_dotfile!
+    end
+
+    after do
+      AwesomePrint.defaults = nil
+    end
+
     # See https://github.com/michaeldv/awesome_print/issues/98
     it "should properly merge the defaults" do
       AwesomePrint.defaults = { :indent => -2, :sort_keys => true }
@@ -101,43 +115,95 @@ EOS
 }
 EOS
     end
+  end
 
-    describe "Coexistence with the colorize gem" do
-      before do # Redefine String#red just like colorize gem does it.
-        @awesome_method = "".method(:red)
-        String.instance_eval do
-          define_method :red do   # Method arity is 0.
-            "[red]#{self}[/red]"
-          end
+  #------------------------------------------------------------------------------
+  describe "Coexistence with the colorize gem" do
+    before do
+      stub_dotfile!
+    end
+
+    before do # Redefine String#red just like colorize gem does it.
+      @awesome_method = "".method(:red)
+
+      String.instance_eval do
+        define_method :red do   # Method arity is 0.
+          "[red]#{self}[/red]"
         end
       end
+    end
 
-      after do # Restore String#red method.
-        awesome_method = @awesome_method
-        String.instance_eval do
-          define_method :red, awesome_method
-        end
+    after do # Restore String#red method.
+      awesome_method = @awesome_method
+      String.instance_eval do
+        define_method :red, awesome_method
       end
+    end
 
-      it "shoud not raise ArgumentError when formatting HTML" do
-        out = "hello".ai(:color => { :string => :red }, :html => true)
-        out.should == %Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|
-      end
+    it "shoud not raise ArgumentError when formatting HTML" do
+      out = "hello".ai(:color => { :string => :red }, :html => true)
+      out.should == %Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|
+    end
 
-      it "shoud not raise ArgumentError when formatting HTML (shade color)" do
-        out = "hello".ai(:color => { :string => :redish }, :html => true)
-        out.should == %Q|<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>|
-      end
+    it "shoud not raise ArgumentError when formatting HTML (shade color)" do
+      out = "hello".ai(:color => { :string => :redish }, :html => true)
+      out.should == %Q|<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>|
+    end
 
-      it "shoud not raise ArgumentError when formatting non-HTML" do
-        out = "hello".ai(:color => { :string => :red }, :html => false)
-        out.should == %Q|[red]"hello"[/red]|
-      end
+    it "shoud not raise ArgumentError when formatting non-HTML" do
+      out = "hello".ai(:color => { :string => :red }, :html => false)
+      out.should == %Q|[red]"hello"[/red]|
+    end
 
-      it "shoud not raise ArgumentError when formatting non-HTML (shade color)" do
-        out = "hello".ai(:color => { :string => :redish }, :html => false)
-        out.should == %Q|\e[0;31m"hello"\e[0m|
-      end
+    it "shoud not raise ArgumentError when formatting non-HTML (shade color)" do
+      out = "hello".ai(:color => { :string => :redish }, :html => false)
+      out.should == %Q|\e[0;31m"hello"\e[0m|
+    end
+  end
+
+  #------------------------------------------------------------------------------
+  describe "Console" do
+    it "should detect IRB" do
+      class IRB; end
+      AwesomePrint.console?.should == true
+      AwesomePrint.rails_console?.should == false
+      Object.instance_eval{ remove_const :IRB }
+    end
+
+    it "should detect Pry" do
+      class Pry; end
+      AwesomePrint.console?.should == true
+      AwesomePrint.rails_console?.should == false
+      Object.instance_eval{ remove_const :Pry }
+    end
+
+    it "should detect Rails::Console" do
+      class IRB; end
+      class Rails; class Console; end; end
+      AwesomePrint.console?.should == true
+      AwesomePrint.rails_console?.should == true
+      Object.instance_eval{ remove_const :IRB }
+      Object.instance_eval{ remove_const :Rails }
+    end
+
+    it "should detect ENV['RAILS_ENV']" do
+      class Pry; end
+      ENV["RAILS_ENV"] = "development"
+      AwesomePrint.console?.should == true
+      AwesomePrint.rails_console?.should == true
+      Object.instance_eval{ remove_const :Pry }
+    end
+
+    it "should return the actual object when *not* running under console" do
+      capture! { ap([ 1, 2, 3 ]) }.should == [ 1, 2, 3 ]
+      capture! { ap({ :a => 1 }) }.should == { :a => 1 }
+    end
+
+    it "should return nil when running under console" do
+      class IRB; end
+      capture! { ap([ 1, 2, 3 ]) }.should == nil
+      capture! { ap({ :a => 1 }) }.should == nil
+      Object.instance_eval{ remove_const :IRB }
     end
   end
 end
