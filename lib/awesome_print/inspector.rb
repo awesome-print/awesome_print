@@ -14,6 +14,14 @@ module AwesomePrint
     def force_colors!(value = true)
       @force_colors = value
     end
+
+    def console?
+      defined?(IRB) || defined?(Pry)
+    end
+
+    def rails_console?
+      console? && (defined?(Rails::Console) || ENV["RAILS_ENV"])
+    end
   end
 
   class Inspector
