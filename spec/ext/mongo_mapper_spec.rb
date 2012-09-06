@@ -5,10 +5,6 @@ begin
   require "awesome_print/ext/mongo_mapper"
 
   describe "AwesomePrint/MongoMapper" do
-    before do
-      stub_dotfile!
-    end
-
     before :all do
       class MongoUser
         include MongoMapper::Document
@@ -18,7 +14,13 @@ begin
       end
     end
 
+    after :all do
+      Object.instance_eval{ remove_const :MongoUser }
+      Object.instance_eval{ remove_const :Chamelion }
+    end
+
     before do
+      stub_dotfile!
       @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
     end
 
