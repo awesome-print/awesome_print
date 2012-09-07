@@ -232,31 +232,15 @@ Supported color names:
 To use awesome_print as default formatter in irb and Rails console add the following
 code to your ~/.irbrc file:
 
-	require "rubygems"
 	require "awesome_print"
-
-	unless IRB.version.include?('DietRB')
-	  IRB::Irb.class_eval do
-	    def output_value
-	      ap @context.last_value
-	    end
-	  end
-	else # MacRuby
-	  IRB.formatter = Class.new(IRB::Formatter) do
-	    def inspect_object(object)
-	      object.ai
-	    end
-	  end.new
-	end
+  AwesomePrint.irb!
 
 ### PRY integration ###
 If you miss awesome_print's way of formatting output, here's how you can use it in place
 of the formatting which comes with pry. Add the following code to your ~/.pryrc:
 
-	require "rubygems"
 	require "awesome_print"
-	
-	Pry.print = proc { |output, value| output.puts value.ai }
+  AwesomePrint.pry!
 
 ### Logger Convenience Method ###
 awesome_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
