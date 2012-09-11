@@ -316,7 +316,7 @@ For example:
 * Viktar Basharymau -- https://github.com/DNNX
 
 ### License ###
-Copyright (c) 2010-2011 Michael Dvorkin
+Copyright (c) 2010-2012 Michael Dvorkin
 
 twitter.com/mid
 
