@@ -325,7 +325,7 @@ For example:
 ### License ###
 Copyright (c) 2010-2012 Michael Dvorkin
 
-twitter.com/mid
+http://www.dvorkin.net
 
 %w(mike dvorkin.net) * "@" || %w(mike fatfreecrm.com) * "@"
 

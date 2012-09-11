@@ -1,3 +1,14 @@
+1.1.0
+  - Objects are no longer recursively formatted by default. Reenable by using :raw => true option.
+  - ap(object) now returns nil when running under IRB or Pry
+  - Added support for Mongoid 3 and Moped (Nikolaj Nikolajsen)
+  - Improved formatting of MongoMapper objects (George .)
+  - ActiveRecord::Relation now renders as array (Dan Lynn)
+  - Formatting BigDecimal no longer looses precision (Evan Senter)
+  - Added AwesomePrint.irb! and AwesomePrint.pry! convenience methods
+  - Fixed conflict with the colorize gem
+  - Misc tweaks and bug fixes
+
 1.0.2
   - Added formatting of Mongoid documents (Adam Doppelt)
   - ActiveRecord objects display attributes only. Use :raw => true to display the entire object
