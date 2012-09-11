@@ -59,6 +59,7 @@ module AwesomePrint
         :html       => false,  # Use ANSI color codes rather than HTML.
         :multiline  => true,   # Display in multiple lines.
         :plain      => false,  # Use colors.
+        :raw        => false,  # Do not recursively format object instance variables.
         :sort_keys  => false,  # Do not sort hash keys.
         :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
         :color => { 

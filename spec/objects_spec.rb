@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "Single method" do
+describe "Objects" do
   before do
     stub_dotfile!
   end
@@ -9,7 +9,7 @@ describe "Single method" do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end
 
-  describe "object" do
+  describe "Formatting an object" do
     it "attributes" do
       class Hello
         attr_reader   :abra
@@ -21,7 +21,8 @@ describe "Single method" do
         end
       end
 
-      out = Hello.new.ai(:plain => true)
+      hello = Hello.new
+      out = hello.ai(:plain => true, :raw => true)
       str = <<-EOS.strip
 #<Hello:0x01234567
     attr_accessor :dabra = 3,
@@ -30,6 +31,7 @@ describe "Single method" do
 >
 EOS
       out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+      hello.ai(:plain => true, :raw => false).should == hello.inspect
     end
 
     it "instance variables" do
@@ -39,7 +41,8 @@ EOS
         end
       end
 
-      out = Hello.new.ai(:plain => true)
+      hello = Hello.new
+      out = hello.ai(:plain => true, :raw => true)
       str = <<-EOS.strip
 #<Hello:0x01234567
     @abra = 1,
@@ -48,6 +51,7 @@ EOS
 >
 EOS
       out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+      hello.ai(:plain => true, :raw => false).should == hello.inspect
     end
 
     it "attributes and instance variables" do
@@ -62,7 +66,8 @@ EOS
         end
       end
 
-      out = Hello.new.ai(:plain => true)
+      hello = Hello.new
+      out = hello.ai(:plain => true, :raw => true)
       str = <<-EOS.strip
 #<Hello:0x01234567
     @doo = 1,
@@ -74,6 +79,7 @@ EOS
 >
 EOS
       out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+      hello.ai(:plain => true, :raw => false).should == hello.inspect
     end
   end
 end

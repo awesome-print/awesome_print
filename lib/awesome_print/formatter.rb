@@ -61,8 +61,11 @@ module AwesomePrint
     # Catch all method to format an arbitrary object.
     #------------------------------------------------------------------------------
     def awesome_self(object, type)
-      return awesome_object(object) if object.instance_variables.any?
-      colorize(object.inspect.to_s, type)
+      if @options[:raw] && object.instance_variables.any?
+        awesome_object(object)
+      else
+        colorize(object.inspect.to_s, type)
+      end
     end
 
     # Format an array.
