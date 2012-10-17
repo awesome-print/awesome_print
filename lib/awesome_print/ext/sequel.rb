@@ -17,6 +17,8 @@ module AwesomePrint
       cast = cast_without_sequel(object, type)
       if defined?(::Sequel::Model) && object.class.ancestors.include?(::Sequel::Model)
         cast = :sequel_document
+      elsif defined?(::Sequel::Mysql2::Dataset) && object.class.ancestors.include?(::Sequel::Mysql2::Dataset)
+        cast = :sequel_dataset
       end
       cast
     end
@@ -33,7 +35,14 @@ module AwesomePrint
       end
       "#{object} #{awesome_hash(data)}"
     end
+
+    # Format Sequel Dataset object.
+    #------------------------------------------------------------------------------
+    def awesome_sequel_dataset(dataset)
+      awesome_array(dataset.to_a)
+    end
   end
+
 end
 
 AwesomePrint::Formatter.send(:include, AwesomePrint::Sequel)
