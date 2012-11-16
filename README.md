@@ -234,7 +234,7 @@ To use awesome_print as default formatter in irb and Rails console add the follo
 code to your ~/.irbrc file:
 
 	require "awesome_print"
-  AwesomePrint.irb!
+  	AwesomePrint.irb!
 
 ### PRY integration ###
 If you miss awesome_print's way of formatting output, here's how you can use it in place
