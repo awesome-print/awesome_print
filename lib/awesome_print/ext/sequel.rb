@@ -26,7 +26,7 @@ module AwesomePrint
     # Format Sequel Document object.
     #------------------------------------------------------------------------------
     def awesome_sequel_document(object)
-      data = object.values.sort_by { |key| key }.inject({}) do |hash, c|
+      data = object.values.sort_by { |key| key.to_s }.inject({}) do |hash, c|
         hash[c[0].to_sym] = c[1]
         hash
       end
