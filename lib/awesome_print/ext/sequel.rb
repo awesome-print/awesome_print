@@ -39,7 +39,7 @@ module AwesomePrint
     # Format Sequel Dataset object.
     #------------------------------------------------------------------------------
     def awesome_sequel_dataset(dataset)
-      awesome_array(dataset.to_a)
+      [awesome_array(dataset.to_a), awesome_print(dataset.sql)].join("\n")
     end
   end
 
