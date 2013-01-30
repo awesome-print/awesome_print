@@ -233,15 +233,15 @@ Supported color names:
 To use awesome_print as default formatter in irb and Rails console add the following
 code to your ~/.irbrc file:
 
-	require "awesome_print"
-  AwesomePrint.irb!
+    require "awesome_print"
+    AwesomePrint.irb!
 
 ### PRY integration ###
 If you miss awesome_print's way of formatting output, here's how you can use it in place
 of the formatting which comes with pry. Add the following code to your ~/.pryrc:
 
-	require "awesome_print"
-  AwesomePrint.pry!
+    require "awesome_print"
+    AwesomePrint.pry!
 
 ### Logger Convenience Method ###
 awesome_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
@@ -294,7 +294,7 @@ For example:
 * Make your feature addition or bug fix.
 * Add specs for it, making sure $ rake spec is all green.
 * Commit, do not mess with rakefile, version, or history.
-* Send me commit URL (*do not* send me pull requests).
+* Send me commit URL (*do not* send pull requests).
 
 ### Contributors ###
 
