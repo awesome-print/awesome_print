@@ -19,4 +19,11 @@ class Object #:nodoc:
       methods
     end
   end
+  
+  # awesome_print tap
+  # example: [1,2,3,4].tapp.pop
+  def tapp
+    ap self
+    self
+  end
 end
