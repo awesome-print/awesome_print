@@ -46,8 +46,8 @@ module AwesomePrint
       end
 
       unless exclude_assoc
-        data = object.embedded_associations.inject(data) do |hash, assoc|
-          hash[assoc.name] = assoc.load_target
+        data = object.class.embedded_associations.inject(data) do |hash, assoc|
+          hash[assoc.name] = object.get_proxy(assoc) # Should always be array or Ripple::EmbeddedDocument for embedded associations
           hash
         end
       end
