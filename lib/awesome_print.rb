@@ -29,4 +29,5 @@ unless defined?(AwesomePrint::Inspector)
   require File.dirname(__FILE__) + "/awesome_print/ext/mongo_mapper"   if defined?(MongoMapper)
   require File.dirname(__FILE__) + "/awesome_print/ext/mongoid"        if defined?(Mongoid)
   require File.dirname(__FILE__) + "/awesome_print/ext/nokogiri"       if defined?(Nokogiri)
+  require File.dirname(__FILE__) + "/awesome_print/ext/ripple"         if defined?(Ripple)
 end
