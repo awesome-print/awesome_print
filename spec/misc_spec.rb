@@ -74,11 +74,22 @@ describe "AwesomePrint" do
       markup = [ 1, :two, "three" ]
       markup.ai(:html => true).should == <<-EOS.strip
 <pre>[
-    <kbd style="color:white">[0] </kbd><pre><kbd style="color:blue">1</kbd></pre>,
-    <kbd style="color:white">[1] </kbd><pre><kbd style="color:darkcyan">:two</kbd></pre>,
-    <kbd style="color:white">[2] </kbd><pre><kbd style="color:brown">&quot;three&quot;</kbd></pre>
+    <kbd style="color:white">[0] </kbd><kbd style="color:blue">1</kbd>,
+    <kbd style="color:white">[1] </kbd><kbd style="color:darkcyan">:two</kbd>,
+    <kbd style="color:white">[2] </kbd><kbd style="color:brown">&quot;three&quot;</kbd>
 ]</pre>
 EOS
+    end
+
+    it "wraps hash ap output with only an outer <pre> tag" do
+      markup = [ { "hello" => "world" } ]
+      markup.ai(:html => true).should == <<-EOS.strip
+<pre>[
+    <kbd style="color:white">[0] </kbd>{
+        &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
+    }
+]</pre>
+    EOS
     end
 
     it "encodes HTML entities (plain)" do
