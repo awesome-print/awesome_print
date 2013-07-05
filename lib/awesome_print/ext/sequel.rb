@@ -46,7 +46,7 @@ module AwesomePrint
 
     # Format Sequel Model class.
     #------------------------------------------------------------------------------
-    def awesome_sequel_model_class
+    def awesome_sequel_model_class(object)
       data = object.db_schema.inject({}) {|h, (name,data)| h.merge(name => data[:db_type])}
       "class #{object} < #{object.superclass} " << awesome_hash(data)
     end
