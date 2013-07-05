@@ -15,8 +15,10 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_sequel(object, type)
       cast = cast_without_sequel(object, type)
-      if defined?(::Sequel::Model) && object.class.ancestors.include?(::Sequel::Model)
+      if defined?(::Sequel::Model) && object.is_a?(::Sequel::Model)
         cast = :sequel_document
+      elsif defined?(::Sequel::Model) && object.is_a?(Class) && object.ancestors.include?(::Sequel::Model)
+        cast = :sequel_model_class
       elsif defined?(::Sequel::Mysql2::Dataset) && object.class.ancestors.include?(::Sequel::Mysql2::Dataset)
         cast = :sequel_dataset
       end
@@ -40,6 +42,12 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_sequel_dataset(dataset)
       [awesome_array(dataset.to_a), awesome_print(dataset.sql)].join("\n")
+    end
+
+    # Format Sequel Model class.
+    #------------------------------------------------------------------------------
+    def awesome_sequel_model_class
+      "class #{object} < #{object.superclass} " << awesome_hash(object.db_schema)
     end
   end
 
