@@ -26,7 +26,7 @@ begin
     end
 
     it "should print class instance" do
-      user = RippleUser.new :_id => '12345' :first_name => "Al", :last_name => "Capone"
+      user = RippleUser.new :_id => "12345", :first_name => "Al", :last_name => "Capone"
       out = @ap.send :awesome, user
 
       out.should == <<-EOS.strip
