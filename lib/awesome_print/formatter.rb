@@ -126,7 +126,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_object(o)
       vars = o.instance_variables.map do |var|
-        property = var.to_s[1..-1].to_sym
+        property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
         accessor = if o.respond_to?(:"#{property}=")
           o.respond_to?(property) ? :accessor : :writer
         else
