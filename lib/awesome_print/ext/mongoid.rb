@@ -44,7 +44,7 @@ module AwesomePrint
     def awesome_mongoid_document(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
 
-      data = object.attributes.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
+      data = (object.attributes || {}).sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
         hash[c[0].to_sym] = c[1]
         hash
       end
