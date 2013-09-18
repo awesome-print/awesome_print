@@ -43,7 +43,10 @@ module AwesomePrint
       return awesome_object(object) if @options[:raw]
 
       data = object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
-        hash[name.to_sym] = object.read_attribute(name) if object.has_attribute?(name) || object.new_record?
+        if object.has_attribute?(name) || object.new_record?
+          value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
+          hash[name.to_sym] = value
+        end
         hash
       end
       "#{object} " << awesome_hash(data)
