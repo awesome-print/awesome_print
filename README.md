@@ -236,12 +236,11 @@ code to your ~/.irbrc file:
     require "awesome_print"
     AwesomePrint.irb!
 
-### PRY integration ###
-If you miss awesome_print's way of formatting output, here's how you can use it in place
-of the formatting which comes with pry. Add the following code to your ~/.pryrc:
+### Pry integration ###
+If you miss awesome_print's way of formatting output, there is a Pry plugin
+called `pry-awesome_print`. No further configuration needed.
 
-    require "awesome_print"
-    AwesomePrint.pry!
+    gem install pry-awesome_print
 
 ### Logger Convenience Method ###
 awesome_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
