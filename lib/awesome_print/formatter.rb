@@ -9,7 +9,7 @@ require "shellwords"
 module AwesomePrint
   class Formatter
 
-    CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ]
+    CORE = [ :array, :set, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ]
     DEFAULT_LIMIT_SIZE = 7
 
     def initialize(inspector)
@@ -91,6 +91,12 @@ module AwesomePrint
       else
         "[ " << a.map{ |item| @inspector.awesome(item) }.join(", ") << " ]"
       end
+    end
+
+    # Format a set.
+    #------------------------------------------------------------------------------
+    def awesome_set(s)
+      awesome_array(s.to_a)
     end
 
     # Format a hash. If @options[:indent] if negative left align hash keys.
