@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require "bigdecimal"
 require "rational"
+require "set"
 
 describe "AwesomePrint" do
   before do
@@ -508,6 +509,34 @@ EOS
       options = ap.instance_variable_get("@options")
       options[:color][:array].should == :black
       options[:indent].should == 0
+    end
+  end
+
+  #------------------------------------------------------------------------------
+  describe "Set" do
+    before do
+      @arr = [1, :two, "three" ]
+      @set = Set.new(@arr)
+    end
+
+    it "empty set" do
+      Set.new.ai.should == [].ai
+    end
+
+    it "plain multiline" do
+      @set.ai(:plain => true).should == @arr.ai(:plain => true)
+    end
+
+    it "plain multiline indented" do
+      @set.ai(:plain => true, :indent => 1).should == @arr.ai(:plain => true, :indent => 1)
+    end
+
+    it "plain single line" do
+      @set.ai(:plain => true, :multiline => false).should == @arr.ai(:plain => true, :multiline => false)
+    end
+
+    it "colored multiline (default)" do
+      @set.ai.should == @arr.ai
     end
   end
 

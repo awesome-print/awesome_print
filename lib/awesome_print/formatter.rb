@@ -9,7 +9,7 @@ require "shellwords"
 module AwesomePrint
   class Formatter
 
-    CORE = [ :array, :hash, :class, :file, :dir, :bigdecimal, :rational, :struct, :method, :unboundmethod ]
+    CORE = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
     DEFAULT_LIMIT_SIZE = 7
 
     def initialize(inspector)
@@ -160,6 +160,12 @@ module AwesomePrint
       else
         "#<#{awesome_instance(o)} #{data.join(', ')}>"
       end
+    end
+
+    # Format a set.
+    #------------------------------------------------------------------------------
+    def awesome_set(s)
+      awesome_array(s.to_a)
     end
 
     # Format a Struct.
