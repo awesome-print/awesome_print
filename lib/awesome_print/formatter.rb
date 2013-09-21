@@ -243,9 +243,9 @@ module AwesomePrint
             if the_method && the_method.respond_to?(:arity) # Is this original object#method?
               method_tuple(the_method)                      # Yes, we are good.
             end
-          elsif object.respond_to?(:instance_method)        # Is this an unbound method?
-            method_tuple(object.instance_method(name))
-          end
+          elsif object.respond_to?(:instance_method)              # Is this an unbound method?
+            method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
+          end                                                     # available (ex. File.lchmod on Ubuntu 12).
         end
         tuple || [ name.to_s, '(?)', '?' ]                  # Return WTF default if all the above fails.
       end
