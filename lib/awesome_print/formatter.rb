@@ -63,6 +63,8 @@ module AwesomePrint
     def awesome_self(object, type)
       if @options[:raw] && object.instance_variables.any?
         awesome_object(object)
+      elsif object == ENV
+        awesome_hash(object.to_hash)
       else
         colorize(object.inspect.to_s, type)
       end

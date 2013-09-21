@@ -52,6 +52,11 @@ describe "AwesomePrint" do
       require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
       lambda { rand.ai }.should_not raise_error
     end
+
+    it "format ENV as hash" do
+      ENV.ai(:plain => true).should == ENV.to_hash.ai(:plain => true)
+      ENV.ai.should == ENV.to_hash.ai
+    end
   end
 
   #------------------------------------------------------------------------------
