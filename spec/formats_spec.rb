@@ -523,20 +523,38 @@ EOS
       Set.new.ai.should == [].ai
     end
 
-    it "plain multiline" do
-      @set.ai(:plain => true).should == @arr.ai(:plain => true)
-    end
+    if RUBY_VERSION > "1.9"
+      it "plain multiline" do
+        @set.ai(:plain => true).should == @arr.ai(:plain => true)
+      end
 
-    it "plain multiline indented" do
-      @set.ai(:plain => true, :indent => 1).should == @arr.ai(:plain => true, :indent => 1)
-    end
+      it "plain multiline indented" do
+        @set.ai(:plain => true, :indent => 1).should == @arr.ai(:plain => true, :indent => 1)
+      end
 
-    it "plain single line" do
-      @set.ai(:plain => true, :multiline => false).should == @arr.ai(:plain => true, :multiline => false)
-    end
+      it "plain single line" do
+        @set.ai(:plain => true, :multiline => false).should == @arr.ai(:plain => true, :multiline => false)
+      end
 
-    it "colored multiline (default)" do
-      @set.ai.should == @arr.ai
+      it "colored multiline (default)" do
+        @set.ai.should == @arr.ai
+      end
+    else # Prior to Ruby 1.9 the order of set values is unpredicatble.
+      it "plain multiline" do
+        @set.sort_by{ |x| x.to_s }.ai(:plain => true).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true)
+      end
+
+      it "plain multiline indented" do
+        @set.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1)
+      end
+
+      it "plain single line" do
+        @set.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false)
+      end
+
+      it "colored multiline (default)" do
+        @set.sort_by{ |x| x.to_s }.ai.should == @arr.sort_by{ |x| x.to_s }.ai
+      end
     end
   end
 
