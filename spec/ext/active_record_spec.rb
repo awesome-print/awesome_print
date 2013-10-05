@@ -4,7 +4,7 @@ begin
   require 'active_record'
   require 'awesome_print/ext/active_record'
 
-  if defined?(ActiveRecord::VERSION::MAJOR) && ActiveRecord::VERSION::MAJOR >= 2
+  if defined?(ActiveRecord::VERSION::MAJOR) && ActiveRecord::VERSION::MAJOR >= 3
 
     # Create tableless ActiveRecord model.
     #------------------------------------------------------------------------------
@@ -74,11 +74,7 @@ begin
           :rank => 1
 }
 EOS
-          if RUBY_VERSION < '1.9'
-            str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
-          else
-            str.sub!('?', '1992-10-10 12:30:00 UTC')
-          end
+          str.sub!('?', '1992-10-10 12:30:00 UTC')
           out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
         end
 
@@ -102,13 +98,8 @@ EOS
     }
 ]
 EOS
-          if RUBY_VERSION < '1.9'
-            str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
-            str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
-          else
-            str.sub!('??', '1992-10-10 12:30:00 UTC')
-            str.sub!('?!', '2003-05-26 14:15:00 UTC')
-          end
+          str.sub!('??', '1992-10-10 12:30:00 UTC')
+          str.sub!('?!', '2003-05-26 14:15:00 UTC')
           out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
         end
       end
@@ -157,7 +148,7 @@ EOS
 EOS
           # ActiveRecord 3.0.x
           #--------------------------------------------------------------------------
-          elsif ActiveRecord::VERSION::STRING.start_with?('3.0')
+          elsif ActiveRecord::VERSION::STRING >= "3.0"
             str = <<-EOS.strip
 #<User:0x01234567
     @attributes_cache = {},
@@ -177,27 +168,6 @@ EOS
         "created_at" => nil,
               "name" => nil,
               "rank" => nil
-    }
->
-EOS
-          # ActiveRecord 2.x
-          #--------------------------------------------------------------------------
-          elsif ActiveRecord::VERSION::STRING.start_with?('2.')
-            str = <<-EOS.strip
-#<User:0x01234567
-    @attributes_cache = {},
-    @changed_attributes = {
-             "admin" => nil,
-        "created_at" => nil,
-              "name" => nil,
-              "rank" => nil
-    },
-    @new_record = true,
-    attr_accessor :attributes = {
-             "admin" => false,
-        "created_at" => "1992-10-10 12:30:00",
-              "name" => "Diana",
-              "rank" => 1
     }
 >
 EOS
@@ -268,7 +238,7 @@ EOS
 EOS
           # ActiveRecord 3.0.x
           #--------------------------------------------------------------------------
-          elsif ActiveRecord::VERSION::STRING.start_with?('3.0')
+          elsif ActiveRecord::VERSION::STRING >= "3.0"
             str = <<-EOS.strip
 [
     [0] #<User:0x01234567
@@ -309,45 +279,6 @@ EOS
             "created_at" => nil,
                   "name" => nil,
                   "rank" => nil
-        }
-    >
-]
-EOS
-          # ActiveRecord 2.0.x
-          #--------------------------------------------------------------------------
-          elsif ActiveRecord::VERSION::STRING.start_with?('2.')
-            str = <<-EOS.strip
-[
-    [0] #<User:0x01234567
-        @attributes_cache = {},
-        @changed_attributes = {
-                 "admin" => nil,
-            "created_at" => nil,
-                  "name" => nil,
-                  "rank" => nil
-        },
-        @new_record = true,
-        attr_accessor :attributes = {
-                 "admin" => false,
-            "created_at" => "1992-10-10 12:30:00",
-                  "name" => "Diana",
-                  "rank" => 1
-        }
-    >,
-    [1] #<User:0x01234567
-        @attributes_cache = {},
-        @changed_attributes = {
-                 "admin" => nil,
-            "created_at" => nil,
-                  "name" => nil,
-                  "rank" => nil
-        },
-        @new_record = true,
-        attr_accessor :attributes = {
-                 "admin" => true,
-            "created_at" => "2003-05-26 14:15:00",
-                  "name" => "Laura",
-                  "rank" => 2
         }
     >
 ]
@@ -404,11 +335,7 @@ EOS
           out = @ap.send(:awesome, User.methods.grep(/first/))
 
           if ActiveRecord::VERSION::STRING >= "3.2"
-            if RUBY_VERSION >= "1.9"
-              out.should =~ /\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/
-            else
-              out.should =~ /\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/
-            end
+            out.should =~ /\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/
           else
             out.should =~ /\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
           end
@@ -417,11 +344,7 @@ EOS
           out.should =~ /\sprimary_key\(.*?\)\s+User/
 
           out = @ap.send(:awesome, User.methods.grep(/validate/))
-          if ActiveRecord::VERSION::MAJOR < 3
-            out.should =~ /\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
-          else
-            out.should =~ /\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/
-          end
+          out.should =~ /\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/
         end
       end
     end
