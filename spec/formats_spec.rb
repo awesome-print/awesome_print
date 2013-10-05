@@ -361,14 +361,7 @@ EOS
 
     it "plain multiline" do
       out = @hash.ai(:plain => true)
-      if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
-        out.should =~ /^\{[^\}]+\}/m
-        out.should =~ /        "b" => "b",?/
-        out.should =~ /         :a => "a",?/
-        out.should =~ /         :z => "z",?/
-        out.should =~ /    "alpha" => "alpha",?$/
-      else
-        out.should == <<-EOS.strip
+      out.should == <<-EOS.strip
 {
         "b" => "b",
          :a => "a",
@@ -376,7 +369,6 @@ EOS
     "alpha" => "alpha"
 }
 EOS
-      end
     end
     
     it "plain multiline with sorted keys" do
@@ -493,11 +485,7 @@ EOS
       # http://techtime.getharvest.com/blog/harvest-is-now-on-ruby-1-dot-9-3 and
       # http://www.ruby-forum.com/topic/189397
       #
-      if RUBY_VERSION < "1.9"
-        out.should == "100510051005100510051005100510051005"
-      else
-        out.should == "100510051005100510051005100510051005/1"
-      end
+      out.should == "100510051005100510051005100510051005/1"
     end
   end
 
@@ -523,38 +511,20 @@ EOS
       Set.new.ai.should == [].ai
     end
 
-    if RUBY_VERSION > "1.9"
-      it "plain multiline" do
-        @set.ai(:plain => true).should == @arr.ai(:plain => true)
-      end
+    it "plain multiline" do
+      @set.ai(:plain => true).should == @arr.ai(:plain => true)
+    end
 
-      it "plain multiline indented" do
-        @set.ai(:plain => true, :indent => 1).should == @arr.ai(:plain => true, :indent => 1)
-      end
+    it "plain multiline indented" do
+      @set.ai(:plain => true, :indent => 1).should == @arr.ai(:plain => true, :indent => 1)
+    end
 
-      it "plain single line" do
-        @set.ai(:plain => true, :multiline => false).should == @arr.ai(:plain => true, :multiline => false)
-      end
+    it "plain single line" do
+      @set.ai(:plain => true, :multiline => false).should == @arr.ai(:plain => true, :multiline => false)
+    end
 
-      it "colored multiline (default)" do
-        @set.ai.should == @arr.ai
-      end
-    else # Prior to Ruby 1.9 the order of set values is unpredicatble.
-      it "plain multiline" do
-        @set.sort_by{ |x| x.to_s }.ai(:plain => true).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true)
-      end
-
-      it "plain multiline indented" do
-        @set.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1)
-      end
-
-      it "plain single line" do
-        @set.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false)
-      end
-
-      it "colored multiline (default)" do
-        @set.sort_by{ |x| x.to_s }.ai.should == @arr.sort_by{ |x| x.to_s }.ai
-      end
+    it "colored multiline (default)" do
+      @set.ai.should == @arr.ai
     end
   end
 

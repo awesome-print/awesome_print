@@ -8,7 +8,7 @@
 # so do nothing for subsequent requires.
 #
 unless defined?(AwesomePrint::Inspector)
-  %w(array string method object class kernel).each do |file|
+  %w(array string object class kernel).each do |file|
     require File.dirname(__FILE__) + "/awesome_print/core_ext/#{file}"
   end
 
