@@ -665,7 +665,7 @@ EOS
       end
 
       my = My.new
-      my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
+      expect { my.methods.ai(:plain => true) }.not_to raise_error
     end
 
     it "should handle a class defines its own #method method (ex. request.method)" do
@@ -676,7 +676,7 @@ EOS
       end
 
       my = My.new
-      my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
+      expect { my.methods.ai(:plain => true) }.not_to raise_error
     end
   end
 end

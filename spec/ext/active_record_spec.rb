@@ -321,7 +321,7 @@ EOS
         end
 
         it "should print ActiveRecord::Base objects (ex. ancestors)" do
-          lambda { @ap.send(:awesome, User.ancestors) }.should_not raise_error
+          expect { @ap.send(:awesome, User.ancestors) }.not_to raise_error
         end
       end
 

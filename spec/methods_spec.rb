@@ -415,7 +415,7 @@ describe "Methods arrays" do
 
   it "appending garbage to methods array should not raise error" do
     arr = 42.methods << [ :wtf ]
-    arr.ai(:plain => true).should_not raise_error(TypeError)
+    expect { arr.ai(:plain => true) }.to_not raise_error
     arr.ai(:plain => true).should =~ /\s+\[:wtf\]\(\?\)\s+\?/ # [ :wtf ].to_s => [:wtf]
   end
 end

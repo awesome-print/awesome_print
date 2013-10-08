@@ -41,7 +41,7 @@ describe "AwesomePrint" do
 
     it "returns value passed as a parameter" do
       object = rand
-      self.stub!(:puts)
+      $stdout.stub(:puts)
       (ap object).should == object
     end
 
