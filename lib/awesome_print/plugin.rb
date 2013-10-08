@@ -9,7 +9,7 @@ module AwesomePrint
       formatter = AwesomePrint::Formatter
       formatter.send(:include, mod)
 
-      hook = mod.name.gsub(/^.*::/, "").gsub!(/(.)([A-Z])/, '\1_\2').downcase
+      hook = mod.name.gsub(/^.*::/, "").gsub(/(.)([A-Z])/, '\1_\2').downcase
       formatter.send(:alias_method, :"cast_without_#{hook}", :cast)
       formatter.send(:alias_method, :cast, :"cast_with_#{hook}")
     end

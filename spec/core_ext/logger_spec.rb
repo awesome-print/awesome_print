@@ -11,7 +11,7 @@ describe "AwesomePrint logging extensions" do
 
   describe "ap method" do
     it "should awesome_inspect the given object" do
-      object = mock
+      object = double
       object.should_receive(:ai)
       @logger.ap object
     end
