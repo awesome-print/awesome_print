@@ -6,11 +6,6 @@
 module AwesomePrint
   module MongoMapper
 
-    def self.included(base)
-      base.send :alias_method, :cast_without_mongo_mapper, :cast
-      base.send :alias_method, :cast, :cast_with_mongo_mapper
-    end
-
     # Add MongoMapper class names to the dispatcher pipeline.
     #------------------------------------------------------------------------------
     def cast_with_mongo_mapper(object, type)
@@ -118,4 +113,4 @@ module AwesomePrint
   end
 end
 
-AwesomePrint::Formatter.send(:include, AwesomePrint::MongoMapper)
+AwesomePrint::Plugin.add(AwesomePrint::MongoMapper)

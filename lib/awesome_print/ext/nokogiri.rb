@@ -6,11 +6,6 @@
 module AwesomePrint
   module Nokogiri
 
-    def self.included(base)
-      base.send :alias_method, :cast_without_nokogiri, :cast
-      base.send :alias_method, :cast, :cast_with_nokogiri
-    end
-
     # Add Nokogiri XML Node and NodeSet names to the dispatcher pipeline.
     #------------------------------------------------------------------------------
     def cast_with_nokogiri(object, type)
@@ -42,4 +37,4 @@ module AwesomePrint
   end
 end
 
-AwesomePrint::Formatter.send(:include, AwesomePrint::Nokogiri)
+AwesomePrint::Plugin.add(AwesomePrint::Nokogiri)

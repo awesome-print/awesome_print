@@ -6,11 +6,6 @@
 module AwesomePrint
   module Ripple
 
-    def self.included(base)
-      base.send :alias_method, :cast_without_ripple, :cast
-      base.send :alias_method, :cast, :cast_with_ripple
-    end
-
     # Add Ripple class names to the dispatcher pipeline.
     #------------------------------------------------------------------------------
     def cast_with_ripple(object, type)
@@ -69,4 +64,4 @@ module AwesomePrint
   end
 end
 
-AwesomePrint::Formatter.send(:include, AwesomePrint::Ripple)
+AwesomePrint::Plugin.add(AwesomePrint::Ripple)

@@ -6,11 +6,6 @@
 module AwesomePrint
   module Sequel
 
-    def self.included(base)
-      base.send :alias_method, :cast_without_sequel, :cast
-      base.send :alias_method, :cast, :cast_with_sequel
-    end
-
     # Add Sequel class names to the dispatcher pipeline.
     #------------------------------------------------------------------------------
     def cast_with_sequel(object, type)
@@ -51,7 +46,6 @@ module AwesomePrint
       "class #{object} < #{object.superclass} " << awesome_hash(data)
     end
   end
-
 end
 
-AwesomePrint::Formatter.send(:include, AwesomePrint::Sequel)
+AwesomePrint::Plugin.add(AwesomePrint::Sequel)

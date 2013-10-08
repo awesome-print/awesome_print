@@ -6,11 +6,6 @@
 module AwesomePrint
   module ActiveRecord
 
-    def self.included(base)
-      base.send :alias_method, :cast_without_active_record, :cast
-      base.send :alias_method, :cast, :cast_with_active_record
-    end
-
     # Add ActiveRecord class names to the dispatcher pipeline.
     #------------------------------------------------------------------------------
     def cast_with_active_record(object, type)
@@ -66,4 +61,4 @@ module AwesomePrint
   end
 end
 
-AwesomePrint::Formatter.send(:include, AwesomePrint::ActiveRecord)
+AwesomePrint::Plugin.add(AwesomePrint::ActiveRecord)

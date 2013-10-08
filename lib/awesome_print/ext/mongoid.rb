@@ -6,11 +6,6 @@
 module AwesomePrint
   module Mongoid
 
-    def self.included(base)
-      base.send :alias_method, :cast_without_mongoid, :cast
-      base.send :alias_method, :cast, :cast_with_mongoid
-    end
-
     # Add Mongoid class names to the dispatcher pipeline.
     #------------------------------------------------------------------------------
     def cast_with_mongoid(object, type)
@@ -62,4 +57,4 @@ module AwesomePrint
   end
 end
 
-AwesomePrint::Formatter.send(:include, AwesomePrint::Mongoid)
+AwesomePrint::Plugin.add(AwesomePrint::Mongoid)

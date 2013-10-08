@@ -6,11 +6,6 @@
 module AwesomePrint
   module NoBrainer
 
-    def self.included(base)
-      base.send :alias_method, :cast_without_no_brainer, :cast
-      base.send :alias_method, :cast, :cast_with_no_brainer
-    end
-
     # Add NoBrainer class names to the dispatcher pipeline.
     #------------------------------------------------------------------------------
     def cast_with_no_brainer(object, type)
@@ -55,4 +50,4 @@ module AwesomePrint
   end
 end
 
-AwesomePrint::Formatter.send(:include, AwesomePrint::NoBrainer)
+AwesomePrint::Plugin.add(AwesomePrint::NoBrainer)
