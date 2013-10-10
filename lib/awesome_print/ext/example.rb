@@ -14,3 +14,5 @@ module AwesomePrint
     end
   end
 end
+
+AwesomePrint::Plugin.register(AwesomePrint::Radix)
