@@ -151,6 +151,30 @@ module AwesomePrint
       end
     end
 
+    # Convert *options arguments that might include symbols and hashes to canonical
+    # options = {} hash. Symbols with the "no" prefix are treated as negatives.
+    # For example:
+    #
+    # hashify(:noindex, :plain, raw: true) => { index: false, plain: true, raw: true}
+    #------------------------------------------------------------------------------
+    def hashify(options)
+      options.inject({}) do |hash, option|
+        case option
+        when Symbol
+          if option.to_s !~ /^no(.+)$/i
+            hash[option] = true
+          else
+            hash[$1.downcase.to_sym] = false
+          end
+        when Hash
+          hash.merge!(option)
+        else
+          raise ArgumentError, "Invalid option #{option.inspect}"
+        end
+        hash
+      end
+    end
+
     # Update @options by first merging the :color hash and then the remaining keys.
     #------------------------------------------------------------------------------
     def merge_options!(options = {})
