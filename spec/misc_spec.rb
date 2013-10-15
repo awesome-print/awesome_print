@@ -39,6 +39,13 @@ describe "AwesomePrint" do
       grepped.ai(:plain => true, :multiline => false).should == '[ 2, 3, 4, 5 ]'
     end
 
+    # See https://github.com/michaeldv/awesome_print/issues/119
+    it "properly escape slashes" do
+      hash = { :a => "http:\\/\\/" }
+      grepped = [ hash ].grep(Hash) { |x| true }
+      grepped.ai(:plain => true, :multiline => false).should == "[ true ]"
+    end
+
     it "returns value passed as a parameter" do
       object = rand
       $stdout.stub(:puts)
