@@ -52,7 +52,7 @@ module AwesomePrint
 
     AP = :__awesome_print__
 
-    def initialize(options = {})
+    def initialize(*options)
       @options = { 
         :indent     => 4,      # Indent using 4 spaces.
         :index      => true,   # Display array indices.
@@ -87,7 +87,7 @@ module AwesomePrint
 
       # Merge custom defaults and let explicit options parameter override them.
       merge_custom_defaults!
-      merge_options!(options)
+      merge_options!(hashify(options))
 
       @formatter = AwesomePrint::Formatter.new(self)
       Thread.current[AP] ||= []
