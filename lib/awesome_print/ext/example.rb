@@ -10,7 +10,7 @@ module AwesomePrint
 
     def awesome_radix(object)
       # puts "example#awesome_radix(#{object.inspect})"
-      "#{object} (dec) 0#{object.to_s(8)} (oct) 0x#{object.to_s(16).upcase}"
+      "#{object} (dec) 0#{object.to_s(8)} (oct) 0x#{object.to_s(16).upcase} (hex)"
     end
   end
 end

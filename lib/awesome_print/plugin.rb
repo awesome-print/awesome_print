@@ -19,37 +19,53 @@ module AwesomePrint
     end
 
     def register(mod)
-      puts "mod.instance_methods: #{mod.instance_methods}"
+      #
+      # Make sure calling AwesomePrint::Plugin.register twice for the same
+      # plugin doesn't do any harm.
+      #
+      return nil if @list.include?(mod)
+      #
+      # The plugin *must* implement :cast(object, type) method.
+      #
       unless mod.instance_methods.include?(:cast)
         raise RuntimeError, "#{mod} plugin should define cast(object, type) instance method"
       end
-
-      formatter = AwesomePrint::Formatter
+      #
+      # Create the hook name from the plugin's module name, for example:
+      # ActiveRecord => "active_record". Once we have the hook name rename
+      # generic :cast method to unique :cast_<hook_name>.
+      #
       hook = mod.name.gsub(/^.*::/, "").gsub(/(.)([A-Z])/, '\1_\2').downcase
-
       mod.send(:alias_method, :"cast_#{hook}", :cast)
       mod.send(:remove_method, :cast)
-
-      @list << mod
+      #
+      # Add plugin's instance methods to AwesomePrint::Formatter, then hook
+      # formatter's :cast method.
+      #
+      formatter = AwesomePrint::Formatter
       formatter.send(:include, mod)
-
-      puts "defining cast_with_#{hook}..."
-
-      # formatter.send(:alias_method, :"cast_without_#{hook}", :cast)
+      #
+      # The method chaining is done as follows:
+      #
+      # 1. Original :cast method becomes :cast_without_<hook_name>.
+      # 2. New :cast_with_<hook_name> method gets created dynamically. It calls
+      #    plugin's :cast (renamed :cast_<hook_name> above) and if the return
+      #    value is nil (i.e. no cast) it calls the original :cast from step 1.
+      # 3. Calling :cast now invokes :cast_with_<hook_name> from step 2.
+      #
       chain_methods(formatter, hook) do
         formatter.send(:define_method, :"cast_with_#{hook}") do |object, type|
-          puts "cast_with_#{hook}(#{object.inspect}, #{type.inspect})"
-          cast = send(:"cast_#{hook}", object, type) || send(:"cast_without_#{hook}", object, type)
+          send(:"cast_#{hook}", object, type) || send(:"cast_without_#{hook}", object, type)
         end
       end
-      # formatter.send(:alias_method, :cast, :"cast_with_#{hook}")
+      @list << mod
     end
 
     private
 
     def chain_methods(formatter, hook)
       formatter.send(:alias_method, :"cast_without_#{hook}", :cast)
-      yield
+      yield # <-- Define :"cast_with_#{hook}".
       formatter.send(:alias_method, :cast, :"cast_with_#{hook}")
     end
   end
