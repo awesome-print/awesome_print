@@ -64,6 +64,18 @@ describe "AwesomePrint" do
       ipaddr = IPAddr.new("3ffe:505:2::1")
       ipaddr.ai.should == "#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>"
     end
+
+    # See https://github.com/michaeldv/awesome_print/issues/139
+    it "Object that overrides == and expects the :id method" do
+      weird = Class.new do
+        # Raises NoMethodError: undefined method `id' when "other" is nil or ENV.
+        def ==(other)
+          self.id == other.id
+        end
+        alias :eql? :==
+      end
+      lambda { weird.new.ai }.should_not raise_error
+    end
   end
 
   #------------------------------------------------------------------------------

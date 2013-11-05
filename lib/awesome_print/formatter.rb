@@ -63,8 +63,8 @@ module AwesomePrint
     def awesome_self(object, type)
       if @options[:raw] && object.instance_variables.any?
         awesome_object(object)
-      elsif object.eql?(ENV)  # See https://github.com/michaeldv/awesome_print/issues/134
-        awesome_hash(ENV.to_hash)
+      elsif object.respond_to?(:to_hash)
+        awesome_hash(object.to_hash)
       else
         colorize(object.inspect.to_s, type)
       end
