@@ -6,20 +6,16 @@
 module AwesomePrint
   module ActiveRecord
 
-    # Add ActiveRecord class names to the dispatcher pipeline.
-    #------------------------------------------------------------------------------
-    def cast_with_active_record(object, type)
-      cast = cast_without_active_record(object, type)
-      return cast if !defined?(::ActiveRecord)
+    def cast(object, type)
+      return nil if !defined?(::ActiveRecord) || !defined?(::ActiveSupport::OrderedHash)
 
       if object.is_a?(::ActiveRecord::Base)
-        cast = :active_record_instance
+        :active_record_instance
       elsif object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
-        cast = :active_record_class
+        :active_record_class
       elsif type == :activerecord_relation
-        cast = :array
+        :array
       end
-      cast
     end
 
     private
@@ -28,13 +24,12 @@ module AwesomePrint
     #
     # NOTE: by default only instance attributes (i.e. columns) are shown. To format
     # ActiveRecord instance as regular object showing its instance variables and
-    # accessors use :raw => true option:
+    # accessor attributes use :raw option:
     #
-    # ap record, :raw => true
+    # ap record, :raw
     #
     #------------------------------------------------------------------------------
     def awesome_active_record_instance(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
       data = object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
@@ -50,7 +45,7 @@ module AwesomePrint
     # Format ActiveRecord class object.
     #------------------------------------------------------------------------------
     def awesome_active_record_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == "ActiveRecord::Base"
+      return object.inspect if !object.respond_to?(:columns) || object.to_s == "ActiveRecord::Base"
 
       data = object.columns.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
         hash[c.name.to_sym] = c.type
@@ -61,4 +56,4 @@ module AwesomePrint
   end
 end
 
-AwesomePrint::Plugin.add(AwesomePrint::ActiveRecord)
+AwesomePrint::Plugin.register(AwesomePrint::ActiveRecord)
