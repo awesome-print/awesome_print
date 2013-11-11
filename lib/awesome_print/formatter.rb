@@ -197,7 +197,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_file(f)
       ls = `ls -adlF #{f.path.shellescape}`
-      colorize(ls.empty? ? f.inspect, "#{f.inspect}\n#{ls.chop}", :file)
+      colorize(ls.empty? ? f.inspect : "#{f.inspect}\n#{ls.chop}", :file)
     end
 
     # Format Dir object.
