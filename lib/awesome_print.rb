@@ -32,4 +32,5 @@ unless defined?(AwesomePrint::Inspector)
   require File.dirname(__FILE__) + "/awesome_print/ext/no_brainer"     if defined?(NoBrainer)
   require File.dirname(__FILE__) + "/awesome_print/ext/ripple"         if defined?(Ripple)
   require File.dirname(__FILE__) + "/awesome_print/ext/sequel"         if defined?(Sequel)
+  require File.dirname(__FILE__) + "/awesome_print/ext/ostruct"        if defined?(OpenStruct)
 end
