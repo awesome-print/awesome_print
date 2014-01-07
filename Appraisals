@@ -34,3 +34,7 @@ appraise 'ripple' do
   gem 'tzinfo'
   gem 'ripple'
 end
+
+appraise 'nobrainer' do
+  gem 'nobrainer'
+end

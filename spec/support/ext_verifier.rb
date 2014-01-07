@@ -29,6 +29,11 @@ module ExtVerifier
     defined?(Ripple)
   end
   module_function :has_ripple?
+
+  def has_nobrainer?
+    defined?(NoBrainer)
+  end
+  module_function :has_nobrainer?
 end
 
 RSpec.configure do |config|
