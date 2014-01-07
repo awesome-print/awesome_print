@@ -13,7 +13,7 @@ module AwesomePrint
       if defined?(::NoBrainer::Document)
         if object.is_a?(Class) && object.ancestors.include?(::NoBrainer::Document)
           cast = :no_brainer_class
-        elsif object.class.ancestors.include?(::NoBrainer::Document)
+        elsif object.is_a?(::NoBrainer::Document)
           cast = :no_brainer_document
         end
       end
@@ -23,26 +23,17 @@ module AwesomePrint
     # Format NoBrainer class object.
     #------------------------------------------------------------------------------
     def awesome_no_brainer_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
-
-      # We want id first
-      data = object.fields.sort_by { |key| key[0] == :id ? '_id' : key[0].to_s }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[0]] = :object
-        hash
-      end
+      data = Hash[object.fields.map do |field, options|
+        [field, (options[:type] || Object).to_s.underscore.to_sym]
+      end]
       "class #{object} < #{object.superclass} " << awesome_hash(data)
     end
 
     # Format NoBrainer Document object.
     #------------------------------------------------------------------------------
     def awesome_no_brainer_document(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
-
-      data = object.attributes.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[0].to_sym] = c[1]
-        hash
-      end
-      if !object.errors.empty?
+      data = object.inspectable_attributes
+      if object.errors.present?
         data = {:errors => object.errors, :attributes => data}
       end
       "#{object} #{awesome_hash(data)}"
