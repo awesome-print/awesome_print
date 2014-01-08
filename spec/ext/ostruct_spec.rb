@@ -16,11 +16,11 @@ begin
     end
 
     it "plain multiline" do
-      struct = OpenStruct.new :name => "Marshall Shen", :address => "605 Madion St."
+      struct = OpenStruct.new :name => "Foo", :address => "Bar"
       @ap.send(:awesome, struct).should == <<-EOS.strip
 OpenStruct {
-    :address => "605 Madion St.",
-       :name => "Marshall Shen"
+    :address => "Bar",
+       :name => "Foo"
 }
 EOS
     end
