@@ -49,6 +49,10 @@ begin
       end
     end
 
+    class AbstractClass < ActiveRecord::Base
+      self.abstract_class = true
+    end
+
     describe "AwesomePrint/ActiveRecord" do
       before do
         stub_dotfile!
@@ -391,6 +395,10 @@ EOS
 
         it "should print ActiveRecord::Base objects (ex. ancestors)" do
           lambda { @ap.send(:awesome, User.ancestors) }.should_not raise_error
+        end
+
+        it "should print an abstract class" do
+          @ap.send(:awesome, AbstractClass).should == "AbstractClass(abstract) < ActiveRecord::Base"
         end
       end
 
