@@ -186,6 +186,25 @@ $ ruby 8.rb
 ```
 
 ### Example (Rails console) ###
+
+#### Installation: ####
+
+Add to your Gemfile:
+
+```ruby
+gem :development do
+  gem 'awesome_print'
+end
+```
+
+Run the command to install via Bundler:
+
+```console
+$ bundle install
+```
+
+Alternatively, require the gem in console:
+
 ```ruby
 $ rails console
 rails> require "awesome_print"
