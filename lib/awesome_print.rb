@@ -25,7 +25,11 @@ unless defined?(AwesomePrint::Inspector)
   #
   # Load remaining extensions.
   #
-  require File.dirname(__FILE__) + "/awesome_print/ext/action_view"    if defined?(ActionView::Base)
+  if defined?(ActiveSupport)
+    ActiveSupport.on_load(:action_view) do
+      require File.dirname(__FILE__) + "/awesome_print/ext/action_view"
+    end
+  end
   require File.dirname(__FILE__) + "/awesome_print/ext/mongo_mapper"   if defined?(MongoMapper)
   require File.dirname(__FILE__) + "/awesome_print/ext/mongoid"        if defined?(Mongoid)
   require File.dirname(__FILE__) + "/awesome_print/ext/nokogiri"       if defined?(Nokogiri)
