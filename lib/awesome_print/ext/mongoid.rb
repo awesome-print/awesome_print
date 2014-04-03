@@ -16,12 +16,12 @@ module AwesomePrint
     def cast_with_mongoid(object, type)
       cast = cast_without_mongoid(object, type)
       if defined?(::Mongoid::Document)
-        if object.is_a?(Class) && object.ancestors.include?(::Mongoid::Document)
-          cast = :mongoid_class
+        cast = if object.is_a?(Class) && object.ancestors.include?(::Mongoid::Document)
+          :mongoid_class
         elsif object.class.ancestors.include?(::Mongoid::Document)
-          cast = :mongoid_document
+          :mongoid_document
         elsif (defined?(::BSON) && object.is_a?(::BSON::ObjectId)) || (defined?(::Moped) && defined?(::Moped::BSON) && object.is_a?(::Moped::BSON::ObjectId))
-          cast = :mongoid_bson_id
+          :mongoid_bson_id
         end
       end
       cast
@@ -33,7 +33,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
       data = object.fields.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[1].name.to_sym] = (c[1].type || "undefined").to_s.underscore.intern
+        hash.merge!(c[1].name.to_sym => (c[1].type || "undefined").to_s.underscore.intern)
         hash
       end
       "class #{object} < #{object.superclass} " << awesome_hash(data)
@@ -45,7 +45,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
 
       data = (object.attributes || {}).sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[0].to_sym] = c[1]
+        hash.merge!(c[0].to_sym => c[1])
         hash
       end
       if !object.errors.empty?

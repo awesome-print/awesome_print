@@ -14,10 +14,10 @@ module AwesomePrint
     def cast_with_active_support(object, type)
       cast = cast_without_active_support(object, type)
       if defined?(::ActiveSupport) && defined?(::HashWithIndifferentAccess)
-        if (defined?(::ActiveSupport::TimeWithZone) && object.is_a?(::ActiveSupport::TimeWithZone)) || object.is_a?(::Date)
-          cast = :active_support_time
+        cast = if (defined?(::ActiveSupport::TimeWithZone) && object.is_a?(::ActiveSupport::TimeWithZone)) || object.is_a?(::Date)
+          :active_support_time
         elsif object.is_a?(::HashWithIndifferentAccess)
-          cast = :hash_with_indifferent_access
+          :hash_with_indifferent_access
         end
       end
       cast

@@ -41,18 +41,18 @@ module AwesomePrint
       exclude_assoc = @options[:exclude_assoc] or @options[:exclude_associations]
 
       data = object.attributes.inject(::ActiveSupport::OrderedHash.new) do |hash, (name, value)|
-        hash[name.to_sym] = object.send(name)
+        hash.merge!(name.to_sym => object.send(name))
         hash
       end
 
       unless exclude_assoc
         data = object.class.embedded_associations.inject(data) do |hash, assoc|
-          hash[assoc.name] = object.get_proxy(assoc) # Should always be array or Ripple::EmbeddedDocument for embedded associations
+          hash.merge!(assoc.name => object.get_proxy(assoc)) # Should always be array or Ripple::EmbeddedDocument for embedded associations
           hash
         end
       end
 
-      "##{object} " << awesome_hash(data)
+      "#{object} " << awesome_hash(data)
     end
 
     # Format Ripple class object.
@@ -61,7 +61,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
 
       data = object.properties.inject(::ActiveSupport::OrderedHash.new) do |hash, (name, defn)|
-        hash[name.to_sym] = defn.type.to_s.downcase.to_sym
+        hash.merge!(name.to_sym => defn.type.to_s.downcase.to_sym)
         hash
       end
       "class #{object} < #{object.superclass} " << awesome_hash(data)

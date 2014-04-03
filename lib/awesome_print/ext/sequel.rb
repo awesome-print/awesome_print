@@ -15,12 +15,12 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_sequel(object, type)
       cast = cast_without_sequel(object, type)
-      if defined?(::Sequel::Model) && object.is_a?(::Sequel::Model)
-        cast = :sequel_document
+      cast = if defined?(::Sequel::Model) && object.is_a?(::Sequel::Model)
+        :sequel_document
       elsif defined?(::Sequel::Model) && object.is_a?(Class) && object.ancestors.include?(::Sequel::Model)
-        cast = :sequel_model_class
+        :sequel_model_class
       elsif defined?(::Sequel::Mysql2::Dataset) && object.class.ancestors.include?(::Sequel::Mysql2::Dataset)
-        cast = :sequel_dataset
+        :sequel_dataset
       end
       cast
     end
@@ -29,7 +29,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_sequel_document(object)
       data = object.values.sort_by { |key| key.to_s }.inject({}) do |hash, c|
-        hash[c[0].to_sym] = c[1]
+        hash.merge!(c[0].to_sym => c[1])
         hash
       end
       if !object.errors.empty?

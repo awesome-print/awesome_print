@@ -18,14 +18,14 @@ module AwesomePrint
       cast = cast_without_mongo_mapper(object, type)
 
       if defined?(::MongoMapper::Document)
-        if object.is_a?(Class) && (object.ancestors & [ ::MongoMapper::Document, ::MongoMapper::EmbeddedDocument ]).size > 0
-          cast = :mongo_mapper_class
+        cast = if object.is_a?(Class) && (object.ancestors & [ ::MongoMapper::Document, ::MongoMapper::EmbeddedDocument ]).size > 0
+          :mongo_mapper_class
         elsif object.is_a?(::MongoMapper::Document) || object.is_a?(::MongoMapper::EmbeddedDocument)
-          cast = :mongo_mapper_instance
+          :mongo_mapper_instance
         elsif object.is_a?(::MongoMapper::Plugins::Associations::Base)
-          cast = :mongo_mapper_association
+          :mongo_mapper_association
         elsif object.is_a?(::BSON::ObjectId)
-          cast = :mongo_mapper_bson_id
+          :mongo_mapper_bson_id
         end
       end
 
@@ -38,14 +38,14 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
 
       data = object.keys.sort.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c.first] = (c.last.type || "undefined").to_s.underscore.intern
+        hash.merge!(c.first => (c.last.type || "undefined").to_s.underscore.intern)
         hash
       end
 
       # Add in associations
       if @options[:mongo_mapper][:show_associations]
         object.associations.each do |name, assoc|
-          data[name.to_s] = assoc
+          data.merge!(name.to_s => assoc)
         end
       end
 
@@ -66,7 +66,7 @@ module AwesomePrint
       return awesome_object(object) if @options[:raw]
 
       data = object.keys.keys.sort_by{|k| k}.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
-        hash[name] = object[name]
+        hash.merge!(name => object[name])
         hash
       end
 
@@ -74,9 +74,9 @@ module AwesomePrint
       if @options[:mongo_mapper][:show_associations]
         object.associations.each do |name, assoc|
           if @options[:mongo_mapper][:inline_embedded] and assoc.embeddable?
-            data[name.to_s] = object.send(name)
+            data.merge!(name.to_s => object.send(name))
           else
-            data[name.to_s] = assoc
+            data.merge!(name.to_s => assoc)
           end
         end
       end
