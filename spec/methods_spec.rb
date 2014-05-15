@@ -11,52 +11,52 @@ describe "Single method" do
 
   it "plain: should handle a method with no arguments" do
     method = ''.method(:upcase)
-    method.ai(:plain => true).should == 'String#upcase()'
+    expect(method.ai(:plain => true)).to eq('String#upcase()')
   end
 
   it "color: should handle a method with no arguments" do
     method = ''.method(:upcase)
-    method.ai.should == "\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m()\e[0m"
+    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m()\e[0m")
   end
 
   it "plain: should handle a method with one argument" do
     method = ''.method(:include?)
-    method.ai(:plain => true).should == 'String#include?(arg1)'
+    expect(method.ai(:plain => true)).to eq('String#include?(arg1)')
   end
 
   it "color: should handle a method with one argument" do
     method = ''.method(:include?)
-    method.ai.should == "\e[1;33mString\e[0m#\e[0;35minclude?\e[0m\e[0;37m(arg1)\e[0m"
+    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35minclude?\e[0m\e[0;37m(arg1)\e[0m")
   end
 
   it "plain: should handle a method with two arguments" do
     method = ''.method(:tr)
-    method.ai(:plain => true).should == 'String#tr(arg1, arg2)'
+    expect(method.ai(:plain => true)).to eq('String#tr(arg1, arg2)')
   end
 
   it "color: should handle a method with two arguments" do
     method = ''.method(:tr)
-    method.ai.should == "\e[1;33mString\e[0m#\e[0;35mtr\e[0m\e[0;37m(arg1, arg2)\e[0m"
+    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mtr\e[0m\e[0;37m(arg1, arg2)\e[0m")
   end
 
   it "plain: should handle a method with multiple arguments" do
     method = ''.method(:split)
-    method.ai(:plain => true).should == 'String#split(*arg1)'
+    expect(method.ai(:plain => true)).to eq('String#split(*arg1)')
   end
 
   it "color: should handle a method with multiple arguments" do
     method = ''.method(:split)
-    method.ai.should == "\e[1;33mString\e[0m#\e[0;35msplit\e[0m\e[0;37m(*arg1)\e[0m"
+    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35msplit\e[0m\e[0;37m(*arg1)\e[0m")
   end
 
   it "plain: should handle a method defined in mixin" do
     method = ''.method(:is_a?)
-    method.ai(:plain => true).should == 'String (Kernel)#is_a?(arg1)'
+    expect(method.ai(:plain => true)).to eq('String (Kernel)#is_a?(arg1)')
   end
 
   it "color: should handle a method defined in mixin" do
     method = ''.method(:is_a?)
-    method.ai.should == "\e[1;33mString (Kernel)\e[0m#\e[0;35mis_a?\e[0m\e[0;37m(arg1)\e[0m"
+    expect(method.ai).to eq("\e[1;33mString (Kernel)\e[0m#\e[0;35mis_a?\e[0m\e[0;37m(arg1)\e[0m")
   end
 
   it "plain: should handle an unbound method" do
@@ -64,7 +64,7 @@ describe "Single method" do
       def world; end
     end
     method = Hello.instance_method(:world)
-    method.ai(:plain => true).should == 'Hello (unbound)#world()'
+    expect(method.ai(:plain => true)).to eq('Hello (unbound)#world()')
   end
 
   it "color: should handle an unbound method" do
@@ -73,9 +73,9 @@ describe "Single method" do
     end
     method = Hello.instance_method(:world)
     if RUBY_VERSION < '1.9.2'
-      method.ai.should == "\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m"
+      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m")
     else
-      method.ai.should == "\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m"
+      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
     end
   end
 end
@@ -92,36 +92,36 @@ describe "Object methods" do
   describe "object.methods" do
     it "index: should handle object.methods" do
       out = nil.methods.ai(:plain => true).split("\n").grep(/is_a\?/).first
-      out.should =~ /^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
+      expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
     end
 
     it "no index: should handle object.methods" do
       out = nil.methods.ai(:plain => true, :index => false).split("\n").grep(/is_a\?/).first
-      out.should =~ /^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
+      expect(out).to match(/^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
     end
   end
 
   describe "object.public_methods" do
     it "index: should handle object.public_methods" do
       out = nil.public_methods.ai(:plain => true).split("\n").grep(/is_a\?/).first
-      out.should =~ /^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
+      expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
     end
 
     it "no index: should handle object.public_methods" do
       out = nil.public_methods.ai(:plain => true, :index => false).split("\n").grep(/is_a\?/).first
-      out.should =~ /^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/
+      expect(out).to match(/^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
     end
   end
 
   describe "object.private_methods" do
     it "index: should handle object.private_methods" do
       out = nil.private_methods.ai(:plain => true).split("\n").grep(/sleep/).first
-      out.should =~ /^\s+\[\s*\d+\]\s+sleep\(\*arg1\)\s+NilClass \(Kernel\)$/
+      expect(out).to match(/^\s+\[\s*\d+\]\s+sleep\(\*arg1\)\s+NilClass \(Kernel\)$/)
     end
 
     it "no index: should handle object.private_methods" do
       out = nil.private_methods.ai(:plain => true, :index => false).split("\n").grep(/sleep/).first
-      out.should =~ /^\s+sleep\(\*arg1\)\s+NilClass \(Kernel\)$/
+      expect(out).to match(/^\s+sleep\(\*arg1\)\s+NilClass \(Kernel\)$/)
     end
   end
 
@@ -132,7 +132,7 @@ describe "Object methods" do
         def m1; end
         def m2; end
       end
-      Hello.new.protected_methods.ai(:plain => true).should == "[\n    [0] m1() Hello\n    [1] m2() Hello\n]"
+      expect(Hello.new.protected_methods.ai(:plain => true)).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n]")
     end
 
     it "no index: should handle object.protected_methods" do
@@ -141,9 +141,9 @@ describe "Object methods" do
         def m3(a,b); end
       end
       if RUBY_VERSION < '1.9.2'
-        Hello.new.protected_methods.ai(:plain => true, :index => false).should == "[\n     m3(arg1, arg2) Hello\n]"
+        expect(Hello.new.protected_methods.ai(:plain => true, :index => false)).to eq("[\n     m3(arg1, arg2) Hello\n]")
       else
-        Hello.new.protected_methods.ai(:plain => true, :index => false).should == "[\n     m3(a, b) Hello\n]"
+        expect(Hello.new.protected_methods.ai(:plain => true, :index => false)).to eq("[\n     m3(a, b) Hello\n]")
       end
     end
   end
@@ -157,8 +157,8 @@ describe "Object methods" do
       end
 
       out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/
-      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/)
+      expect(out.last).to  match(/^\s+\[\s*\d+\]\s+m2\(\)\s+Hello$/)
     end
 
     it "no index: should handle object.private_methods" do
@@ -168,9 +168,9 @@ describe "Object methods" do
       end
       out = Hello.new.private_methods.ai(:plain => true).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+\[\s*\d+\]\s+m3\(arg1, arg2\)\s+Hello$/
+        expect(out.first).to match(/^\s+\[\s*\d+\]\s+m3\(arg1, arg2\)\s+Hello$/)
       else
-        out.first.should =~ /^\s+\[\s*\d+\]\s+m3\(a, b\)\s+Hello$/
+        expect(out.first).to match(/^\s+\[\s*\d+\]\s+m3\(a, b\)\s+Hello$/)
       end
     end
   end
@@ -184,8 +184,8 @@ describe "Object methods" do
         end
       end
       out = Hello.singleton_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/
-      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/)
+      expect(out.last).to  match(/^\s+\[\s*\d+\]\s+m2\(\)\s+Hello$/)
     end
 
     it "no index: should handle object.singleton_methods" do
@@ -194,9 +194,9 @@ describe "Object methods" do
       end
       out = Hello.singleton_methods.ai(:plain => true, :index => false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+m3\(arg1, arg2\)\s+Hello$/
+        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello$/)
       else
-        out.first.should =~ /^\s+m3\(a, b\)\s+Hello$/
+        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello$/)
       end
     end
   end
@@ -218,8 +218,8 @@ describe "Class methods" do
         def m2; end
       end
       out = Hello.instance_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/
-      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/)
+      expect(out.last).to  match(/^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/)
     end
 
     it "no index: should handle unbound class.instance_methods" do
@@ -228,9 +228,9 @@ describe "Class methods" do
       end
       out = Hello.instance_methods.ai(:plain => true, :index => false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
       else
-        out.first.should =~ /^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
       end
     end
   end
@@ -242,8 +242,8 @@ describe "Class methods" do
         def m2; end
       end
       out = Hello.public_instance_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/
-      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/)
+      expect(out.last).to  match(/^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/)
     end
 
     it "no index: should handle class.public_instance_methods" do
@@ -252,9 +252,9 @@ describe "Class methods" do
       end
       out = Hello.public_instance_methods.ai(:plain => true, :index => false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
       else
-        out.first.should =~ /^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
       end
     end
   end
@@ -267,8 +267,8 @@ describe "Class methods" do
         def m2; end
       end
       out = Hello.protected_instance_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/
-      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/)
+      expect(out.last).to  match(/^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/)
     end
 
     it "no index: should handle class.protected_instance_methods" do
@@ -278,9 +278,9 @@ describe "Class methods" do
       end
       out = Hello.protected_instance_methods.ai(:plain => true, :index => false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
       else
-        out.first.should =~ /^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
       end
     end
   end
@@ -293,8 +293,8 @@ describe "Class methods" do
         def m2; end
       end
       out = Hello.private_instance_methods.ai(:plain => true).split("\n").grep(/m\d/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/
-      out.last.should  =~ /^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello\s\(unbound\)$/)
+      expect(out.last).to  match(/^\s+\[\s*\d+\]\s+m2\(\)\s+Hello\s\(unbound\)$/)
     end
 
     it "no index: should handle class.private_instance_methods" do
@@ -304,9 +304,9 @@ describe "Class methods" do
       end
       out = Hello.private_instance_methods.ai(:plain => true, :index => false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
-        out.first.should =~ /^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(arg1, arg2\)\s+Hello\s\(unbound\)$/)
       else
-        out.first.should =~ /^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/
+        expect(out.first).to match(/^\s+m3\(a, b\)\s+Hello\s\(unbound\)$/)
       end
     end
   end
@@ -327,7 +327,7 @@ if RUBY_VERSION >= '1.9.2'
         def m1; end
       end
       out = Hello.new.methods.ai(:plain => true).split("\n").grep(/m1/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\)\s+Hello$/)
     end
 
     it ":req" do
@@ -335,7 +335,7 @@ if RUBY_VERSION >= '1.9.2'
         def m1(a, b, c); end
       end
       out = Hello.new.methods.ai(:plain => true).split("\n").grep(/m1/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(a, b, c\)\s+Hello$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, b, c\)\s+Hello$/)
     end
 
     it ":opt" do
@@ -343,7 +343,7 @@ if RUBY_VERSION >= '1.9.2'
         def m1(a, b = 1, c = 2); end # m1(a, *b, *c)
       end
       out = Hello.new.methods.ai(:plain => true).split("\n").grep(/m1/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(a, \*b, \*c\)\s+Hello$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, \*c\)\s+Hello$/)
     end
 
     it ":rest" do
@@ -351,7 +351,7 @@ if RUBY_VERSION >= '1.9.2'
         def m1(*a); end # m1(*a)
       end
       out = Hello.new.methods.ai(:plain => true).split("\n").grep(/m1/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(\*a\)\s+Hello$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(\*a\)\s+Hello$/)
     end
 
     it ":block" do
@@ -359,7 +359,7 @@ if RUBY_VERSION >= '1.9.2'
         def m1(a, b = nil, &blk); end # m1(a, *b, &blk)
       end
       out = Hello.new.methods.ai(:plain => true).split("\n").grep(/m1/)
-      out.first.should =~ /^\s+\[\s*\d+\]\s+m1\(a, \*b, &blk\)\s+Hello$/
+      expect(out.first).to match(/^\s+\[\s*\d+\]\s+m1\(a, \*b, &blk\)\s+Hello$/)
     end
   end
 end
@@ -376,7 +376,7 @@ describe "Methods arrays" do
       def self.m1; end
     end
     out = (Hello.methods - Class.methods).ai(:plain => true)
-    out.should == "[\n    [0] m1() Hello\n]"
+    expect(out).to eq("[\n    [0] m1() Hello\n]")
   end
 
   it "obj1.methods & obj2.methods should be awesome printed" do
@@ -389,7 +389,7 @@ describe "Methods arrays" do
       def self.m1; end
     end
     out = (Hello.methods & World.methods - Class.methods).ai(:plain => true)
-    out.should == "[\n    [0] m1() Hello\n]"
+    expect(out).to eq("[\n    [0] m1() Hello\n]")
   end
 
   it "obj1.methods.grep(pattern) should be awesome printed" do
@@ -400,9 +400,9 @@ describe "Methods arrays" do
       def self.m3; end
     end
     out = Hello.methods.grep(/^m1$/).ai(:plain => true)
-    out.should == "[\n    [0] m1() Hello\n]"
+    expect(out).to eq("[\n    [0] m1() Hello\n]")
     out = Hello.methods.grep(/^m\d$/).ai(:plain => true)
-    out.should == "[\n    [0] m1() Hello\n    [1] m2() Hello\n    [2] m3() Hello\n]"
+    expect(out).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n    [2] m3() Hello\n]")
   end
 
   it "obj1.methods.grep(pattern, &block) should pass the matching string within the block" do
@@ -412,7 +412,7 @@ describe "Methods arrays" do
     end
 
     out = Hello.methods.sort.grep(/^m_(.+)$/) { $1.to_sym }
-    out.should == [:one, :two]
+    expect(out).to eq([:one, :two])
   end
 
   it "obj1.methods.grep(pattern, &block) should be awesome printed" do
@@ -425,7 +425,7 @@ describe "Methods arrays" do
     end
 
     out = Hello.methods.grep(/^m(\d)$/) { %w(none one)[$1.to_i] }.ai(:plain => true)
-    out.should == "[\n    [0] none() Hello\n    [1]  one() Hello\n]"
+    expect(out).to eq("[\n    [0] none() Hello\n    [1]  one() Hello\n]")
   end
 
   # See https://github.com/michaeldv/awesome_print/issues/30 for details.
@@ -444,16 +444,16 @@ describe "Methods arrays" do
     end
 
     hello = Hello.new
-    (hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }.should == [ :him, :his ]
+    expect((hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }).to eq([ :him, :his ])
   end
 
   it "appending garbage to methods array should not raise error" do
     arr = 42.methods << [ :wtf ]
-    arr.ai(:plain => true).should_not raise_error(TypeError)
+    expect(arr.ai(:plain => true)).not_to raise_error
     if RUBY_VERSION < '1.9.2'
-      arr.ai(:plain => true).should =~ /\s+wtf\(\?\)\s+\?/      # [ :wtf ].to_s => "wtf"
+      expect(arr.ai(:plain => true)).to match(/\s+wtf\(\?\)\s+\?/)      # [ :wtf ].to_s => "wtf"
     else
-      arr.ai(:plain => true).should =~ /\s+\[:wtf\]\(\?\)\s+\?/ # [ :wtf ].to_s => [:wtf]
+      expect(arr.ai(:plain => true)).to match(/\s+\[:wtf\]\(\?\)\s+\?/) # [ :wtf ].to_s => [:wtf]
     end
   end
 end

@@ -45,11 +45,11 @@ begin
 >
 EOS
         out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-        out.should == str
+        expect(out).to eq(str)
       end
 
       it "should print the class" do
-        @ap.send(:awesome, MongoUser).should == <<-EOS.strip
+        expect(@ap.send(:awesome, MongoUser)).to eq <<-EOS.strip
 class MongoUser < Object {
            "_id" => :object_id,
     "first_name" => :string,
@@ -64,7 +64,7 @@ EOS
           key :last_attribute
         end
 
-        @ap.send(:awesome, Chamelion).should == <<-EOS.strip
+        expect(@ap.send(:awesome, Chamelion)).to eq <<-EOS.strip
 class Chamelion < Object {
                "_id" => :object_id,
     "last_attribute" => :undefined
@@ -96,7 +96,7 @@ EOS
 
       describe "with show associations turned off (default)" do
         it "should render the class as normal" do
-          @ap.send(:awesome, Parent).should == <<-EOS.strip
+          expect(@ap.send(:awesome, Parent)).to eq <<-EOS.strip
 class Parent < Object {
      "_id" => :object_id,
     "name" => :undefined
@@ -115,7 +115,7 @@ EOS
 EOS
           out.gsub!(/'([\w]+){23}'/, "'4d9183739a546f6806000001'")
           out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-          out.should == str
+          expect(out).to eq(str)
         end
       end
 
@@ -125,7 +125,7 @@ EOS
         end
 
         it "should render the class with associations shown" do
-          @ap.send(:awesome, Parent).should == <<-EOS.strip
+          expect(@ap.send(:awesome, Parent)).to eq <<-EOS.strip
 class Parent < Object {
         "_id" => :object_id,
        "name" => :undefined,
@@ -148,7 +148,7 @@ EOS
 EOS
           out.gsub!(/'([\w]+){23}'/, "'4d9183739a546f6806000001'")
           out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-          out.should == str
+          expect(out).to eq(str)
         end
       end
 
@@ -178,7 +178,7 @@ EOS
 EOS
           out.gsub!(/'([\w]+){23}'/, "'4d9183739a546f6806000001'")
           out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-          out.should == str
+          expect(out).to eq(str)
         end
       end
     end

@@ -11,8 +11,8 @@ describe "AwesomePrint logging extensions" do
 
   describe "ap method" do
     it "should awesome_inspect the given object" do
-      object = mock
-      object.should_receive(:ai)
+      object = double
+      expect(object).to receive(:ai)
       @logger.ap object
     end
     
@@ -22,18 +22,18 @@ describe "AwesomePrint logging extensions" do
       end
       
       it "should fallback to the default :debug log level" do
-        @logger.should_receive(:debug)
+        expect(@logger).to receive(:debug)
         @logger.ap(nil)
       end
 
       it "should use the global user default if no level passed" do
         AwesomePrint.defaults = { :log_level => :info }
-        @logger.should_receive(:info)
+        expect(@logger).to receive(:info)
         @logger.ap(nil)
       end
 
       it "should use the passed in level" do
-        @logger.should_receive(:warn)
+        expect(@logger).to receive(:warn)
         @logger.ap(nil, :warn)
       end
     end
