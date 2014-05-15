@@ -42,12 +42,12 @@ EOS
       else
         out.gsub!(/Id\('[^']+/, "Id('424242424242424242424242")
       end
-      out.should == str
+      expect(out).to eq(str)
     end
 
     it "should print the class" do
       moped_or_not = defined?(::Moped) ? 'moped/' : ''
-      @ap.send(:awesome, MongoUser).should == <<-EOS.strip
+      expect(@ap.send(:awesome, MongoUser)).to eq <<-EOS.strip
 class MongoUser < Object {
            :_id => :"#{moped_or_not}bson/object_id",
          :_type => :string,
@@ -65,7 +65,7 @@ EOS
 
       moped_or_not = defined?(::Moped) ? 'moped/' : ''
       last_attribute = defined?(::Moped) ? 'object' : '"mongoid/fields/serializable/object"'
-      @ap.send(:awesome, Chamelion).should == <<-EOS.strip
+      expect(@ap.send(:awesome, Chamelion)).to eq <<-EOS.strip
 class Chamelion < Object {
                :_id => :"#{moped_or_not}bson/object_id",
              :_type => :string,

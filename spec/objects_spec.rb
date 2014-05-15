@@ -30,8 +30,8 @@ describe "Objects" do
     attr_writer :ca = 2
 >
 EOS
-      out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
-      hello.ai(:plain => true, :raw => false).should == hello.inspect
+      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
     it "instance variables" do
@@ -50,8 +50,8 @@ EOS
     @dabra = 3
 >
 EOS
-      out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
-      hello.ai(:plain => true, :raw => false).should == hello.inspect
+      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
     it "attributes and instance variables" do
@@ -78,8 +78,8 @@ EOS
     attr_writer :ca = 2
 >
 EOS
-      out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
-      hello.ai(:plain => true, :raw => false).should == hello.inspect
+      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
   end
 end

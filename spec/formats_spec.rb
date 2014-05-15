@@ -14,11 +14,11 @@ describe "AwesomePrint" do
     end
 
     it "empty array" do
-      [].ai.should == "[]"
+      expect([].ai).to eq("[]")
     end
 
     it "plain multiline" do
-      @arr.ai(:plain => true).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true)).to eq <<-EOS.strip
 [
     [0] 1,
     [1] :two,
@@ -35,7 +35,7 @@ EOS
       end
 
     it "plain multiline without index" do
-      @arr.ai(:plain => true, :index => false).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :index => false)).to eq <<-EOS.strip
 [
     1,
     :two,
@@ -52,7 +52,7 @@ EOS
       end
 
     it "plain multiline indented" do
-      @arr.ai(:plain => true, :indent => 2).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :indent => 2)).to eq <<-EOS.strip
 [
   [0] 1,
   [1] :two,
@@ -69,7 +69,7 @@ EOS
     end
 
     it "plain multiline indented without index" do
-      @arr.ai(:plain => true, :indent => 2, :index => false).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :indent => 2, :index => false)).to eq <<-EOS.strip
 [
   1,
   :two,
@@ -86,11 +86,11 @@ EOS
     end
 
     it "plain single line" do
-      @arr.ai(:plain => true, :multiline => false).should == '[ 1, :two, "three", [ nil, [ true, false ] ] ]'
+      expect(@arr.ai(:plain => true, :multiline => false)).to eq('[ 1, :two, "three", [ nil, [ true, false ] ] ]')
     end
 
     it "colored multiline (default)" do
-      @arr.ai.should == <<-EOS.strip
+      expect(@arr.ai).to eq <<-EOS.strip
 [
     \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
     \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
@@ -107,7 +107,7 @@ EOS
       end
 
     it "colored multiline indented" do
-      @arr.ai(:indent => 8).should == <<-EOS.strip
+      expect(@arr.ai(:indent => 8)).to eq <<-EOS.strip
 [
         \e[1;37m[0] \e[0m\e[1;34m1\e[0m,
         \e[1;37m[1] \e[0m\e[0;36m:two\e[0m,
@@ -124,7 +124,7 @@ EOS
     end
 
     it "colored single line" do
-      @arr.ai(:multiline => false).should == "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]"
+      expect(@arr.ai(:multiline => false)).to eq("[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]")
     end
   end
 
@@ -136,7 +136,7 @@ EOS
     end
 
     it "plain multiline" do
-      @arr.ai(:plain => true).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true)).to eq <<-EOS.strip
 [
     [0] 1,
     [1] 2,
@@ -146,7 +146,7 @@ EOS
     end
 
     it "plain multiline without index" do
-      @arr.ai(:plain => true, :index => false).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :index => false)).to eq <<-EOS.strip
 [
     1,
     2,
@@ -156,7 +156,7 @@ EOS
     end
 
     it "plain single line" do
-      @arr.ai(:plain => true, :multiline => false).should == "[ 1, 2, [...] ]"
+      expect(@arr.ai(:plain => true, :multiline => false)).to eq("[ 1, 2, [...] ]")
     end
   end
 
@@ -167,7 +167,7 @@ EOS
     end
 
     it "plain limited output large" do
-      @arr.ai(:plain => true, :limit => true).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :limit => true)).to eq <<-EOS.strip
 [
     [  0] 1,
     [  1] 2,
@@ -182,7 +182,7 @@ EOS
 
     it "plain limited output small" do
       @arr = @arr[0..3]
-      @arr.ai(:plain => true, :limit => true).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :limit => true)).to eq <<-EOS.strip
 [
     [0] 1,
     [1] 2,
@@ -193,7 +193,7 @@ EOS
     end
 
     it "plain limited output with 10 lines" do
-      @arr.ai(:plain => true, :limit => 10).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :limit => 10)).to eq <<-EOS.strip
 [
     [  0] 1,
     [  1] 2,
@@ -210,7 +210,7 @@ EOS
     end
 
     it "plain limited output with 11 lines" do
-      @arr.ai(:plain => true, :limit => 11).should == <<-EOS.strip
+      expect(@arr.ai(:plain => true, :limit => 11)).to eq <<-EOS.strip
 [
     [  0] 1,
     [  1] 2,
@@ -235,7 +235,7 @@ EOS
     end
 
     it "plain limited output" do
-      @hash.ai(:sort_keys => true, :plain => true, :limit => true).should == <<-EOS.strip
+      expect(@hash.ai(:sort_keys => true, :plain => true, :limit => true)).to eq <<-EOS.strip
 {
     "a" => :a,
     "b" => :b,
@@ -256,11 +256,11 @@ EOS
     end
     
     it "empty hash" do
-      {}.ai.should == "{}"
+      expect({}.ai).to eq("{}")
     end
     
     it "plain multiline" do
-      @hash.ai(:plain => true).should == <<-EOS.strip
+      expect(@hash.ai(:plain => true)).to eq <<-EOS.strip
 {
     1 => {
         :sym => {
@@ -276,7 +276,7 @@ EOS
     end
 
     it "plain multiline indented" do
-      @hash.ai(:plain => true, :indent => 1).should == <<-EOS.strip
+      expect(@hash.ai(:plain => true, :indent => 1)).to eq <<-EOS.strip
 {
  1 => {
   :sym => {
@@ -292,11 +292,11 @@ EOS
     end
 
     it "plain single line" do
-      @hash.ai(:plain => true, :multiline => false).should == '{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }'
+      expect(@hash.ai(:plain => true, :multiline => false)).to eq('{ 1 => { :sym => { "str" => { [ 1, 2, 3 ] => { { :k => :v } => Hash < Object } } } } }')
     end
 
     it "colored multiline (default)" do
-      @hash.ai.should == <<-EOS.strip
+      expect(@hash.ai).to eq <<-EOS.strip
 {
     1\e[0;37m => \e[0m{
         :sym\e[0;37m => \e[0m{
@@ -312,7 +312,7 @@ EOS
     end
 
     it "colored multiline indented" do
-      @hash.ai(:indent => 2).should == <<-EOS.strip
+      expect(@hash.ai(:indent => 2)).to eq <<-EOS.strip
 {
   1\e[0;37m => \e[0m{
     :sym\e[0;37m => \e[0m{
@@ -328,7 +328,7 @@ EOS
     end
 
     it "colored single line" do
-      @hash.ai(:multiline => false).should == "{ 1\e[0;37m => \e[0m{ :sym\e[0;37m => \e[0m{ \"str\"\e[0;37m => \e[0m{ [ 1, 2, 3 ]\e[0;37m => \e[0m{ { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m } } } } }"
+      expect(@hash.ai(:multiline => false)).to eq("{ 1\e[0;37m => \e[0m{ :sym\e[0;37m => \e[0m{ \"str\"\e[0;37m => \e[0m{ [ 1, 2, 3 ]\e[0;37m => \e[0m{ { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m } } } } }")
     end
 
   end
@@ -341,7 +341,7 @@ EOS
     end
 
     it "plain multiline" do
-      @hash.ai(:plain => true).should == <<-EOS.strip
+      expect(@hash.ai(:plain => true)).to eq <<-EOS.strip
 {
     :a => {...}
 }
@@ -349,7 +349,7 @@ EOS
     end
 
     it "plain single line" do
-      @hash.ai(:plain => true, :multiline => false).should == '{ :a => {...} }'
+      expect(@hash.ai(:plain => true, :multiline => false)).to eq('{ :a => {...} }')
     end
   end
 
@@ -362,13 +362,13 @@ EOS
     it "plain multiline" do
       out = @hash.ai(:plain => true)
       if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
-        out.should =~ /^\{[^\}]+\}/m
-        out.should =~ /        "b" => "b",?/
-        out.should =~ /         :a => "a",?/
-        out.should =~ /         :z => "z",?/
-        out.should =~ /    "alpha" => "alpha",?$/
+        expect(out).to match(/^\{[^\}]+\}/m)
+        expect(out).to match(/        "b" => "b",?/)
+        expect(out).to match(/         :a => "a",?/)
+        expect(out).to match(/         :z => "z",?/)
+        expect(out).to match(/    "alpha" => "alpha",?$/)
       else
-        out.should == <<-EOS.strip
+        expect(out).to eq <<-EOS.strip
 {
         "b" => "b",
          :a => "a",
@@ -380,7 +380,7 @@ EOS
     end
     
     it "plain multiline with sorted keys" do
-      @hash.ai(:plain => true, :sort_keys => true).should == <<-EOS.strip
+      expect(@hash.ai(:plain => true, :sort_keys => true)).to eq <<-EOS.strip
 {
          :a => "a",
     "alpha" => "alpha",
@@ -401,7 +401,7 @@ EOS
     it "hash keys must be left aligned" do
       hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
       out = hash.ai(:plain => true, :indent => -4, :sort_keys => true)
-      out.should == <<-EOS.strip
+      expect(out).to eq <<-EOS.strip
 {
     [ 0, 0, 255 ] => :yellow,
     "magenta"     => "rgb(255, 0, 255)",
@@ -413,7 +413,7 @@ EOS
     it "nested hash keys should be indented (array of hashes)" do
       arr = [ { :a => 1, :bb => 22, :ccc => 333}, { 1 => :a, 22 => :bb, 333 => :ccc} ]
       out = arr.ai(:plain => true, :indent => -4, :sort_keys => true)
-      out.should == <<-EOS.strip
+      expect(out).to eq <<-EOS.strip
 [
     [0] {
         :a   => 1,
@@ -432,7 +432,7 @@ EOS
     it "nested hash keys should be indented (hash of hashes)" do
       arr = { :first => { :a => 1, :bb => 22, :ccc => 333}, :second => { 1 => :a, 22 => :bb, 333 => :ccc} }
       out = arr.ai(:plain => true, :indent => -4, :sort_keys => true)
-      out.should == <<-EOS.strip
+      expect(out).to eq <<-EOS.strip
 {
     :first  => {
         :a   => 1,
@@ -452,11 +452,11 @@ EOS
   #------------------------------------------------------------------------------
   describe "Class" do
     it "shoud show superclass (plain)" do
-      self.class.ai(:plain => true).should == "#{self.class} < #{self.class.superclass}"
+      expect(self.class.ai(:plain => true)).to eq("#{self.class} < #{self.class.superclass}")
     end
 
     it "shoud show superclass (color)" do
-      self.class.ai.should == "#{self.class} < #{self.class.superclass}".yellow
+      expect(self.class.ai).to eq("#{self.class} < #{self.class.superclass}".yellow)
     end
   end
 
@@ -464,7 +464,7 @@ EOS
   describe "File" do
     it "should display a file (plain)" do
       File.open(__FILE__, "r") do |f|
-        f.ai(:plain => true).should == "#{f.inspect}\n" << `ls -alF #{f.path}`.chop
+        expect(f.ai(:plain => true)).to eq("#{f.inspect}\n" << `ls -alF #{f.path}`.chop)
       end
     end
   end
@@ -473,7 +473,7 @@ EOS
   describe "Dir" do
     it "should display a direcory (plain)" do
       Dir.open(File.dirname(__FILE__)) do |d|
-        d.ai(:plain => true).should == "#{d.inspect}\n" << `ls -alF #{d.path}`.chop
+        expect(d.ai(:plain => true)).to eq("#{d.inspect}\n" << `ls -alF #{d.path}`.chop)
       end
     end
   end
@@ -482,7 +482,7 @@ EOS
   describe "BigDecimal and Rational" do
     it "should present BigDecimal object with arbitrary precision" do
       big = BigDecimal("201020102010201020102010201020102010.4")
-      big.ai(:plain => true).should == "201020102010201020102010201020102010.4"
+      expect(big.ai(:plain => true)).to eq("201020102010201020102010201020102010.4")
     end
 
     it "should present Rational object with arbitrary precision" do
@@ -494,9 +494,9 @@ EOS
       # http://www.ruby-forum.com/topic/189397
       #
       if RUBY_VERSION < "1.9"
-        out.should == "100510051005100510051005100510051005"
+        expect(out).to eq("100510051005100510051005100510051005")
       else
-        out.should == "100510051005100510051005100510051005/1"
+        expect(out).to eq("100510051005100510051005100510051005/1")
       end
     end
   end
@@ -507,8 +507,8 @@ EOS
       ap = AwesomePrint::Inspector.new
       ap.send(:merge_options!, { :color => { :array => :black }, :indent => 0 })
       options = ap.instance_variable_get("@options")
-      options[:color][:array].should == :black
-      options[:indent].should == 0
+      expect(options[:color][:array]).to eq(:black)
+      expect(options[:indent]).to eq(0)
     end
   end
 
@@ -520,40 +520,40 @@ EOS
     end
 
     it "empty set" do
-      Set.new.ai.should == [].ai
+      expect(Set.new.ai).to eq([].ai)
     end
 
     if RUBY_VERSION > "1.9"
       it "plain multiline" do
-        @set.ai(:plain => true).should == @arr.ai(:plain => true)
+        expect(@set.ai(:plain => true)).to eq(@arr.ai(:plain => true))
       end
 
       it "plain multiline indented" do
-        @set.ai(:plain => true, :indent => 1).should == @arr.ai(:plain => true, :indent => 1)
+        expect(@set.ai(:plain => true, :indent => 1)).to eq(@arr.ai(:plain => true, :indent => 1))
       end
 
       it "plain single line" do
-        @set.ai(:plain => true, :multiline => false).should == @arr.ai(:plain => true, :multiline => false)
+        expect(@set.ai(:plain => true, :multiline => false)).to eq(@arr.ai(:plain => true, :multiline => false))
       end
 
       it "colored multiline (default)" do
-        @set.ai.should == @arr.ai
+        expect(@set.ai).to eq(@arr.ai)
       end
     else # Prior to Ruby 1.9 the order of set values is unpredicatble.
       it "plain multiline" do
-        @set.sort_by{ |x| x.to_s }.ai(:plain => true).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true)
+        expect(@set.sort_by{ |x| x.to_s }.ai(:plain => true)).to eq(@arr.sort_by{ |x| x.to_s }.ai(:plain => true))
       end
 
       it "plain multiline indented" do
-        @set.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1)
+        expect(@set.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1)).to eq(@arr.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1))
       end
 
       it "plain single line" do
-        @set.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false).should == @arr.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false)
+        expect(@set.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false)).to eq(@arr.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false))
       end
 
       it "colored multiline (default)" do
-        @set.sort_by{ |x| x.to_s }.ai.should == @arr.sort_by{ |x| x.to_s }.ai
+        expect(@set.sort_by{ |x| x.to_s }.ai).to eq(@arr.sort_by{ |x| x.to_s }.ai)
       end
     end
   end
@@ -571,7 +571,7 @@ EOS
     end
     
     it "empty struct" do
-      Struct.new("EmptyStruct").ai.should ==  "\e[1;33mStruct::EmptyStruct < Struct\e[0m"
+      expect(Struct.new("EmptyStruct").ai).to eq("\e[1;33mStruct::EmptyStruct < Struct\e[0m")
     end
     
     it "plain multiline" do
@@ -587,7 +587,7 @@ EOS
     :address => "1313 Mockingbird Lane"
 }
 EOS
-      @struct.ai(:plain => true).should satisfy { |match| match == s1 || match == s2 }
+      expect(@struct.ai(:plain => true)).to satisfy { |match| match == s1 || match == s2 }
     end
 
     it "plain multiline indented" do
@@ -603,13 +603,13 @@ EOS
  :address => "1313 Mockingbird Lane"
 }
 EOS
-      @struct.ai(:plain => true, :indent => 1).should satisfy { |match| match == s1 || match == s2 }
+      expect(@struct.ai(:plain => true, :indent => 1)).to satisfy { |match| match == s1 || match == s2 }
     end
 
     it "plain single line" do
       s1 = "{ :address => \"1313 Mockingbird Lane\", :name => \"Herman Munster\" }"
       s2 = "{ :name => \"Herman Munster\", :address => \"1313 Mockingbird Lane\" }"
-      @struct.ai(:plain => true, :multiline => false).should satisfy { |match| match == s1 || match == s2 }
+      expect(@struct.ai(:plain => true, :multiline => false)).to satisfy { |match| match == s1 || match == s2 }
     end
 
     it "colored multiline (default)" do
@@ -625,7 +625,7 @@ EOS
     :address\e[0;37m => \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
 }
 EOS
-      @struct.ai.should satisfy { |match| match == s1 || match == s2 }
+      expect(@struct.ai).to satisfy { |match| match == s1 || match == s2 }
     end
   end
 
@@ -639,7 +639,7 @@ EOS
       class My < Array; end
 
       my = My.new([ 1, :two, "three", [ nil, [ true, false ] ] ])
-      my.ai(:plain => true).should == <<-EOS.strip
+      expect(my.ai(:plain => true)).to eq <<-EOS.strip
 [
     [0] 1,
     [1] :two,
@@ -659,7 +659,7 @@ EOS
       class My < Hash; end
 
       my = My[ { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } } ]
-      my.ai(:plain => true).should == <<-EOS.strip
+      expect(my.ai(:plain => true)).to eq <<-EOS.strip
 {
     1 => {
         :sym => {
@@ -678,7 +678,7 @@ EOS
       class My < File; end
 
       my = File.new('/dev/null') rescue File.new('nul')
-      my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
+      expect(my.ai(:plain => true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
     end
 
     it "inherited from Dir should be displayed as Dir" do
@@ -686,7 +686,7 @@ EOS
 
       require 'tmpdir'
       my = My.new(Dir.tmpdir)
-      my.ai(:plain => true).should == "#{my.inspect}\n" << `ls -alF #{my.path}`.chop
+      expect(my.ai(:plain => true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
     end
 
     it "should handle a class that defines its own #send method" do
@@ -695,7 +695,7 @@ EOS
       end
 
       my = My.new
-      my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
+      expect(my.methods.ai(:plain => true)).not_to raise_error
     end
 
     it "should handle a class defines its own #method method (ex. request.method)" do
@@ -706,7 +706,7 @@ EOS
       end
 
       my = My.new
-      my.methods.ai(:plain => true).should_not raise_error(ArgumentError)
+      expect(my.methods.ai(:plain => true)).not_to raise_error
     end
   end
 end

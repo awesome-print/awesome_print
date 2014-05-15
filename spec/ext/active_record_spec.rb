@@ -79,7 +79,7 @@ EOS
           else
             str.sub!('?', '1992-10-10 12:30:00 UTC')
           end
-          out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
         end
 
         it "display multiple records" do
@@ -109,7 +109,7 @@ EOS
             str.sub!('??', '1992-10-10 12:30:00 UTC')
             str.sub!('?!', '2003-05-26 14:15:00 UTC')
           end
-          out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
         end
       end
 
@@ -203,7 +203,7 @@ EOS
 EOS
           end
           str.sub!('?', '1992-10-10 12:30:00')
-          out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
         end
 
         it "display multiple records" do
@@ -355,7 +355,7 @@ EOS
           end
           str.sub!('?', '1992-10-10 12:30:00')
           str.sub!('?', '2003-05-26 14:15:00')
-          out.gsub(/0x([a-f\d]+)/, "0x01234567").should == str
+          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
         end
       end
 
@@ -366,7 +366,7 @@ EOS
         end
 
         it "should print the class" do
-          @ap.send(:awesome, User).should == <<-EOS.strip
+          expect(@ap.send(:awesome, User)).to eq <<-EOS.strip
 class User < ActiveRecord::Base {
             :id => :integer,
           :name => :string,
@@ -378,7 +378,7 @@ EOS
         end
 
         it "should print the class for non-direct subclasses of ActiveRecord::Base" do
-          @ap.send(:awesome, SubUser).should == <<-EOS.strip
+          expect(@ap.send(:awesome, SubUser)).to eq <<-EOS.strip
 class SubUser < User {
             :id => :integer,
           :name => :string,
@@ -390,7 +390,7 @@ EOS
         end
 
         it "should print ActiveRecord::Base objects (ex. ancestors)" do
-          lambda { @ap.send(:awesome, User.ancestors) }.should_not raise_error
+          expect { @ap.send(:awesome, User.ancestors) }.not_to raise_error
         end
       end
 
@@ -405,22 +405,22 @@ EOS
 
           if ActiveRecord::VERSION::STRING >= "3.2"
             if RUBY_VERSION >= "1.9"
-              out.should =~ /\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/
+              expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
             else
-              out.should =~ /\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/
+              expect(out).to match(/\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/)
             end
           else
-            out.should =~ /\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
+            expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
           end
 
           out = @ap.send(:awesome, User.methods.grep(/primary_key/))
-          out.should =~ /\sprimary_key\(.*?\)\s+User/
+          expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
 
           out = @ap.send(:awesome, User.methods.grep(/validate/))
           if ActiveRecord::VERSION::MAJOR < 3
-            out.should =~ /\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/
+            expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
           else
-            out.should =~ /\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/
+            expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
           end
         end
       end

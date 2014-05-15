@@ -29,7 +29,7 @@ begin
       user = RippleUser.new :_id => "12345", :first_name => "Al", :last_name => "Capone"
       out = @ap.send :awesome, user
 
-      out.should == <<-EOS.strip
+      expect(out).to eq <<-EOS.strip
 #<RippleUser:12345> {
            :_id => "12345",
     :first_name => "Al",
@@ -39,7 +39,7 @@ EOS
     end
 
     it "should print the class" do
-      @ap.send(:awesome, RippleUser).should == <<-EOS.strip
+      expect(@ap.send(:awesome, RippleUser)).to eq <<-EOS.strip
 class RippleUser < Object {
            :_id => :string,
          :_type => :string,
