@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 begin
-  require 'active_support'
+  require 'active_support/all'
   require 'awesome_print/ext/active_support'
 
   describe "AwesomePrint::ActiveSupport" do

@@ -30,8 +30,90 @@ begin
 
       it "should print class instance" do
         user = MongoUser.new(:first_name => "Al", :last_name => "Capone")
+
         out = @ap.send(:awesome, user)
-        str = <<-EOS.strip
+        out.gsub!(/#\<Proc:.+?\>/, 'AWESOME_PRINT_PROC_STUB')
+        out.gsub!(/BSON::ObjectId\('[\da-f]+?'\)/, "BSON::ObjectId('123456789')")
+
+        if MongoMapper::Version >= "0.13"
+          str = <<-EOS.strip
+#<MongoUser:0x01234567
+    @__mm_default_keys = [
+        [0] #<MongoMapper::Plugins::Keys::Key:0x01234567
+            @dynamic = false,
+            @embeddable = false,
+            @has_default = true,
+            @is_id = true,
+            @typecast = nil,
+            attr_accessor :accessors = [],
+            attr_accessor :default = AWESOME_PRINT_PROC_STUB,
+            attr_accessor :ivar = :@_id,
+            attr_accessor :name = "_id",
+            attr_accessor :options = {
+                :default => AWESOME_PRINT_PROC_STUB
+            },
+            attr_accessor :type = ObjectId < Object
+        >
+    ],
+    @__mm_keys = {
+               "_id" => #<MongoMapper::Plugins::Keys::Key:0x01234567
+            @dynamic = false,
+            @embeddable = false,
+            @has_default = true,
+            @is_id = true,
+            @typecast = nil,
+            attr_accessor :accessors = [],
+            attr_accessor :default = AWESOME_PRINT_PROC_STUB,
+            attr_accessor :ivar = :@_id,
+            attr_accessor :name = "_id",
+            attr_accessor :options = {
+                :default => AWESOME_PRINT_PROC_STUB
+            },
+            attr_accessor :type = ObjectId < Object
+        >,
+        "first_name" => #<MongoMapper::Plugins::Keys::Key:0x01234567
+            @dynamic = false,
+            @embeddable = false,
+            @has_default = false,
+            @is_id = false,
+            @typecast = nil,
+            attr_accessor :accessors = [],
+            attr_accessor :ivar = :@first_name,
+            attr_accessor :name = "first_name",
+            attr_accessor :options = {},
+            attr_accessor :type = String < Object
+        >,
+         "last_name" => #<MongoMapper::Plugins::Keys::Key:0x01234567
+            @dynamic = false,
+            @embeddable = false,
+            @has_default = false,
+            @is_id = false,
+            @typecast = nil,
+            attr_accessor :accessors = [],
+            attr_accessor :ivar = :@last_name,
+            attr_accessor :name = "last_name",
+            attr_accessor :options = {},
+            attr_accessor :type = String < Object
+        >
+    },
+    @__mm_pre_cast = {
+        "first_name" => "Al",
+         "last_name" => "Capone"
+    },
+    @_dynamic_attributes = {},
+    @_new = true,
+    attr_accessor :_id = BSON::ObjectId('123456789'),
+    attr_accessor :attributes = nil,
+    attr_accessor :first_name = "Al",
+    attr_accessor :last_name = "Capone",
+    attr_reader :changed_attributes = {
+        "first_name" => nil,
+         "last_name" => nil
+    }
+>
+EOS
+        else
+          str = <<-EOS.strip
 #<MongoUser:0x01234567
     @_new = true,
     attr_accessor :first_name = "Al",
@@ -44,6 +126,7 @@ begin
     attr_reader :last_name_before_type_cast = "Capone"
 >
 EOS
+        end
         out.gsub!(/0x([a-f\d]+)/, "0x01234567")
         expect(out).to eq(str)
       end

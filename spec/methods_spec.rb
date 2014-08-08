@@ -449,7 +449,7 @@ describe "Methods arrays" do
 
   it "appending garbage to methods array should not raise error" do
     arr = 42.methods << [ :wtf ]
-    expect(arr.ai(:plain => true)).not_to raise_error
+    expect { arr.ai(:plain => true) }.not_to raise_error
     if RUBY_VERSION < '1.9.2'
       expect(arr.ai(:plain => true)).to match(/\s+wtf\(\?\)\s+\?/)      # [ :wtf ].to_s => "wtf"
     else

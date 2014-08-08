@@ -1,64 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 begin
-  require 'active_record'
   require 'awesome_print/ext/active_record'
+  require File.expand_path(File.dirname(__FILE__) + '/../active_record_helper')
 
-  module Rails
-    def self.env
-      {}
-    end
-  end
-
-
-  if defined?(ActiveRecord::VERSION::MAJOR) && ActiveRecord::VERSION::MAJOR >= 2
-
-    # Create tableless ActiveRecord model.
-    #------------------------------------------------------------------------------
-    class User < ActiveRecord::Base
-      def self.columns()
-        @columns ||= []
-      end
-
-      # Tableless model support for ActiveRecord 3.1 mess.
-      if self.respond_to?(:column_defaults)
-        def self.primary_key
-          :id
-        end
-
-        def self.column_defaults
-          @column_defaults ||= Hash[columns.map { |column| [column.name, nil] }]
-        end
-
-        def self.columns_hash
-          @columns_hash ||= Hash[columns.map { |column| [column.name, column] }]
-        end
-      end
-
-      def self.column(name, sql_type = nil, default = nil, null = true)
-        columns << ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default, sql_type.to_s, null)
-      end
-
-      column :id, :integer
-      column :name, :string
-      column :rank, :integer
-      column :admin, :boolean
-      column :created_at, :datetime
-
-      def self.table_exists?
-        true
-      end
-    end
-
-    class SubUser < User
-      def self.columns
-        User.columns
-      end
-    end
-
-    class AbstractClass < ActiveRecord::Base
-      self.abstract_class = true
-    end
+  if is_usable_activerecord?
 
     describe "AwesomePrint/ActiveRecord" do
       before do
@@ -136,9 +82,110 @@ EOS
         it "display single record" do
           out = @ap.send(:awesome, @diana)
 
+          if activerecord_version >= "4.1"
+            str = <<-EOS.strip
+#<User:0x01234567
+    @_start_transaction_state = {},
+    @aggregation_cache = {},
+    @attributes_cache = {},
+    @column_types = {
+             "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            attr_accessor :coder = nil,
+            attr_accessor :primary = false,
+            attr_reader :default = nil,
+            attr_reader :default_function = nil,
+            attr_reader :limit = nil,
+            attr_reader :name = "admin",
+            attr_reader :null = true,
+            attr_reader :precision = nil,
+            attr_reader :scale = nil,
+            attr_reader :sql_type = "boolean",
+            attr_reader :type = :boolean
+        >,
+        "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            attr_accessor :coder = nil,
+            attr_accessor :primary = false,
+            attr_reader :default = nil,
+            attr_reader :default_function = nil,
+            attr_reader :limit = nil,
+            attr_reader :name = "created_at",
+            attr_reader :null = true,
+            attr_reader :precision = nil,
+            attr_reader :scale = nil,
+            attr_reader :sql_type = "datetime",
+            attr_reader :type = :datetime
+        >,
+                "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            attr_accessor :coder = nil,
+            attr_accessor :primary = true,
+            attr_reader :default = nil,
+            attr_reader :default_function = nil,
+            attr_reader :limit = nil,
+            attr_reader :name = "id",
+            attr_reader :null = false,
+            attr_reader :precision = nil,
+            attr_reader :scale = nil,
+            attr_reader :sql_type = "INTEGER",
+            attr_reader :type = :integer
+        >,
+              "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            attr_accessor :coder = nil,
+            attr_accessor :primary = false,
+            attr_reader :default = nil,
+            attr_reader :default_function = nil,
+            attr_reader :limit = 255,
+            attr_reader :name = "name",
+            attr_reader :null = true,
+            attr_reader :precision = nil,
+            attr_reader :scale = nil,
+            attr_reader :sql_type = "varchar(255)",
+            attr_reader :type = :string
+        >,
+              "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            attr_accessor :coder = nil,
+            attr_accessor :primary = false,
+            attr_reader :default = nil,
+            attr_reader :default_function = nil,
+            attr_reader :limit = nil,
+            attr_reader :name = "rank",
+            attr_reader :null = true,
+            attr_reader :precision = nil,
+            attr_reader :scale = nil,
+            attr_reader :sql_type = "integer",
+            attr_reader :type = :integer
+        >
+    },
+    @column_types_override = nil,
+    @destroyed = false,
+    @marked_for_destruction = false,
+    @new_record = true,
+    @readonly = false,
+    @reflects_state = [
+        [0] false
+    ],
+    @transaction_state = nil,
+    @txn = nil,
+    attr_accessor :attributes = {
+             "admin" => false,
+        "created_at" => "1992-10-10 12:30:00",
+                "id" => nil,
+              "name" => "Diana",
+              "rank" => 1
+    },
+    attr_accessor :destroyed_by_association = nil,
+    attr_reader :association_cache = {},
+    attr_reader :changed_attributes = {
+             "admin" => nil,
+        "created_at" => nil,
+              "name" => nil,
+              "rank" => nil
+    }
+>
+EOS
+
           # ActiveRecord 3.1 and on.
           #--------------------------------------------------------------------------
-          if ActiveRecord::VERSION::STRING >= "3.1"
+          elsif activerecord_version >= "3.1"
             str = <<-EOS.strip
 #<User:0x01234567
     @aggregation_cache = {},
@@ -168,7 +215,7 @@ EOS
 EOS
           # ActiveRecord 3.0.x
           #--------------------------------------------------------------------------
-          elsif ActiveRecord::VERSION::STRING.start_with?('3.0')
+          elsif activerecord_version.start_with?('3.0')
             str = <<-EOS.strip
 #<User:0x01234567
     @attributes_cache = {},
@@ -193,7 +240,7 @@ EOS
 EOS
           # ActiveRecord 2.x
           #--------------------------------------------------------------------------
-          elsif ActiveRecord::VERSION::STRING.start_with?('2.')
+          elsif activerecord_version.start_with?('2.')
             str = <<-EOS.strip
 #<User:0x01234567
     @attributes_cache = {},
@@ -220,9 +267,206 @@ EOS
         it "display multiple records" do
           out = @ap.send(:awesome, [ @diana, @laura ])
 
-          # ActiveRecord 3.1 and on.
-          #--------------------------------------------------------------------------
-          if ActiveRecord::VERSION::STRING >= "3.1"
+          if activerecord_version >= "4.1"
+            str = <<-EOS.strip
+[
+    [0] #<User:0x01234567
+        @_start_transaction_state = {},
+        @aggregation_cache = {},
+        @attributes_cache = {},
+        @column_types = {
+                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "admin",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "boolean",
+                attr_reader :type = :boolean
+            >,
+            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "created_at",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "datetime",
+                attr_reader :type = :datetime
+            >,
+                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = true,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "id",
+                attr_reader :null = false,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "INTEGER",
+                attr_reader :type = :integer
+            >,
+                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = 255,
+                attr_reader :name = "name",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "varchar(255)",
+                attr_reader :type = :string
+            >,
+                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "rank",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "integer",
+                attr_reader :type = :integer
+            >
+        },
+        @column_types_override = nil,
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @readonly = false,
+        @reflects_state = [
+            [0] false
+        ],
+        @transaction_state = nil,
+        @txn = nil,
+        attr_accessor :attributes = {
+                 "admin" => false,
+            "created_at" => "1992-10-10 12:30:00",
+                    "id" => nil,
+                  "name" => "Diana",
+                  "rank" => 1
+        },
+        attr_accessor :destroyed_by_association = nil,
+        attr_reader :association_cache = {},
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        }
+    >,
+    [1] #<User:0x01234567
+        @_start_transaction_state = {},
+        @aggregation_cache = {},
+        @attributes_cache = {},
+        @column_types = {
+                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "admin",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "boolean",
+                attr_reader :type = :boolean
+            >,
+            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "created_at",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "datetime",
+                attr_reader :type = :datetime
+            >,
+                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = true,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "id",
+                attr_reader :null = false,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "INTEGER",
+                attr_reader :type = :integer
+            >,
+                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = 255,
+                attr_reader :name = "name",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "varchar(255)",
+                attr_reader :type = :string
+            >,
+                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                attr_accessor :coder = nil,
+                attr_accessor :primary = false,
+                attr_reader :default = nil,
+                attr_reader :default_function = nil,
+                attr_reader :limit = nil,
+                attr_reader :name = "rank",
+                attr_reader :null = true,
+                attr_reader :precision = nil,
+                attr_reader :scale = nil,
+                attr_reader :sql_type = "integer",
+                attr_reader :type = :integer
+            >
+        },
+        @column_types_override = nil,
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @readonly = false,
+        @reflects_state = [
+            [0] false
+        ],
+        @transaction_state = nil,
+        @txn = nil,
+        attr_accessor :attributes = {
+                 "admin" => true,
+            "created_at" => "2003-05-26 14:15:00",
+                    "id" => nil,
+                  "name" => "Laura",
+                  "rank" => 2
+        },
+        attr_accessor :destroyed_by_association = nil,
+        attr_reader :association_cache = {},
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        }
+    >
+]
+EOS
+          elsif ActiveRecord::VERSION::STRING >= "3.1"
             str = <<-EOS.strip
 [
     [0] #<User:0x01234567
@@ -389,7 +633,8 @@ EOS
         end
 
         it "should print the class for non-direct subclasses of ActiveRecord::Base" do
-          expect(@ap.send(:awesome, SubUser)).to eq <<-EOS.strip
+          out = @ap.send(:awesome, SubUser)
+          expect(out).to eq <<-EOS.strip
 class SubUser < User {
             :id => :integer,
           :name => :string,
@@ -403,10 +648,6 @@ EOS
         it "should print ActiveRecord::Base objects (ex. ancestors)" do
           expect { @ap.send(:awesome, User.ancestors) }.not_to raise_error
         end
-
-        it "should print an abstract class" do
-          expect(@ap.send(:awesome, AbstractClass)).to eq("AbstractClass(abstract) < ActiveRecord::Base")
-        end
       end
 
       #------------------------------------------------------------------------------
@@ -416,6 +657,7 @@ EOS
         end
 
         it "should format class methods properly" do
+          # spec 1
           out = @ap.send(:awesome, User.methods.grep(/first/))
 
           if ActiveRecord::VERSION::STRING >= "3.2"
@@ -428,15 +670,23 @@ EOS
             expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
           end
 
+          # spec 2
           out = @ap.send(:awesome, User.methods.grep(/primary_key/))
-          expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
+          if activerecord_version >= "4.1"
+            expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
+          else
+            expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
+          end
 
+          # spec 3
           out = @ap.send(:awesome, User.methods.grep(/validate/))
+
           if ActiveRecord::VERSION::MAJOR < 3
             expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
           else
             expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
           end
+
         end
       end
     end

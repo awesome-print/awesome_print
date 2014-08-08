@@ -254,11 +254,11 @@ EOS
     before do
       @hash = { 1 => { :sym => { "str" => { [1, 2, 3] => { { :k => :v } => Hash } } } } }
     end
-    
+
     it "empty hash" do
       expect({}.ai).to eq("{}")
     end
-    
+
     it "plain multiline" do
       expect(@hash.ai(:plain => true)).to eq <<-EOS.strip
 {
@@ -378,7 +378,7 @@ EOS
 EOS
       end
     end
-    
+
     it "plain multiline with sorted keys" do
       expect(@hash.ai(:plain => true, :sort_keys => true)).to eq <<-EOS.strip
 {
@@ -569,11 +569,11 @@ EOS
       @struct.name = "Herman Munster"
       @struct.address = "1313 Mockingbird Lane"
     end
-    
+
     it "empty struct" do
       expect(Struct.new("EmptyStruct").ai).to eq("\e[1;33mStruct::EmptyStruct < Struct\e[0m")
     end
-    
+
     it "plain multiline" do
       s1 = <<-EOS.strip
 {
@@ -695,7 +695,7 @@ EOS
       end
 
       my = My.new
-      expect(my.methods.ai(:plain => true)).not_to raise_error
+      expect { my.methods.ai(:plain => true) }.not_to raise_error
     end
 
     it "should handle a class defines its own #method method (ex. request.method)" do
@@ -706,7 +706,7 @@ EOS
       end
 
       my = My.new
-      expect(my.methods.ai(:plain => true)).not_to raise_error
+      expect { my.methods.ai(:plain => true) }.not_to raise_error
     end
   end
 end
