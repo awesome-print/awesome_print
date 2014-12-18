@@ -1,4 +1,7 @@
 ## Awesome Print ##
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/michaeldv/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
 objects and usage within Rails templates are supported via included mixins.
