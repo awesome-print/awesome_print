@@ -17,14 +17,13 @@ module AwesomePrint
       cast = cast_without_active_record(object, type)
       return cast if !defined?(::ActiveRecord)
 
-      if object.is_a?(::ActiveRecord::Base)
-        cast = :active_record_instance
+      cast = if object.is_a?(::ActiveRecord::Base)
+        :active_record_instance
       elsif object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
-        cast = :active_record_class
+        :active_record_class
       elsif type == :activerecord_relation
-        cast = :array
+        :array
       end
-      cast
     end
 
     private
@@ -45,7 +44,7 @@ module AwesomePrint
       data = object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
         if object.has_attribute?(name) || object.new_record?
           value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
-          hash[name.to_sym] = value
+          hash.merge!(name.to_sym => value)
         end
         hash
       end
@@ -58,7 +57,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == "ActiveRecord::Base"
 
       data = object.columns.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c.name.to_sym] = c.type
+        hash.merge!(c.name.to_sym => c.type)
         hash
       end
       "class #{object} < #{object.superclass} " << awesome_hash(data)
