@@ -13,7 +13,7 @@ describe "AwesomePrint" do
           nil
         end
       end
-      weird.new.ai(:plain => true).should == ''
+      expect(weird.new.ai(:plain => true)).to eq('')
     end
 
     it "handle frozen object.inspect" do
@@ -22,14 +22,14 @@ describe "AwesomePrint" do
           "ice".freeze
         end
       end
-      weird.new.ai(:plain => false).should == "ice"
+      expect(weird.new.ai(:plain => false)).to eq("ice")
     end
 
     # See https://github.com/michaeldv/awesome_print/issues/35
     it "handle array grep when pattern contains / chapacter" do
       hash = { "1/x" => 1,  "2//x" => :"2" }
       grepped = hash.keys.sort.grep(/^(\d+)\//) { $1 }
-      grepped.ai(:plain => true, :multiline => false).should == '[ "1", "2" ]'
+      expect(grepped.ai(:plain => true, :multiline => false)).to eq('[ "1", "2" ]')
     end
 
     # See https://github.com/michaeldv/awesome_print/issues/85
@@ -37,32 +37,32 @@ describe "AwesomePrint" do
       it "handle array grep when a method is defined in C and thus doesn't have a binding" do
         arr = (0..6).to_a
         grepped = arr.grep(1..4, &:succ)
-        grepped.ai(:plain => true, :multiline => false).should == '[ 2, 3, 4, 5 ]'
+        expect(grepped.ai(:plain => true, :multiline => false)).to eq('[ 2, 3, 4, 5 ]')
       end
     end
 
     it "returns value passed as a parameter" do
       object = rand
-      self.stub!(:puts)
-      (ap object).should == object
+      allow(self).to receive(:puts)
+      expect(ap object).to eq(object)
     end
 
     # Require different file name this time (lib/ap.rb vs. lib/awesome_print).
     it "several require 'awesome_print' should do no harm" do
       require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
-      lambda { rand.ai }.should_not raise_error
+      expect { rand.ai }.not_to raise_error
     end
 
     it "format ENV as hash" do
-      ENV.ai(:plain => true).should == ENV.to_hash.ai(:plain => true)
-      ENV.ai.should == ENV.to_hash.ai
+      expect(ENV.ai(:plain => true)).to eq(ENV.to_hash.ai(:plain => true))
+      expect(ENV.ai).to eq(ENV.to_hash.ai)
     end
 
     # See https://github.com/michaeldv/awesome_print/issues/134
     it "IPAddr workaround" do
       require "ipaddr"
       ipaddr = IPAddr.new("3ffe:505:2::1")
-      ipaddr.ai.should == "#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>"
+      expect(ipaddr.ai).to eq("#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>")
     end
 
     # See https://github.com/michaeldv/awesome_print/issues/139
@@ -74,7 +74,7 @@ describe "AwesomePrint" do
         end
         alias :eql? :==
       end
-      lambda { weird.new.ai }.should_not raise_error
+      expect { weird.new.ai }.not_to raise_error
     end
   end
 
@@ -86,17 +86,17 @@ describe "AwesomePrint" do
 
     it "wraps ap output with plain <pre> tag" do
       markup = rand
-      markup.ai(:html => true, :plain => true).should == "<pre>#{markup}</pre>"
+      expect(markup.ai(:html => true, :plain => true)).to eq("<pre>#{markup}</pre>")
     end
 
     it "wraps ap output with <pre> tag with colorized <kbd>" do
       markup = rand
-      markup.ai(:html => true).should == %Q|<pre><kbd style="color:blue">#{markup}</kbd></pre>|
+      expect(markup.ai(:html => true)).to eq(%Q|<pre><kbd style="color:blue">#{markup}</kbd></pre>|)
     end
 
     it "wraps multiline ap output with <pre> tag with colorized <kbd>" do
       markup = [ 1, :two, "three" ]
-      markup.ai(:html => true).should == <<-EOS.strip
+      expect(markup.ai(:html => true)).to eq <<-EOS.strip
 <pre>[
     <kbd style="color:white">[0] </kbd><kbd style="color:blue">1</kbd>,
     <kbd style="color:white">[1] </kbd><kbd style="color:darkcyan">:two</kbd>,
@@ -107,7 +107,7 @@ EOS
 
     it "wraps hash ap output with only an outer <pre> tag" do
       markup = [ { "hello" => "world" } ]
-      markup.ai(:html => true).should == <<-EOS.strip
+      expect(markup.ai(:html => true)).to eq <<-EOS.strip
 <pre>[
     <kbd style="color:white">[0] </kbd>{
         &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
@@ -118,12 +118,12 @@ EOS
 
     it "encodes HTML entities (plain)" do
       markup = ' &<hello>'
-      markup.ai(:html => true, :plain => true).should == '<pre>&quot; &amp;&lt;hello&gt;&quot;</pre>'
+      expect(markup.ai(:html => true, :plain => true)).to eq('<pre>&quot; &amp;&lt;hello&gt;&quot;</pre>')
     end
 
     it "encodes HTML entities (color)" do
       markup = ' &<hello>'
-      markup.ai(:html => true).should == '<pre><kbd style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</kbd></pre>'
+      expect(markup.ai(:html => true)).to eq('<pre><kbd style="color:brown">&quot; &amp;&lt;hello&gt;&quot;</kbd></pre>')
     end
   end
 
@@ -142,7 +142,7 @@ EOS
       AwesomePrint.defaults = { :indent => -2, :sort_keys => true }
       hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }
       out = hash.ai(:plain => true)
-      out.should == <<-EOS.strip
+      expect(out).to eq <<-EOS.strip
 {
   [ 0, 0, 255 ] => :yellow,
   "magenta"     => "rgb(255, 0, 255)",
@@ -178,25 +178,25 @@ EOS
     it "shoud not raise ArgumentError when formatting HTML" do
       out = "hello".ai(:color => { :string => :red }, :html => true)
       if RUBY_VERSION >= "1.9"
-        out.should == %Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|
+        expect(out).to eq(%Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|)
       else
-        out.should == %Q|<pre>[red]&quot;hello&quot;[/red]</pre>|
+        expect(out).to eq(%Q|<pre>[red]&quot;hello&quot;[/red]</pre>|)
       end
     end
 
     it "shoud not raise ArgumentError when formatting HTML (shade color)" do
       out = "hello".ai(:color => { :string => :redish }, :html => true)
-      out.should == %Q|<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>|
+      expect(out).to eq(%Q|<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>|)
     end
 
     it "shoud not raise ArgumentError when formatting non-HTML" do
       out = "hello".ai(:color => { :string => :red }, :html => false)
-      out.should == %Q|[red]"hello"[/red]|
+      expect(out).to eq(%Q|[red]"hello"[/red]|)
     end
 
     it "shoud not raise ArgumentError when formatting non-HTML (shade color)" do
       out = "hello".ai(:color => { :string => :redish }, :html => false)
-      out.should == %Q|\e[0;31m"hello"\e[0m|
+      expect(out).to eq(%Q|\e[0;31m"hello"\e[0m|)
     end
   end
 
@@ -204,23 +204,23 @@ EOS
   describe "Console" do
     it "should detect IRB" do
       class IRB; end
-      AwesomePrint.console?.should == true
-      AwesomePrint.rails_console?.should == false
+      expect(AwesomePrint.console?).to eq(true)
+      expect(AwesomePrint.rails_console?).to eq(false)
       Object.instance_eval{ remove_const :IRB }
     end
 
     it "should detect Pry" do
       class Pry; end
-      AwesomePrint.console?.should == true
-      AwesomePrint.rails_console?.should == false
+      expect(AwesomePrint.console?).to eq(true)
+      expect(AwesomePrint.rails_console?).to eq(false)
       Object.instance_eval{ remove_const :Pry }
     end
 
     it "should detect Rails::Console" do
       class IRB; end
       class Rails; class Console; end; end
-      AwesomePrint.console?.should == true
-      AwesomePrint.rails_console?.should == true
+      expect(AwesomePrint.console?).to eq(true)
+      expect(AwesomePrint.rails_console?).to eq(true)
       Object.instance_eval{ remove_const :IRB }
       Object.instance_eval{ remove_const :Rails }
     end
@@ -228,20 +228,20 @@ EOS
     it "should detect ENV['RAILS_ENV']" do
       class Pry; end
       ENV["RAILS_ENV"] = "development"
-      AwesomePrint.console?.should == true
-      AwesomePrint.rails_console?.should == true
+      expect(AwesomePrint.console?).to eq(true)
+      expect(AwesomePrint.rails_console?).to eq(true)
       Object.instance_eval{ remove_const :Pry }
     end
 
     it "should return the actual object when *not* running under console" do
-      capture! { ap([ 1, 2, 3 ]) }.should == [ 1, 2, 3 ]
-      capture! { ap({ :a => 1 }) }.should == { :a => 1 }
+      expect(capture! { ap([ 1, 2, 3 ]) }).to eq([ 1, 2, 3 ])
+      expect(capture! { ap({ :a => 1 }) }).to eq({ :a => 1 })
     end
 
     it "should return nil when running under console" do
       class IRB; end
-      capture! { ap([ 1, 2, 3 ]) }.should == nil
-      capture! { ap({ :a => 1 }) }.should == nil
+      expect(capture! { ap([ 1, 2, 3 ]) }).to eq(nil)
+      expect(capture! { ap({ :a => 1 }) }).to eq(nil)
       Object.instance_eval{ remove_const :IRB }
     end
   end

@@ -20,7 +20,7 @@ require 'awesome_print'
 
 def stub_dotfile!
   dotfile = File.join(ENV["HOME"], ".aprc")
-  File.should_receive(:readable?).at_least(:once).with(dotfile).and_return(false)
+  expect(File).to receive(:readable?).at_least(:once).with(dotfile).and_return(false)
 end
 
 def capture!
