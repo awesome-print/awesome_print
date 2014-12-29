@@ -1,5 +1,12 @@
 require 'active_record'
 
+# Required to use the column support
+module Rails
+  def self.env
+    {}
+  end
+end
+
 # Establish connection to in-memory SQLite DB
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 

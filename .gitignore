@@ -20,7 +20,6 @@ tmtags
 coverage
 rdoc
 pkg
-Gemfile.lock
 .ruby-version
 
 ## PROJECT::RVM

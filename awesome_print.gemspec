@@ -25,10 +25,4 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rspec",  ">= 3.0.0"
   s.add_development_dependency "fakefs", ">= 0.2.1"
-  s.add_development_dependency "actionview"
-  s.add_development_dependency "activerecord"
-  s.add_development_dependency "activesupport"
-  s.add_development_dependency "mongoid"
-  s.add_development_dependency "mongo_mapper"
-  s.add_development_dependency "nokogiri"
 end

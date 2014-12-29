@@ -5,16 +5,16 @@ group :development do
 
   # ActionView extension
   # ####################
-  gem 'actionview', '~> 4.1.4'
+  gem 'actionview', '>= 4.2.0'
 
   # ActiveSupport extension
   # #######################
-  gem 'activesupport', '~> 4.1.4'
+  gem 'activesupport', '>= 4.2.0'
 
   # ActiveRecord extension
   # ######################
   # * To simplify creating test models we use an in-memory SQLite DB
-  gem 'activerecord', '~> 4.1.4'
+  gem 'activerecord', '>= 4.2.0'
   gem 'sqlite3'
 
   # MongoMapper extension
@@ -25,7 +25,7 @@ group :development do
 
   # Nokogiri extension
   # ##################
-  gem 'nokogiri', '~> 1.6.3.1'
+  gem 'nokogiri', '>= 1.6.5'
 
   # Ripple extension
   # ################
@@ -37,5 +37,5 @@ group :development do
   # Mongoid extension
   # #################
   # * cannot be enabled at the same time as mongo_mapper
-  gem 'mongoid', '~> 4.0.0' 
+  gem 'mongoid', '>= 4.0.0' 
 end
