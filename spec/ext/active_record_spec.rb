@@ -407,6 +407,10 @@ EOS
         it "should print an abstract class" do
           @ap.send(:awesome, AbstractClass).should == "AbstractClass(abstract) < ActiveRecord::Base"
         end
+
+        it "should print an abstract class" do
+          @ap.send(:awesome, AbstractClass).should == "AbstractClass(abstract) < ActiveRecord::Base"
+        end
       end
 
       #------------------------------------------------------------------------------
