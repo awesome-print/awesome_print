@@ -218,7 +218,7 @@ EOS
 
     it "should detect Rails::Console" do
       class IRB; end
-      class Rails; class Console; end; end
+      module Rails; class Console; end; end
       expect(AwesomePrint.console?).to eq(true)
       expect(AwesomePrint.rails_console?).to eq(true)
       Object.instance_eval{ remove_const :IRB }

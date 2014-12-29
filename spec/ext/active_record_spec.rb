@@ -4,6 +4,13 @@ begin
   require 'active_record'
   require 'awesome_print/ext/active_record'
 
+  module Rails
+    def self.env
+      {}
+    end
+  end
+
+
   if defined?(ActiveRecord::VERSION::MAJOR) && ActiveRecord::VERSION::MAJOR >= 2
 
     # Create tableless ActiveRecord model.
