@@ -1,3 +1,15 @@
+1.6.0
+  semi-major release since it's been a while, and there are several
+  improvements.
+  - Improves support for new mongoid/moped (Velkitor, Francois Bernier et al)
+  - Converts specs to rspec 3+ (Adam Jonas, James Cox)
+  - Fixes incompatibility with IPAddr (James Cox, Michael Dvorkin)
+  - Fixes incompatibility with the money gem (Michael Dvorkin)
+  - Fixes AR::Relation presentation (Sergey Ponomarov)
+  - Lazy-loads ActionView (Akira Matsuda)
+  - Fixes inspection of abstract classes (Jonathan Priddle)
+  - Gets most specs passing, and fixes suite (Eoin Kelly)
+
 1.2.0 <-- NOTE: This is the *last* release supporting Ruby < v1.9.3 and Rails < v3.
   - Added Sequel ORM plugin (Jonathan Davies)
   - Added Ripple plugin (Ruby modeling layer for Riak, Scott Hyndman)
