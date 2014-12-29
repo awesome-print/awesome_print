@@ -12,12 +12,12 @@ begin
 
     it "empty hash" do
       struct = OpenStruct.new
-      @ap.send(:awesome, struct).should == "OpenStruct {}"
+      expect(@ap.send(:awesome, struct)).to eq("OpenStruct {}")
     end
 
     it "plain multiline" do
       struct = OpenStruct.new :name => "Foo", :address => "Bar"
-      @ap.send(:awesome, struct).should == <<-EOS.strip
+      expect(@ap.send(:awesome, struct)).to eq <<-EOS.strip
 OpenStruct {
     :address => "Bar",
        :name => "Foo"
