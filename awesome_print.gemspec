@@ -7,7 +7,7 @@ require "rake"
 
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
-  s.version     = "1.2.0"
+  s.version     = "1.6.0"
 # s.platform    = Gem::Platform::RUBY
   s.authors     = "Michael Dvorkin"
   s.date        = Time.now.strftime("%Y-%m-%d")
