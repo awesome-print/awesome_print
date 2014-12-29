@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.executables   = []
   s.require_paths = ["lib"]
 
-  s.add_development_dependency "rspec",  ">= 2.6.0"
+  s.add_development_dependency "rspec",  "~> 2.0"
   s.add_development_dependency "fakefs", ">= 0.2.1"
   s.add_development_dependency "actionview"
   s.add_development_dependency "activerecord"
