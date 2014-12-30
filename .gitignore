@@ -21,6 +21,7 @@ coverage
 rdoc
 pkg
 .ruby-version
+gemfiles/*.gemfile.lock
 Gemfile.lock
 
 ## PROJECT::RVM

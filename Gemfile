@@ -3,18 +3,6 @@ gemspec
 
 group :development do
 
-  # ActionView extension
-  # ####################
-  gem 'actionview', '>= 4.2.0'
-
-  # ActiveSupport extension
-  # #######################
-  gem 'activesupport', '>= 4.2.0'
-
-  # ActiveRecord extension
-  # ######################
-  # * To simplify creating test models we use an in-memory SQLite DB
-  gem 'activerecord', '>= 4.2.0'
   gem 'sqlite3'
 
   # MongoMapper extension
@@ -33,9 +21,4 @@ group :development do
   # * Ripple is abandoned http://basho.com/tag/ripple-client-apis/
   # * Ripple is not currently compatible with Rails 4
   # gem 'ripple', '~> 0.9.5'
-
-  # Mongoid extension
-  # #################
-  # * cannot be enabled at the same time as mongo_mapper
-  gem 'mongoid', '>= 4.0.0' 
 end
