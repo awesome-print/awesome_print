@@ -21,6 +21,7 @@ coverage
 rdoc
 pkg
 .ruby-version
+Gemfile.lock
 
 ## PROJECT::RVM
 .rvmrc
