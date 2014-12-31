@@ -6,7 +6,7 @@ We love pull requests. Here's a quick guide:
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
 
-1. Update [CHANGELOG.md](https://github.com/Helabs/jumpup/blob/master/CHANGELOG.md) with a brief description of your changes under the `unreleased` heading.
+1. Update [CHANGELOG.md](https://github.com/michaeldv/awesome_print/blob/master/CHANGELOG.md) with a brief description of your changes under the `unreleased` heading.
 
 1. Commit your changes (`git commit -am 'Added some feature'`)
 
