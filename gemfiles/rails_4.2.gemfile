@@ -7,9 +7,4 @@ gem "actionview", "~> 4.2.0"
 gem "activerecord", "~> 4.2.0"
 gem "mongoid", "~> 4.0.0"
 
-group :development do
-  gem "sqlite3"
-  gem "nokogiri", ">= 1.6.5"
-end
-
 gemspec :path => "../"
