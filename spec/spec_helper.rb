@@ -16,10 +16,33 @@
 #
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'awesome_print'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
   require file
+end
+
+ExtVerifier.require_dependencies!(%w{rails active_record action_view
+                                  active_support/all mongoid mongo_mapper ripple})
+require 'nokogiri'
+require 'awesome_print'
+
+RSpec.configure do |config|
+  config.disable_monkey_patching!
+  # TODO: Make specs not order dependent
+  # config.order = :random
+  Kernel.srand config.seed
+  config.filter_run focus: true
+  config.run_all_when_everything_filtered = true
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
+  end
+  config.mock_with :rspec do |mocks|
+    mocks.syntax = :expect
+    mocks.verify_partial_doubles = true
+  end
+  if config.files_to_run.one?
+    config.default_formatter = 'doc'
+  end
 end
 
 def stub_dotfile!
@@ -32,37 +55,4 @@ def capture!
   yield
 ensure
   $stdout = standard
-end
-
-# The following is needed for the Infinity Test. It runs tests as subprocesses,
-# which sets STDOUT.tty? to false and would otherwise prematurely disallow colors.
-### AwesomePrint.force_colors!
-
-# Ruby 1.8.6 only: define missing String methods that are needed for the specs to pass.
-if RUBY_VERSION < '1.8.7'
-  class String
-    def shellescape # Taken from Ruby 1.9.2 standard library, see lib/shellwords.rb.
-      return "''" if self.empty?
-      str = self.dup
-      str.gsub!(/([^A-Za-z0-9_\-.,:\/@\n])/n, "\\\\\\1")
-      str.gsub!(/\n/, "'\n'")
-      str
-    end
-
-    def start_with?(*prefixes)
-      prefixes.each do |prefix|
-        prefix = prefix.to_s
-        return true if prefix == self[0, prefix.size]
-      end
-      false
-    end
-
-    def end_with?(*suffixes)
-      suffixes.each do |suffix|
-        suffix = suffix.to_s
-        return true if suffix == self[-suffix.size, suffix.size]
-      end
-      false
-    end
-  end
 end

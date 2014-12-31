@@ -1,9 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 require "bigdecimal"
 require "rational"
 require "set"
 
-describe "AwesomePrint" do
+RSpec.describe "AwesomePrint" do
   before do
     stub_dotfile!
   end

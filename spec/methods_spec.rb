@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 
-describe "Single method" do
+RSpec.describe "Single method" do
   before do
     stub_dotfile!
   end
@@ -80,7 +80,7 @@ describe "Single method" do
   end
 end
 
-describe "Object methods" do
+RSpec.describe "Object methods" do
   before do
     stub_dotfile!
   end
@@ -202,7 +202,7 @@ describe "Object methods" do
   end
 end
 
-describe "Class methods" do
+RSpec.describe "Class methods" do
   before do
     stub_dotfile!
   end
@@ -313,7 +313,7 @@ describe "Class methods" do
 end
 
 if RUBY_VERSION >= '1.9.2'
-  describe "Ruby 1.9.2+ Method#parameters" do
+  RSpec.describe "Ruby 1.9.2+ Method#parameters" do
     before do
       stub_dotfile!
     end
@@ -364,7 +364,7 @@ if RUBY_VERSION >= '1.9.2'
   end
 end
 
-describe "Methods arrays" do
+RSpec.describe "Methods arrays" do
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
     Object.instance_eval{ remove_const :World } if defined?(World)

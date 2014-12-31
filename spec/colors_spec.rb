@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 
-describe "AwesomePrint" do
+RSpec.describe "AwesomePrint" do
   def stub_tty!(output = true, stream = STDOUT)
     if output
       stream.instance_eval { def tty?;  true; end }

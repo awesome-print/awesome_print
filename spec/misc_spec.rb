@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 
-describe "AwesomePrint" do
+RSpec.describe "AwesomePrint" do
 
   describe "Misc" do
     before do

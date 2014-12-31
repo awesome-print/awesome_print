@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
-describe "String extensions" do
+RSpec.describe "String extensions" do
   [ :gray, :red, :green, :yellow, :blue, :purple, :cyan, :white ].each_with_index do |color, i|
     it "should have #{color} color" do
       expect(color.to_s.send(color)).to eq("\e[1;#{30+i}m#{color}\e[0m")
