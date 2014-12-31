@@ -52,7 +52,7 @@ module AwesomePrint
         end
       end
 
-      "##{object} " << awesome_hash(data)
+      "#{object} " << awesome_hash(data)
     end
 
     # Format Ripple class object.

@@ -41,13 +41,34 @@ EOS
     end
 
     it "should print the class" do
-      expect(@ap.send(:awesome, MongoUser)).to eq <<-EOS.strip
+      class_spec = if mongoid_3_0?
+        <<-EOS.strip
+class MongoUser < Object {
+           :_id => :"moped/bson/object_id",
+         :_type => :string,
+    :first_name => :string,
+     :last_name => :string
+}
+        EOS
+        elsif mongoid_3_1?
+        <<-EOS.strip
+class MongoUser < Object {
+           :_id => :"moped/bson/object_id",
+    :first_name => :string,
+     :last_name => :string
+}
+        EOS
+        elsif mongoid_4_0?
+        <<-EOS.strip
 class MongoUser < Object {
            :_id => :"bson/object_id",
     :first_name => :string,
      :last_name => :string
 }
-EOS
+        EOS
+      end
+
+      expect(@ap.send(:awesome, MongoUser)).to eq class_spec
     end
 
     it "should print the class when type is undefined" do
@@ -56,13 +77,32 @@ EOS
         field :last_attribute
       end
 
-      last_attribute = defined?(::Moped) ? 'object' : '"mongoid/fields/serializable/object"'
-      expect(@ap.send(:awesome, Chamelion)).to eq <<-EOS.strip
+      class_spec = if mongoid_3_0?
+      <<-EOS.strip
 class Chamelion < Object {
-               :_id => :"bson/object_id",
-    :last_attribute => :#{last_attribute}
+               :_id => :"moped/bson/object_id",
+             :_type => :string,
+    :last_attribute => :object
 }
 EOS
+      elsif mongoid_3_1?
+      <<-EOS.strip
+class Chamelion < Object {
+               :_id => :"moped/bson/object_id",
+    :last_attribute => :object
+}
+EOS
+      elsif mongoid_4_0?
+      <<-EOS.strip
+class Chamelion < Object {
+               :_id => :"bson/object_id",
+    :last_attribute => :object
+}
+EOS
+      end
+
+
+      expect(@ap.send(:awesome, Chamelion)).to eq class_spec
     end
   end
 
