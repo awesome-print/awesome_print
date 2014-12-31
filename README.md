@@ -1,5 +1,6 @@
 ## Awesome Print ##
 
+[![RubyGems][gem_version_badge]][ruby_gems]
 [![Travis CI][travis_ci_badge]][travis_ci]
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/michaeldv/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -370,5 +371,7 @@ http://www.dvorkin.net
 
 Released under the MIT license. See LICENSE file for details.
 
+[gem_version_badge]: https://badge.fury.io/rb/awesome_print.png
+[ruby_gems]: http://rubygems.org/gems/awesome_print
 [travis_ci]: http://travis-ci.org/michaeldv/awesome_print
 [travis_ci_badge]: https://travis-ci.org/michaeldv/awesome_print.svg?branch=master
