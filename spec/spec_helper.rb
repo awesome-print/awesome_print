@@ -18,6 +18,10 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'awesome_print'
 
+Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
+  require file
+end
+
 def stub_dotfile!
   dotfile = File.join(ENV["HOME"], ".aprc")
   expect(File).to receive(:readable?).at_least(:once).with(dotfile).and_return(false)

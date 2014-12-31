@@ -1,7 +1,20 @@
+require "rubygems"
+require "bundler/setup"
+
 require "bundler"
 Bundler::GemHelper.install_tasks
 
-task :default => :spec
+task :default do
+  if ENV['BUNDLE_GEMFILE'] =~ /gemfiles/
+    Rake::Task['spec'].invoke
+  else
+    Rake::Task['appraise'].invoke
+  end
+end
+
+task :appraise do
+  exec 'appraisal install && appraisal rake'
+end
 
 desc "Run all awesome_print gem specs"
 task :spec do

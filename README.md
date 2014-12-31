@@ -1,6 +1,11 @@
 ## Awesome Print ##
 
+[![RubyGems][gem_version_badge]][ruby_gems]
+[![Travis CI][travis_ci_badge]][travis_ci]
+[![Code Climate][code_climate_badge]][code_climate]
+[![RubyGems][gem_downloads_badge]][ruby_gems]
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/michaeldv/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
@@ -307,6 +312,10 @@ AwesomePrint.defaults = {
 }
 ```
 
+## Versioning
+
+AwesomePrint follows the [Semantic Versioning](http://semver.org/) standard.
+
 ### Running Specs ###
 
     $ gem install rspec           # RSpec 2.x is the requirement.
@@ -367,3 +376,11 @@ http://www.dvorkin.net
 %w(mike dvorkin.net) * "@" || "twitter.com/mid"
 
 Released under the MIT license. See LICENSE file for details.
+
+[gem_version_badge]: https://img.shields.io/gem/v/awesome_print.svg?style=flat
+[gem_downloads_badge]: http://img.shields.io/gem/dt/awesome_print.svg?style=flat
+[ruby_gems]: http://rubygems.org/gems/awesome_print
+[travis_ci]: http://travis-ci.org/michaeldv/awesome_print
+[travis_ci_badge]: https://img.shields.io/travis/michaeldv/awesome_print.svg?style=flat
+[code_climate]: https://codeclimate.com/github/michaeldv/awesome_print
+[code_climate_badge]: http://img.shields.io/codeclimate/github/michaeldv/awesome_print.svg?style=flat
