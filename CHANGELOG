@@ -1,14 +1,9 @@
-1.6.1 (unreleased)
-  - Running specs on Rails dependencies(ActiveRecord, ActiveSupport, ActionView)
-on versions 3.2, 4.0, 4.1 and 4.2 (Mauro George)
-  - Running specs on mongid 3.0 and 3.1 (Mauro George)
-  - Remove the Gemfile.lock (Mauro George)
-  - Move the content from Gemfile to gemspec (Mauro George)
-  - Make all specs pass on all gemfiles (Mauro George)
+1.6.1
+  - Fixes specs on all rails dependencies (Mauro George)
+  - Updates specs for mongoid, mongo_mapper and ripple (James Cox)
+  - Adds appraisals for simpler version/scenario management (Mauro George)
   - Add Travis (Mauro George)
-  - Create a CONTRIBUTING file (Mauro George)
-  - Add badges on the README (Mauro George)
-  - Add Semantic Version on the README (Mauro George)
+  - Update documentation (Mauro George)
 
 1.6.0
   semi-major release since it's been a while, and there are several
