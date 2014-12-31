@@ -8,6 +8,7 @@ on versions 3.2, 4.0, 4.1 and 4.2 (Mauro George)
   - Add Travis (Mauro George)
   - Create a CONTRIBUTING file (Mauro George)
   - Add badges on the README (Mauro George)
+  - Add Semantic Version on the README (Mauro George)
 
 1.6.0
   semi-major release since it's been a while, and there are several

@@ -312,6 +312,10 @@ AwesomePrint.defaults = {
 }
 ```
 
+## Versioning
+
+AwesomePrint follows the [Semantic Versioning](http://semver.org/) standard.
+
 ### Running Specs ###
 
     $ gem install rspec           # RSpec 2.x is the requirement.
