@@ -19,3 +19,23 @@ accept, pull requests within three business days (and, typically, one business
 day). We may suggest some changes or improvements or alternatives.
 
 Some things that will increase the chance that your pull request is accepted is to follow the practices described on [Ruby style guide](https://github.com/bbatsov/ruby-style-guide), [Rails style guide](https://github.com/bbatsov/rails-style-guide) and [Better Specs](http://betterspecs.org/).
+
+## Specs
+
+To run all the specs in all gemfiles just run:
+
+```
+$ rake
+```
+
+To run specs of a single gemfile run:
+
+```
+$ appraisal rails-3.2 rake
+```
+
+If you want to run a specific spec in a gemfile run:
+
+```
+$ appraisal rails-3.2 rspec spec/colors_spec.rb
+```
