@@ -1,6 +1,8 @@
 ## Awesome Print ##
 
+[![Travis CI][travis_ci_badge]][travis_ci]
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/michaeldv/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
@@ -367,3 +369,6 @@ http://www.dvorkin.net
 %w(mike dvorkin.net) * "@" || "twitter.com/mid"
 
 Released under the MIT license. See LICENSE file for details.
+
+[travis_ci]: http://travis-ci.org/michaeldv/awesome_print
+[travis_ci_badge]: https://travis-ci.org/michaeldv/awesome_print.svg?branch=master
