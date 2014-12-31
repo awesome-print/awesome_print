@@ -316,57 +316,9 @@ AwesomePrint.defaults = {
 
 AwesomePrint follows the [Semantic Versioning](http://semver.org/) standard.
 
-### Running Specs ###
-
-    $ gem install rspec           # RSpec 2.x is the requirement.
-    $ rake spec                   # Run the entire spec suite.
-    $ rspec spec/logger_spec.rb   # Run individual spec file.
-
-### Note on Patches/Pull Requests ###
-* Fork the project on Github.
-* Make your feature addition or bug fix.
-* Add specs for it, making sure $ rake spec is all green.
-* Commit, do not mess with rakefile, version, or history.
-* Send commit URL (*do not* send pull requests).
-
-### Contributors ###
-Special thanks goes to awesome team of contributors, namely:
-
-* 6fusion.com -- https://github.com/6fusion
-* Adam Doppelt -- https://github.com/gurgeous
-* Andrew O'Brien -- https://github.com/AndrewO
-* Andrew Horsman -- https://github.com/basicxman
-* Barry Allard -- https://github.com/steakknife
-* Benoit Daloze -- http://github.com/eregon
-* Brandon Zylstra -- https://github.com/brandondrew
-* Dan Lynn -- https://github.com/danlynn
-* Daniel Johnson -- https://github.com/adhd360
-* Daniel Bretoi -- http://github.com/danielb2
-* Eloy Duran -- http://github.com/alloy
-* Elpizo Choi -- https://github.com/fuJiin
-* Evan Senter -- https://github.com/evansenter
-* George . -- https://github.com/gardelea
-* Greg Weber -- https://github.com/gregwebs
-* Jan Vansteenkiste -- https://github.com/vStone
-* Jeff Felchner -- https://github.com/jfelchner
-* Jonathan Davies -- send your Github URL ;-)
-* Kevin Olbrich -- https://github.com/olbrich
-* Matthew Schulkind -- https://github.com/mschulkind
-* Mike McQuaid -- https://github.com/mikemcquaid
-* Nami-Doc -- https://github.com/Nami-Doc
-* Nicolas Viennot -- https://github.com/nviennot
-* Nikolaj Nikolajsen -- https://github.com/nikolajsen
-* Richard Hall -- https://github.com/richardardrichard
-* Ryan Schlesinger -- https://github.com/ryansch
-* Scott Hyndman -- https://github.com/shyndman
-* Sean Gallagher -- http://github.com/torandu
-* Stephan Hagemann -- https://github.com/shageman
-* Tim Harper -- http://github.com/timcharper
-* Tobias Crawley -- http://github.com/tobias
-* Thibaut Barrère -- https://github.com/thbar
-* Trevor Wennblom -- https://github.com/trevor
-* vfrride -- https://github.com/vfrride
-* Viktar Basharymau -- https://github.com/DNNX
+### Contributing ###
+See [Contributing.md](https://github.com/michaeldv/awesome_print/blob/master/CONTRIBUTING.md)
+ for information.
 
 ### License ###
 Copyright (c) 2010-2013 Michael Dvorkin

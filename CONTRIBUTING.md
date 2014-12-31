@@ -39,3 +39,44 @@ If you want to run a specific spec in a gemfile run:
 ```
 $ appraisal rails-3.2 rspec spec/colors_spec.rb
 ```
+
+## Contributor Rolecall
+
+Special thanks goes to awesome team of contributors, namely:
+
+* 6fusion.com -- https://github.com/6fusion
+* Adam Doppelt -- https://github.com/gurgeous
+* Andrew O'Brien -- https://github.com/AndrewO
+* Andrew Horsman -- https://github.com/basicxman
+* Barry Allard -- https://github.com/steakknife
+* Benoit Daloze -- http://github.com/eregon
+* Brandon Zylstra -- https://github.com/brandondrew
+* Dan Lynn -- https://github.com/danlynn
+* Daniel Johnson -- https://github.com/adhd360
+* Daniel Bretoi -- http://github.com/danielb2
+* Eloy Duran -- http://github.com/alloy
+* Elpizo Choi -- https://github.com/fuJiin
+* Evan Senter -- https://github.com/evansenter
+* George . -- https://github.com/gardelea
+* Greg Weber -- https://github.com/gregwebs
+* Jan Vansteenkiste -- https://github.com/vStone
+* Jeff Felchner -- https://github.com/jfelchner
+* Jonathan Davies -- send your Github URL ;-)
+* Kevin Olbrich -- https://github.com/olbrich
+* Matthew Schulkind -- https://github.com/mschulkind
+* Mike McQuaid -- https://github.com/mikemcquaid
+* Nami-Doc -- https://github.com/Nami-Doc
+* Nicolas Viennot -- https://github.com/nviennot
+* Nikolaj Nikolajsen -- https://github.com/nikolajsen
+* Richard Hall -- https://github.com/richardardrichard
+* Ryan Schlesinger -- https://github.com/ryansch
+* Scott Hyndman -- https://github.com/shyndman
+* Sean Gallagher -- http://github.com/torandu
+* Stephan Hagemann -- https://github.com/shageman
+* Tim Harper -- http://github.com/timcharper
+* Tobias Crawley -- http://github.com/tobias
+* Thibaut Barrère -- https://github.com/thbar
+* Trevor Wennblom -- https://github.com/trevor
+* vfrride -- https://github.com/vfrride
+* Viktar Basharymau -- https://github.com/DNNX
+
