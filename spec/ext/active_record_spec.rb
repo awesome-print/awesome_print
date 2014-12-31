@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-begin
+if RailsVersions.has_rails?
   require 'awesome_print/ext/active_record'
   require File.expand_path(File.dirname(__FILE__) + '/../active_record_helper')
 
@@ -1228,6 +1228,4 @@ EOS
       end
     end
   end
-rescue LoadError => error
-  puts "Skipping ActiveRecord specs: #{error}"
 end
