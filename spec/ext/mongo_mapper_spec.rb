@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapper? }.call do
+RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapper? }.call do
 
   if ExtVerifier.has_mongo_mapper?
     before :all do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Objects" do
+RSpec.describe "Objects" do
   before do
     stub_dotfile!
   end

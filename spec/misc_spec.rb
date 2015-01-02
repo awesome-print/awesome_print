@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "AwesomePrint" do
+RSpec.describe "AwesomePrint" do
 
   describe "Misc" do
     before do

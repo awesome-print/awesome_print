@@ -3,7 +3,7 @@ require "bigdecimal"
 require "rational"
 require "set"
 
-describe "AwesomePrint" do
+RSpec.describe "AwesomePrint" do
   before do
     stub_dotfile!
   end

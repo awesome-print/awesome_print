@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "AwesomePrint/Nokogiri" do
+RSpec.describe "AwesomePrint/Nokogiri" do
   before do
     stub_dotfile!
   end

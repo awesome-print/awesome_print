@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'AwesomePrint Ostruct extension' do
+RSpec.describe 'AwesomePrint Ostruct extension' do
   before do
     stub_dotfile!
     @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)

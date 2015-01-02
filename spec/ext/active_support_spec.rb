@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "AwesomePrint::ActiveSupport", skip: ->{ !ExtVerifier.has_rails? }.call do
+RSpec.describe "AwesomePrint::ActiveSupport", skip: ->{ !ExtVerifier.has_rails? }.call do
   before do
     stub_dotfile!
     @ap = AwesomePrint::Inspector.new

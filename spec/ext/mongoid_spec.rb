@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.call do
+RSpec.describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.call do
 
   if ExtVerifier.has_mongoid?
     before :all do

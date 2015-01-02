@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'active_record_helper'
 
-describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.call do
+RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.call do
 
   before do
     stub_dotfile!

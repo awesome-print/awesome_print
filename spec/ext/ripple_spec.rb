@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'AwesomePrint/Ripple', skip: ->{ !ExtVerifier.has_ripple? }.call do
+RSpec.describe 'AwesomePrint/Ripple', skip: ->{ !ExtVerifier.has_ripple? }.call do
 
   if ExtVerifier.has_ripple?
     before :all do
