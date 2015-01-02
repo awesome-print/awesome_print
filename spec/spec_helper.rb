@@ -23,6 +23,7 @@ end
 
 ExtVerifier.require_dependencies!(%w{rails active_record action_view
                                   active_support/all mongoid mongo_mapper})
+require 'nokogiri'
 require 'awesome_print'
 
 def stub_dotfile!
