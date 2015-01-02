@@ -67,7 +67,7 @@ describe "AwesomePrint" do
       before do
         AwesomePrint.force_colors!
       end
-      
+
       it "still colorizes tty processes" do
         stub_tty!
         expect(@arr.ai(:multiline => false)).to eq(COLORIZED)
@@ -82,7 +82,7 @@ describe "AwesomePrint" do
           ENV['ANSICON'] = term
         end
       end
-      
+
       it "colorizes dumb terminals" do
         begin
           stub_tty!

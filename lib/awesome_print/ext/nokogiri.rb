@@ -15,7 +15,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_nokogiri(object, type)
       cast = cast_without_nokogiri(object, type)
-      if (defined?(::Nokogiri::XML::Node) && object.is_a?(::Nokogiri::XML::Node)) || 
+      if (defined?(::Nokogiri::XML::Node) && object.is_a?(::Nokogiri::XML::Node)) ||
          (defined?(::Nokogiri::XML::NodeSet) && object.is_a?(::Nokogiri::XML::NodeSet))
         cast = :nokogiri_xml_node
       end

@@ -8,7 +8,7 @@ begin
     before do
       @view = ActionView::Base.new
     end
-    
+
     it "uses HTML and adds 'debug_dump' class to plain <pre> tag" do
       markup = rand
       expect(@view.ap(markup, :plain => true)).to eq(%Q|<pre class="debug_dump">#{markup}</pre>|)
