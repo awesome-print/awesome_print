@@ -16,25 +16,14 @@
 #
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-begin
-  require 'rails'
-  require 'active_record'
-  require 'action_view'
-  require 'active_support/all'
-rescue LoadError
-end
-
-begin
-  require 'mongoid'
-rescue LoadError
-end
-
-
-require 'awesome_print'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
   require file
 end
+
+ExtVerifier.require_dependencies!(%w{rails active_record action_view
+                                  active_support/all mongoid})
+require 'awesome_print'
 
 def stub_dotfile!
   dotfile = File.join(ENV["HOME"], ".aprc")

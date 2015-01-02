@@ -1,5 +1,15 @@
 module ExtVerifier
 
+  def require_dependencies!(dependencies)
+    dependencies.each do |dependency|
+      begin
+        require dependency
+      rescue LoadError
+      end
+    end
+  end
+  module_function :require_dependencies!
+
   def has_rails?
     defined?(::Rails)
   end
