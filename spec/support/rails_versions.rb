@@ -22,11 +22,6 @@ module RailsVersions
     Gem::Requirement.new('~> 3.2.0').satisfied_by?(rails_version)
   end
   alias_method :activerecord_3_2?, :rails_3_2?
-
-  def has_rails?
-    defined?(::Rails)
-  end
-  module_function :has_rails?
 end
 
 RSpec.configure do |config|
