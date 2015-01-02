@@ -20,6 +20,7 @@ begin
   require 'rails'
   require 'active_record'
   require 'action_view'
+  require 'active_support/all'
 rescue LoadError
 end
 require 'awesome_print'
