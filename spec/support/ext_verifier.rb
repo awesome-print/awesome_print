@@ -19,6 +19,11 @@ module ExtVerifier
     defined?(::Mongoid)
   end
   module_function :has_mongoid?
+
+  def has_mongo_mapper?
+    defined?(::MongoMapper)
+  end
+  module_function :has_mongo_mapper?
 end
 
 RSpec.configure do |config|
