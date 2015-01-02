@@ -24,6 +24,11 @@ module ExtVerifier
     defined?(::MongoMapper)
   end
   module_function :has_mongo_mapper?
+
+  def has_ripple?
+    defined?(::Ripple)
+  end
+  module_function :has_ripple?
 end
 
 RSpec.configure do |config|

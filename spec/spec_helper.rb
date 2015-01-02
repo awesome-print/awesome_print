@@ -22,7 +22,7 @@ Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
 end
 
 ExtVerifier.require_dependencies!(%w{rails active_record action_view
-                                  active_support/all mongoid mongo_mapper})
+                                  active_support/all mongoid mongo_mapper ripple})
 require 'nokogiri'
 require 'awesome_print'
 
