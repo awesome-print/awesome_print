@@ -1,3 +1,6 @@
+1.6.2 (unreleased)
+  - Improves spec performance and simplicity (Mauro George)
+
 1.6.1
   - Fixes specs on all rails dependencies (Mauro George)
   - Updates specs for mongoid, mongo_mapper and ripple (James Cox)
