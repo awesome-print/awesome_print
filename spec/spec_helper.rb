@@ -16,11 +16,13 @@
 #
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'awesome_print'
 begin
   require 'rails'
+  require 'active_record'
+  require 'action_view'
 rescue LoadError
 end
+require 'awesome_print'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
   require file

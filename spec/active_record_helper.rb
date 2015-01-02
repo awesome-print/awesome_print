@@ -1,6 +1,4 @@
 if ExtVerifier.has_rails?
-  require 'active_record'
-
   # Required to use the column support
   module Rails
     def self.env

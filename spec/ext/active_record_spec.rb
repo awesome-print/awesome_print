@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'awesome_print/ext/active_record'
 require File.expand_path(File.dirname(__FILE__) + '/../active_record_helper')
 
 describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.call do
