@@ -78,7 +78,7 @@ module AwesomePrint
       if a.instance_variable_defined?('@__awesome_methods__')
         methods_array(a)
       elsif @options[:multiline]
-        width = (a.size - 1).to_s.size 
+        width = (a.size - 1).to_s.size
 
         data = a.inject([]) do |arr, item|
           index = indent
@@ -106,10 +106,10 @@ module AwesomePrint
           [ @inspector.awesome(key), h[key] ]
         end
       end
-      
+
       width = data.map { |key, | key.size }.max || 0
       width += @indentation if @options[:indent] > 0
-  
+
       data = data.map do |key, value|
         indented do
           align(key, width) << colorize(" => ", :hash) << @inspector.awesome(value)
