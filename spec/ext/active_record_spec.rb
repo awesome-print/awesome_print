@@ -4,25 +4,23 @@ if RailsVersions.has_rails?
   require 'awesome_print/ext/active_record'
   require File.expand_path(File.dirname(__FILE__) + '/../active_record_helper')
 
-  if is_usable_activerecord?
+  describe "AwesomePrint/ActiveRecord" do
+    before do
+      stub_dotfile!
+    end
 
-    describe "AwesomePrint/ActiveRecord" do
+    #------------------------------------------------------------------------------
+    describe "ActiveRecord instance, attributes only (default)" do
       before do
-        stub_dotfile!
+        ActiveRecord::Base.default_timezone = :utc
+        @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
+        @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
+        @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
       end
 
-      #------------------------------------------------------------------------------
-      describe "ActiveRecord instance, attributes only (default)" do
-        before do
-          ActiveRecord::Base.default_timezone = :utc
-          @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
-          @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
-          @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
-        end
-
-        it "display single record" do
-          out = @ap.send(:awesome, @diana)
-          str = <<-EOS.strip
+      it "display single record" do
+        out = @ap.send(:awesome, @diana)
+        str = <<-EOS.strip
 #<User:0x01234567> {
          :admin => false,
     :created_at => ?,
@@ -30,18 +28,18 @@ if RailsVersions.has_rails?
           :name => "Diana",
           :rank => 1
 }
-EOS
-          if RUBY_VERSION < '1.9'
-            str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
-          else
-            str.sub!('?', '1992-10-10 12:30:00 UTC')
-          end
-          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+        EOS
+        if RUBY_VERSION < '1.9'
+          str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
+        else
+          str.sub!('?', '1992-10-10 12:30:00 UTC')
         end
+        expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      end
 
-        it "display multiple records" do
-          out = @ap.send(:awesome, [ @diana, @laura ])
-          str = <<-EOS.strip
+      it "display multiple records" do
+        out = @ap.send(:awesome, [ @diana, @laura ])
+        str = <<-EOS.strip
 [
     [0] #<User:0x01234567> {
              :admin => false,
@@ -58,32 +56,32 @@ EOS
               :rank => 2
     }
 ]
-EOS
-          if RUBY_VERSION < '1.9'
-            str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
-            str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
-          else
-            str.sub!('??', '1992-10-10 12:30:00 UTC')
-            str.sub!('?!', '2003-05-26 14:15:00 UTC')
-          end
-          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+        EOS
+        if RUBY_VERSION < '1.9'
+          str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
+          str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
+        else
+          str.sub!('??', '1992-10-10 12:30:00 UTC')
+          str.sub!('?!', '2003-05-26 14:15:00 UTC')
         end
+        expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      end
+    end
+
+    #------------------------------------------------------------------------------
+    describe "ActiveRecord instance (raw)" do
+      before do
+        ActiveRecord::Base.default_timezone = :utc
+        @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
+        @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
+        @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true, :raw => true)
       end
 
-      #------------------------------------------------------------------------------
-      describe "ActiveRecord instance (raw)" do
-        before do
-          ActiveRecord::Base.default_timezone = :utc
-          @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
-          @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
-          @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true, :raw => true)
-        end
+      it "display single record" do
+        out = @ap.send(:awesome, @diana)
 
-        it "display single record" do
-          out = @ap.send(:awesome, @diana)
-
-          if activerecord_4_2?
-            str = <<-EOS.strip
+        if activerecord_4_2?
+          str = <<-EOS.strip
 #<User:0x01234567
     @_start_transaction_state = {},
     @aggregation_cache = {},
@@ -207,9 +205,9 @@ EOS
               "rank" => nil
     }
 >
-EOS
-          elsif activerecord_4_1?
-            str = <<-EOS.strip
+          EOS
+        elsif activerecord_4_1?
+          str = <<-EOS.strip
 #<User:0x01234567
     @_start_transaction_state = {},
     @aggregation_cache = {},
@@ -307,9 +305,9 @@ EOS
               "rank" => nil
     }
 >
-EOS
-         elsif activerecord_4_0?
-            str = <<-EOS.strip
+          EOS
+        elsif activerecord_4_0?
+          str = <<-EOS.strip
  #<User:0x01234567
     @_start_transaction_state = {},
     @aggregation_cache = {},
@@ -408,9 +406,9 @@ EOS
               "rank" => nil
     }
 >
-EOS
-         elsif activerecord_3_2?
-            str = <<-EOS.strip
+          EOS
+        elsif activerecord_3_2?
+          str = <<-EOS.strip
 #<User:0x01234567
     @aggregation_cache = {},
     @attributes_cache = {},
@@ -435,17 +433,17 @@ EOS
               "rank" => nil
     }
 >
-EOS
-          end
-          str.sub!('?', '1992-10-10 12:30:00')
-          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+          EOS
         end
+        str.sub!('?', '1992-10-10 12:30:00')
+        expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      end
 
-        it "display multiple records" do
-          out = @ap.send(:awesome, [ @diana, @laura ])
+      it "display multiple records" do
+        out = @ap.send(:awesome, [ @diana, @laura ])
 
-          if activerecord_4_2?
-            str = <<-EOS.strip
+        if activerecord_4_2?
+          str = <<-EOS.strip
 [
     [0] #<User:0x01234567
         @_start_transaction_state = {},
@@ -694,9 +692,9 @@ EOS
         }
     >
 ]
-EOS
-          elsif activerecord_4_1?
-            str = <<-EOS.strip
+          EOS
+        elsif activerecord_4_1?
+          str = <<-EOS.strip
 [
     [0] #<User:0x01234567
         @_start_transaction_state = {},
@@ -893,9 +891,9 @@ EOS
         }
     >
 ]
-EOS
-          elsif activerecord_4_0?
-            str = <<-EOS.strip
+          EOS
+        elsif activerecord_4_0?
+          str = <<-EOS.strip
 [
     [0] #<User:0x01234567
         @_start_transaction_state = {},
@@ -1094,9 +1092,9 @@ EOS
         }
     >
 ]
-EOS
-          elsif activerecord_3_2?
-            str = <<-EOS.strip
+          EOS
+        elsif activerecord_3_2?
+          str = <<-EOS.strip
 [
     [0] #<User:0x01234567
         @aggregation_cache = {},
@@ -1147,22 +1145,22 @@ EOS
         }
     >
 ]
-EOS
-          end
-          str.sub!('?', '1992-10-10 12:30:00')
-          str.sub!('?', '2003-05-26 14:15:00')
-          expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+          EOS
         end
+        str.sub!('?', '1992-10-10 12:30:00')
+        str.sub!('?', '2003-05-26 14:15:00')
+        expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      end
+    end
+
+    #------------------------------------------------------------------------------
+    describe "ActiveRecord class" do
+      before do
+        @ap = AwesomePrint::Inspector.new(:plain => true)
       end
 
-      #------------------------------------------------------------------------------
-      describe "ActiveRecord class" do
-        before do
-          @ap = AwesomePrint::Inspector.new(:plain => true)
-        end
-
-        it "should print the class" do
-          expect(@ap.send(:awesome, User)).to eq <<-EOS.strip
+      it "should print the class" do
+        expect(@ap.send(:awesome, User)).to eq <<-EOS.strip
 class User < ActiveRecord::Base {
             :id => :integer,
           :name => :string,
@@ -1170,12 +1168,12 @@ class User < ActiveRecord::Base {
          :admin => :boolean,
     :created_at => :datetime
 }
-EOS
-        end
+        EOS
+      end
 
-        it "should print the class for non-direct subclasses of ActiveRecord::Base" do
-          out = @ap.send(:awesome, SubUser)
-          expect(out).to eq <<-EOS.strip
+      it "should print the class for non-direct subclasses of ActiveRecord::Base" do
+        out = @ap.send(:awesome, SubUser)
+        expect(out).to eq <<-EOS.strip
 class SubUser < User {
             :id => :integer,
           :name => :string,
@@ -1183,48 +1181,47 @@ class SubUser < User {
          :admin => :boolean,
     :created_at => :datetime
 }
-EOS
-        end
-
-        it "should print ActiveRecord::Base objects (ex. ancestors)" do
-          expect { @ap.send(:awesome, User.ancestors) }.not_to raise_error
-        end
+        EOS
       end
 
-      #------------------------------------------------------------------------------
-      describe "ActiveRecord methods formatting" do
-        before do
-          @ap = AwesomePrint::Inspector.new(:plain => true)
+      it "should print ActiveRecord::Base objects (ex. ancestors)" do
+        expect { @ap.send(:awesome, User.ancestors) }.not_to raise_error
+      end
+    end
+
+    #------------------------------------------------------------------------------
+    describe "ActiveRecord methods formatting" do
+      before do
+        @ap = AwesomePrint::Inspector.new(:plain => true)
+      end
+
+      it "should format class methods properly" do
+        # spec 1
+        out = @ap.send(:awesome, User.methods.grep(/first/))
+
+        if ActiveRecord::VERSION::STRING >= "3.2"
+          if RUBY_VERSION >= "1.9"
+            expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
+          else
+            expect(out).to match(/\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/)
+          end
+        else
+          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
         end
 
-        it "should format class methods properly" do
-          # spec 1
-          out = @ap.send(:awesome, User.methods.grep(/first/))
+        # spec 2
+        out = @ap.send(:awesome, User.methods.grep(/primary_key/))
+        expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
 
-          if ActiveRecord::VERSION::STRING >= "3.2"
-            if RUBY_VERSION >= "1.9"
-              expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
-            else
-              expect(out).to match(/\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/)
-            end
-          else
-            expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
-          end
+        # spec 3
+        out = @ap.send(:awesome, User.methods.grep(/validate/))
 
-          # spec 2
-          out = @ap.send(:awesome, User.methods.grep(/primary_key/))
-          expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
-
-          # spec 3
-          out = @ap.send(:awesome, User.methods.grep(/validate/))
-
-          if ActiveRecord::VERSION::MAJOR < 3
-            expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
-          else
-            expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
-          end
-
+        if ActiveRecord::VERSION::MAJOR < 3
+          expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
+        else
+          expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
         end
+
       end
     end
   end
