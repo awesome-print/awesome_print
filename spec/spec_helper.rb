@@ -23,6 +23,13 @@ begin
   require 'active_support/all'
 rescue LoadError
 end
+
+begin
+  require 'mongoid'
+rescue LoadError
+end
+
+
 require 'awesome_print'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
