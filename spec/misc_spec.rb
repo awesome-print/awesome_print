@@ -204,6 +204,7 @@ EOS
   describe "Console" do
     it "should detect IRB" do
       class IRB; end
+      ENV.delete('RAILS_ENV')
       expect(AwesomePrint.console?).to eq(true)
       expect(AwesomePrint.rails_console?).to eq(false)
       Object.instance_eval{ remove_const :IRB }
@@ -211,6 +212,7 @@ EOS
 
     it "should detect Pry" do
       class Pry; end
+      ENV.delete('RAILS_ENV')
       expect(AwesomePrint.console?).to eq(true)
       expect(AwesomePrint.rails_console?).to eq(false)
       Object.instance_eval{ remove_const :Pry }
