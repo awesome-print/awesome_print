@@ -333,6 +333,6 @@ Released under the MIT license. See LICENSE file for details.
 [gem_downloads_badge]: http://img.shields.io/gem/dt/awesome_print.svg?style=flat
 [ruby_gems]: http://rubygems.org/gems/awesome_print
 [travis_ci]: http://travis-ci.org/michaeldv/awesome_print
-[travis_ci_badge]: https://img.shields.io/travis/michaeldv/awesome_print.svg?style=flat
+[travis_ci_badge]: https://img.shields.io/travis/michaeldv/awesome_print/master.svg?style=flat
 [code_climate]: https://codeclimate.com/github/michaeldv/awesome_print
 [code_climate_badge]: http://img.shields.io/codeclimate/github/michaeldv/awesome_print.svg?style=flat
