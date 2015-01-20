@@ -14,6 +14,8 @@
 # $ gem install bundler -v=1.0.2
 # $ gem install rspec -v=2.6.0
 #
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
