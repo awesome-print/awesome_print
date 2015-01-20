@@ -79,7 +79,8 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       out = @ap.send(:awesome, @diana)
 
       if activerecord_4_2?
-        str = <<-EOS.strip
+        if RUBY_VERSION > '1.9.3'
+          str = <<-EOS.strip
 #<User:0x01234567
     @_start_transaction_state = {},
     @aggregation_cache = {},
@@ -203,7 +204,134 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
               "rank" => nil
     }
 >
-        EOS
+          EOS
+        else
+          str = <<-EOS.strip
+#<User:0x01234567
+    @_start_transaction_state = {},
+    @aggregation_cache = {},
+    @destroyed = false,
+    @marked_for_destruction = false,
+    @new_record = true,
+    @original_raw_attributes = {
+             "admin" => false,
+        "created_at" => 1992-10-10 12:30:00 UTC,
+              "name" => "Diana",
+              "rank" => 1
+    },
+    @readonly = false,
+    @reflects_state = [
+        [0] false
+    ],
+    @transaction_state = nil,
+    @txn = nil,
+    attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
+        attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+            @materialized = false,
+            attr_reader :additional_types = {},
+            attr_reader :delegate_hash = {
+                     "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    attr_reader :name = "admin",
+                    attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                    attr_reader :value = false,
+                    attr_reader :value_before_type_cast = false
+                >,
+                "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    attr_reader :name = "created_at",
+                    attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                    attr_reader :value = 1992-10-10 12:30:00 UTC,
+                    attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
+                >,
+                        "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
+                    attr_reader :name = "id",
+                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :range = -2147483648...2147483648,
+                        attr_reader :scale = nil
+                    >,
+                    attr_reader :value = nil,
+                    attr_reader :value_before_type_cast = nil
+                >,
+                      "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    attr_reader :name = "name",
+                    attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                    attr_reader :value = "Diana",
+                    attr_reader :value_before_type_cast = "Diana"
+                >,
+                      "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    attr_reader :name = "rank",
+                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :range = -2147483648...2147483648,
+                        attr_reader :scale = nil
+                    >,
+                    attr_reader :value = 1,
+                    attr_reader :value_before_type_cast = 1
+                >
+            },
+            attr_reader :types = {
+                     "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                    attr_reader :limit = nil,
+                    attr_reader :precision = nil,
+                    attr_reader :scale = nil
+                >,
+                "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                    attr_reader :limit = nil,
+                    attr_reader :precision = nil,
+                    attr_reader :scale = nil
+                >,
+                        "id" => #<ActiveRecord::Type::Integer:0x01234567
+                    attr_reader :limit = nil,
+                    attr_reader :precision = nil,
+                    attr_reader :range = -2147483648...2147483648,
+                    attr_reader :scale = nil
+                >,
+                      "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                    attr_reader :limit = nil,
+                    attr_reader :precision = nil,
+                    attr_reader :scale = nil
+                >,
+                      "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                    attr_reader :limit = nil,
+                    attr_reader :precision = nil,
+                    attr_reader :range = -2147483648...2147483648,
+                    attr_reader :scale = nil
+                >
+            },
+            attr_reader :values = {
+                     "admin" => nil,
+                "created_at" => nil,
+                        "id" => nil,
+                      "name" => nil,
+                      "rank" => nil
+            }
+        >
+    >,
+    attr_accessor :destroyed_by_association = nil,
+    attr_reader :association_cache = {},
+    attr_reader :changed_attributes = {
+             "admin" => nil,
+        "created_at" => nil,
+              "name" => nil,
+              "rank" => nil
+    }
+>
+          EOS
+        end
       elsif activerecord_4_1?
         str = <<-EOS.strip
 #<User:0x01234567
@@ -406,7 +534,8 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
 >
         EOS
       elsif activerecord_3_2?
-        str = <<-EOS.strip
+        if RUBY_VERSION > '1.9.3'
+          str = <<-EOS.strip
 #<User:0x01234567
     @aggregation_cache = {},
     @attributes_cache = {},
@@ -431,7 +560,35 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
               "rank" => nil
     }
 >
-        EOS
+          EOS
+        else
+          str = <<-EOS.strip
+#<User:0x01234567
+    @aggregation_cache = {},
+    @attributes_cache = {},
+    @destroyed = false,
+    @marked_for_destruction = false,
+    @new_record = true,
+    @previously_changed = {},
+    @readonly = false,
+    attr_accessor :attributes = {
+             "admin" => false,
+        "created_at" => "1992-10-10 12:30:00",
+                "id" => nil,
+              "name" => "Diana",
+              "rank" => 1
+    },
+    attr_reader :association_cache = {},
+    attr_reader :changed_attributes = {
+             "admin" => nil,
+        "created_at" => nil,
+              "name" => nil,
+              "rank" => nil
+    },
+    attr_reader :mass_assignment_options = nil
+>
+          EOS
+        end
       end
       str.sub!('?', '1992-10-10 12:30:00')
       expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
@@ -441,7 +598,8 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       out = @ap.send(:awesome, [ @diana, @laura ])
 
       if activerecord_4_2?
-        str = <<-EOS.strip
+        if RUBY_VERSION > '1.9.3'
+          str = <<-EOS.strip
 [
     [0] #<User:0x01234567
         @_start_transaction_state = {},
@@ -690,7 +848,259 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         }
     >
 ]
-        EOS
+          EOS
+        else
+          str = <<-EOS.strip
+[
+    [0] #<User:0x01234567
+        @_start_transaction_state = {},
+        @aggregation_cache = {},
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @original_raw_attributes = {
+                 "admin" => false,
+            "created_at" => 1992-10-10 12:30:00 UTC,
+                  "name" => "Diana",
+                  "rank" => 1
+        },
+        @readonly = false,
+        @reflects_state = [
+            [0] false
+        ],
+        @transaction_state = nil,
+        @txn = nil,
+        attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
+            attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+                @materialized = false,
+                attr_reader :additional_types = {},
+                attr_reader :delegate_hash = {
+                         "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "admin",
+                        attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = false,
+                        attr_reader :value_before_type_cast = false
+                    >,
+                    "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "created_at",
+                        attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = 1992-10-10 12:30:00 UTC,
+                        attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
+                    >,
+                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
+                        attr_reader :name = "id",
+                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :range = -2147483648...2147483648,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = nil,
+                        attr_reader :value_before_type_cast = nil
+                    >,
+                          "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "name",
+                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = "Diana",
+                        attr_reader :value_before_type_cast = "Diana"
+                    >,
+                          "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "rank",
+                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :range = -2147483648...2147483648,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = 1,
+                        attr_reader :value_before_type_cast = 1
+                    >
+                },
+                attr_reader :types = {
+                         "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                    "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                            "id" => #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :range = -2147483648...2147483648,
+                        attr_reader :scale = nil
+                    >,
+                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                          "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :range = -2147483648...2147483648,
+                        attr_reader :scale = nil
+                    >
+                },
+                attr_reader :values = {
+                         "admin" => nil,
+                    "created_at" => nil,
+                            "id" => nil,
+                          "name" => nil,
+                          "rank" => nil
+                }
+            >
+        >,
+        attr_accessor :destroyed_by_association = nil,
+        attr_reader :association_cache = {},
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        }
+    >,
+    [1] #<User:0x01234567
+        @_start_transaction_state = {},
+        @aggregation_cache = {},
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @original_raw_attributes = {
+                 "admin" => true,
+            "created_at" => 2003-05-26 14:15:00 UTC,
+                  "name" => "Laura",
+                  "rank" => 2
+        },
+        @readonly = false,
+        @reflects_state = [
+            [0] false
+        ],
+        @transaction_state = nil,
+        @txn = nil,
+        attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
+            attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+                @materialized = false,
+                attr_reader :additional_types = {},
+                attr_reader :delegate_hash = {
+                         "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "admin",
+                        attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = true,
+                        attr_reader :value_before_type_cast = true
+                    >,
+                    "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "created_at",
+                        attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = 2003-05-26 14:15:00 UTC,
+                        attr_reader :value_before_type_cast = "2003-05-26 14:15:00"
+                    >,
+                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
+                        attr_reader :name = "id",
+                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :range = -2147483648...2147483648,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = nil,
+                        attr_reader :value_before_type_cast = nil
+                    >,
+                          "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "name",
+                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = "Laura",
+                        attr_reader :value_before_type_cast = "Laura"
+                    >,
+                          "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                        attr_reader :name = "rank",
+                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                            attr_reader :limit = nil,
+                            attr_reader :precision = nil,
+                            attr_reader :range = -2147483648...2147483648,
+                            attr_reader :scale = nil
+                        >,
+                        attr_reader :value = 2,
+                        attr_reader :value_before_type_cast = 2
+                    >
+                },
+                attr_reader :types = {
+                         "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                    "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                            "id" => #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :range = -2147483648...2147483648,
+                        attr_reader :scale = nil
+                    >,
+                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :scale = nil
+                    >,
+                          "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :limit = nil,
+                        attr_reader :precision = nil,
+                        attr_reader :range = -2147483648...2147483648,
+                        attr_reader :scale = nil
+                    >
+                },
+                attr_reader :values = {
+                         "admin" => nil,
+                    "created_at" => nil,
+                            "id" => nil,
+                          "name" => nil,
+                          "rank" => nil
+                }
+            >
+        >,
+        attr_accessor :destroyed_by_association = nil,
+        attr_reader :association_cache = {},
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        }
+    >
+]
+          EOS
+        end
       elsif activerecord_4_1?
         str = <<-EOS.strip
 [
@@ -1092,7 +1502,8 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
 ]
         EOS
       elsif activerecord_3_2?
-        str = <<-EOS.strip
+        if RUBY_VERSION > '1.9.3'
+          str = <<-EOS.strip
 [
     [0] #<User:0x01234567
         @aggregation_cache = {},
@@ -1143,7 +1554,61 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         }
     >
 ]
-        EOS
+          EOS
+        else
+          str = <<-EOS.strip
+[
+    [0] #<User:0x01234567
+        @aggregation_cache = {},
+        @attributes_cache = {},
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @previously_changed = {},
+        @readonly = false,
+        attr_accessor :attributes = {
+                 "admin" => false,
+            "created_at" => "1992-10-10 12:30:00",
+                    "id" => nil,
+                  "name" => "Diana",
+                  "rank" => 1
+        },
+        attr_reader :association_cache = {},
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        },
+        attr_reader :mass_assignment_options = nil
+    >,
+    [1] #<User:0x01234567
+        @aggregation_cache = {},
+        @attributes_cache = {},
+        @destroyed = false,
+        @marked_for_destruction = false,
+        @new_record = true,
+        @previously_changed = {},
+        @readonly = false,
+        attr_accessor :attributes = {
+                 "admin" => true,
+            "created_at" => "2003-05-26 14:15:00",
+                    "id" => nil,
+                  "name" => "Laura",
+                  "rank" => 2
+        },
+        attr_reader :association_cache = {},
+        attr_reader :changed_attributes = {
+                 "admin" => nil,
+            "created_at" => nil,
+                  "name" => nil,
+                  "rank" => nil
+        },
+        attr_reader :mass_assignment_options = nil
+    >
+]
+          EOS
+        end
       end
       str.sub!('?', '1992-10-10 12:30:00')
       str.sub!('?', '2003-05-26 14:15:00')
