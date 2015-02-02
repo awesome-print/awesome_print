@@ -708,5 +708,56 @@ EOS
       my = My.new
       expect { my.methods.ai(:plain => true) }.not_to raise_error
     end
+
+    describe "should handle a class that defines its own #to_hash method" do
+      it "that takes arguments" do
+        class My
+          def to_hash(a, b)
+          end
+        end
+
+        my = My.new
+        expect { my.ai(:plain => true) }.not_to raise_error
+      end
+
+      it "that returns nil" do
+        class My
+          def to_hash()
+            return nil
+          end
+        end
+
+        my = My.new
+        expect { my.ai(:plain => true) }.not_to raise_error
+      end
+
+      it "that returns an object that doesn't support #keys" do
+        class My
+          def to_hash()
+            object = Object.new
+            object.define_singleton_method('[]') { return nil }
+
+            return object
+          end
+        end
+
+        my = My.new
+        expect { my.ai(:plain => true) }.not_to raise_error
+      end
+
+      it "that returns an object that doesn't support subscripting" do
+        class My
+          def to_hash()
+            object = Object.new
+            object.define_singleton_method(:keys) { return [:foo] }
+
+            return object
+          end
+        end
+
+        my = My.new
+        expect { my.ai(:plain => true) }.not_to raise_error
+      end
+    end
   end
 end
