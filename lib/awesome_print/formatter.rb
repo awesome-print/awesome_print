@@ -319,7 +319,7 @@ module AwesomePrint
     # Utility methods.
     #------------------------------------------------------------------------------
     def convert_to_hash(object)
-      if not object.respond_to?(:to_hash)
+      if ! object.respond_to?(:to_hash)
         return nil
       end
       if object.method(:to_hash).arity != 0
@@ -327,11 +327,7 @@ module AwesomePrint
       end
 
       hash = object.to_hash
-      if not hash
-        return nil
-      end
-
-      if not hash.respond_to?(:keys) or not hash.respond_to?('[]')
+      if ! hash.respond_to?(:keys) || ! hash.respond_to?('[]')
         return nil
       end
 
