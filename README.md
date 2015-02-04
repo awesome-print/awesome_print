@@ -3,6 +3,7 @@
 [![RubyGems][gem_version_badge]][ruby_gems]
 [![Travis CI][travis_ci_badge]][travis_ci]
 [![Code Climate][code_climate_badge]][code_climate]
+[![Code Climate Coverage][code_climate_coverage_badge]][code_climate]
 [![RubyGems][gem_downloads_badge]][ruby_gems]
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/michaeldv/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -336,3 +337,4 @@ Released under the MIT license. See LICENSE file for details.
 [travis_ci_badge]: https://img.shields.io/travis/michaeldv/awesome_print/master.svg?style=flat
 [code_climate]: https://codeclimate.com/github/michaeldv/awesome_print
 [code_climate_badge]: http://img.shields.io/codeclimate/github/michaeldv/awesome_print.svg?style=flat
+[code_climate_coverage_badge]: https://codeclimate.com/github/michaeldv/awesome_print/badges/coverage.svg
