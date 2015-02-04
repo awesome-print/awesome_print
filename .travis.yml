@@ -12,3 +12,7 @@ gemfile:
   - gemfiles/rails_4.2.gemfile
   - gemfiles/mongoid_3.1.gemfile
   - gemfiles/nobrainer.gemfile
+
+addons:
+  code_climate:
+    repo_token: 177e04fc590139a13502e44a2628979c4e8b94acdb10c78af7c6f913ef7950bd
