@@ -62,9 +62,9 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_self(object, type)
       if @options[:raw] && object.instance_variables.any?
-        awesome_object(object)
-      elsif object.respond_to?(:to_hash)
-        awesome_hash(object.to_hash)
+        return awesome_object(object)
+      elsif hash = convert_to_hash(object)
+        awesome_hash(hash)
       else
         colorize(object.inspect.to_s, type)
       end
@@ -318,6 +318,22 @@ module AwesomePrint
 
     # Utility methods.
     #------------------------------------------------------------------------------
+    def convert_to_hash(object)
+      if ! object.respond_to?(:to_hash)
+        return nil
+      end
+      if object.method(:to_hash).arity != 0
+        return nil
+      end
+
+      hash = object.to_hash
+      if ! hash.respond_to?(:keys) || ! hash.respond_to?('[]')
+        return nil
+      end
+
+      return hash
+    end
+
     def align(value, width)
       if @options[:multiline]
         if @options[:indent] > 0
