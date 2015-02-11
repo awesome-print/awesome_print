@@ -64,6 +64,38 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       end
       expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
     end
+
+    it "display multiple records on a relation" do
+      @diana.save
+      @laura.save
+      out = @ap.send(:awesome, User.all)
+      str = <<-EOS.strip
+[
+    [0] #<User:0x01234567> {
+             :admin => false,
+        :created_at => ??,
+                :id => 1,
+              :name => "Diana",
+              :rank => 1
+    },
+    [1] #<User:0x01234567> {
+             :admin => true,
+        :created_at => ?!,
+                :id => 2,
+              :name => "Laura",
+              :rank => 2
+    }
+]
+      EOS
+      if RUBY_VERSION < '1.9'
+        str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
+        str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
+      else
+        str.sub!('??', '1992-10-10 12:30:00 UTC')
+        str.sub!('?!', '2003-05-26 14:15:00 UTC')
+      end
+      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+    end
   end
 
   #------------------------------------------------------------------------------
