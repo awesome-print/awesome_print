@@ -42,4 +42,9 @@ RSpec.describe "AwesomePrint/Nokogiri" do
 \e[0m<\e[1;36m/html\e[0m>
     EOS
   end
+
+  it "handle empty NodeSet" do
+    xml = Nokogiri::XML::NodeSet.new(Nokogiri::XML(''))
+    expect(xml.ai).to eq('[]')
+  end
 end
