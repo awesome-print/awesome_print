@@ -32,13 +32,10 @@ RSpec.describe "AwesomePrint" do
       expect(grepped.ai(:plain => true, :multiline => false)).to eq('[ "1", "2" ]')
     end
 
-    # See https://github.com/michaeldv/awesome_print/issues/85
-    if RUBY_VERSION >= "1.8.7"
-      it "handle array grep when a method is defined in C and thus doesn't have a binding" do
-        arr = (0..6).to_a
-        grepped = arr.grep(1..4, &:succ)
-        expect(grepped.ai(:plain => true, :multiline => false)).to eq('[ 2, 3, 4, 5 ]')
-      end
+    it "handle array grep when a method is defined in C and thus doesn't have a binding" do
+      arr = (0..6).to_a
+      grepped = arr.grep(1..4, &:succ)
+      expect(grepped.ai(:plain => true, :multiline => false)).to eq('[ 2, 3, 4, 5 ]')
     end
 
     it "returns value passed as a parameter" do
@@ -177,11 +174,7 @@ EOS
 
     it "shoud not raise ArgumentError when formatting HTML" do
       out = "hello".ai(:color => { :string => :red }, :html => true)
-      if RUBY_VERSION >= "1.9"
-        expect(out).to eq(%Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|)
-      else
-        expect(out).to eq(%Q|<pre>[red]&quot;hello&quot;[/red]</pre>|)
-      end
+      expect(out).to eq(%Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|)
     end
 
     it "shoud not raise ArgumentError when formatting HTML (shade color)" do

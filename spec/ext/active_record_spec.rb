@@ -27,11 +27,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
           :rank => 1
 }
       EOS
-      if RUBY_VERSION < '1.9'
-        str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
-      else
-        str.sub!('?', '1992-10-10 12:30:00 UTC')
-      end
+      str.sub!('?', '1992-10-10 12:30:00 UTC')
       expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
     end
 
@@ -55,13 +51,8 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
     }
 ]
       EOS
-      if RUBY_VERSION < '1.9'
-        str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
-        str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
-      else
-        str.sub!('??', '1992-10-10 12:30:00 UTC')
-        str.sub!('?!', '2003-05-26 14:15:00 UTC')
-      end
+      str.sub!('??', '1992-10-10 12:30:00 UTC')
+      str.sub!('?!', '2003-05-26 14:15:00 UTC')
       expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
     end
 
@@ -87,13 +78,8 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
     }
 ]
       EOS
-      if RUBY_VERSION < '1.9'
-        str.sub!('??', 'Sat Oct 10 12:30:00 UTC 1992')
-        str.sub!('?!', 'Mon May 26 14:15:00 UTC 2003')
-      else
-        str.sub!('??', '1992-10-10 12:30:00 UTC')
-        str.sub!('?!', '2003-05-26 14:15:00 UTC')
-      end
+      str.sub!('??', '1992-10-10 12:30:00 UTC')
+      str.sub!('?!', '2003-05-26 14:15:00 UTC')
       expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
     end
   end
@@ -1695,11 +1681,7 @@ class SubUser < User {
       out = @ap.send(:awesome, User.methods.grep(/first/))
 
       if ActiveRecord::VERSION::STRING >= "3.2"
-        if RUBY_VERSION >= "1.9"
-          expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
-        else
-          expect(out).to match(/\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/)
-        end
+        expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
       else
         expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       end
