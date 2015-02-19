@@ -44,9 +44,8 @@ RSpec.describe "AwesomePrint" do
       expect(ap object).to eq(object)
     end
 
-    # Require different file name this time (lib/ap.rb vs. lib/awesome_print).
     it "several require 'awesome_print' should do no harm" do
-      require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
+      require File.expand_path(File.dirname(__FILE__) + '/../lib/awesome_print')
       expect { rand.ai }.not_to raise_error
     end
 
