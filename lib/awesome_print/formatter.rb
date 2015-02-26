@@ -1,11 +1,15 @@
-autoload :CGI, "cgi"
-require "shellwords"
+autoload :CGI, 'cgi'
+require 'shellwords'
+
+require 'awesome_print/formatters/array'
 
 module AwesomePrint
   class Formatter
 
     CORE = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
     DEFAULT_LIMIT_SIZE = 7
+
+    attr_reader :options, :inspector
 
     def initialize(inspector)
       @inspector   = inspector
@@ -50,6 +54,102 @@ module AwesomePrint
       end
     end
 
+    def indent
+      ' ' * @indentation
+    end
+
+    def outdent
+      ' ' * (@indentation - @options[:indent].abs)
+    end
+
+    def indented
+      @indentation += @options[:indent].abs
+      yield
+    ensure
+      @indentation -= @options[:indent].abs
+    end
+
+    # To support limited output, for example:
+    #
+    # ap ('a'..'z').to_a, :limit => 3
+    # [
+    #     [ 0] "a",
+    #     [ 1] .. [24],
+    #     [25] "z"
+    # ]
+    #
+    # ap (1..100).to_a, :limit => true # Default limit is 7.
+    # [
+    #     [ 0] 1,
+    #     [ 1] 2,
+    #     [ 2] 3,
+    #     [ 3] .. [96],
+    #     [97] 98,
+    #     [98] 99,
+    #     [99] 100
+    # ]
+    #------------------------------------------------------------------------------
+    def should_be_limited?
+      @options[:limit] == true or (@options[:limit].is_a?(Fixnum) and @options[:limit] > 0)
+    end
+
+    def limited(data, width, is_hash = false)
+      limit = get_limit_size
+      if data.length <= limit
+        data
+      else
+        # Calculate how many elements to be displayed above and below the separator.
+        head = limit / 2
+        tail = head - (limit - 1) % 2
+
+        # Add the proper elements to the temp array and format the separator.
+        temp = data[0, head] + [ nil ] + data[-tail, tail]
+
+        if is_hash
+          temp[head] = "#{indent}#{data[head].strip} .. #{data[data.length - tail - 1].strip}"
+        else
+          temp[head] = "#{indent}[#{head.to_s.rjust(width)}] .. [#{data.length - tail - 1}]"
+        end
+
+        temp
+      end
+    end
+
+    # Format object.methods array.
+    #------------------------------------------------------------------------------
+    def methods_array(a)
+      a.sort! { |x, y| x.to_s <=> y.to_s }                  # Can't simply a.sort! because of o.methods << [ :blah ]
+      object = a.instance_variable_get('@__awesome_methods__')
+      tuples = a.map do |name|
+        if name.is_a?(Symbol) || name.is_a?(String)         # Ignore garbage, ex. 42.methods << [ :blah ]
+          tuple = if object.respond_to?(name, true)         # Is this a regular method?
+            the_method = object.method(name) rescue nil     # Avoid potential ArgumentError if object#method is overridden.
+            if the_method && the_method.respond_to?(:arity) # Is this original object#method?
+              method_tuple(the_method)                      # Yes, we are good.
+            end
+          elsif object.respond_to?(:instance_method)              # Is this an unbound method?
+            method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
+          end                                                     # available (ex. File.lchmod on Ubuntu 12).
+        end
+        tuple || [ name.to_s, '(?)', '?' ]                  # Return WTF default if all the above fails.
+      end
+
+      width = (tuples.size - 1).to_s.size
+      name_width = tuples.map { |item| item[0].size }.max || 0
+      args_width = tuples.map { |item| item[1].size }.max || 0
+
+      data = tuples.inject([]) do |arr, item|
+        index = indent
+        index << "[#{arr.size.to_s.rjust(width)}]" if @options[:index]
+        indented do
+          arr << "#{index} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
+        end
+      end
+
+      "[\n" << data.join("\n") << "\n#{outdent}]"
+    end
+
+
 
     private
 
@@ -68,26 +168,7 @@ module AwesomePrint
     # Format an array.
     #------------------------------------------------------------------------------
     def awesome_array(a)
-      return "[]" if a == []
-
-      if a.instance_variable_defined?('@__awesome_methods__')
-        methods_array(a)
-      elsif @options[:multiline]
-        width = (a.size - 1).to_s.size 
-
-        data = a.inject([]) do |arr, item|
-          index = indent
-          index << colorize("[#{arr.size.to_s.rjust(width)}] ", :array) if @options[:index]
-          indented do
-            arr << (index << @inspector.awesome(item))
-          end
-        end
-
-        data = limited(data, width) if should_be_limited?
-        "[\n" << data.join(",\n") << "\n#{outdent}]"
-      else
-        "[ " << a.map{ |item| @inspector.awesome(item) }.join(", ") << " ]"
-      end
+      AwesomePrint::Formatters::Array.new(self, a).call
     end
 
     # Format a hash. If @options[:indent] if negative left align hash keys.
@@ -101,10 +182,10 @@ module AwesomePrint
           [ @inspector.awesome(key), h[key] ]
         end
       end
-      
+
       width = data.map { |key, | key.size }.max || 0
       width += @indentation if @options[:indent] > 0
-  
+
       data = data.map do |key, value|
         indented do
           align(key, width) << colorize(" => ", :hash) << @inspector.awesome(value)
@@ -228,40 +309,6 @@ module AwesomePrint
       "#{o.class}:0x%08x" % (o.__id__ * 2)
     end
 
-    # Format object.methods array.
-    #------------------------------------------------------------------------------
-    def methods_array(a)
-      a.sort! { |x, y| x.to_s <=> y.to_s }                  # Can't simply a.sort! because of o.methods << [ :blah ]
-      object = a.instance_variable_get('@__awesome_methods__')
-      tuples = a.map do |name|
-        if name.is_a?(Symbol) || name.is_a?(String)         # Ignore garbage, ex. 42.methods << [ :blah ]
-          tuple = if object.respond_to?(name, true)         # Is this a regular method?
-            the_method = object.method(name) rescue nil     # Avoid potential ArgumentError if object#method is overridden.
-            if the_method && the_method.respond_to?(:arity) # Is this original object#method?
-              method_tuple(the_method)                      # Yes, we are good.
-            end
-          elsif object.respond_to?(:instance_method)              # Is this an unbound method?
-            method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
-          end                                                     # available (ex. File.lchmod on Ubuntu 12).
-        end
-        tuple || [ name.to_s, '(?)', '?' ]                  # Return WTF default if all the above fails.
-      end
-
-      width = (tuples.size - 1).to_s.size
-      name_width = tuples.map { |item| item[0].size }.max || 0
-      args_width = tuples.map { |item| item[1].size }.max || 0
-
-      data = tuples.inject([]) do |arr, item|
-        index = indent
-        index << "[#{arr.size.to_s.rjust(width)}]" if @options[:index]
-        indented do
-          arr << "#{index} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
-        end
-      end
-
-      "[\n" << data.join("\n") << "\n#{outdent}]"
-    end
-
     # Return [ name, arguments, owner ] tuple for a given method.
     #------------------------------------------------------------------------------
     def method_tuple(method)
@@ -343,13 +390,6 @@ module AwesomePrint
       end
     end
 
-    def indented
-      @indentation += @options[:indent].abs
-      yield
-    ensure
-      @indentation -= @options[:indent].abs
-    end
-
     def left_aligned
       current, @options[:indent] = @options[:indent], 0
       yield
@@ -357,62 +397,8 @@ module AwesomePrint
       @options[:indent] = current
     end
 
-    def indent
-      ' ' * @indentation
-    end
-
-    def outdent
-      ' ' * (@indentation - @options[:indent].abs)
-    end
-
-    # To support limited output, for example:
-    #
-    # ap ('a'..'z').to_a, :limit => 3
-    # [
-    #     [ 0] "a",
-    #     [ 1] .. [24],
-    #     [25] "z"
-    # ]
-    #
-    # ap (1..100).to_a, :limit => true # Default limit is 7.
-    # [
-    #     [ 0] 1,
-    #     [ 1] 2,
-    #     [ 2] 3,
-    #     [ 3] .. [96],
-    #     [97] 98,
-    #     [98] 99,
-    #     [99] 100
-    # ]
-    #------------------------------------------------------------------------------
-    def should_be_limited?
-      @options[:limit] == true or (@options[:limit].is_a?(Fixnum) and @options[:limit] > 0)
-    end
-
     def get_limit_size
       @options[:limit] == true ? DEFAULT_LIMIT_SIZE : @options[:limit]
-    end
-
-    def limited(data, width, is_hash = false)
-      limit = get_limit_size
-      if data.length <= limit
-        data
-      else
-        # Calculate how many elements to be displayed above and below the separator.
-        head = limit / 2
-        tail = head - (limit - 1) % 2
-
-        # Add the proper elements to the temp array and format the separator.
-        temp = data[0, head] + [ nil ] + data[-tail, tail]
-
-        if is_hash
-          temp[head] = "#{indent}#{data[head].strip} .. #{data[data.length - tail - 1].strip}"
-        else
-          temp[head] = "#{indent}[#{head.to_s.rjust(width)}] .. [#{data.length - tail - 1}]"
-        end
-
-        temp
-      end
     end
   end
 end
