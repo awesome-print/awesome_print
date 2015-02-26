@@ -1,54 +1,11 @@
 module AwesomePrint
-
-  class << self # Class accessors for custom defaults.
-    attr_accessor :defaults, :force_colors
-
-    # Class accessor to force colorized output (ex. forked subprocess where TERM
-    # might be dumb).
-    #------------------------------------------------------------------------------
-    def force_colors!(value = true)
-      @force_colors = value
-    end
-
-    def console?
-      !!(defined?(IRB) || defined?(Pry))
-    end
-
-    def rails_console?
-      console? && !!(defined?(Rails::Console) || ENV["RAILS_ENV"])
-    end
-
-    def irb!
-      return unless defined?(IRB)
-      unless IRB.version.include?("DietRB")
-        IRB::Irb.class_eval do
-          def output_value
-            ap @context.last_value
-          end
-        end
-      else # MacRuby
-        IRB.formatter = Class.new(IRB::Formatter) do
-          def inspect_object(object)
-            object.ai
-          end
-        end.new
-      end
-    end
-
-    def pry!
-      if defined?(Pry)
-        Pry.print = proc { |output, value| output.puts value.ai }
-      end
-    end
-  end
-
   class Inspector
     attr_accessor :options
 
     AP = :__awesome_print__
 
     def initialize(options = {})
-      @options = { 
+      @options = {
         :indent     => 4,      # Indent using 4 spaces.
         :index      => true,   # Display array indices.
         :html       => false,  # Use ANSI color codes rather than HTML.
@@ -57,7 +14,7 @@ module AwesomePrint
         :raw        => false,  # Do not recursively format object instance variables.
         :sort_keys  => false,  # Do not sort hash keys.
         :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
-        :color => { 
+        :color => {
           :args       => :pale,
           :array      => :white,
           :bigdecimal => :blue,
@@ -87,7 +44,7 @@ module AwesomePrint
       @formatter = AwesomePrint::Formatter.new(self)
       Thread.current[AP] ||= []
     end
-  
+
     # Dispatcher that detects data nesting and invokes object-aware formatter.
     #------------------------------------------------------------------------------
     def awesome(object)

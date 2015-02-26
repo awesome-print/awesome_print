@@ -7,6 +7,7 @@ unless defined?(AwesomePrint::Inspector)
     require File.dirname(__FILE__) + "/awesome_print/core_ext/#{file}"
   end
 
+  require File.dirname(__FILE__) + "/awesome_print/configuration"
   require File.dirname(__FILE__) + "/awesome_print/inspector"
   require File.dirname(__FILE__) + "/awesome_print/formatter"
   require File.dirname(__FILE__) + "/awesome_print/version"
