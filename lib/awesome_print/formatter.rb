@@ -2,6 +2,7 @@ autoload :CGI, 'cgi'
 require 'shellwords'
 
 require 'awesome_print/formatters/array'
+require 'awesome_print/formatters/hash'
 
 module AwesomePrint
   class Formatter
@@ -9,7 +10,7 @@ module AwesomePrint
     CORE = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
     DEFAULT_LIMIT_SIZE = 7
 
-    attr_reader :options, :inspector
+    attr_reader :options, :inspector, :indentation
 
     def initialize(inspector)
       @inspector   = inspector
@@ -149,7 +150,29 @@ module AwesomePrint
       "[\n" << data.join("\n") << "\n#{outdent}]"
     end
 
+    # Format hash keys as plain strings regardless of underlying data type.
+    #------------------------------------------------------------------------------
+    def plain_single_line
+      plain, multiline = @options[:plain], @options[:multiline]
+      @options[:plain], @options[:multiline] = true, false
+      yield
+    ensure
+      @options[:plain], @options[:multiline] = plain, multiline
+    end
 
+    def align(value, width)
+      if @options[:multiline]
+        if @options[:indent] > 0
+          value.rjust(width)
+        elsif @options[:indent] == 0
+          indent + value.ljust(width)
+        else
+          indent[0, @indentation + @options[:indent]] + value.ljust(width)
+        end
+      else
+        value
+      end
+    end
 
     private
 
@@ -174,30 +197,7 @@ module AwesomePrint
     # Format a hash. If @options[:indent] if negative left align hash keys.
     #------------------------------------------------------------------------------
     def awesome_hash(h)
-      return "{}" if h == {}
-
-      keys = @options[:sort_keys] ? h.keys.sort { |a, b| a.to_s <=> b.to_s } : h.keys
-      data = keys.map do |key|
-        plain_single_line do
-          [ @inspector.awesome(key), h[key] ]
-        end
-      end
-
-      width = data.map { |key, | key.size }.max || 0
-      width += @indentation if @options[:indent] > 0
-
-      data = data.map do |key, value|
-        indented do
-          align(key, width) << colorize(" => ", :hash) << @inspector.awesome(value)
-        end
-      end
-
-      data = limited(data, width, :hash => true) if should_be_limited?
-      if @options[:multiline]
-        "{\n" << data.join(",\n") << "\n#{outdent}}"
-      else
-        "{ #{data.join(', ')} }"
-      end
+      AwesomePrint::Formatters::Hash.new(self, h).call
     end
 
     # Format an object.
@@ -348,16 +348,6 @@ module AwesomePrint
       [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
     end
 
-    # Format hash keys as plain strings regardless of underlying data type.
-    #------------------------------------------------------------------------------
-    def plain_single_line
-      plain, multiline = @options[:plain], @options[:multiline]
-      @options[:plain], @options[:multiline] = true, false
-      yield
-    ensure
-      @options[:plain], @options[:multiline] = plain, multiline
-    end
-
     # Utility methods.
     #------------------------------------------------------------------------------
     def convert_to_hash(object)
@@ -374,20 +364,6 @@ module AwesomePrint
       end
 
       return hash
-    end
-
-    def align(value, width)
-      if @options[:multiline]
-        if @options[:indent] > 0
-          value.rjust(width)
-        elsif @options[:indent] == 0
-          indent + value.ljust(width)
-        else
-          indent[0, @indentation + @options[:indent]] + value.ljust(width)
-        end
-      else
-        value
-      end
     end
 
     def left_aligned
