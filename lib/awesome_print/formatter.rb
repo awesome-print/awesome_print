@@ -1,6 +1,7 @@
 autoload :CGI, 'cgi'
 require 'shellwords'
 
+require 'awesome_print/formatters/base'
 require 'awesome_print/formatters/array'
 require 'awesome_print/formatters/hash'
 

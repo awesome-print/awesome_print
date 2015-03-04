@@ -1,22 +1,14 @@
 module AwesomePrint
   module Formatters
-    class Hash
-
-      def initialize(formatter, hash)
-        @formatter = formatter
-        @hash = hash
-        @options = formatter.options
-        @inspector = formatter.inspector
-        @indentation = formatter.indentation
-      end
+    class Hash < Base
 
       def call
-        return "{}" if hash.empty?
+        return "{}" if object.empty?
 
-        keys = options[:sort_keys] ? hash.keys.sort { |a, b| a.to_s <=> b.to_s } : hash.keys
+        keys = options[:sort_keys] ? object.keys.sort { |a, b| a.to_s <=> b.to_s } : object.keys
         data = keys.map do |key|
           formatter.plain_single_line do
-            [ inspector.awesome(key), hash[key] ]
+            [ inspector.awesome(key), object[key] ]
           end
         end
 
@@ -36,18 +28,6 @@ module AwesomePrint
           "{ #{data.join(', ')} }"
         end
       end
-
-      private
-
-        attr_reader :formatter, :hash, :indentation
-
-        def options
-          @options
-        end
-
-        def inspector
-          @inspector
-        end
     end
   end
 end
