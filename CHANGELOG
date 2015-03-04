@@ -1,4 +1,5 @@
 1.6.2 (unreleased)
+  - Option :raw defaults to true. Expected behavior is that Objects are recursively formatted (Matt Martini)
   - Improves spec performance and simplicity (Mauro George)
   - Handle objects that have a custom #to_hash method (Elliot Shank)
 

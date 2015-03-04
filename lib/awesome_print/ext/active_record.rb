@@ -31,11 +31,11 @@ module AwesomePrint
 
     # Format ActiveRecord instance object.
     #
-    # NOTE: by default only instance attributes (i.e. columns) are shown. To format
-    # ActiveRecord instance as regular object showing its instance variables and
-    # accessors use :raw => true option:
+    # NOTE: by default ActiveRecord instances are formatted as regular objects showing
+    # its instance variables and accessors.  To format with only instance attributes
+    # (i.e. columns) use :raw => false option:
     #
-    # ap record, :raw => true
+    # ap record, :raw => false
     #
     #------------------------------------------------------------------------------
     def awesome_active_record_instance(object)

@@ -29,10 +29,11 @@ module AwesomePrint
 
     # Format Ripple instance object.
     #
-    # NOTE: by default only instance attributes are shown. To format a Ripple document instance
-    # as a regular object showing its instance variables and accessors use :raw => true option:
+    # NOTE: by default Ripple document instances are formatted as regular objects showing
+    # its instance variables and accessors.  To format with only instance attributes
+    # use :raw => false option:
     #
-    # ap document, :raw => true
+    # ap document, :raw => false
     #
     #------------------------------------------------------------------------------
     def awesome_ripple_document_instance(object)

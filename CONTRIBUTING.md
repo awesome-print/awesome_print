@@ -79,4 +79,5 @@ Special thanks goes to awesome team of contributors, namely:
 * Trevor Wennblom -- https://github.com/trevor
 * vfrride -- https://github.com/vfrride
 * Viktar Basharymau -- https://github.com/DNNX
+* Matt Martini -- https://github.com/mattmartini
 
