@@ -4,6 +4,7 @@ require 'shellwords'
 require 'awesome_print/formatters/base'
 require 'awesome_print/formatters/array'
 require 'awesome_print/formatters/hash'
+require 'awesome_print/formatters/object'
 
 module AwesomePrint
   class Formatter
@@ -175,6 +176,17 @@ module AwesomePrint
       end
     end
 
+    def left_aligned
+      current, @options[:indent] = @options[:indent], 0
+      yield
+    ensure
+      @options[:indent] = current
+    end
+
+    def awesome_instance(o)
+      "#{o.class}:0x%08x" % (o.__id__ * 2)
+    end
+
     private
 
     # Catch all method to format an arbitrary object.
@@ -204,41 +216,8 @@ module AwesomePrint
     # Format an object.
     #------------------------------------------------------------------------------
     def awesome_object(o)
-      vars = o.instance_variables.map do |var|
-        property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
-        accessor = if o.respond_to?(:"#{property}=")
-          o.respond_to?(property) ? :accessor : :writer
-        else
-          o.respond_to?(property) ? :reader : nil
-        end
-        if accessor
-          [ "attr_#{accessor} :#{property}", var ]
-        else
-          [ var.to_s, var ]
-        end
-      end
+      AwesomePrint::Formatters::Object.new(self, o).call
 
-      data = vars.sort.map do |declaration, var|
-        key = left_aligned do
-          align(declaration, declaration.size)
-        end
-
-        unless @options[:plain]
-          if key =~ /(@\w+)/
-            key.sub!($1, colorize($1, :variable))
-          else
-            key.sub!(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
-          end
-        end
-        indented do
-          key << colorize(" = ", :hash) + @inspector.awesome(o.instance_variable_get(var))
-        end
-      end
-      if @options[:multiline]
-        "#<#{awesome_instance(o)}\n#{data.join(%Q/,\n/)}\n#{outdent}>"
-      else
-        "#<#{awesome_instance(o)} #{data.join(', ')}>"
-      end
     end
 
     # Format a set.
@@ -304,12 +283,6 @@ module AwesomePrint
     end
     alias :awesome_unboundmethod :awesome_method
 
-    # Format object instance.
-    #------------------------------------------------------------------------------
-    def awesome_instance(o)
-      "#{o.class}:0x%08x" % (o.__id__ * 2)
-    end
-
     # Return [ name, arguments, owner ] tuple for a given method.
     #------------------------------------------------------------------------------
     def method_tuple(method)
@@ -365,13 +338,6 @@ module AwesomePrint
       end
 
       return hash
-    end
-
-    def left_aligned
-      current, @options[:indent] = @options[:indent], 0
-      yield
-    ensure
-      @options[:indent] = current
     end
 
     def get_limit_size
