@@ -12,6 +12,7 @@ require 'awesome_print/formatters/file'
 require 'awesome_print/formatters/dir'
 require 'awesome_print/formatters/big_decimal'
 require 'awesome_print/formatters/rational'
+require 'awesome_print/formatters/method'
 
 module AwesomePrint
   class Formatter
@@ -276,8 +277,7 @@ module AwesomePrint
     # Format a method.
     #------------------------------------------------------------------------------
     def awesome_method(m)
-      name, args, owner = method_tuple(m)
-      "#{colorize(owner, :class)}##{colorize(name, :method)}#{colorize(args, :args)}"
+      AwesomePrint::Formatters::Method.new(self, m).call
     end
     alias :awesome_unboundmethod :awesome_method
 

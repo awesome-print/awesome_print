@@ -8,4 +8,3 @@ module AwesomePrint
     end
   end
 end
-
