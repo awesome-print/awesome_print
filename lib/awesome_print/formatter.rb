@@ -10,6 +10,7 @@ require 'awesome_print/formatters/struct'
 require 'awesome_print/formatters/class'
 require 'awesome_print/formatters/file'
 require 'awesome_print/formatters/dir'
+require 'awesome_print/formatters/big_decimal'
 
 module AwesomePrint
   class Formatter
@@ -257,7 +258,7 @@ module AwesomePrint
     # Format BigDecimal object.
     #------------------------------------------------------------------------------
     def awesome_bigdecimal(n)
-      colorize(n.to_s("F"), :bigdecimal)
+      AwesomePrint::Formatters::BigDecimal.new(self, n).call
     end
 
     # Format Rational object.
