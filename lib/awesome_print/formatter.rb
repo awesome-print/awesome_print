@@ -6,6 +6,7 @@ require 'awesome_print/formatters/array'
 require 'awesome_print/formatters/hash'
 require 'awesome_print/formatters/object'
 require 'awesome_print/formatters/set'
+require 'awesome_print/formatters/struct'
 
 module AwesomePrint
   class Formatter
@@ -229,14 +230,7 @@ module AwesomePrint
     # Format a Struct.
     #------------------------------------------------------------------------------
     def awesome_struct(s)
-      #
-      # The code is slightly uglier because of Ruby 1.8.6 quirks:
-      # awesome_hash(Hash[s.members.zip(s.values)]) <-- ArgumentError: odd number of arguments for Hash)
-      # awesome_hash(Hash[*s.members.zip(s.values).flatten]) <-- s.members returns strings, not symbols.
-      #
-      hash = {}
-      s.each_pair { |key, value| hash[key] = value }
-      awesome_hash(hash)
+      AwesomePrint::Formatters::Struct.new(self, s).call
     end
 
     # Format Class object.
