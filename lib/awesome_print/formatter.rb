@@ -11,6 +11,7 @@ require 'awesome_print/formatters/class'
 require 'awesome_print/formatters/file'
 require 'awesome_print/formatters/dir'
 require 'awesome_print/formatters/big_decimal'
+require 'awesome_print/formatters/rational'
 
 module AwesomePrint
   class Formatter
@@ -264,7 +265,7 @@ module AwesomePrint
     # Format Rational object.
     #------------------------------------------------------------------------------
     def awesome_rational(n)
-      colorize(n.to_s, :rational)
+      AwesomePrint::Formatters::Rational.new(self, n).call
     end
 
     # Format a method.
