@@ -9,6 +9,7 @@ require 'awesome_print/formatters/set'
 require 'awesome_print/formatters/struct'
 require 'awesome_print/formatters/class'
 require 'awesome_print/formatters/file'
+require 'awesome_print/formatters/dir'
 
 module AwesomePrint
   class Formatter
@@ -250,8 +251,7 @@ module AwesomePrint
     # Format Dir object.
     #------------------------------------------------------------------------------
     def awesome_dir(d)
-      ls = `ls -alF #{d.path.shellescape}`
-      colorize(ls.empty? ? d.inspect : "#{d.inspect}\n#{ls.chop}", :dir)
+      AwesomePrint::Formatters::Dir.new(self, d).call
     end
 
     # Format BigDecimal object.
