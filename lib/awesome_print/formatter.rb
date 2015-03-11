@@ -5,6 +5,7 @@ require 'awesome_print/formatters/base'
 require 'awesome_print/formatters/array'
 require 'awesome_print/formatters/hash'
 require 'awesome_print/formatters/object'
+require 'awesome_print/formatters/set'
 
 module AwesomePrint
   class Formatter
@@ -217,13 +218,12 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_object(o)
       AwesomePrint::Formatters::Object.new(self, o).call
-
     end
 
     # Format a set.
     #------------------------------------------------------------------------------
     def awesome_set(s)
-      awesome_array(s.to_a)
+      AwesomePrint::Formatters::Set.new(self, s).call
     end
 
     # Format a Struct.
