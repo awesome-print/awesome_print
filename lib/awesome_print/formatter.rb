@@ -8,6 +8,7 @@ require 'awesome_print/formatters/object'
 require 'awesome_print/formatters/set'
 require 'awesome_print/formatters/struct'
 require 'awesome_print/formatters/class'
+require 'awesome_print/formatters/file'
 
 module AwesomePrint
   class Formatter
@@ -243,8 +244,7 @@ module AwesomePrint
     # Format File object.
     #------------------------------------------------------------------------------
     def awesome_file(f)
-      ls = File.directory?(f) ? `ls -adlF #{f.path.shellescape}` : `ls -alF #{f.path.shellescape}`
-      colorize(ls.empty? ? f.inspect : "#{f.inspect}\n#{ls.chop}", :file)
+      AwesomePrint::Formatters::File.new(self, f).call
     end
 
     # Format Dir object.
