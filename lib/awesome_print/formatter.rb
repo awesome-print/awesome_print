@@ -125,40 +125,6 @@ module AwesomePrint
       end
     end
 
-    # Format object.methods array.
-    #------------------------------------------------------------------------------
-    def methods_array(a)
-      a.sort! { |x, y| x.to_s <=> y.to_s }                  # Can't simply a.sort! because of o.methods << [ :blah ]
-      object = a.instance_variable_get('@__awesome_methods__')
-      tuples = a.map do |name|
-        if name.is_a?(Symbol) || name.is_a?(String)         # Ignore garbage, ex. 42.methods << [ :blah ]
-          tuple = if object.respond_to?(name, true)         # Is this a regular method?
-            the_method = object.method(name) rescue nil     # Avoid potential ArgumentError if object#method is overridden.
-            if the_method && the_method.respond_to?(:arity) # Is this original object#method?
-              method_tuple(the_method)                      # Yes, we are good.
-            end
-          elsif object.respond_to?(:instance_method)              # Is this an unbound method?
-            method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
-          end                                                     # available (ex. File.lchmod on Ubuntu 12).
-        end
-        tuple || [ name.to_s, '(?)', '?' ]                  # Return WTF default if all the above fails.
-      end
-
-      width = (tuples.size - 1).to_s.size
-      name_width = tuples.map { |item| item[0].size }.max || 0
-      args_width = tuples.map { |item| item[1].size }.max || 0
-
-      data = tuples.inject([]) do |arr, item|
-        index = indent
-        index << "[#{arr.size.to_s.rjust(width)}]" if @options[:index]
-        indented do
-          arr << "#{index} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
-        end
-      end
-
-      "[\n" << data.join("\n") << "\n#{outdent}]"
-    end
-
     # Format hash keys as plain strings regardless of underlying data type.
     #------------------------------------------------------------------------------
     def plain_single_line
@@ -192,6 +158,45 @@ module AwesomePrint
 
     def awesome_instance(o)
       "#{o.class}:0x%08x" % (o.__id__ * 2)
+    end
+
+    # Return [ name, arguments, owner ] tuple for a given method.
+    #------------------------------------------------------------------------------
+    def method_tuple(method)
+      if method.respond_to?(:parameters) # Ruby 1.9.2+
+        # See http://ruby.runpaint.org/methods#method-objects-parameters
+        args = method.parameters.inject([]) do |arr, (type, name)|
+          name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
+          arr << case type
+            when :req        then name.to_s
+            when :opt, :rest then "*#{name}"
+            when :block      then "&#{name}"
+            else '?'
+          end
+        end
+      else # See http://ruby-doc.org/core/classes/Method.html#M001902
+        args = (1..method.arity.abs).map { |i| "arg#{i}" }
+        args[-1] = "*#{args[-1]}" if method.arity < 0
+      end
+
+      # method.to_s formats to handle:
+      #
+      # #<Method: Fixnum#zero?>
+      # #<Method: Fixnum(Integer)#years>
+      # #<Method: User(#<Module:0x00000103207c00>)#_username>
+      # #<Method: User(id: integer, username: string).table_name>
+      # #<Method: User(id: integer, username: string)(ActiveRecord::Base).current>
+      # #<UnboundMethod: Hello#world>
+      #
+      if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
+        unbound, klass = $1 && '(unbound)', $2
+        if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord-style class?
+          klass.sub!($1, '')                    # Yes, strip the fields leaving class name only.
+        end
+        owner = "#{klass}#{unbound}".gsub('(', ' (')
+      end
+
+      [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
     end
 
     private
@@ -275,45 +280,6 @@ module AwesomePrint
       "#{colorize(owner, :class)}##{colorize(name, :method)}#{colorize(args, :args)}"
     end
     alias :awesome_unboundmethod :awesome_method
-
-    # Return [ name, arguments, owner ] tuple for a given method.
-    #------------------------------------------------------------------------------
-    def method_tuple(method)
-      if method.respond_to?(:parameters) # Ruby 1.9.2+
-        # See http://ruby.runpaint.org/methods#method-objects-parameters
-        args = method.parameters.inject([]) do |arr, (type, name)|
-          name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
-          arr << case type
-            when :req        then name.to_s
-            when :opt, :rest then "*#{name}"
-            when :block      then "&#{name}"
-            else '?'
-          end
-        end
-      else # See http://ruby-doc.org/core/classes/Method.html#M001902
-        args = (1..method.arity.abs).map { |i| "arg#{i}" }
-        args[-1] = "*#{args[-1]}" if method.arity < 0
-      end
-
-      # method.to_s formats to handle:
-      #
-      # #<Method: Fixnum#zero?>
-      # #<Method: Fixnum(Integer)#years>
-      # #<Method: User(#<Module:0x00000103207c00>)#_username>
-      # #<Method: User(id: integer, username: string).table_name>
-      # #<Method: User(id: integer, username: string)(ActiveRecord::Base).current>
-      # #<UnboundMethod: Hello#world>
-      #
-      if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
-        unbound, klass = $1 && '(unbound)', $2
-        if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord-style class?
-          klass.sub!($1, '')                    # Yes, strip the fields leaving class name only.
-        end
-        owner = "#{klass}#{unbound}".gsub('(', ' (')
-      end
-
-      [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
-    end
 
     # Utility methods.
     #------------------------------------------------------------------------------
