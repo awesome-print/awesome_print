@@ -31,7 +31,7 @@ module AwesomePrint
 
         def build_data
           @data = keys.map do |key|
-            formatter.plain_single_line do
+            plain_single_line do
               [ inspector.awesome(key), object[key] ]
             end
           end
@@ -53,6 +53,14 @@ module AwesomePrint
 
         def inline_format
           "{ #{data.join(', ')} }"
+        end
+
+        def plain_single_line
+          plain, multiline = options[:plain], options[:multiline]
+          options[:plain], options[:multiline] = true, false
+          yield
+        ensure
+          options[:plain], options[:multiline] = plain, multiline
         end
     end
   end

@@ -50,11 +50,15 @@ module AwesomePrint
         end
 
         def inline_format
-          "#<#{formatter.awesome_instance(object)}\n#{@data.join(%Q/,\n/)}\n#{formatter.outdent}>"
+          "#<#{awesome_instance(object)}\n#{@data.join(%Q/,\n/)}\n#{formatter.outdent}>"
         end
 
         def multiline_format
-          "#<#{formatter.awesome_instance(object)} #{@data.join(', ')}>"
+          "#<#{awesome_instance(object)} #{@data.join(', ')}>"
+        end
+
+        def awesome_instance(o)
+          "#{o.class}:0x%08x" % (o.__id__ * 2)
         end
     end
   end

@@ -126,16 +126,6 @@ module AwesomePrint
       end
     end
 
-    # Format hash keys as plain strings regardless of underlying data type.
-    #------------------------------------------------------------------------------
-    def plain_single_line
-      plain, multiline = @options[:plain], @options[:multiline]
-      @options[:plain], @options[:multiline] = true, false
-      yield
-    ensure
-      @options[:plain], @options[:multiline] = plain, multiline
-    end
-
     def align(value, width)
       if @options[:multiline]
         if @options[:indent] > 0
@@ -155,10 +145,6 @@ module AwesomePrint
       yield
     ensure
       @options[:indent] = current
-    end
-
-    def awesome_instance(o)
-      "#{o.class}:0x%08x" % (o.__id__ * 2)
     end
 
     # Return [ name, arguments, owner ] tuple for a given method.
