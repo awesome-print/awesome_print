@@ -7,6 +7,7 @@ require 'awesome_print/formatters/hash'
 require 'awesome_print/formatters/object'
 require 'awesome_print/formatters/set'
 require 'awesome_print/formatters/struct'
+require 'awesome_print/formatters/class'
 
 module AwesomePrint
   class Formatter
@@ -236,11 +237,7 @@ module AwesomePrint
     # Format Class object.
     #------------------------------------------------------------------------------
     def awesome_class(c)
-      if superclass = c.superclass # <-- Assign and test if nil.
-        colorize("#{c.inspect} < #{superclass}", :class)
-      else
-        colorize(c.inspect, :class)
-      end
+      AwesomePrint::Formatters::Class.new(self, c).call
     end
 
     # Format File object.
