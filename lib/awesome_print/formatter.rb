@@ -14,6 +14,7 @@ require 'awesome_print/formatters/big_decimal'
 require 'awesome_print/formatters/rational'
 require 'awesome_print/formatters/method'
 require 'awesome_print/formatters/active_record_instance'
+require 'awesome_print/formatters/active_record_class'
 
 module AwesomePrint
   class Formatter
