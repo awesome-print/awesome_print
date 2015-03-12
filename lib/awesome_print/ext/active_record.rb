@@ -24,27 +24,8 @@ module AwesomePrint
 
     private
 
-    # Format ActiveRecord instance object.
-    #
-    # NOTE: by default only instance attributes (i.e. columns) are shown. To format
-    # ActiveRecord instance as regular object showing its instance variables and
-    # accessors use :raw => true option:
-    #
-    # ap record, :raw => true
-    #
-    #------------------------------------------------------------------------------
     def awesome_active_record_instance(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
-      return awesome_object(object) if @options[:raw]
-
-      data = object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
-        if object.has_attribute?(name) || object.new_record?
-          value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
-          hash[name.to_sym] = value
-        end
-        hash
-      end
-      "#{object} " << awesome_hash(data)
+      AwesomePrint::Formatters::ActiveRecordInstance.new(self, object).call
     end
 
     # Format ActiveRecord class object.
