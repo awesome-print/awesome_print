@@ -1,6 +1,9 @@
+require 'awesome_print/formatters/enumerable'
+
 module AwesomePrint
   module Formatters
     class Array < Base
+      include Enumerable
 
       def call
         return empty_format if object.empty?
@@ -39,7 +42,7 @@ module AwesomePrint
             end
           end
 
-          data = formatter.limited(data, width) if formatter.should_be_limited?
+          data = limited(data, width) if should_be_limited?
           "[\n" << data.join(",\n") << "\n#{formatter.outdent}]"
         end
 
