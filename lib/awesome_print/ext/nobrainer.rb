@@ -23,20 +23,13 @@ module AwesomePrint
     # Format NoBrainer class object.
     #------------------------------------------------------------------------------
     def awesome_nobrainer_class(object)
-      data = Hash[object.fields.map do |field, options|
-        [field, (options[:type] || Object).to_s.underscore.to_sym]
-      end]
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      AwesomePrint::Formatters::NoBrainerClass.new(self, object).call
     end
 
     # Format NoBrainer Document object.
     #------------------------------------------------------------------------------
     def awesome_nobrainer_document(object)
-      data = object.inspectable_attributes.symbolize_keys
-      if object.errors.present?
-        data = {:errors => object.errors, :attributes => data}
-      end
-      "#{object} #{awesome_hash(data)}"
+      AwesomePrint::Formatters::NoBrainerDocument.new(self, object).call
     end
   end
 end

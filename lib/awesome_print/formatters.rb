@@ -23,5 +23,7 @@ module AwesomePrint
     require 'awesome_print/formatters/mongo_mapper_class'
     require 'awesome_print/formatters/mongo_mapper_association'
     require 'awesome_print/formatters/mongo_mapper_bson_id'
+    require 'awesome_print/formatters/nobrainer_class'
+    require 'awesome_print/formatters/nobrainer_document'
   end
 end
