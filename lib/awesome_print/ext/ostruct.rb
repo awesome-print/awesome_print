@@ -14,7 +14,7 @@ module AwesomePrint
     end
 
     def awesome_open_struct_instance(object)
-      "#{object.class} #{awesome_hash(object.marshal_dump)}"
+      AwesomePrint::Formatters::OpenStructInstance.new(self, object).call
     end
   end
 end
