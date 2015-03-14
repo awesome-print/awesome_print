@@ -25,28 +25,6 @@ module AwesomePrint
 
       cast
     end
-
-    # Format MongoMapper class object.
-    #------------------------------------------------------------------------------
-    def awesome_mongo_mapper_class(object)
-      AwesomePrint::Formatters::MongoMapperClass.new(self, object).call
-    end
-
-    def awesome_mongo_mapper_instance(object)
-      AwesomePrint::Formatters::MongoMapperInstance.new(self, object).call
-    end
-
-    # Format MongoMapper association object.
-    #------------------------------------------------------------------------------
-    def awesome_mongo_mapper_association(object)
-      AwesomePrint::Formatters::MongoMapperAssociation.new(self, object).call
-    end
-
-    # Format BSON::ObjectId
-    #------------------------------------------------------------------------------
-    def awesome_mongo_mapper_bson_id(object)
-      AwesomePrint::Formatters::MongoMapperBsonId.new(self, object).call
-    end
   end
 end
 

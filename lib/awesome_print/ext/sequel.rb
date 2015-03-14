@@ -19,26 +19,7 @@ module AwesomePrint
       end
       cast
     end
-
-    # Format Sequel Document object.
-    #------------------------------------------------------------------------------
-    def awesome_sequel_document(object)
-      AwesomePrint::Formatters::SequelDocument.new(self, object).call
-    end
-
-    # Format Sequel Dataset object.
-    #------------------------------------------------------------------------------
-    def awesome_sequel_dataset(object)
-      AwesomePrint::Formatters::SequelDataset.new(self, object).call
-    end
-
-    # Format Sequel Model class.
-    #------------------------------------------------------------------------------
-    def awesome_sequel_model_class(object)
-      AwesomePrint::Formatters::SequelModelClass.new(self, object).call
-    end
   end
-
 end
 
 AwesomePrint::Formatter.send(:include, AwesomePrint::Sequel)

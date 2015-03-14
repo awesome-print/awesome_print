@@ -21,16 +21,6 @@ module AwesomePrint
       end
       cast
     end
-
-    private
-
-    def awesome_active_record_instance(object)
-      AwesomePrint::Formatters::ActiveRecordInstance.new(self, object).call
-    end
-
-    def awesome_active_record_class(object)
-      AwesomePrint::Formatters::ActiveRecordClass.new(self, object).call
-    end
   end
 end
 

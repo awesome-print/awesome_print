@@ -2,6 +2,14 @@ module AwesomePrint
   module Formatters
     class RippleDocumentInstance < Base
 
+      # Format Ripple instance object.
+      #
+      # NOTE: by default only instance attributes are shown. To format a Ripple document instance
+      # as a regular object showing its instance variables and accessors use :raw => true option:
+      #
+      # ap document, :raw => true
+      #
+      #------------------------------------------------------------------------------
       def call
         return object.inspect if !defined?(::ActiveSupport::OrderedHash)
         return AwesomePrint::Formatters::Object.new(formatter, object).call if options[:raw]

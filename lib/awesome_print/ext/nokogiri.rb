@@ -16,11 +16,6 @@ module AwesomePrint
       end
       cast
     end
-
-    #------------------------------------------------------------------------------
-    def awesome_nokogiri_xml_node(object)
-      AwesomePrint::Formatters::NokogiriXmlNode.new(self, object).call
-    end
   end
 end
 

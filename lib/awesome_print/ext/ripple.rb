@@ -19,26 +19,6 @@ module AwesomePrint
       end
       cast
     end
-
-    private
-
-    # Format Ripple instance object.
-    #
-    # NOTE: by default only instance attributes are shown. To format a Ripple document instance
-    # as a regular object showing its instance variables and accessors use :raw => true option:
-    #
-    # ap document, :raw => true
-    #
-    #------------------------------------------------------------------------------
-    def awesome_ripple_document_instance(object)
-      AwesomePrint::Formatters::RippleDocumentInstance.new(self, object).call
-    end
-
-    # Format Ripple class object.
-    #------------------------------------------------------------------------------
-    def awesome_ripple_document_class(object)
-      AwesomePrint::Formatters::RippleDocumentClass.new(self, object).call
-    end
   end
 end
 

@@ -12,10 +12,6 @@ module AwesomePrint
       end
       cast
     end
-
-    def awesome_open_struct_instance(object)
-      AwesomePrint::Formatters::OpenStructInstance.new(self, object).call
-    end
   end
 end
 

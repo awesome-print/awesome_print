@@ -21,20 +21,6 @@ module AwesomePrint
       end
       cast
     end
-
-    def awesome_mongoid_class(object)
-      AwesomePrint::Formatters::MongoidClass.new(self, object).call
-    end
-
-    def awesome_mongoid_document(object)
-      AwesomePrint::Formatters::MongoidDocument.new(self, object).call
-    end
-
-    # Format BSON::ObjectId
-    #------------------------------------------------------------------------------
-    def awesome_mongoid_bson_id(object)
-      AwesomePrint::Formatters::MongoidBsonId.new(self, object).call
-    end
   end
 end
 

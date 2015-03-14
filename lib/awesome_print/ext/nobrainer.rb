@@ -19,18 +19,6 @@ module AwesomePrint
       end
       cast
     end
-
-    # Format NoBrainer class object.
-    #------------------------------------------------------------------------------
-    def awesome_nobrainer_class(object)
-      AwesomePrint::Formatters::NoBrainerClass.new(self, object).call
-    end
-
-    # Format NoBrainer Document object.
-    #------------------------------------------------------------------------------
-    def awesome_nobrainer_document(object)
-      AwesomePrint::Formatters::NoBrainerDocument.new(self, object).call
-    end
   end
 end
 

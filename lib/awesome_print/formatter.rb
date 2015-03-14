@@ -21,7 +21,7 @@ module AwesomePrint
     def format(object, type = nil)
       core_class = cast(object, type)
       awesome = if core_class != :self
-        send(:"awesome_#{core_class}", object) # Core formatters.
+        factory_class(core_class, object)
       else
         awesome_self(object, type) # Catch all that falls back to object.inspect.
       end
@@ -130,84 +130,23 @@ module AwesomePrint
 
     private
 
+    def factory_class(core_class, object)
+      class_name = core_class.to_s.split('_').map(&:capitalize).join('')
+      klass = Object.const_get("AwesomePrint::Formatters::#{class_name}")
+      klass.new(self, object).call
+    end
+
     # Catch all method to format an arbitrary object.
     #------------------------------------------------------------------------------
     def awesome_self(object, type)
       if @options[:raw] && object.instance_variables.any?
-        return awesome_object(object)
+        return AwesomePrint::Formatters::Object.new(self, object).call
       elsif hash = convert_to_hash(object)
-        awesome_hash(hash)
+        AwesomePrint::Formatters::Hash.new(self, hash).call
       else
         colorize(object.inspect.to_s, type)
       end
     end
-
-    # Format an array.
-    #------------------------------------------------------------------------------
-    def awesome_array(a)
-      AwesomePrint::Formatters::Array.new(self, a).call
-    end
-
-    # Format a hash. If @options[:indent] if negative left align hash keys.
-    #------------------------------------------------------------------------------
-    def awesome_hash(h)
-      AwesomePrint::Formatters::Hash.new(self, h).call
-    end
-
-    # Format an object.
-    #------------------------------------------------------------------------------
-    def awesome_object(o)
-      AwesomePrint::Formatters::Object.new(self, o).call
-    end
-
-    # Format a set.
-    #------------------------------------------------------------------------------
-    def awesome_set(s)
-      AwesomePrint::Formatters::Set.new(self, s).call
-    end
-
-    # Format a Struct.
-    #------------------------------------------------------------------------------
-    def awesome_struct(s)
-      AwesomePrint::Formatters::Struct.new(self, s).call
-    end
-
-    # Format Class object.
-    #------------------------------------------------------------------------------
-    def awesome_class(c)
-      AwesomePrint::Formatters::Class.new(self, c).call
-    end
-
-    # Format File object.
-    #------------------------------------------------------------------------------
-    def awesome_file(f)
-      AwesomePrint::Formatters::File.new(self, f).call
-    end
-
-    # Format Dir object.
-    #------------------------------------------------------------------------------
-    def awesome_dir(d)
-      AwesomePrint::Formatters::Dir.new(self, d).call
-    end
-
-    # Format BigDecimal object.
-    #------------------------------------------------------------------------------
-    def awesome_bigdecimal(n)
-      AwesomePrint::Formatters::BigDecimal.new(self, n).call
-    end
-
-    # Format Rational object.
-    #------------------------------------------------------------------------------
-    def awesome_rational(n)
-      AwesomePrint::Formatters::Rational.new(self, n).call
-    end
-
-    # Format a method.
-    #------------------------------------------------------------------------------
-    def awesome_method(m)
-      AwesomePrint::Formatters::Method.new(self, m).call
-    end
-    alias :awesome_unboundmethod :awesome_method
 
     # Utility methods.
     #------------------------------------------------------------------------------
