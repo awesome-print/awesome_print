@@ -19,5 +19,9 @@ module AwesomePrint
     require 'awesome_print/formatters/mongoid_class'
     require 'awesome_print/formatters/mongoid_document'
     require 'awesome_print/formatters/mongoid_bson_id'
+    require 'awesome_print/formatters/mongo_mapper_instance'
+    require 'awesome_print/formatters/mongo_mapper_class'
+    require 'awesome_print/formatters/mongo_mapper_association'
+    require 'awesome_print/formatters/mongo_mapper_bson_id'
   end
 end
