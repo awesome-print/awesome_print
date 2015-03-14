@@ -27,5 +27,7 @@ module AwesomePrint
     require 'awesome_print/formatters/nobrainer_document'
     require 'awesome_print/formatters/nokogiri_xml_node'
     require 'awesome_print/formatters/open_struct_instance'
+    require 'awesome_print/formatters/ripple_document_instance'
+    require 'awesome_print/formatters/ripple_document_class'
   end
 end
