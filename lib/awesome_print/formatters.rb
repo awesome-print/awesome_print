@@ -25,5 +25,6 @@ module AwesomePrint
     require 'awesome_print/formatters/mongo_mapper_bson_id'
     require 'awesome_print/formatters/nobrainer_class'
     require 'awesome_print/formatters/nobrainer_document'
+    require 'awesome_print/formatters/nokogiri_xml_node'
   end
 end
