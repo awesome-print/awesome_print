@@ -29,5 +29,8 @@ module AwesomePrint
     require 'awesome_print/formatters/open_struct_instance'
     require 'awesome_print/formatters/ripple_document_instance'
     require 'awesome_print/formatters/ripple_document_class'
+    require 'awesome_print/formatters/sequel_document'
+    require 'awesome_print/formatters/sequel_dataset'
+    require 'awesome_print/formatters/sequel_model_class'
   end
 end

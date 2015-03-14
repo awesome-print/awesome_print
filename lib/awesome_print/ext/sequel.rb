@@ -23,27 +23,19 @@ module AwesomePrint
     # Format Sequel Document object.
     #------------------------------------------------------------------------------
     def awesome_sequel_document(object)
-      data = object.values.sort_by { |key| key.to_s }.inject({}) do |hash, c|
-        hash[c[0].to_sym] = c[1]
-        hash
-      end
-      if !object.errors.empty?
-        data = {:errors => object.errors, :values => data}
-      end
-      "#{object} #{awesome_hash(data)}"
+      AwesomePrint::Formatters::SequelDocument.new(self, object).call
     end
 
     # Format Sequel Dataset object.
     #------------------------------------------------------------------------------
-    def awesome_sequel_dataset(dataset)
-      [awesome_array(dataset.to_a), awesome_print(dataset.sql)].join("\n")
+    def awesome_sequel_dataset(object)
+      AwesomePrint::Formatters::SequelDataset.new(self, object).call
     end
 
     # Format Sequel Model class.
     #------------------------------------------------------------------------------
     def awesome_sequel_model_class(object)
-      data = object.db_schema.inject({}) {|h, (name,data)| h.merge(name => data[:db_type])}
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      AwesomePrint::Formatters::SequelModelClass.new(self, object).call
     end
   end
 
