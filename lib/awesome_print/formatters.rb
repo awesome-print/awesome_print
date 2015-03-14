@@ -14,5 +14,7 @@ module AwesomePrint
     require 'awesome_print/formatters/method'
     require 'awesome_print/formatters/active_record_instance'
     require 'awesome_print/formatters/active_record_class'
+    require 'awesome_print/formatters/active_support_time'
+    require 'awesome_print/formatters/hash_with_indifferent_access'
   end
 end
