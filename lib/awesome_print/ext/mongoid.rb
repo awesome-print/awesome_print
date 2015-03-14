@@ -22,37 +22,18 @@ module AwesomePrint
       cast
     end
 
-    # Format Mongoid class object.
-    #------------------------------------------------------------------------------
     def awesome_mongoid_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
-
-      data = object.fields.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[1].name.to_sym] = (c[1].type || "undefined").to_s.underscore.intern
-        hash
-      end
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      AwesomePrint::Formatters::MongoidClass.new(self, object).call
     end
 
-    # Format Mongoid Document object.
-    #------------------------------------------------------------------------------
     def awesome_mongoid_document(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
-
-      data = (object.attributes || {}).sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[0].to_sym] = c[1]
-        hash
-      end
-      if !object.errors.empty?
-        data = {:errors => object.errors, :attributes => data}
-      end
-      "#{object} #{awesome_hash(data)}"
+      AwesomePrint::Formatters::MongoidDocument.new(self, object).call
     end
 
     # Format BSON::ObjectId
     #------------------------------------------------------------------------------
     def awesome_mongoid_bson_id(object)
-      object.inspect
+      AwesomePrint::Formatters::MongoidBsonId.new(self, object).call
     end
   end
 end

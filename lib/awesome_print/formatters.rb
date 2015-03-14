@@ -16,5 +16,8 @@ module AwesomePrint
     require 'awesome_print/formatters/active_record_class'
     require 'awesome_print/formatters/active_support_time'
     require 'awesome_print/formatters/hash_with_indifferent_access'
+    require 'awesome_print/formatters/mongoid_class'
+    require 'awesome_print/formatters/mongoid_document'
+    require 'awesome_print/formatters/mongoid_bson_id'
   end
 end
