@@ -8,7 +8,7 @@ module AwesomePrint
     CORE = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
     DEFAULT_LIMIT_SIZE = 7
 
-    attr_reader :options, :inspector, :indentation
+    attr_reader :options, :inspector, :indentation, :type
 
     def initialize(inspector)
       @inspector   = inspector
@@ -19,13 +19,9 @@ module AwesomePrint
     # Main entry point to format an object.
     #------------------------------------------------------------------------------
     def format(object, type = nil)
+      @type = type
       core_class = cast(object, type)
-      awesome = if core_class != :self
-        AwesomePrint::FormatterFactory.new(core_class, self, object).call
-      else
-        awesome_self(object, type) # Catch all that falls back to object.inspect.
-      end
-      awesome
+      AwesomePrint::FormatterFactory.new(core_class, self, object).call
     end
 
     # Hook this when adding custom formatters. Check out lib/awesome_print/ext
@@ -126,38 +122,6 @@ module AwesomePrint
       end
 
       [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
-    end
-
-    private
-
-    # Catch all method to format an arbitrary object.
-    #------------------------------------------------------------------------------
-    def awesome_self(object, type)
-      if @options[:raw] && object.instance_variables.any?
-        return AwesomePrint::Formatters::Object.new(self, object).call
-      elsif hash = convert_to_hash(object)
-        AwesomePrint::Formatters::Hash.new(self, hash).call
-      else
-        colorize(object.inspect.to_s, type)
-      end
-    end
-
-    # Utility methods.
-    #------------------------------------------------------------------------------
-    def convert_to_hash(object)
-      if ! object.respond_to?(:to_hash)
-        return nil
-      end
-      if object.method(:to_hash).arity != 0
-        return nil
-      end
-
-      hash = object.to_hash
-      if ! hash.respond_to?(:keys) || ! hash.respond_to?('[]')
-        return nil
-      end
-
-      return hash
     end
   end
 end
