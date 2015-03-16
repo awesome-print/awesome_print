@@ -1,6 +1,6 @@
 autoload :CGI, 'cgi'
 require 'shellwords'
-require 'awesome_print/formatters'
+require 'awesome_print/formatter_factory'
 
 module AwesomePrint
   class Formatter
@@ -21,7 +21,7 @@ module AwesomePrint
     def format(object, type = nil)
       core_class = cast(object, type)
       awesome = if core_class != :self
-        factory_class(core_class, object)
+        AwesomePrint::FormatterFactory.new(core_class, self, object).call
       else
         awesome_self(object, type) # Catch all that falls back to object.inspect.
       end
@@ -129,12 +129,6 @@ module AwesomePrint
     end
 
     private
-
-    def factory_class(core_class, object)
-      class_name = core_class.to_s.split('_').map(&:capitalize).join('')
-      klass = Object.const_get("AwesomePrint::Formatters::#{class_name}")
-      klass.new(self, object).call
-    end
 
     # Catch all method to format an arbitrary object.
     #------------------------------------------------------------------------------
