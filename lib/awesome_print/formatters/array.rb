@@ -1,9 +1,11 @@
 require 'awesome_print/formatters/enumerable'
+require 'awesome_print/formatters/method_tuple'
 
 module AwesomePrint
   module Formatters
     class Array < Base
       include Enumerable
+      include MethodTuple
 
       def call
         return empty_format if object.empty?
@@ -56,10 +58,10 @@ module AwesomePrint
               tuple = if object.respond_to?(name, true)         # Is this a regular method?
                 the_method = object.method(name) rescue nil     # Avoid potential ArgumentError if object#method is overridden.
                 if the_method && the_method.respond_to?(:arity) # Is this original object#method?
-                  formatter.method_tuple(the_method)                      # Yes, we are good.
+                  method_tuple(the_method)                      # Yes, we are good.
                 end
               elsif object.respond_to?(:instance_method)              # Is this an unbound method?
-                formatter.method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
+                method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
               end                                                     # available (ex. File.lchmod on Ubuntu 12).
             end
             tuple || [ name.to_s, '(?)', '?' ]                  # Return WTF default if all the above fails.
