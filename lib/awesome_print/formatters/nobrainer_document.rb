@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class NoBrainerDocument < Base
+    class NobrainerDocument < Base
 
       def call
         "#{object} #{AwesomePrint::Formatters::Hash.new(formatter, columns).call}"
