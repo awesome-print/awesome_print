@@ -22,5 +22,4 @@ unless defined?(AwesomePrint::Inspector)
       require File.dirname(__FILE__) + "/awesome_print/ext/action_view"
     end
   end
-  require File.dirname(__FILE__) + "/awesome_print/ext/sequel"         if defined?(Sequel)
 end

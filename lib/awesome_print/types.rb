@@ -9,5 +9,6 @@ module AwesomePrint
     require 'awesome_print/types/nokogiri' if defined?(Nokogiri)
     require 'awesome_print/types/ostruct' if defined?(OpenStruct)
     require 'awesome_print/types/ripple' if defined?(Ripple)
+    require 'awesome_print/types/sequel' if defined?(Sequel)
   end
 end

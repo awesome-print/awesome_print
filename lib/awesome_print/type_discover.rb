@@ -4,7 +4,7 @@ module AwesomePrint
   class TypeDiscover
 
     TYPES = %w(ActiveRecord ActiveSupport Mongoid MongoMapper NoBrainer Nokogiri
-               OpenStruct Ripple)
+               OpenStruct Ripple Sequel)
 
     def initialize(object)
       @object = object
