@@ -3,7 +3,7 @@ require 'awesome_print/types'
 module AwesomePrint
   class TypeDiscover
 
-    TYPES = %w(ActiveRecord)
+    TYPES = %w(ActiveRecord ActiveSupport)
 
     def initialize(object)
       @object = object

@@ -1,10 +1,6 @@
 module AwesomePrint
   module Types
-    class ActiveRecord
-
-      def initialize(object)
-        @object = object
-      end
+    class ActiveRecord < Base
 
       def call
         if object.is_a?(::ActiveRecord::Base)
@@ -15,10 +11,6 @@ module AwesomePrint
           :array
         end
       end
-
-      private
-
-        attr_reader :object
     end
   end
 end

@@ -13,11 +13,7 @@ unless defined?(AwesomePrint::Inspector)
   require File.dirname(__FILE__) + "/awesome_print/formatter"
   require File.dirname(__FILE__) + "/awesome_print/version"
   require File.dirname(__FILE__) + "/awesome_print/core_ext/logger" if defined?(Logger)
-  #
-  # Load the following under normal circumstances as well as in Rails
-  # console when required from ~/.irbrc or ~/.pryrc.
-  #
-  require File.dirname(__FILE__) + "/awesome_print/ext/active_support" if defined?(ActiveSupport) || AwesomePrint.rails_console?
+
   #
   # Load remaining extensions.
   #
