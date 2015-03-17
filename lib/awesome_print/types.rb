@@ -7,5 +7,6 @@ module AwesomePrint
     require 'awesome_print/types/mongo_mapper' if defined?(MongoMapper)
     require 'awesome_print/types/no_brainer' if defined?(NoBrainer)
     require 'awesome_print/types/nokogiri' if defined?(Nokogiri)
+    require 'awesome_print/types/ostruct' if defined?(OpenStruct)
   end
 end
