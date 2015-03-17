@@ -8,5 +8,6 @@ module AwesomePrint
     require 'awesome_print/types/no_brainer' if defined?(NoBrainer)
     require 'awesome_print/types/nokogiri' if defined?(Nokogiri)
     require 'awesome_print/types/ostruct' if defined?(OpenStruct)
+    require 'awesome_print/types/ripple' if defined?(Ripple)
   end
 end

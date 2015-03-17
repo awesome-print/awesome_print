@@ -3,7 +3,8 @@ require 'awesome_print/types'
 module AwesomePrint
   class TypeDiscover
 
-    TYPES = %w(ActiveRecord ActiveSupport Mongoid MongoMapper NoBrainer Nokogiri OpenStruct)
+    TYPES = %w(ActiveRecord ActiveSupport Mongoid MongoMapper NoBrainer Nokogiri
+               OpenStruct Ripple)
 
     def initialize(object)
       @object = object
