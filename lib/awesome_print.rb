@@ -4,22 +4,22 @@
 #
 unless defined?(AwesomePrint::Inspector)
   %w(array string method object class kernel).each do |file|
-    require File.dirname(__FILE__) + "/awesome_print/core_ext/#{file}"
+    require "awesome_print/core_ext/#{file}"
   end
 
-  require File.dirname(__FILE__) + "/awesome_print/support"
-  require File.dirname(__FILE__) + "/awesome_print/configuration"
-  require File.dirname(__FILE__) + "/awesome_print/inspector"
-  require File.dirname(__FILE__) + "/awesome_print/formatter"
-  require File.dirname(__FILE__) + "/awesome_print/version"
-  require File.dirname(__FILE__) + "/awesome_print/core_ext/logger" if defined?(Logger)
+  require 'awesome_print/support'
+  require 'awesome_print/configuration'
+  require 'awesome_print/inspector'
+  require 'awesome_print/formatter'
+  require 'awesome_print/version'
+  require 'awesome_print/core_ext/logger' if defined?(Logger)
 
   #
   # Load remaining extensions.
   #
   if defined?(ActiveSupport)
     ActiveSupport.on_load(:action_view) do
-      require File.dirname(__FILE__) + "/awesome_print/ext/action_view"
+      require 'awesome_print/ext/action_view'
     end
   end
 end
