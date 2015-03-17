@@ -1,6 +1,7 @@
 autoload :CGI, 'cgi'
 require 'shellwords'
 require 'awesome_print/formatter_factory'
+require 'awesome_print/type_discover'
 
 module AwesomePrint
   class Formatter
@@ -28,7 +29,7 @@ module AwesomePrint
     # directory for custom formatters that ship with awesome_print.
     #------------------------------------------------------------------------------
     def cast(object, type)
-      CORE.grep(type)[0] || :self
+      AwesomePrint::TypeDiscover.new(object).call || CORE.grep(type)[0] || :self
     end
 
     # Pick the color and apply it to the given string as necessary.
