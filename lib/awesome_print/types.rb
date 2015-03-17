@@ -6,5 +6,6 @@ module AwesomePrint
     require 'awesome_print/types/mongoid' if defined?(Mongoid)
     require 'awesome_print/types/mongo_mapper' if defined?(MongoMapper)
     require 'awesome_print/types/no_brainer' if defined?(NoBrainer)
+    require 'awesome_print/types/nokogiri' if defined?(Nokogiri)
   end
 end
