@@ -23,7 +23,6 @@ unless defined?(AwesomePrint::Inspector)
     end
   end
   require File.dirname(__FILE__) + "/awesome_print/ext/nokogiri"       if defined?(Nokogiri)
-  require File.dirname(__FILE__) + "/awesome_print/ext/nobrainer"      if defined?(NoBrainer)
   require File.dirname(__FILE__) + "/awesome_print/ext/ripple"         if defined?(Ripple)
   require File.dirname(__FILE__) + "/awesome_print/ext/sequel"         if defined?(Sequel)
   require File.dirname(__FILE__) + "/awesome_print/ext/ostruct"        if defined?(OpenStruct)
