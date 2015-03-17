@@ -4,5 +4,6 @@ module AwesomePrint
     require 'awesome_print/types/active_record' if defined?(ActiveRecord) || AwesomePrint.rails_console?
     require 'awesome_print/types/active_support' if defined?(ActiveSupport) || AwesomePrint.rails_console?
     require 'awesome_print/types/mongoid' if defined?(Mongoid)
+    require 'awesome_print/types/mongo_mapper' if defined?(MongoMapper)
   end
 end

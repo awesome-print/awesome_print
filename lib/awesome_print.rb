@@ -22,7 +22,6 @@ unless defined?(AwesomePrint::Inspector)
       require File.dirname(__FILE__) + "/awesome_print/ext/action_view"
     end
   end
-  require File.dirname(__FILE__) + "/awesome_print/ext/mongo_mapper"   if defined?(MongoMapper)
   require File.dirname(__FILE__) + "/awesome_print/ext/nokogiri"       if defined?(Nokogiri)
   require File.dirname(__FILE__) + "/awesome_print/ext/nobrainer"      if defined?(NoBrainer)
   require File.dirname(__FILE__) + "/awesome_print/ext/ripple"         if defined?(Ripple)
