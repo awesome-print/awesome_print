@@ -1,5 +1,8 @@
-1.6.2 (unreleased)
+2.0.0.beta (unreleased)
   - Improves spec performance and simplicity (Mauro George)
+  - Remove the support for Ruby 1.8.x and Rails 2.x (Mauro George)
+	- New plugin structure, no more unnecessary monkey patching (Mauro George)
+	- Add the new hash syntax support (Mauro George)
   - Handle objects that have a custom #to_hash method (Elliot Shank)
 
 1.6.1
