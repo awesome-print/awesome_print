@@ -3,8 +3,9 @@ require 'awesome_print/formatters'
 module AwesomePrint
   class FormatterFactory
 
-    def initialize(class_name, formatter, object)
-      @class_name = class_name.to_s.split('_').map(&:capitalize).join('')
+    def initialize(formatter, object)
+      @type = AwesomePrint::TypeDiscover.new(formatter).call
+      @class_name = @type.to_s.split('_').map(&:capitalize).join('')
       @formatter = formatter
       @object = object
     end

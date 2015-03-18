@@ -2,6 +2,8 @@ module AwesomePrint
   module Formatters
     module Enumerable
 
+      DEFAULT_LIMIT_SIZE = 7
+
       # To support limited output, for example:
       #
       # ap ('a'..'z').to_a, :limit => 3
@@ -51,7 +53,7 @@ module AwesomePrint
       end
 
       def get_limit_size
-        options[:limit] == true ? AwesomePrint::Formatter::DEFAULT_LIMIT_SIZE : options[:limit]
+        options[:limit] == true ? DEFAULT_LIMIT_SIZE : options[:limit]
       end
     end
   end

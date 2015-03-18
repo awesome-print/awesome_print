@@ -6,10 +6,7 @@ require 'awesome_print/type_discover'
 module AwesomePrint
   class Formatter
 
-    CORE = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
-    DEFAULT_LIMIT_SIZE = 7
-
-    attr_reader :options, :inspector, :indentation, :type
+    attr_reader :options, :inspector, :indentation, :type, :object
 
     def initialize(inspector)
       @inspector   = inspector
@@ -19,17 +16,10 @@ module AwesomePrint
 
     # Main entry point to format an object.
     #------------------------------------------------------------------------------
-    def format(object, type = nil)
-      @type = type
-      core_class = cast(object, type)
-      AwesomePrint::FormatterFactory.new(core_class, self, object).call
-    end
-
-    # Hook this when adding custom formatters. Check out lib/awesome_print/ext
-    # directory for custom formatters that ship with awesome_print.
-    #------------------------------------------------------------------------------
-    def cast(object, type)
-      AwesomePrint::TypeDiscover.new(object).call || CORE.grep(type)[0] || :self
+    def format(object)
+      @type = printable(object)
+      @object = object
+      AwesomePrint::FormatterFactory.new(self, object).call
     end
 
     # Pick the color and apply it to the given string as necessary.
@@ -84,6 +74,40 @@ module AwesomePrint
       yield
     ensure
       @options[:indent] = current
+    end
+
+    # Format nested data, for example:
+    #   arr = [1, 2]; arr << arr
+    #   => [1,2, [...]]
+    #   hash = { :a => 1 }; hash[:b] = hash
+    #   => { :a => 1, :b => {...} }
+    #------------------------------------------------------------------------------
+    def nested(object)
+      case printable(object)
+        when :array  then colorize("[...]", :array)
+        when :hash   then colorize("{...}", :hash)
+        when :struct then colorize("{...}", :struct)
+        else colorize("...#{object.class}...", :class)
+      end
+    end
+
+    #------------------------------------------------------------------------------
+    def unnested(object)
+      format(object)
+    end
+
+    # Turn class name into symbol, ex: Hello::World => :hello_world. Classes that
+    # inherit from Array, Hash, File, Dir, and Struct are treated as the base class.
+    #------------------------------------------------------------------------------
+    def printable(object)
+      case object
+      when Array  then :array
+      when Hash   then :hash
+      when File   then :file
+      when Dir    then :dir
+      when Struct then :struct
+      else object.class.to_s.gsub(/:+/, "_").downcase.to_sym
+      end
     end
   end
 end

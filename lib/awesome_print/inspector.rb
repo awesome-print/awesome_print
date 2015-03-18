@@ -49,11 +49,11 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome(object)
       if Thread.current[AP].include?(object.object_id)
-        nested(object)
+        @formatter.nested(object)
       else
         begin
           Thread.current[AP] << object.object_id
-          unnested(object)
+          @formatter.unnested(object)
         ensure
           Thread.current[AP].pop
         end
@@ -68,40 +68,6 @@ module AwesomePrint
     end
 
     private
-
-    # Format nested data, for example:
-    #   arr = [1, 2]; arr << arr
-    #   => [1,2, [...]]
-    #   hash = { :a => 1 }; hash[:b] = hash
-    #   => { :a => 1, :b => {...} }
-    #------------------------------------------------------------------------------
-    def nested(object)
-      case printable(object)
-        when :array  then @formatter.colorize("[...]", :array)
-        when :hash   then @formatter.colorize("{...}", :hash)
-        when :struct then @formatter.colorize("{...}", :struct)
-        else @formatter.colorize("...#{object.class}...", :class)
-      end
-    end
-
-    #------------------------------------------------------------------------------
-    def unnested(object)
-      @formatter.format(object, printable(object))
-    end
-
-    # Turn class name into symbol, ex: Hello::World => :hello_world. Classes that
-    # inherit from Array, Hash, File, Dir, and Struct are treated as the base class.
-    #------------------------------------------------------------------------------
-    def printable(object)
-      case object
-      when Array  then :array
-      when Hash   then :hash
-      when File   then :file
-      when Dir    then :dir
-      when Struct then :struct
-      else object.class.to_s.gsub(/:+/, "_").downcase.to_sym
-      end
-    end
 
     # Update @options by first merging the :color hash and then the remaining keys.
     #------------------------------------------------------------------------------
