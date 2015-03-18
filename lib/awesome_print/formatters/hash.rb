@@ -43,7 +43,11 @@ module AwesomePrint
 
           @data = @data.map do |key, value|
             formatter.indented do
-              formatter.align(key, width) << formatter.colorize(" => ", :hash) << inspector.awesome(value)
+              if options[:new_hash_syntax] && is_a_symbol?(key)
+                new_hash_syntax_format(key, value)
+              else
+                old_hash_syntax_format(key, value)
+              end
             end
           end
 
@@ -64,6 +68,19 @@ module AwesomePrint
           yield
         ensure
           options[:plain], options[:multiline] = plain, multiline
+        end
+
+        def old_hash_syntax_format(key, value)
+          formatter.align(key, width) << formatter.colorize(" => ", :hash) << inspector.awesome(value)
+        end
+
+        def new_hash_syntax_format(key, value)
+          key[0] = ''
+          formatter.align(key, width - 1) << formatter.colorize(": ", :hash) << inspector.awesome(value)
+        end
+
+        def is_a_symbol?(key)
+          key[0] == ':'
         end
     end
   end

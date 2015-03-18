@@ -6,14 +6,15 @@ module AwesomePrint
 
     def initialize(options = {})
       @options = {
-        :indent     => 4,      # Indent using 4 spaces.
-        :index      => true,   # Display array indices.
-        :html       => false,  # Use ANSI color codes rather than HTML.
-        :multiline  => true,   # Display in multiple lines.
-        :plain      => false,  # Use colors.
-        :raw        => false,  # Do not recursively format object instance variables.
-        :sort_keys  => false,  # Do not sort hash keys.
-        :limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
+        :indent           => 4,      # Indent using 4 spaces.
+        :index            => true,   # Display array indices.
+        :html             => false,  # Use ANSI color codes rather than HTML.
+        :multiline        => true,   # Display in multiple lines.
+        :plain            => false,  # Use colors.
+        :raw              => false,  # Do not recursively format object instance variables.
+        :sort_keys        => false,  # Do not sort hash keys.
+        :limit            => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
+        :new_hash_syntax  => false,  # Use the foo: 'bar' syntax, when the key is a symbol
         :color => {
           :args       => :pale,
           :array      => :white,
