@@ -12,9 +12,9 @@ Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
 objects and usage within Rails templates are supported via included mixins.
 
-__NOTE__: awesome_print v1.2.0 is the last release supporting Ruby versions
-prior to v1.9.3 and Rails versions prior to v3.0. The upcoming awesome_print
-v2.0 will *require* Ruby v1.9.3 or later and Rails v3.0 or later.
+__NOTE__: awesome_print v1.6.1 is the last release supporting Ruby versions
+prior to v1.9.3 and Rails versions prior to v3.2. The upcoming awesome_print
+v2.0 will *require* Ruby v1.9.3 or later and Rails v3.2 or later.
 
 ### Installation ###
     # Installing as Ruby gem

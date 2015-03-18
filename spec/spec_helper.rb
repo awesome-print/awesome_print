@@ -2,13 +2,6 @@
 # Running specs from the command line:
 #   $ rake spec                   # Entire spec suite.
 #   $ rspec spec/objects_spec.rb  # Individual spec file.
-#
-# NOTE: To successfully run specs with Ruby 1.8.6 the older versions of
-# Bundler and RSpec gems are required:
-#
-# $ gem install bundler -v=1.0.2
-# $ gem install rspec -v=2.6.0
-#
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 $LOAD_PATH.unshift(File.dirname(__FILE__))
