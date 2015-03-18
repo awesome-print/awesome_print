@@ -1,5 +1,5 @@
 module AwesomePrint
   def self.version
-    '1.6.2'
+    '2.0.0.beta'
   end
 end

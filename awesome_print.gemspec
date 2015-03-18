@@ -1,8 +1,10 @@
 require "rake"
 
+require 'awesome_print/version'
+
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
-  s.version     = "1.6.2"
+  s.version     = AwesomePrint.version
 # s.platform    = Gem::Platform::RUBY
   s.authors     = "Michael Dvorkin"
   s.date        = Time.now.strftime("%Y-%m-%d")
