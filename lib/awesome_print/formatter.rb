@@ -19,7 +19,7 @@ module AwesomePrint
     def format(object)
       @type = printable(object)
       @object = object
-      AwesomePrint::FormatterFactory.new(self, object).call
+      AwesomePrint::FormatterFactory.from(self, object)
     end
 
     # Pick the color and apply it to the given string as necessary.
