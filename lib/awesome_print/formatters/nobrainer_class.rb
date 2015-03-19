@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class NobrainerClass < Base
+    class NobrainerClass < Formatter
 
       def call
         "class #{object} < #{object.superclass} " << AwesomePrint::Formatters::Hash.new(formatter, columns).call

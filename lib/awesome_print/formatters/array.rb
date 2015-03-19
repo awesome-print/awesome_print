@@ -3,7 +3,7 @@ require 'awesome_print/formatters/method_tuple'
 
 module AwesomePrint
   module Formatters
-    class Array < Base
+    class Array < Formatter
       include Enumerable
       include MethodTuple
 

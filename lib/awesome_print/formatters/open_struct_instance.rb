@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class OpenStructInstance < Base
+    class OpenStructInstance < Formatter
 
       def call
         "#{object.class} #{AwesomePrint::Formatters::Hash.new(formatter, object.marshal_dump).call}"

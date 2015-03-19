@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class File < Base
+    class File < Formatter
 
       def call
         ls = ::File.directory?(object) ? `ls -adlF #{object.path.shellescape}` : `ls -alF #{object.path.shellescape}`

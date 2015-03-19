@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class ActiveRecordClass < Base
+    class ActiveRecordClass < Formatter
 
       def call
         return object.inspect if not_a_active_record_class?

@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class HashWithIndifferentAccess < Base
+    class HashWithIndifferentAccess < Formatter
 
       def call
         AwesomePrint::Formatters::Hash.new(formatter, object).call

@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class NokogiriXmlNode < Base
+    class NokogiriXmlNode < Formatter
 
       def call
         if empty?

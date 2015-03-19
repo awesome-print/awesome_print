@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class Unboundmethod < Base
+    class Unboundmethod < Formatter
 
       def call
         AwesomePrint::Formatters::Method.new(formatter, object).call

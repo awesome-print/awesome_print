@@ -2,7 +2,7 @@ require 'awesome_print/formatters/mongo_mapper'
 
 module AwesomePrint
   module Formatters
-    class MongoMapperInstance < Base
+    class MongoMapperInstance < Formatter
       include MongoMapper
 
       # Format MongoMapper instance object.

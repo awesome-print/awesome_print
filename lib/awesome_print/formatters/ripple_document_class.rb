@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class RippleDocumentClass < Base
+    class RippleDocumentClass < Formatter
 
       def call
         return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)

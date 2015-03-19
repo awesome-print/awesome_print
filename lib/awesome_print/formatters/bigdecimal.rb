@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class Bigdecimal < Base
+    class Bigdecimal < Formatter
 
       def call
         formatter.colorize(object.to_s('F'), :bigdecimal)

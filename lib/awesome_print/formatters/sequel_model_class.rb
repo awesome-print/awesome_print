@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class SequelModelClass < Base
+    class SequelModelClass < Formatter
 
       def call
         data = object.db_schema.inject({}) {|h, (name,data)| h.merge(name => data[:db_type])}

@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class MongoidDocument < Base
+    class MongoidDocument < Formatter
 
       def call
         return object.inspect if !defined?(::ActiveSupport::OrderedHash)

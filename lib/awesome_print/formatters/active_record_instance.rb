@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class ActiveRecordInstance < Base
+    class ActiveRecordInstance < Formatter
 
       # Format ActiveRecord instance object.
       #

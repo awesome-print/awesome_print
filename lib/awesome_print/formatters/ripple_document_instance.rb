@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class RippleDocumentInstance < Base
+    class RippleDocumentInstance < Formatter
 
       # Format Ripple instance object.
       #

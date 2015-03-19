@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class Base
+    class Formatter
 
       def initialize(formatter, object)
         @formatter = formatter

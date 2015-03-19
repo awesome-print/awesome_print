@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class Self < Base
+    class Self < Formatter
 
       def call
         if options[:raw] && object.instance_variables.any?

@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class MongoMapperAssociation < Base
+    class MongoMapperAssociation < Formatter
 
       def call
         return object.inspect if !defined?(::ActiveSupport::OrderedHash)

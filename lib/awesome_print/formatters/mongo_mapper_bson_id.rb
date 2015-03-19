@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class MongoMapperBsonId < Base
+    class MongoMapperBsonId < Formatter
 
       def call
         object.inspect

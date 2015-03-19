@@ -2,7 +2,7 @@ require 'awesome_print/formatters/enumerable'
 
 module AwesomePrint
   module Formatters
-    class Hash < Base
+    class Hash < Formatter
       include Enumerable
 
       def call

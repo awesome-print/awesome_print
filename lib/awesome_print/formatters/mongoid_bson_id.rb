@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class MongoidBsonId < Base
+    class MongoidBsonId < Formatter
 
       def call
         object.inspect

@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class Struct < Base
+    class Struct < Formatter
       #
       # The code is slightly uglier because of Ruby 1.8.6 quirks:
       # awesome_hash(Hash[s.members.zip(s.values)]) <-- ArgumentError: odd number of arguments for Hash)

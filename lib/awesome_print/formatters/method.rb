@@ -2,7 +2,7 @@ require 'awesome_print/formatters/method_tuple'
 
 module AwesomePrint
   module Formatters
-    class Method < Base
+    class Method < Formatter
       include MethodTuple
 
       def call

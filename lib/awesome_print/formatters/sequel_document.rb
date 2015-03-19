@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class SequelDocument < Base
+    class SequelDocument < Formatter
 
       def call
         data = object.values.sort_by { |key| key.to_s }.inject({}) do |hash, c|

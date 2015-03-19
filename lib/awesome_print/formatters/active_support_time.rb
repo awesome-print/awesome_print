@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class ActiveSupportTime < Base
+    class ActiveSupportTime < Formatter
 
       def call
         formatter.colorize(object.inspect, :time)

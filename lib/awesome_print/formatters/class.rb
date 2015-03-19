@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class Class < Base
+    class Class < Formatter
 
       def call
         if superclass = object.superclass # <-- Assign and test if nil.

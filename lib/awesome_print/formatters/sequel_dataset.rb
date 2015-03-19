@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class SequelDataset < Base
+    class SequelDataset < Formatter
 
       def call
         [AwesomePrint::Formatters::Array.new(formatter, object.to_a).call,

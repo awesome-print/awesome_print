@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    class Object < Base
+    class Object < Formatter
 
       def call
         build_vars

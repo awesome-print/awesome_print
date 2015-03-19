@@ -1,6 +1,6 @@
 module AwesomePrint
   module Formatters
-    require 'awesome_print/formatters/base'
+    require 'awesome_print/formatters/formatter'
     require 'awesome_print/formatters/self'
     require 'awesome_print/formatters/array'
     require 'awesome_print/formatters/hash'
