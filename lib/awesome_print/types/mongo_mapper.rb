@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class MongoMapper < Base
+    class MongoMapper < Type
 
       def call
         if object.is_a?(Class) && (object.ancestors & [ ::MongoMapper::Document, ::MongoMapper::EmbeddedDocument ]).size > 0

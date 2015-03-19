@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class NoBrainer < Base
+    class NoBrainer < Type
 
       def call
         if object.is_a?(Class) && object < ::NoBrainer::Document

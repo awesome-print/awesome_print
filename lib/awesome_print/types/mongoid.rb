@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class Mongoid < Base
+    class Mongoid < Type
 
       def call
         if object.is_a?(Class) && object.ancestors.include?(::Mongoid::Document)

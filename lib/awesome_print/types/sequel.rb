@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class Sequel < Base
+    class Sequel < Type
 
       def call
         if defined?(::Sequel::Model) && object.is_a?(::Sequel::Model)

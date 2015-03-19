@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class Nokogiri < Base
+    class Nokogiri < Type
 
       def call
         if (defined?(::Nokogiri::XML::Node) && object.is_a?(::Nokogiri::XML::Node)) ||

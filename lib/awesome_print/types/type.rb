@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class Base
+    class Type
 
       def initialize(object)
         @object = object

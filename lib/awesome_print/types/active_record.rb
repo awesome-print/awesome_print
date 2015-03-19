@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class ActiveRecord < Base
+    class ActiveRecord < Type
 
       def call
         if object.is_a?(::ActiveRecord::Base)

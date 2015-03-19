@@ -1,6 +1,6 @@
 module AwesomePrint
   module Types
-    class OpenStruct < Base
+    class OpenStruct < Type
 
       def call
         if (defined?(::OpenStruct)) && (object.is_a?(::OpenStruct))

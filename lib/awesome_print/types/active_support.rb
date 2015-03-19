@@ -4,7 +4,7 @@ end
 
 module AwesomePrint
   module Types
-    class ActiveSupport < Base
+    class ActiveSupport < Type
 
       def call
         if (defined?(::ActiveSupport::TimeWithZone) && object.is_a?(::ActiveSupport::TimeWithZone)) || object.is_a?(::Date)
