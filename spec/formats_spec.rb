@@ -276,7 +276,7 @@ EOS
     end
 
     it "new hash syntax" do
-      expect(@hash.ai(:plain => true, :new_hash_syntax => true)).to eq <<-EOS.strip
+      expect(@hash.ai(:plain => true, :colonize_symbol_keys => true)).to eq <<-EOS.strip
 {
     1 => {
         sym: {
@@ -330,7 +330,7 @@ EOS
     end
 
     it "colored with new hash syntax" do
-      expect(@hash.ai(:new_hash_syntax => true)).to eq <<-EOS.strip
+      expect(@hash.ai(:colonize_symbol_keys => true)).to eq <<-EOS.strip
 {
     1\e[0;37m => \e[0m{
         sym\e[0;37m: \e[0m{

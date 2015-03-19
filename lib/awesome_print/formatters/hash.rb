@@ -43,7 +43,7 @@ module AwesomePrint
 
           @data = @data.map do |key, value|
             formatter.indented do
-              if options[:new_hash_syntax] && is_a_symbol?(key)
+              if options[:colonize_symbol_keys] && is_a_symbol?(key)
                 new_hash_syntax_format(key, value)
               else
                 old_hash_syntax_format(key, value)
