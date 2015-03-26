@@ -141,20 +141,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = 1992-10-10 12:30:00 UTC,
                     attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                 >,
-                        "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                    attr_reader :name = "id",
-                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                        @range = -2147483648...2147483648,
-                        attr_reader :limit = nil,
-                        attr_reader :precision = nil,
-                        attr_reader :scale = nil
-                    >,
-                    attr_reader :value = nil,
-                    attr_reader :value_before_type_cast = nil
-                >,
                       "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
                     attr_reader :name = "name",
-                    attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::String:0x01234567
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -192,7 +181,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                      "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                      "name" => #<ActiveRecord::Type::String:0x01234567
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
@@ -268,20 +257,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = 1992-10-10 12:30:00 UTC,
                     attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                 >,
-                        "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                    attr_reader :name = "id",
-                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                        attr_reader :limit = nil,
-                        attr_reader :precision = nil,
-                        attr_reader :range = -2147483648...2147483648,
-                        attr_reader :scale = nil
-                    >,
-                    attr_reader :value = nil,
-                    attr_reader :value_before_type_cast = nil
-                >,
                       "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
                     attr_reader :name = "name",
-                    attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::String:0x01234567
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -318,7 +296,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :range = -2147483648...2147483648,
                     attr_reader :scale = nil
                 >,
-                      "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                      "name" => #<ActiveRecord::Type::String:0x01234567
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
@@ -661,20 +639,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 1992-10-10 12:30:00 UTC,
                         attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            @range = -2147483648...2147483648,
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
                           "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:0x01234567
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -712,7 +679,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:0x01234567
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -784,20 +751,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 2003-05-26 14:15:00 UTC,
                         attr_reader :value_before_type_cast = "2003-05-26 14:15:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            @range = -2147483648...2147483648,
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
                           "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:0x01234567
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -835,7 +791,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:0x01234567
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -913,20 +869,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 1992-10-10 12:30:00 UTC,
                         attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :range = -2147483648...2147483648,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
                           "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:0x01234567
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -963,7 +908,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :range = -2147483648...2147483648,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:0x01234567
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -1036,20 +981,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 2003-05-26 14:15:00 UTC,
                         attr_reader :value_before_type_cast = "2003-05-26 14:15:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :range = -2147483648...2147483648,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
                           "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:0x01234567
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -1086,7 +1020,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :range = -2147483648...2147483648,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:0x01234567
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
