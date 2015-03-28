@@ -1,15 +1,15 @@
-require 'awesome_print/types'
+require 'awesome_print/types/type'
 
 module AwesomePrint
   class TypeDiscover
 
     BUILT_IN_TYPES = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
-    CUSTOM_TYPES = %w(ActiveRecord ActiveSupport Mongoid MongoMapper NoBrainer Nokogiri
-               OpenStruct Ripple Sequel)
 
     def initialize(formatter)
       @type = formatter.type
       @object = formatter.object
+      @custom_types = []
+      require_custom_types
     end
 
     def call
@@ -18,10 +18,10 @@ module AwesomePrint
 
     private
 
-      attr_reader :object, :type
+      attr_reader :object, :type, :custom_types
 
       def custom_type
-        CUSTOM_TYPES.map do |type|
+        custom_types.map do |type|
           begin
             klass = AwesomePrint::Support.constantize("AwesomePrint::Types::#{type}")
             klass.new(object).call
@@ -33,6 +33,18 @@ module AwesomePrint
 
       def built_in_type
         BUILT_IN_TYPES.grep(type)[0]
+      end
+
+      def require_custom_types
+        Dir[File.dirname(__FILE__) + '/types/*.rb'].each do |file|
+          add_custom_type(file)
+          require file
+        end
+      end
+
+      def add_custom_type(file)
+        file_name = File.basename(file, '.rb')
+        @custom_types << AwesomePrint::Support.camelize(file_name)
       end
   end
 end

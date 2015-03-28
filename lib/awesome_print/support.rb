@@ -26,5 +26,10 @@ module AwesomePrint
         end
       end
     end
+
+    def self.camelize(term)
+      term = term.capitalize
+      term.gsub(/(?:_|(\/))([a-z\d]*)/i) {  $2.capitalize }
+    end
   end
 end
