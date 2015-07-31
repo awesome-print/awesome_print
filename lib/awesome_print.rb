@@ -25,7 +25,7 @@ unless defined?(AwesomePrint::Inspector)
   #
   # Load remaining extensions.
   #
-  if defined?(ActiveSupport)
+  if defined?(ActiveSupport.on_load)
     ActiveSupport.on_load(:action_view) do
       require File.dirname(__FILE__) + "/awesome_print/ext/action_view"
     end
