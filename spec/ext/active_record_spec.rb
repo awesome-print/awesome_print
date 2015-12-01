@@ -98,6 +98,27 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
     end
   end
 
+  describe 'Linked records (joins)' do
+    before do
+      @ap = AwesomePrint::Inspector.new(:plain => true)
+    end
+
+    it 'should show the entire record' do
+      e = Email.create(:email_address => 'foo@bar.com')
+      u = User.last
+      u.emails << e
+      email_record = User.joins(:emails).select('users.id, emails.email_address').last
+      out = @ap.awesome(email_record)
+      raw_object_string = <<-EOS.strip
+#<User:placeholder_id> {
+               "id" => #{u.id},
+    "email_address" => "#{e.email_address}"
+}
+EOS
+      expect(out).to be_similar_to(raw_object_string)
+    end
+  end
+
   #------------------------------------------------------------------------------
   describe "ActiveRecord instance (raw)" do
     before do
