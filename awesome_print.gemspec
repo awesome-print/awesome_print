@@ -3,7 +3,6 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require "rake"
 
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
