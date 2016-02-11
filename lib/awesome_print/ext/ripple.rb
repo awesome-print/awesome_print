@@ -60,11 +60,10 @@ module AwesomePrint
     def awesome_ripple_document_class(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:properties)
 
-      data = object.properties.inject(::ActiveSupport::OrderedHash.new) do |hash, (name, defn)|
-        hash[name.to_sym] = defn.type.to_s.downcase.to_sym
-        hash
-      end
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      name = "class #{awesome_simple(object.to_s, :class)}"
+      base = "< #{awesome_simple(object.superclass.to_s, :class)}"
+
+      [name, base, awesome_hash(data)].join(' ')
     end
   end
 end

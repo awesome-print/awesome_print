@@ -1,7 +1,8 @@
 ## master (unreleased)
   - ActiveRecord: #joins now show the columns #select'ed [@adrianomitre] - [#211]
   - Handles NoMethodError for IRB implicit `ai` [@jtnegrotto] - [#212]
-  - Replaced Fixnum reference with Integer 
+  - Replaced Fixnum reference with Integer
+  - Colorize ORM class names [@ixti]
 
 ## 1.7.0
   - Refactoring by extracting formatters into their own classes [@waldyr] - [#237]
@@ -148,6 +149,7 @@
   [@clonezone]: https://github.com/clonezone
   [@cyberdelia]: https://github.com/cyberdelia
   [@gerrywastaken]: https://github.com/gerrywastaken
+  [@ixti]: https://github.com/ixti
   [@jtnegrotto]: https://github.com/jtnegrotto
   [@kemmason]: https://github.com/kemmason
   [@maurogeorge]: https://github.com/maurogeorge
