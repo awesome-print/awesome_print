@@ -1,6 +1,7 @@
 1.6.2 (unreleased)
   - Improves spec performance and simplicity (Mauro George)
   - Handle objects that have a custom #to_hash method (Elliot Shank)
+  - Colorize ORM class names (Alexey Zapparov)
 
 1.6.1
   - Fixes specs on all rails dependencies (Mauro George)
