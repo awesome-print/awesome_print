@@ -36,7 +36,7 @@ module AwesomePrint
         hash[c[1].name.to_sym] = (c[1].type || "undefined").to_s.underscore.intern
         hash
       end
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      "class #{awesome_class object} #{awesome_hash data}"
     end
 
     # Format Mongoid Document object.

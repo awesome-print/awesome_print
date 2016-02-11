@@ -31,7 +31,7 @@ module AwesomePrint
       data = Hash[object.fields.map do |field, options|
         [field, (options[:type] || Object).to_s.underscore.to_sym]
       end]
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      "class #{awesome_class object} #{awesome_hash data}"
     end
 
     # Format NoBrainer Document object.

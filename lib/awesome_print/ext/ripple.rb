@@ -64,7 +64,7 @@ module AwesomePrint
         hash[name.to_sym] = defn.type.to_s.downcase.to_sym
         hash
       end
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      "class #{awesome_class object} #{awesome_hash data}"
     end
   end
 end
