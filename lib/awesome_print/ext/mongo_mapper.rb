@@ -49,7 +49,7 @@ module AwesomePrint
         end
       end
 
-      "class #{object} < #{object.superclass} " << awesome_hash(data)
+      "class #{awesome_class object} #{awesome_hash data}"
     end
 
     # Format MongoMapper instance object.
