@@ -32,10 +32,15 @@ module AwesomePrint
     def awesome_mongoid_class(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
+      aliases = object.aliased_fields.each_with_object({}) { |(k, v), o| o[v] ||= k }
       data = object.fields.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[1].name.to_sym] = (c[1].type || "undefined").to_s.underscore.intern
+        name = c[1].name
+        name = aliases[name] if aliases.key? name
+
+        hash[name.to_sym] = (c[1].type || "undefined").to_s.underscore.intern
         hash
       end
+
       "class #{object} < #{object.superclass} " << awesome_hash(data)
     end
 
@@ -44,8 +49,12 @@ module AwesomePrint
     def awesome_mongoid_document(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
 
+      aliases = object.aliased_fields.each_with_object({}) { |(k, v), o| o[v] ||= k }
       data = (object.attributes || {}).sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[0].to_sym] = c[1]
+        name = c[0]
+        name = aliases[name] if aliases.key? name
+
+        hash[name.to_sym] = c[1]
         hash
       end
       if !object.errors.empty?
