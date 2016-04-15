@@ -451,11 +451,11 @@ EOS
 
   #------------------------------------------------------------------------------
   describe "Class" do
-    it "shoud show superclass (plain)" do
+    it "should show superclass (plain)" do
       expect(self.class.ai(:plain => true)).to eq("#{self.class} < #{self.class.superclass}")
     end
 
-    it "shoud show superclass (color)" do
+    it "should show superclass (color)" do
       expect(self.class.ai).to eq("#{self.class} < #{self.class.superclass}".yellow)
     end
   end
