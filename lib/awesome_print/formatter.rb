@@ -127,7 +127,11 @@ module AwesomePrint
     # Format an object.
     #------------------------------------------------------------------------------
     def awesome_object(o)
-      vars = o.instance_variables.map do |var|
+      awesome_object_data(o, o.instance_variables)
+    end
+
+    def awesome_object_data(o, variables)
+      vars = variables.map do |var|
         property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
         accessor = if o.respond_to?(:"#{property}=")
           o.respond_to?(property) ? :accessor : :writer
@@ -154,7 +158,7 @@ module AwesomePrint
           end
         end
         indented do
-          key << colorize(" = ", :hash) + @inspector.awesome(o.instance_variable_get(var))
+          key << colorize(" = ", :hash) + @inspector.awesome(o.send(var))
         end
       end
       if @options[:multiline]
@@ -173,14 +177,7 @@ module AwesomePrint
     # Format a Struct.
     #------------------------------------------------------------------------------
     def awesome_struct(s)
-      #
-      # The code is slightly uglier because of Ruby 1.8.6 quirks:
-      # awesome_hash(Hash[s.members.zip(s.values)]) <-- ArgumentError: odd number of arguments for Hash)
-      # awesome_hash(Hash[*s.members.zip(s.values).flatten]) <-- s.members returns strings, not symbols.
-      #
-      hash = {}
-      s.each_pair { |key, value| hash[key] = value }
-      awesome_hash(hash)
+      awesome_object_data(s, s.members)
     end
 
     # Format Class object.
