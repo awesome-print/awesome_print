@@ -71,6 +71,13 @@ Supported color names:
 :black, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :pale
 ```
 
+Use `Object#ai` to return an ASCII encoded string:
+
+```ruby
+irb> "awesome print".ai
+=> "\e[0;33m\"awesome print\"\e[0m"
+```
+
 ### Examples ###
 
 ```ruby
