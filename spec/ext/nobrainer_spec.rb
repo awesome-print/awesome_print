@@ -4,7 +4,10 @@ RSpec.describe "AwesomePrint/NoBrainer", skip: ->{ !ExtVerifier.has_nobrainer? }
 
   if ExtVerifier.has_nobrainer?
     before :all do
-      NoBrainer.configure { |c| c.app_name = "ap_test" }
+      NoBrainer.configure do |config|
+        config.app_name = "ap_test"
+        config.environment = :test
+      end
     end
 
     before :all do
