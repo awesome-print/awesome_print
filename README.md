@@ -12,9 +12,9 @@ Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
 objects and usage within Rails templates are supported via included mixins.
 
-__NOTE__: awesome_print v1.2.0 is the last release supporting Ruby versions
-prior to v1.9.3 and Rails versions prior to v3.0. The upcoming awesome_print
-v2.0 will *require* Ruby v1.9.3 or later and Rails v3.0 or later.
+__NOTE__: awesome_print v1.6.1 is the last release supporting Ruby versions
+prior to v1.9.3 and Rails versions prior to v3.2. The upcoming awesome_print
+v2.0 will *require* Ruby v1.9.3 or later and Rails v3.2 or later.
 
 ### Installation ###
     # Installing as Ruby gem
@@ -33,14 +33,15 @@ ap object, options = {}
 Default options:
 
 ```ruby
-:indent     => 4,      # Indent using 4 spaces.
-:index      => true,   # Display array indices.
-:html       => false,  # Use ANSI color codes rather than HTML.
-:multiline  => true,   # Display in multiple lines.
-:plain      => false,  # Use colors.
-:raw        => false,  # Do not recursively format object instance variables.
-:sort_keys  => false,  # Do not sort hash keys.
-:limit      => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
+:indent               => 4,      # Indent using 4 spaces.
+:index                => true,   # Display array indices.
+:html                 => false,  # Use ANSI color codes rather than HTML.
+:multiline            => true,   # Display in multiple lines.
+:plain                => false,  # Use colors.
+:raw                  => false,  # Do not recursively format object instance variables.
+:sort_keys            => false,  # Do not sort hash keys.
+:limit                => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
+:colonize_symbol_keys => false,  # Use the foo: 'bar' syntax, when the key is a symbol
 :color => {
   :args       => :pale,
   :array      => :white,

@@ -275,6 +275,24 @@ EOS
 EOS
     end
 
+    it "new hash syntax" do
+      expect(@hash.ai(:plain => true, :colonize_symbol_keys => true)).to eq <<-EOS.strip
+{
+    1 => {
+        sym: {
+            "str" => {
+                [ 1, 2, 3 ] => {
+                    { k: :v } => Hash < Object
+                }
+            }
+        }
+    }
+}
+EOS
+    end
+
+
+
     it "plain multiline indented" do
       expect(@hash.ai(:plain => true, :indent => 1)).to eq <<-EOS.strip
 {
@@ -303,6 +321,22 @@ EOS
             \"str\"\e[0;37m => \e[0m{
                 [ 1, 2, 3 ]\e[0;37m => \e[0m{
                     { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                }
+            }
+        }
+    }
+}
+EOS
+    end
+
+    it "colored with new hash syntax" do
+      expect(@hash.ai(:colonize_symbol_keys => true)).to eq <<-EOS.strip
+{
+    1\e[0;37m => \e[0m{
+        sym\e[0;37m: \e[0m{
+            \"str\"\e[0;37m => \e[0m{
+                [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                    { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
             }
         }
@@ -361,14 +395,7 @@ EOS
 
     it "plain multiline" do
       out = @hash.ai(:plain => true)
-      if RUBY_VERSION.to_f < 1.9 # Order of @hash keys is not guaranteed.
-        expect(out).to match(/^\{[^\}]+\}/m)
-        expect(out).to match(/        "b" => "b",?/)
-        expect(out).to match(/         :a => "a",?/)
-        expect(out).to match(/         :z => "z",?/)
-        expect(out).to match(/    "alpha" => "alpha",?$/)
-      else
-        expect(out).to eq <<-EOS.strip
+      expect(out).to eq <<-EOS.strip
 {
         "b" => "b",
          :a => "a",
@@ -376,7 +403,6 @@ EOS
     "alpha" => "alpha"
 }
 EOS
-      end
     end
 
     it "plain multiline with sorted keys" do
@@ -488,16 +514,7 @@ EOS
     it "should present Rational object with arbitrary precision" do
       rat = Rational(201020102010201020102010201020102010, 2)
       out = rat.ai(:plain => true)
-      #
-      # Ruby 1.9 slightly changed the format of Rational#to_s, see
-      # http://techtime.getharvest.com/blog/harvest-is-now-on-ruby-1-dot-9-3 and
-      # http://www.ruby-forum.com/topic/189397
-      #
-      if RUBY_VERSION < "1.9"
-        expect(out).to eq("100510051005100510051005100510051005")
-      else
-        expect(out).to eq("100510051005100510051005100510051005/1")
-      end
+      expect(out).to eq("100510051005100510051005100510051005/1")
     end
   end
 
@@ -523,38 +540,20 @@ EOS
       expect(Set.new.ai).to eq([].ai)
     end
 
-    if RUBY_VERSION > "1.9"
-      it "plain multiline" do
-        expect(@set.ai(:plain => true)).to eq(@arr.ai(:plain => true))
-      end
+    it "plain multiline" do
+      expect(@set.ai(:plain => true)).to eq(@arr.ai(:plain => true))
+    end
 
-      it "plain multiline indented" do
-        expect(@set.ai(:plain => true, :indent => 1)).to eq(@arr.ai(:plain => true, :indent => 1))
-      end
+    it "plain multiline indented" do
+      expect(@set.ai(:plain => true, :indent => 1)).to eq(@arr.ai(:plain => true, :indent => 1))
+    end
 
-      it "plain single line" do
-        expect(@set.ai(:plain => true, :multiline => false)).to eq(@arr.ai(:plain => true, :multiline => false))
-      end
+    it "plain single line" do
+      expect(@set.ai(:plain => true, :multiline => false)).to eq(@arr.ai(:plain => true, :multiline => false))
+    end
 
-      it "colored multiline (default)" do
-        expect(@set.ai).to eq(@arr.ai)
-      end
-    else # Prior to Ruby 1.9 the order of set values is unpredicatble.
-      it "plain multiline" do
-        expect(@set.sort_by{ |x| x.to_s }.ai(:plain => true)).to eq(@arr.sort_by{ |x| x.to_s }.ai(:plain => true))
-      end
-
-      it "plain multiline indented" do
-        expect(@set.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1)).to eq(@arr.sort_by{ |x| x.to_s }.ai(:plain => true, :indent => 1))
-      end
-
-      it "plain single line" do
-        expect(@set.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false)).to eq(@arr.sort_by{ |x| x.to_s }.ai(:plain => true, :multiline => false))
-      end
-
-      it "colored multiline (default)" do
-        expect(@set.sort_by{ |x| x.to_s }.ai).to eq(@arr.sort_by{ |x| x.to_s }.ai)
-      end
+    it "colored multiline (default)" do
+      expect(@set.ai).to eq(@arr.ai)
     end
   end
 

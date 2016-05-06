@@ -1,13 +1,11 @@
-# Copyright (c) 2010-2013 Michael Dvorkin
-#
-# Awesome Print is freely distributable under the terms of MIT license.
-# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
-#------------------------------------------------------------------------------
+$:.push File.expand_path('../lib', __FILE__)
+
 require "rake"
+require 'awesome_print/version'
 
 Gem::Specification.new do |s|
   s.name        = "awesome_print"
-  s.version     = "1.6.2"
+  s.version     = AwesomePrint.version
 # s.platform    = Gem::Platform::RUBY
   s.authors     = "Michael Dvorkin"
   s.date        = Time.now.strftime("%Y-%m-%d")
