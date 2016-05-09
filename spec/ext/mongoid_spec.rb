@@ -35,7 +35,7 @@ RSpec.describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.cal
      :last_name => "Capone"
 }
     EOS
-    expect(out).to be_similar_to(str)
+    expect(out).to be_similar_to(str, {:skip_bson => true})
   end
 
   it "should print the class" do

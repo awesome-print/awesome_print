@@ -193,7 +193,7 @@ class Parent < Object {
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
 #<Parent:placeholder_id> {
-     "_id" => placeholder_bison_id,
+     "_id" => placeholder_bson_id,
     "name" => "test"
 }
         EOS
@@ -222,7 +222,7 @@ class Parent < Object {
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
 #<Parent:placeholder_id> {
-        "_id" => placeholder_bison_id,
+        "_id" => placeholder_bson_id,
        "name" => "test",
       "child" => embeds one Child,
     "sibling" => one Sibling
@@ -247,10 +247,10 @@ class Parent < Object {
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
 #<Parent:placeholder_id> {
-        "_id" => placeholder_bison_id,
+        "_id" => placeholder_bson_id,
        "name" => "test",
       "child" => embedded #<Child:placeholder_id> {
-         "_id" => placeholder_bison_id,
+         "_id" => placeholder_bson_id,
         "data" => 5
     },
     "sibling" => one Sibling
