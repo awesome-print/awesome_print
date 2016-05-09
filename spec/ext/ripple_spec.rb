@@ -28,8 +28,8 @@ RSpec.describe 'AwesomePrint/Ripple', skip: ->{ !ExtVerifier.has_ripple? }.call 
     user = RippleUser.new :_id => "12345", :first_name => "Al", :last_name => "Capone"
     out = @ap.send :awesome, user
 
-    expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq <<-EOS.strip
-#<RippleUser:0x01234567> {
+    expect(out).to be_similar_to <<-EOS.strip
+#<RippleUser:placeholder_id> {
            :_id => "12345",
     :first_name => "Al",
      :last_name => "Capone"

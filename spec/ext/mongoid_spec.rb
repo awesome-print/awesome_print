@@ -29,14 +29,13 @@ RSpec.describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.cal
 
     object_id = user.id.inspect
     str = <<-EOS.strip
-#<MongoUser:0x01234567> {
+#<MongoUser:placeholder_id> {
            :_id => #{object_id},
     :first_name => "Al",
      :last_name => "Capone"
 }
     EOS
-    out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-    expect(out).to eq(str)
+    expect(out).to be_similar_to(str)
   end
 
   it "should print the class" do

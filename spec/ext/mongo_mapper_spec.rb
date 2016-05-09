@@ -36,9 +36,9 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
 
       if MongoMapper::Version >= "0.13"
         str = <<-EOS.strip
-#<MongoUser:0x01234567
+#<MongoUser:placeholder_id
     @__mm_default_keys = [
-        [0] #<MongoMapper::Plugins::Keys::Key:0x01234567
+        [0] #<MongoMapper::Plugins::Keys::Key:placeholder_id
             @dynamic = false,
             @embeddable = false,
             @has_default = true,
@@ -55,7 +55,7 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
         >
     ],
     @__mm_keys = {
-               "_id" => #<MongoMapper::Plugins::Keys::Key:0x01234567
+               "_id" => #<MongoMapper::Plugins::Keys::Key:placeholder_id
             @dynamic = false,
             @embeddable = false,
             @has_default = true,
@@ -70,7 +70,7 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
             },
             attr_accessor :type = ObjectId < Object
         >,
-        "first_name" => #<MongoMapper::Plugins::Keys::Key:0x01234567
+        "first_name" => #<MongoMapper::Plugins::Keys::Key:placeholder_id
             @dynamic = false,
             @embeddable = false,
             @has_default = false,
@@ -82,7 +82,7 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
             attr_accessor :options = {},
             attr_accessor :type = String < Object
         >,
-         "last_name" => #<MongoMapper::Plugins::Keys::Key:0x01234567
+         "last_name" => #<MongoMapper::Plugins::Keys::Key:placeholder_id
             @dynamic = false,
             @embeddable = false,
             @has_default = false,
@@ -113,7 +113,7 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
         EOS
       else
         str = <<-EOS.strip
-#<MongoUser:0x01234567
+#<MongoUser:placeholder_id
     @_new = true,
     attr_accessor :first_name = "Al",
     attr_accessor :last_name = "Capone",
@@ -126,8 +126,7 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
 >
         EOS
       end
-      out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-      expect(out).to eq(str)
+      expect(out).to be_similar_to(str)
     end
 
     it "should print the class" do
@@ -193,14 +192,12 @@ class Parent < Object {
         parent = Parent.new(:name => 'test')
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
-#<Parent:0x01234567> {
-     "_id" => BSON::ObjectId('4d9183739a546f6806000001'),
+#<Parent:placeholder_id> {
+     "_id" => placeholder_bison_id,
     "name" => "test"
 }
         EOS
-        out.gsub!(/'([\w]+){23}'/, "'4d9183739a546f6806000001'")
-        out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-        expect(out).to eq(str)
+        expect(out).to be_similar_to(str)
       end
     end
 
@@ -224,16 +221,14 @@ class Parent < Object {
         parent = Parent.new(:name => 'test')
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
-#<Parent:0x01234567> {
-        "_id" => BSON::ObjectId('4d9183739a546f6806000001'),
+#<Parent:placeholder_id> {
+        "_id" => placeholder_bison_id,
        "name" => "test",
       "child" => embeds one Child,
     "sibling" => one Sibling
 }
         EOS
-        out.gsub!(/'([\w]+){23}'/, "'4d9183739a546f6806000001'")
-        out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-        expect(out).to eq(str)
+        expect(out).to be_similar_to(str)
       end
     end
 
@@ -251,19 +246,17 @@ class Parent < Object {
         parent = Parent.new(:name => 'test', :child => Child.new(:data => 5))
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
-#<Parent:0x01234567> {
-        "_id" => BSON::ObjectId('4d9183739a546f6806000001'),
+#<Parent:placeholder_id> {
+        "_id" => placeholder_bison_id,
        "name" => "test",
-      "child" => embedded #<Child:0x01234567> {
-         "_id" => BSON::ObjectId('4d9183739a546f6806000001'),
+      "child" => embedded #<Child:placeholder_id> {
+         "_id" => placeholder_bison_id,
         "data" => 5
     },
     "sibling" => one Sibling
 }
         EOS
-        out.gsub!(/'([\w]+){23}'/, "'4d9183739a546f6806000001'")
-        out.gsub!(/0x([a-f\d]+)/, "0x01234567")
-        expect(out).to eq(str)
+        expect(out).to be_similar_to(str)
       end
     end
   end
