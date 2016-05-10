@@ -24,13 +24,13 @@ RSpec.describe "Objects" do
       hello = Hello.new
       out = hello.ai(:plain => true, :raw => true)
       str = <<-EOS.strip
-#<Hello:0x01234567
+#<Hello:placeholder_id
     attr_accessor :dabra = 3,
     attr_reader :abra = 1,
     attr_writer :ca = 2
 >
 EOS
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
@@ -44,13 +44,13 @@ EOS
       hello = Hello.new
       out = hello.ai(:plain => true, :raw => true)
       str = <<-EOS.strip
-#<Hello:0x01234567
+#<Hello:placeholder_id
     @abra = 1,
     @ca = 2,
     @dabra = 3
 >
 EOS
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
@@ -69,7 +69,7 @@ EOS
       hello = Hello.new
       out = hello.ai(:plain => true, :raw => true)
       str = <<-EOS.strip
-#<Hello:0x01234567
+#<Hello:placeholder_id
     @doo = 1,
     @dooby = 2,
     @scooby = 3,
@@ -78,7 +78,7 @@ EOS
     attr_writer :ca = 2
 >
 EOS
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
@@ -96,13 +96,13 @@ EOS
       hello = Hello.new
       out = hello.ai(:raw => true)
       str = <<-EOS.strip
-#<Hello:0x01234567
+#<Hello:placeholder_id
     \e[0;36m@dabra\e[0m\e[0;37m = \e[0m\e[1;34m3\e[0m,
     \e[1;36mattr_reader\e[0m \e[0;35m:abra\e[0m\e[0;37m = \e[0m\e[1;34m1\e[0m,
     \e[1;36mattr_writer\e[0m \e[0;35m:ca\e[0m\e[0;37m = \e[0m\e[1;34m2\e[0m
 >
 EOS
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
@@ -120,9 +120,9 @@ EOS
       hello = Hello.new
       out = hello.ai(:multiline => false, :plain => true, :raw => true)
       str = <<-EOS.strip
-#<Hello:0x01234567 @dabra = 3, attr_reader :abra = 1, attr_writer :ca = 2>
+#<Hello:placeholder_id @dabra = 3, attr_reader :abra = 1, attr_writer :ca = 2>
 EOS
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
   end

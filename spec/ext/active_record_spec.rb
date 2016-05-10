@@ -17,9 +17,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
     end
 
     it "display single record" do
-      out = @ap.send(:awesome, @diana)
+      out = @ap.awesome(@diana)
       str = <<-EOS.strip
-#<User:0x01234567> {
+#<User:placeholder_id> {
          :admin => false,
     :created_at => ?,
             :id => nil,
@@ -32,21 +32,21 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       else
         str.sub!('?', '1992-10-10 12:30:00 UTC')
       end
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
     end
 
     it "display multiple records" do
-      out = @ap.send(:awesome, [ @diana, @laura ])
+      out = @ap.awesome([ @diana, @laura ])
       str = <<-EOS.strip
 [
-    [0] #<User:0x01234567> {
+    [0] #<User:placeholder_id> {
              :admin => false,
         :created_at => ??,
                 :id => nil,
               :name => "Diana",
               :rank => 1
     },
-    [1] #<User:0x01234567> {
+    [1] #<User:placeholder_id> {
              :admin => true,
         :created_at => ?!,
                 :id => nil,
@@ -62,23 +62,23 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         str.sub!('??', '1992-10-10 12:30:00 UTC')
         str.sub!('?!', '2003-05-26 14:15:00 UTC')
       end
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
     end
 
     it "display multiple records on a relation" do
       @diana.save
       @laura.save
-      out = @ap.send(:awesome, User.all)
+      out = @ap.awesome(User.all)
       str = <<-EOS.strip
 [
-    [0] #<User:0x01234567> {
+    [0] #<User:placeholder_id> {
              :admin => false,
         :created_at => ??,
                 :id => 1,
               :name => "Diana",
               :rank => 1
     },
-    [1] #<User:0x01234567> {
+    [1] #<User:placeholder_id> {
              :admin => true,
         :created_at => ?!,
                 :id => 2,
@@ -94,7 +94,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         str.sub!('??', '1992-10-10 12:30:00 UTC')
         str.sub!('?!', '2003-05-26 14:15:00 UTC')
       end
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
     end
   end
 
@@ -108,12 +108,12 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
     end
 
     it "display single record" do
-      out = @ap.send(:awesome, @diana)
+      out = @ap.awesome(@diana)
 
       if activerecord_4_2?
         if RUBY_VERSION > '1.9.3'
           str = <<-EOS.strip
-#<User:0x01234567
+#<User:placeholder_id
     @_start_transaction_state = {},
     @aggregation_cache = {},
     @destroyed = false,
@@ -126,18 +126,15 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
               "rank" => 1
     },
     @readonly = false,
-    @reflects_state = [
-        [0] false
-    ],
     @transaction_state = nil,
     @txn = nil,
-    attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
-        @attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+    attr_accessor :attributes = #<ActiveRecord::AttributeSet:placeholder_id
+        @attributes = #<ActiveRecord::LazyAttributeHash:placeholder_id
             @additional_types = {},
             @delegate_hash = {
-                     "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                     "admin" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "admin",
-                    attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::Boolean:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -145,9 +142,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = false,
                     attr_reader :value_before_type_cast = false
                 >,
-                "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                "created_at" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "created_at",
-                    attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::DateTime:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -155,20 +152,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = 1992-10-10 12:30:00 UTC,
                     attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                 >,
-                        "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                    attr_reader :name = "id",
-                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                        @range = -2147483648...2147483648,
-                        attr_reader :limit = nil,
-                        attr_reader :precision = nil,
-                        attr_reader :scale = nil
-                    >,
-                    attr_reader :value = nil,
-                    attr_reader :value_before_type_cast = nil
-                >,
-                      "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                      "name" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "name",
-                    attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::String:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -176,9 +162,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = "Diana",
                     attr_reader :value_before_type_cast = "Diana"
                 >,
-                      "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                      "rank" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "rank",
-                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::Integer:placeholder_id
                         @range = -2147483648...2147483648,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
@@ -190,28 +176,28 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             },
             @materialized = false,
             @types = {
-                     "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                     "admin" => #<ActiveRecord::Type::Boolean:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                "created_at" => #<ActiveRecord::Type::DateTime:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                        "id" => #<ActiveRecord::Type::Integer:0x01234567
+                        "id" => #<ActiveRecord::Type::Integer:placeholder_id
                     @range = -2147483648...2147483648,
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                      "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                      "name" => #<ActiveRecord::Type::String:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                      "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                      "rank" => #<ActiveRecord::Type::Integer:placeholder_id
                     @range = -2147483648...2147483648,
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
@@ -239,7 +225,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
           EOS
         else
           str = <<-EOS.strip
-#<User:0x01234567
+#<User:placeholder_id
     @_start_transaction_state = {},
     @aggregation_cache = {},
     @destroyed = false,
@@ -252,19 +238,16 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
               "rank" => 1
     },
     @readonly = false,
-    @reflects_state = [
-        [0] false
-    ],
     @transaction_state = nil,
     @txn = nil,
-    attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
-        attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+    attr_accessor :attributes = #<ActiveRecord::AttributeSet:placeholder_id
+        attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:placeholder_id
             @materialized = false,
             attr_reader :additional_types = {},
             attr_reader :delegate_hash = {
-                     "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                     "admin" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "admin",
-                    attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::Boolean:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -272,9 +255,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = false,
                     attr_reader :value_before_type_cast = false
                 >,
-                "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                "created_at" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "created_at",
-                    attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::DateTime:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -282,20 +265,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = 1992-10-10 12:30:00 UTC,
                     attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                 >,
-                        "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                    attr_reader :name = "id",
-                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                        attr_reader :limit = nil,
-                        attr_reader :precision = nil,
-                        attr_reader :range = -2147483648...2147483648,
-                        attr_reader :scale = nil
-                    >,
-                    attr_reader :value = nil,
-                    attr_reader :value_before_type_cast = nil
-                >,
-                      "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                      "name" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "name",
-                    attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::String:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
@@ -303,9 +275,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     attr_reader :value = "Diana",
                     attr_reader :value_before_type_cast = "Diana"
                 >,
-                      "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                      "rank" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                     attr_reader :name = "rank",
-                    attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                    attr_reader :type = #<ActiveRecord::Type::Integer:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :range = -2147483648...2147483648,
@@ -316,28 +288,28 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 >
             },
             attr_reader :types = {
-                     "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                     "admin" => #<ActiveRecord::Type::Boolean:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                "created_at" => #<ActiveRecord::Type::DateTime:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                        "id" => #<ActiveRecord::Type::Integer:0x01234567
+                        "id" => #<ActiveRecord::Type::Integer:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :range = -2147483648...2147483648,
                     attr_reader :scale = nil
                 >,
-                      "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                      "name" => #<ActiveRecord::Type::String:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :scale = nil
                 >,
-                      "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                      "rank" => #<ActiveRecord::Type::Integer:placeholder_id
                     attr_reader :limit = nil,
                     attr_reader :precision = nil,
                     attr_reader :range = -2147483648...2147483648,
@@ -366,12 +338,12 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         end
       elsif activerecord_4_1?
         str = <<-EOS.strip
-#<User:0x01234567
+#<User:placeholder_id
     @_start_transaction_state = {},
     @aggregation_cache = {},
     @attributes_cache = {},
     @column_types = {
-             "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+             "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -384,7 +356,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "boolean",
             attr_reader :type = :boolean
         >,
-        "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+        "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -397,7 +369,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "datetime",
             attr_reader :type = :datetime
         >,
-                "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = true,
             attr_reader :default = nil,
@@ -410,7 +382,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "INTEGER",
             attr_reader :type = :integer
         >,
-              "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+              "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -423,7 +395,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "varchar(255)",
             attr_reader :type = :string
         >,
-              "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+              "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -466,12 +438,12 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         EOS
       elsif activerecord_4_0?
         str = <<-EOS.strip
- #<User:0x01234567
+ #<User:placeholder_id
     @_start_transaction_state = {},
     @aggregation_cache = {},
     @attributes_cache = {},
     @column_types = {
-             "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+             "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -484,7 +456,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "boolean",
             attr_reader :type = :boolean
         >,
-        "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+        "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -497,7 +469,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "datetime",
             attr_reader :type = :datetime
         >,
-                "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = true,
             attr_reader :default = nil,
@@ -510,7 +482,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "INTEGER",
             attr_reader :type = :integer
         >,
-              "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+              "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -523,7 +495,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
             attr_reader :sql_type = "varchar(255)",
             attr_reader :type = :string
         >,
-              "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+              "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
             attr_accessor :coder = nil,
             attr_accessor :primary = false,
             attr_reader :default = nil,
@@ -568,7 +540,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       elsif activerecord_3_2?
         if RUBY_VERSION > '1.9.3'
           str = <<-EOS.strip
-#<User:0x01234567
+#<User:placeholder_id
     @aggregation_cache = {},
     @attributes_cache = {},
     @destroyed = false,
@@ -595,7 +567,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
           EOS
         else
           str = <<-EOS.strip
-#<User:0x01234567
+#<User:placeholder_id
     @aggregation_cache = {},
     @attributes_cache = {},
     @destroyed = false,
@@ -623,17 +595,17 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         end
       end
       str.sub!('?', '1992-10-10 12:30:00')
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
     end
 
     it "display multiple records" do
-      out = @ap.send(:awesome, [ @diana, @laura ])
+      out = @ap.awesome([ @diana, @laura ])
 
       if activerecord_4_2?
         if RUBY_VERSION > '1.9.3'
           str = <<-EOS.strip
 [
-    [0] #<User:0x01234567
+    [0] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @destroyed = false,
@@ -646,18 +618,15 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => 1
         },
         @readonly = false,
-        @reflects_state = [
-            [0] false
-        ],
         @transaction_state = nil,
         @txn = nil,
-        attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
-            @attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+        attr_accessor :attributes = #<ActiveRecord::AttributeSet:placeholder_id
+            @attributes = #<ActiveRecord::LazyAttributeHash:placeholder_id
                 @additional_types = {},
                 @delegate_hash = {
-                         "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                         "admin" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "admin",
-                        attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Boolean:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -665,9 +634,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = false,
                         attr_reader :value_before_type_cast = false
                     >,
-                    "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    "created_at" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "created_at",
-                        attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::DateTime:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -675,20 +644,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 1992-10-10 12:30:00 UTC,
                         attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            @range = -2147483648...2147483648,
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
-                          "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "name" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -696,9 +654,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = "Diana",
                         attr_reader :value_before_type_cast = "Diana"
                     >,
-                          "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "rank" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "rank",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Integer:placeholder_id
                             @range = -2147483648...2147483648,
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
@@ -710,28 +668,28 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 },
                 @materialized = false,
                 @types = {
-                         "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                         "admin" => #<ActiveRecord::Type::Boolean:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                    "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                    "created_at" => #<ActiveRecord::Type::DateTime:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                            "id" => #<ActiveRecord::Type::Integer:0x01234567
+                            "id" => #<ActiveRecord::Type::Integer:placeholder_id
                         @range = -2147483648...2147483648,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                          "rank" => #<ActiveRecord::Type::Integer:placeholder_id
                         @range = -2147483648...2147483648,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
@@ -756,7 +714,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => nil
         }
     >,
-    [1] #<User:0x01234567
+    [1] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @destroyed = false,
@@ -769,18 +727,15 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => 2
         },
         @readonly = false,
-        @reflects_state = [
-            [0] false
-        ],
         @transaction_state = nil,
         @txn = nil,
-        attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
-            @attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+        attr_accessor :attributes = #<ActiveRecord::AttributeSet:placeholder_id
+            @attributes = #<ActiveRecord::LazyAttributeHash:placeholder_id
                 @additional_types = {},
                 @delegate_hash = {
-                         "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                         "admin" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "admin",
-                        attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Boolean:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -788,9 +743,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = true,
                         attr_reader :value_before_type_cast = true
                     >,
-                    "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    "created_at" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "created_at",
-                        attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::DateTime:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -798,20 +753,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 2003-05-26 14:15:00 UTC,
                         attr_reader :value_before_type_cast = "2003-05-26 14:15:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            @range = -2147483648...2147483648,
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
-                          "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "name" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -819,9 +763,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = "Laura",
                         attr_reader :value_before_type_cast = "Laura"
                     >,
-                          "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "rank" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "rank",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Integer:placeholder_id
                             @range = -2147483648...2147483648,
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
@@ -833,28 +777,28 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 },
                 @materialized = false,
                 @types = {
-                         "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                         "admin" => #<ActiveRecord::Type::Boolean:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                    "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                    "created_at" => #<ActiveRecord::Type::DateTime:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                            "id" => #<ActiveRecord::Type::Integer:0x01234567
+                            "id" => #<ActiveRecord::Type::Integer:placeholder_id
                         @range = -2147483648...2147483648,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                          "rank" => #<ActiveRecord::Type::Integer:placeholder_id
                         @range = -2147483648...2147483648,
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
@@ -884,7 +828,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         else
           str = <<-EOS.strip
 [
-    [0] #<User:0x01234567
+    [0] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @destroyed = false,
@@ -897,19 +841,16 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => 1
         },
         @readonly = false,
-        @reflects_state = [
-            [0] false
-        ],
         @transaction_state = nil,
         @txn = nil,
-        attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
-            attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+        attr_accessor :attributes = #<ActiveRecord::AttributeSet:placeholder_id
+            attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:placeholder_id
                 @materialized = false,
                 attr_reader :additional_types = {},
                 attr_reader :delegate_hash = {
-                         "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                         "admin" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "admin",
-                        attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Boolean:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -917,9 +858,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = false,
                         attr_reader :value_before_type_cast = false
                     >,
-                    "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    "created_at" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "created_at",
-                        attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::DateTime:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -927,20 +868,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 1992-10-10 12:30:00 UTC,
                         attr_reader :value_before_type_cast = "1992-10-10 12:30:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :range = -2147483648...2147483648,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
-                          "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "name" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -948,9 +878,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = "Diana",
                         attr_reader :value_before_type_cast = "Diana"
                     >,
-                          "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "rank" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "rank",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Integer:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :range = -2147483648...2147483648,
@@ -961,28 +891,28 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     >
                 },
                 attr_reader :types = {
-                         "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                         "admin" => #<ActiveRecord::Type::Boolean:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                    "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                    "created_at" => #<ActiveRecord::Type::DateTime:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                            "id" => #<ActiveRecord::Type::Integer:0x01234567
+                            "id" => #<ActiveRecord::Type::Integer:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :range = -2147483648...2147483648,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                          "rank" => #<ActiveRecord::Type::Integer:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :range = -2147483648...2147483648,
@@ -1007,7 +937,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => nil
         }
     >,
-    [1] #<User:0x01234567
+    [1] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @destroyed = false,
@@ -1020,19 +950,16 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => 2
         },
         @readonly = false,
-        @reflects_state = [
-            [0] false
-        ],
         @transaction_state = nil,
         @txn = nil,
-        attr_accessor :attributes = #<ActiveRecord::AttributeSet:0x01234567
-            attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:0x01234567
+        attr_accessor :attributes = #<ActiveRecord::AttributeSet:placeholder_id
+            attr_reader :attributes = #<ActiveRecord::LazyAttributeHash:placeholder_id
                 @materialized = false,
                 attr_reader :additional_types = {},
                 attr_reader :delegate_hash = {
-                         "admin" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                         "admin" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "admin",
-                        attr_reader :type = #<ActiveRecord::Type::Boolean:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Boolean:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -1040,9 +967,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = true,
                         attr_reader :value_before_type_cast = true
                     >,
-                    "created_at" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                    "created_at" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "created_at",
-                        attr_reader :type = #<ActiveRecord::Type::DateTime:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::DateTime:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -1050,20 +977,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = 2003-05-26 14:15:00 UTC,
                         attr_reader :value_before_type_cast = "2003-05-26 14:15:00"
                     >,
-                            "id" => #<ActiveRecord::Attribute::FromDatabase:0x01234567
-                        attr_reader :name = "id",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
-                            attr_reader :limit = nil,
-                            attr_reader :precision = nil,
-                            attr_reader :range = -2147483648...2147483648,
-                            attr_reader :scale = nil
-                        >,
-                        attr_reader :value = nil,
-                        attr_reader :value_before_type_cast = nil
-                    >,
-                          "name" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "name" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "name",
-                        attr_reader :type = #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::String:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :scale = nil
@@ -1071,9 +987,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                         attr_reader :value = "Laura",
                         attr_reader :value_before_type_cast = "Laura"
                     >,
-                          "rank" => #<ActiveRecord::Attribute::FromUser:0x01234567
+                          "rank" => #<ActiveRecord::Attribute::FromUser:placeholder_id
                         attr_reader :name = "rank",
-                        attr_reader :type = #<ActiveRecord::Type::Integer:0x01234567
+                        attr_reader :type = #<ActiveRecord::Type::Integer:placeholder_id
                             attr_reader :limit = nil,
                             attr_reader :precision = nil,
                             attr_reader :range = -2147483648...2147483648,
@@ -1084,28 +1000,28 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                     >
                 },
                 attr_reader :types = {
-                         "admin" => #<ActiveRecord::Type::Boolean:0x01234567
+                         "admin" => #<ActiveRecord::Type::Boolean:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                    "created_at" => #<ActiveRecord::Type::DateTime:0x01234567
+                    "created_at" => #<ActiveRecord::Type::DateTime:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                            "id" => #<ActiveRecord::Type::Integer:0x01234567
+                            "id" => #<ActiveRecord::Type::Integer:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :range = -2147483648...2147483648,
                         attr_reader :scale = nil
                     >,
-                          "name" => #<ActiveRecord::ConnectionAdapters::SQLite3String:0x01234567
+                          "name" => #<ActiveRecord::Type::String:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :scale = nil
                     >,
-                          "rank" => #<ActiveRecord::Type::Integer:0x01234567
+                          "rank" => #<ActiveRecord::Type::Integer:placeholder_id
                         attr_reader :limit = nil,
                         attr_reader :precision = nil,
                         attr_reader :range = -2147483648...2147483648,
@@ -1136,12 +1052,12 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       elsif activerecord_4_1?
         str = <<-EOS.strip
 [
-    [0] #<User:0x01234567
+    [0] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @attributes_cache = {},
         @column_types = {
-                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1154,7 +1070,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "boolean",
                 attr_reader :type = :boolean
             >,
-            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1167,7 +1083,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "datetime",
                 attr_reader :type = :datetime
             >,
-                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = true,
                 attr_reader :default = nil,
@@ -1180,7 +1096,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "INTEGER",
                 attr_reader :type = :integer
             >,
-                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1193,7 +1109,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "varchar(255)",
                 attr_reader :type = :string
             >,
-                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1233,12 +1149,12 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => nil
         }
     >,
-    [1] #<User:0x01234567
+    [1] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @attributes_cache = {},
         @column_types = {
-                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1251,7 +1167,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "boolean",
                 attr_reader :type = :boolean
             >,
-            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1264,7 +1180,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "datetime",
                 attr_reader :type = :datetime
             >,
-                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = true,
                 attr_reader :default = nil,
@@ -1277,7 +1193,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "INTEGER",
                 attr_reader :type = :integer
             >,
-                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1290,7 +1206,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "varchar(255)",
                 attr_reader :type = :string
             >,
-                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1335,12 +1251,12 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       elsif activerecord_4_0?
         str = <<-EOS.strip
 [
-    [0] #<User:0x01234567
+    [0] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @attributes_cache = {},
         @column_types = {
-                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1353,7 +1269,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "boolean",
                 attr_reader :type = :boolean
             >,
-            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1366,7 +1282,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "datetime",
                 attr_reader :type = :datetime
             >,
-                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = true,
                 attr_reader :default = nil,
@@ -1379,7 +1295,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "INTEGER",
                 attr_reader :type = :integer
             >,
-                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1392,7 +1308,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "varchar(255)",
                 attr_reader :type = :string
             >,
-                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1433,12 +1349,12 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => nil
         }
     >,
-    [1] #<User:0x01234567
+    [1] #<User:placeholder_id
         @_start_transaction_state = {},
         @aggregation_cache = {},
         @attributes_cache = {},
         @column_types = {
-                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                 "admin" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1451,7 +1367,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "boolean",
                 attr_reader :type = :boolean
             >,
-            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+            "created_at" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1464,7 +1380,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "datetime",
                 attr_reader :type = :datetime
             >,
-                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                    "id" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = true,
                 attr_reader :default = nil,
@@ -1477,7 +1393,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "INTEGER",
                 attr_reader :type = :integer
             >,
-                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "name" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1490,7 +1406,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                 attr_reader :sql_type = "varchar(255)",
                 attr_reader :type = :string
             >,
-                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:0x01234567
+                  "rank" => #<ActiveRecord::ConnectionAdapters::SQLite3Column:placeholder_id
                 attr_accessor :coder = nil,
                 attr_accessor :primary = false,
                 attr_reader :default = nil,
@@ -1537,7 +1453,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         if RUBY_VERSION > '1.9.3'
           str = <<-EOS.strip
 [
-    [0] #<User:0x01234567
+    [0] #<User:placeholder_id
         @aggregation_cache = {},
         @attributes_cache = {},
         @destroyed = false,
@@ -1561,7 +1477,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
                   "rank" => nil
         }
     >,
-    [1] #<User:0x01234567
+    [1] #<User:placeholder_id
         @aggregation_cache = {},
         @attributes_cache = {},
         @destroyed = false,
@@ -1590,7 +1506,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         else
           str = <<-EOS.strip
 [
-    [0] #<User:0x01234567
+    [0] #<User:placeholder_id
         @aggregation_cache = {},
         @attributes_cache = {},
         @destroyed = false,
@@ -1614,7 +1530,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
         },
         attr_reader :mass_assignment_options = nil
     >,
-    [1] #<User:0x01234567
+    [1] #<User:placeholder_id
         @aggregation_cache = {},
         @attributes_cache = {},
         @destroyed = false,
@@ -1644,7 +1560,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       end
       str.sub!('?', '1992-10-10 12:30:00')
       str.sub!('?', '2003-05-26 14:15:00')
-      expect(out.gsub(/0x([a-f\d]+)/, "0x01234567")).to eq(str)
+      expect(out).to be_similar_to(str)
     end
   end
 
@@ -1655,7 +1571,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
     end
 
     it "should print the class" do
-      expect(@ap.send(:awesome, User)).to eq <<-EOS.strip
+      expect(@ap.awesome(User)).to eq <<-EOS.strip
 class User < ActiveRecord::Base {
             :id => :integer,
           :name => :string,
@@ -1667,7 +1583,7 @@ class User < ActiveRecord::Base {
     end
 
     it "should print the class for non-direct subclasses of ActiveRecord::Base" do
-      out = @ap.send(:awesome, SubUser)
+      out = @ap.awesome(SubUser)
       expect(out).to eq <<-EOS.strip
 class SubUser < User {
             :id => :integer,
@@ -1680,7 +1596,7 @@ class SubUser < User {
     end
 
     it "should print ActiveRecord::Base objects (ex. ancestors)" do
-      expect { @ap.send(:awesome, User.ancestors) }.not_to raise_error
+      expect { @ap.awesome(User.ancestors) }.not_to raise_error
     end
   end
 
@@ -1692,7 +1608,7 @@ class SubUser < User {
 
     it "should format class methods properly" do
       # spec 1
-      out = @ap.send(:awesome, User.methods.grep(/first/))
+      out = @ap.awesome(User.methods.grep(/first/))
 
       if ActiveRecord::VERSION::STRING >= "3.2"
         if RUBY_VERSION >= "1.9"
@@ -1705,11 +1621,11 @@ class SubUser < User {
       end
 
       # spec 2
-      out = @ap.send(:awesome, User.methods.grep(/primary_key/))
+      out = @ap.awesome(User.methods.grep(/primary_key/))
       expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
 
       # spec 3
-      out = @ap.send(:awesome, User.methods.grep(/validate/))
+      out = @ap.awesome(User.methods.grep(/validate/))
 
       if ActiveRecord::VERSION::MAJOR < 3
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
