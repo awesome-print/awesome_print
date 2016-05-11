@@ -158,7 +158,15 @@ module AwesomePrint
           end
         end
         indented do
-          key << colorize(" = ", :hash) + @inspector.awesome(o.send(var))
+          result = colorize(" = ", :hash)
+
+          if var.to_s.start_with?('@')
+            result += @inspector.awesome(o.instance_variable_get(var))
+          else
+            result += @inspector.awesome(o.send(var))
+          end
+
+          key << result
         end
       end
       if @options[:multiline]
