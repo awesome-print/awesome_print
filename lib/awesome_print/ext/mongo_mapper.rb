@@ -54,11 +54,11 @@ module AwesomePrint
 
     # Format MongoMapper instance object.
     #
-    # NOTE: by default only instance attributes (i.e. keys) are shown. To format
-    # MongoMapper instance as regular object showing its instance variables and
-    # accessors use :raw => true option:
+    # NOTE: by default MongoMapper instances are formatted as regular objects showing
+    # its instance variables and accessors.  To format with only instance attributes
+    # (i.e. keys) use :raw => false option:
     #
-    # ap record, :raw => true
+    # ap record, :raw => false
     #
     #------------------------------------------------------------------------------
     def awesome_mongo_mapper_instance(object)

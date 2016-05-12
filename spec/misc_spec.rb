@@ -62,7 +62,7 @@ RSpec.describe "AwesomePrint" do
     it "IPAddr workaround" do
       require "ipaddr"
       ipaddr = IPAddr.new("3ffe:505:2::1")
-      expect(ipaddr.ai).to eq("#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>")
+      expect(ipaddr.ai(:raw => false)).to eq("#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>")
     end
 
     # See https://github.com/michaeldv/awesome_print/issues/139
