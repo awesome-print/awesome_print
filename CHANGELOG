@@ -2,6 +2,8 @@
   - Improves spec performance and simplicity (Mauro George)
   - Handle objects that have a custom #to_hash method (Elliot Shank)
   - Fixes development dependencies for environments without rake (Edgar Cabrera #222 & Timothée Peignier #216)
+  - Creates #awesome_object_data to encapsulate the logic of printing objects'
+  internals so Structs and Objects can be printed as one (Waldyr de Souza)
 
 1.6.1
   - Fixes specs on all rails dependencies (Mauro George)
