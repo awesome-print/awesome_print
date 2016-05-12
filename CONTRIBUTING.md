@@ -8,15 +8,15 @@ We love pull requests. Here's a quick guide:
 
 1. Update [CHANGELOG.md](https://github.com/michaeldv/awesome_print/blob/master/CHANGELOG.md) with a brief description of your changes under the `unreleased` heading.
 
+1. Add/Update tests were appropriate
+
 1. Commit your changes (`git commit -am 'Added some feature'`)
 
 1. Push to the branch (`git push origin my-new-feature`)
 
 1. Create new Pull Request
 
-At this point you're waiting on us. We like to at least comment on, if not
-accept, pull requests within three business days (and, typically, one business
-day). We may suggest some changes or improvements or alternatives.
+At this point you're waiting on us. We are not super fast at responding, but we will do our best to get to your PR as soon as time permits. We may suggest some changes, improvements or alternatives.
 
 Some things that will increase the chance that your pull request is accepted is to follow the practices described on [Ruby style guide](https://github.com/bbatsov/ruby-style-guide), [Rails style guide](https://github.com/bbatsov/rails-style-guide) and [Better Specs](http://betterspecs.org/).
 
@@ -79,4 +79,3 @@ Special thanks goes to awesome team of contributors, namely:
 * Trevor Wennblom -- https://github.com/trevor
 * vfrride -- https://github.com/vfrride
 * Viktar Basharymau -- https://github.com/DNNX
-
