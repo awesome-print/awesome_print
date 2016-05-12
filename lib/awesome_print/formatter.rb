@@ -58,6 +58,12 @@ module AwesomePrint
 
     private
 
+    # Check whether a variable_name is a method or ivar
+    #------------------------------------------------------------------------------
+    def valid_instance_var?(variable_name)
+      variable_name.to_s.start_with?('@')
+    end
+
     # Catch all method to format an arbitrary object.
     #------------------------------------------------------------------------------
     def awesome_self(object, type)
@@ -158,15 +164,13 @@ module AwesomePrint
           end
         end
         indented do
-          result = colorize(" = ", :hash)
-
-          if var.to_s.start_with?('@')
-            result += @inspector.awesome(o.instance_variable_get(var))
+          var_contents = if valid_instance_var?(var)
+            o.instance_variable_get(var)
           else
-            result += @inspector.awesome(o.send(var))
+            o.send(var) # Enables handling of Struct attributes
           end
 
-          key << result
+          key << colorize(" = ", :hash) + @inspector.awesome(var_contents)
         end
       end
       if @options[:multiline]
