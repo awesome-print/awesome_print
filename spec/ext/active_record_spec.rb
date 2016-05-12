@@ -111,7 +111,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       out = @ap.awesome(@diana)
 
       raw_object_string =
-        if activerecord_4_2?
+        if activerecord_5_0?
+          ActiveRecordData.raw_5_0_diana
+        elsif activerecord_4_2?
           if RUBY_VERSION > '1.9.3'
             ActiveRecordData.raw_4_2_diana
           else
@@ -136,7 +138,9 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       out = @ap.awesome([ @diana, @laura ])
 
       raw_object_string =
-        if activerecord_4_2?
+        if activerecord_5_0?
+          ActiveRecordData.raw_5_0_multi
+        elsif activerecord_4_2?
           if RUBY_VERSION > '1.9.3'
             ActiveRecordData.raw_4_2_multi
           else

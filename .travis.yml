@@ -3,7 +3,8 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1
-  - 2.2
+  - 2.2.5
+  - 2.3.1
 
 before_install:
   - gem install bundler
@@ -13,8 +14,19 @@ gemfile:
   - gemfiles/rails_4.0.gemfile
   - gemfiles/rails_4.1.gemfile
   - gemfiles/rails_4.2.gemfile
+  - gemfiles/rails_5.0.gemfile
   - gemfiles/mongoid_3.1.gemfile
   - gemfiles/nobrainer.gemfile
+
+matrix:
+  exclude:
+    # Rails 5.0 only works with Ruby >= 2.2
+    - rvm: 1.9.3
+      gemfile: gemfiles/rails_5.0.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails_5.0.gemfile
+    - rvm: 2.1
+      gemfile: gemfiles/rails_5.0.gemfile
 
 addons:
   code_climate:

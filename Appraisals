@@ -26,6 +26,11 @@ appraise 'rails-4.2' do
   gem 'mime-types', '2.6.2', :platforms => :ruby_19
 end
 
+appraise 'rails-5.0' do
+  # Only works with Ruby >= 2.2
+  gem 'rails', '>= 5.0.0.racecar1', '< 5.1'
+end
+
 appraise 'mongoid-3.0' do
   gem 'mongoid', '~> 3.0.0'
 end
