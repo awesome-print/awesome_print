@@ -1,6 +1,8 @@
+require_relative 'base_formatter'
+
 module AwesomePrint
   module Formatters
-    class HashFormatter
+    class HashFormatter < BaseFormatter
 
       attr_reader :hash, :inspector, :options, :indentation
 
@@ -12,12 +14,13 @@ module AwesomePrint
       end
 
       def format
-        return "{}" if h == {}
+        return "{}" if hash == {}
 
-        keys = options[:sort_keys] ? h.keys.sort { |a, b| a.to_s <=> b.to_s } : h.keys
+        keys = hash.keys
+        keys = keys.sort { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
         data = keys.map do |key|
           plain_single_line do
-            [ inspector.awesome(key), h[key] ]
+            [ inspector.awesome(key), hash[key] ]
           end
         end
 
@@ -36,6 +39,16 @@ module AwesomePrint
         else
           "{ #{data.join(', ')} }"
         end
+      end
+
+      private
+
+      def plain_single_line
+        plain, multiline = options[:plain], options[:multiline]
+        options[:plain], options[:multiline] = true, false
+        yield
+      ensure
+        options[:plain], options[:multiline] = plain, multiline
       end
     end
   end
