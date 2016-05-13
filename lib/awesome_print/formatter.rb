@@ -79,26 +79,7 @@ module AwesomePrint
     # Format an array.
     #------------------------------------------------------------------------------
     def awesome_array(a)
-      return "[]" if a == []
-
-      if a.instance_variable_defined?('@__awesome_methods__')
-        methods_array(a)
-      elsif @options[:multiline]
-        width = (a.size - 1).to_s.size 
-
-        data = a.inject([]) do |arr, item|
-          index = indent
-          index << colorize("[#{arr.size.to_s.rjust(width)}] ", :array) if @options[:index]
-          indented do
-            arr << (index << @inspector.awesome(item))
-          end
-        end
-
-        data = limited(data, width) if should_be_limited?
-        "[\n" << data.join(",\n") << "\n#{outdent}]"
-      else
-        "[ " << a.map{ |item| @inspector.awesome(item) }.join(", ") << " ]"
-      end
+      Formatters::ArrayFormatter.new(a, @inspector).format
     end
 
     # Format a hash. If @options[:indent] if negative left align hash keys.
