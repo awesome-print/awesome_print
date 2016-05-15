@@ -3,6 +3,8 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+require_relative "indentator"
+
 module AwesomePrint
 
   class << self # Class accessors for custom defaults.
@@ -48,7 +50,7 @@ module AwesomePrint
   end
 
   class Inspector
-    attr_accessor :options
+    attr_accessor :options, :indentator
 
     AP = :__awesome_print__
 
@@ -90,7 +92,16 @@ module AwesomePrint
       merge_options!(options)
 
       @formatter = AwesomePrint::Formatter.new(self)
+      @indentator = AwesomePrint::Indentator.new(@options[:indent].abs)
       Thread.current[AP] ||= []
+    end
+
+    def current_indentation
+      indentator.indentation
+    end
+
+    def increase_indentation
+      indentator.indent(&Proc.new)
     end
   
     # Dispatcher that detects data nesting and invokes object-aware formatter.
