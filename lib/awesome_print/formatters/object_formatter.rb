@@ -4,14 +4,13 @@ module AwesomePrint
   module Formatters
     class ObjectFormatter < BaseFormatter
 
-      attr_reader :object, :variables, :inspector, :options, :indentation
+      attr_reader :object, :variables, :inspector, :options
 
       def initialize(object, variables, inspector)
         @object = object
         @variables = variables
         @inspector = inspector
         @options = inspector.options
-        @indentation = @options[:indent].abs
       end
 
       def format

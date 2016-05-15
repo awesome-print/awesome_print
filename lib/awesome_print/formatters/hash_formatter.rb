@@ -4,13 +4,12 @@ module AwesomePrint
   module Formatters
     class HashFormatter < BaseFormatter
 
-      attr_reader :hash, :inspector, :options, :indentation
+      attr_reader :hash, :inspector, :options
 
       def initialize(hash, inspector)
         @hash = hash
         @inspector = inspector
         @options = inspector.options
-        @indentation = @options[:indent].abs
       end
 
       def format

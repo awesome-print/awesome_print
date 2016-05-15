@@ -57,34 +57,6 @@ module AwesomePrint
         end
       end
 
-      def align(value, width)
-        if options[:multiline]
-          if options[:indent] > 0
-            value.rjust(width)
-          elsif options[:indent] == 0
-            indent + value.ljust(width)
-          else
-            indent[0, indentation + options[:indent]] + value.ljust(width)
-          end
-        else
-          value
-        end
-      end
-
-      def indented
-        @indentation += options[:indent].abs
-        yield
-      ensure
-        @indentation -= options[:indent].abs
-      end
-
-      def indent
-        ' ' * indentation
-      end
-
-      def outdent
-        ' ' * (indentation - options[:indent].abs)
-      end
 
       def method_tuple(method)
         if method.respond_to?(:parameters) # Ruby 1.9.2+
@@ -122,6 +94,40 @@ module AwesomePrint
 
         [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
       end
+
+      #
+      # Indentation related methods
+      #-----------------------------------------
+      def indentation
+        inspector.current_indentation
+      end
+
+      def indented
+        inspector.increase_indentation(&Proc.new)
+      end
+
+      def indent
+        ' ' * indentation
+      end
+
+      def outdent
+        ' ' * (indentation - options[:indent].abs)
+      end
+
+      def align(value, width)
+        if options[:multiline]
+          if options[:indent] > 0
+            value.rjust(width)
+          elsif options[:indent] == 0
+            indent + value.ljust(width)
+          else
+            indent[0, indentation + options[:indent]] + value.ljust(width)
+          end
+        else
+          value
+        end
+      end
+
     end
   end
 end

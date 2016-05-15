@@ -17,14 +17,13 @@ module AwesomePrint
   class Formatter
     include Colorize
 
-    attr_reader :inspector, :options, :indentation
+    attr_reader :inspector, :options
 
     CORE = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
 
     def initialize(inspector)
       @inspector   = inspector
       @options     = inspector.options
-      @indentation = @options[:indent].abs
     end
 
     # Main entry point to format an object.

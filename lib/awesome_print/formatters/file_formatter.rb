@@ -5,13 +5,12 @@ module AwesomePrint
   module Formatters
     class FileFormatter < BaseFormatter
 
-      attr_reader :file, :inspector, :options, :indentation
+      attr_reader :file, :inspector, :options
 
       def initialize(file, inspector)
         @file = file
         @inspector = inspector
         @options = inspector.options
-        @indentation = @options[:indent].abs
       end
 
       def format

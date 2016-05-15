@@ -4,13 +4,12 @@ module AwesomePrint
   module Formatters
     class ArrayFormatter < BaseFormatter
 
-      attr_reader :array, :inspector, :options, :indentation
+      attr_reader :array, :inspector, :options
 
       def initialize(array, inspector)
         @array = array
         @inspector = inspector
         @options = inspector.options
-        @indentation = @options[:indent].abs
       end
 
       def format
@@ -69,7 +68,6 @@ module AwesomePrint
 
         "[\n" << data.join("\n") << "\n#{outdent}]"
       end
-
     end
   end
 end
