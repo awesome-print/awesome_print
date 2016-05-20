@@ -32,7 +32,12 @@ module AwesomePrint
       end
 
       def get_limit_size
-        options[:limit] ? DEFAULT_LIMIT_SIZE : options[:limit]
+        case options[:limit]
+        when true
+          DEFAULT_LIMIT_SIZE
+        else
+          options[:limit]
+        end
       end
 
       def limited(data, width, is_hash = false)
