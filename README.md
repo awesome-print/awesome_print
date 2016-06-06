@@ -325,17 +325,10 @@ AwesomePrint.defaults = {
 AwesomePrint follows the [Semantic Versioning](http://semver.org/) standard.
 
 ### Contributing ###
-See [Contributing.md](https://github.com/michaeldv/awesome_print/blob/master/CONTRIBUTING.md)
- for information.
+See [CONTRIBUTING](CONTRIBUTING.md) for information.
 
 ### License ###
-Copyright (c) 2010-2013 Michael Dvorkin
-
-http://www.dvorkin.net
-
-%w(mike dvorkin.net) * "@" || "twitter.com/mid"
-
-Released under the MIT license. See LICENSE file for details.
+Released under the MIT license. See [LICENSE](LICENSE) file for details.
 
 [gem_version_badge]: https://img.shields.io/gem/v/awesome_print.svg?style=flat
 [gem_downloads_badge]: http://img.shields.io/gem/dt/awesome_print.svg?style=flat
