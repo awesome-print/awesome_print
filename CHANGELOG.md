@@ -1,4 +1,7 @@
 ## master (unreleased)
+
+
+## 1.7.0
   - Refactoring by extracting formatters into their own classes [@waldyr] - [#237]
   - Fixes Travis builds and improves tests [@nviennot], [@waldyr], [@gerrywastaken] - [#225], [#228], [#229], [#230], [#231]
   - Creates `awesome_object_data` to encapsulate the logic of printing object internals,
