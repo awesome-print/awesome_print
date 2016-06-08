@@ -275,6 +275,22 @@ EOS
 EOS
     end
 
+    it "new hash syntax" do
+      expect(@hash.ai(:plain => true, :new_hash_syntax => true)).to eq <<-EOS.strip
+{
+    1 => {
+        sym: {
+            "str" => {
+                [ 1, 2, 3 ] => {
+                    { k: :v } => Hash < Object
+                }
+            }
+        }
+    }
+}
+EOS
+    end
+
     it "plain multiline indented" do
       expect(@hash.ai(:plain => true, :indent => 1)).to eq <<-EOS.strip
 {
@@ -303,6 +319,22 @@ EOS
             \"str\"\e[0;37m => \e[0m{
                 [ 1, 2, 3 ]\e[0;37m => \e[0m{
                     { :k => :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
+                }
+            }
+        }
+    }
+}
+EOS
+    end
+
+    it "colored with new hash syntax" do
+      expect(@hash.ai(:new_hash_syntax => true)).to eq <<-EOS.strip
+{
+    1\e[0;37m => \e[0m{
+        sym\e[0;37m: \e[0m{
+            \"str\"\e[0;37m => \e[0m{
+                [ 1, 2, 3 ]\e[0;37m => \e[0m{
+                    { k: :v }\e[0;37m => \e[0m\e[1;33mHash < Object\e[0m
                 }
             }
         }
