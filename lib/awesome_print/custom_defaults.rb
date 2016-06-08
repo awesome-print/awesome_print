@@ -1,5 +1,4 @@
 module AwesomePrint
-
   class << self
     attr_accessor :defaults, :force_colors
 
