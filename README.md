@@ -325,11 +325,10 @@ AwesomePrint.defaults = {
 AwesomePrint follows the [Semantic Versioning](http://semver.org/) standard.
 
 ### Contributing ###
-See [Contributing.md](https://github.com/michaeldv/awesome_print/blob/master/CONTRIBUTING.md)
- for information.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for information.
 
 ### License ###
-Copyright (c) 2010-2013 Michael Dvorkin
+Copyright (c) 2010-2016 Michael Dvorkin and contributors
 
 http://www.dvorkin.net
 
