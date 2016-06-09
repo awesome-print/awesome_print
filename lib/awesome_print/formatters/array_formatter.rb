@@ -13,25 +13,15 @@ module AwesomePrint
       end
 
       def format
-        return '[]' if array == []
-
-        if array.instance_variable_defined?(:@__awesome_methods__)
-          methods_array(array)
-        elsif options[:multiline]
-          width = (array.size - 1).to_s.size
-
-          data = array.inject([]) do |arr, item|
-            index = indent
-            index << colorize("[#{arr.size.to_s.rjust(width)}] ", :array) if options[:index]
-            indented do
-              arr << (index << inspector.awesome(item))
-            end
-          end
-
-          data = limited(data, width) if should_be_limited?
-          "[\n" << data.join(",\n") << "\n#{outdent}]"
+        case
+        when array.empty?
+          empty_array
+        when awesome_array?
+          methods_array
+        when multiline_array?
+          multiline_array
         else
-          '[ ' << array.map { |item| inspector.awesome(item) }.join(', ') << ' ]'
+          simple_array
         end
       end
 
