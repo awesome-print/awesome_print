@@ -28,7 +28,11 @@ module AwesomePrint
 
         data = data.map do |key, value|
           indented do
-            align(key, width) << colorize(" => ", :hash) << inspector.awesome(value)
+            if options[:new_hash_syntax] && symbol?(key)
+              new_hash_syntax(key, value, width)
+            else
+              old_hash_syntax(key, value, width)
+            end
           end
         end
 
@@ -41,6 +45,19 @@ module AwesomePrint
       end
 
       private
+
+      def symbol?(k)
+        k.first == ':'
+      end
+
+      def new_hash_syntax(k, v, width)
+        k[0] = ''
+        align(k, width - 1) << colorize(": ", :hash) << inspector.awesome(v)
+      end
+
+      def old_hash_syntax(k, v, width)
+        align(k, width) << colorize(" => ", :hash) << inspector.awesome(v)
+      end
 
       def plain_single_line
         plain, multiline = options[:plain], options[:multiline]
