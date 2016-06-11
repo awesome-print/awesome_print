@@ -52,8 +52,8 @@ module AwesomePrint
       end
 
       def generate_printable_array
-        array.map.with_index do |item, i|
-          array_prefix(i, width(array)).tap do |temp|
+        array.map.with_index do |item, index|
+          array_prefix(index, width(array)).tap do |temp|
             indented { temp << inspector.awesome(item) }
           end
         end
@@ -76,8 +76,8 @@ module AwesomePrint
       end
 
       def generate_printable_tuples
-        tuples.map.with_index do |item, i|
-          tuple_prefix(i, width(tuples)).tap do |temp|
+        tuples.map.with_index do |item, index|
+          tuple_prefix(index, width(tuples)).tap do |temp|
             indented { temp << tuple_template(item) }
           end
         end
