@@ -13,20 +13,39 @@ module AwesomePrint
       end
 
       def format
-        return '{}' if hash == {}
-
-        keys = hash.keys
-        keys = keys.sort { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
-        data = keys.map do |key|
-          plain_single_line do
-            [inspector.awesome(key), hash[key]]
-          end
+        case
+        when hash.empty?
+          empty_hash
+        when multiline_hash?
+          multiline_hash
+        else
+          simple_hash
         end
+      end
 
-        width = data.map { |key, _value| key.size }.max || 0
-        width += indentation if options[:indent] > 0
+      private
 
-        data = data.map do |key, value|
+      def empty_hash
+        "{}"
+      end
+
+      def multiline_hash?
+        options[:multiline]
+      end
+
+      def multiline_hash
+        "{\n" << printable_hash.join(",\n") << "\n#{outdent}}"
+      end
+
+      def simple_hash
+        "{ #{printable_hash.join(', ')} }"
+      end
+
+      def printable_hash
+        data = printable_keys
+        width = left_width(data)
+
+        data.map! do |key, value|
           indented do
             if options[:ruby19_syntax] && symbol?(key)
               ruby19_syntax(key, value, width)
@@ -36,15 +55,28 @@ module AwesomePrint
           end
         end
 
-        data = limited(data, width, hash: true) if should_be_limited?
-        if options[:multiline]
-          "{\n" << data.join(",\n") << "\n#{outdent}}"
-        else
-          "{ #{data.join(', ')} }"
-        end
+        should_be_limited? ? limited(data, width, hash: true) : data
       end
 
-      private
+      def left_width(keys)
+        options[:indent] > 0 ? indentation + max_key_width(keys) : max_key_width(keys)
+      end
+
+      def max_key_width(keys)
+        keys.map { |key, | key.size }.max || 0
+      end
+
+      def printable_keys
+        keys = hash.keys
+
+        keys.sort! { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
+
+        keys.map! do |key|
+          plain_single_line do
+            [ inspector.awesome(key), hash[key] ]
+          end
+        end
+      end
 
       def symbol?(k)
         k[0] == ':'
