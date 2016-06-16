@@ -3,15 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require_relative "formatters/object_formatter"
-require_relative "formatters/hash_formatter"
-require_relative "formatters/array_formatter"
-require_relative "formatters/simple_formatter"
-require_relative "formatters/method_formatter"
-require_relative "formatters/class_formatter"
-require_relative "formatters/dir_formatter"
-require_relative "formatters/file_formatter"
-require_relative "colorize"
+require 'awesome_print/formatters'
 
 module AwesomePrint
   class Formatter
