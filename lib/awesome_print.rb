@@ -22,6 +22,7 @@ unless defined?(AwesomePrint::Inspector)
   #
   require File.dirname(__FILE__) + "/awesome_print/ext/active_record"  if defined?(ActiveRecord)  || AwesomePrint.rails_console?
   require File.dirname(__FILE__) + "/awesome_print/ext/active_support" if defined?(ActiveSupport) || AwesomePrint.rails_console?
+  require File.dirname(__FILE__) + "/awesome_print/ext/data_mapper"    if defined?(DataMapper)    || AwesomePrint.rails_console?
   #
   # Load remaining extensions.
   #
