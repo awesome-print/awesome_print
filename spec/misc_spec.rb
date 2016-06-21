@@ -25,14 +25,14 @@ RSpec.describe "AwesomePrint" do
       expect(weird.new.ai(:plain => false)).to eq("ice")
     end
 
-    # See https://github.com/michaeldv/awesome_print/issues/35
+    # See https://github.com/awesome-print/awesome_print/issues/35
     it "handle array grep when pattern contains / chapacter" do
       hash = { "1/x" => 1,  "2//x" => :"2" }
       grepped = hash.keys.sort.grep(/^(\d+)\//) { $1 }
       expect(grepped.ai(:plain => true, :multiline => false)).to eq('[ "1", "2" ]')
     end
 
-    # See https://github.com/michaeldv/awesome_print/issues/85
+    # See https://github.com/awesome-print/awesome_print/issues/85
     if RUBY_VERSION >= "1.8.7"
       it "handle array grep when a method is defined in C and thus doesn't have a binding" do
         arr = (0..6).to_a
@@ -58,14 +58,14 @@ RSpec.describe "AwesomePrint" do
       expect(ENV.ai).to eq(ENV.to_hash.ai)
     end
 
-    # See https://github.com/michaeldv/awesome_print/issues/134
+    # See https://github.com/awesome-print/awesome_print/issues/134
     it "IPAddr workaround" do
       require "ipaddr"
       ipaddr = IPAddr.new("3ffe:505:2::1")
       expect(ipaddr.ai).to eq("#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>")
     end
 
-    # See https://github.com/michaeldv/awesome_print/issues/139
+    # See https://github.com/awesome-print/awesome_print/issues/139
     it "Object that overrides == and expects the :id method" do
       weird = Class.new do
         # Raises NoMethodError: undefined method `id' when "other" is nil or ENV.
@@ -137,7 +137,7 @@ EOS
       AwesomePrint.defaults = nil
     end
 
-    # See https://github.com/michaeldv/awesome_print/issues/98
+    # See https://github.com/awesome-print/awesome_print/issues/98
     it "should properly merge the defaults" do
       AwesomePrint.defaults = { :indent => -2, :sort_keys => true }
       hash = { [0, 0, 255] => :yellow, :red => "rgb(255, 0, 0)", "magenta" => "rgb(255, 0, 255)" }

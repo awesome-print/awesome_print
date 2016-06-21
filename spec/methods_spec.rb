@@ -428,7 +428,7 @@ RSpec.describe "Methods arrays" do
     expect(out).to eq("[\n    [0] none() Hello\n    [1]  one() Hello\n]")
   end
 
-  # See https://github.com/michaeldv/awesome_print/issues/30 for details.
+  # See https://github.com/awesome-print/awesome_print/issues/30 for details.
   it "grepping methods and converting them to_sym should work as expected" do
     class Hello
       private

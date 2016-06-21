@@ -5,7 +5,7 @@
 [![Code Climate][code_climate_badge]][code_climate]
 [![Code Climate Coverage][code_climate_coverage_badge]][code_climate]
 [![RubyGems][gem_downloads_badge]][ruby_gems]
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/michaeldv/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/awesome-print/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 Awesome Print is a Ruby library that pretty prints Ruby objects in full color
@@ -21,7 +21,7 @@ v2.0 will *require* Ruby v1.9.3 or later and Rails v3.0 or later.
     $ gem install awesome_print
 
     # Cloning the repository
-    $ git clone git://github.com/michaeldv/awesome_print.git
+    $ git clone git://github.com/awesome-print/awesome_print.git
 
 ### Usage ###
 
@@ -340,8 +340,8 @@ Released under the MIT license. See LICENSE file for details.
 [gem_version_badge]: https://img.shields.io/gem/v/awesome_print.svg?style=flat
 [gem_downloads_badge]: http://img.shields.io/gem/dt/awesome_print.svg?style=flat
 [ruby_gems]: http://rubygems.org/gems/awesome_print
-[travis_ci]: http://travis-ci.org/michaeldv/awesome_print
-[travis_ci_badge]: https://img.shields.io/travis/michaeldv/awesome_print/master.svg?style=flat
-[code_climate]: https://codeclimate.com/github/michaeldv/awesome_print
-[code_climate_badge]: http://img.shields.io/codeclimate/github/michaeldv/awesome_print.svg?style=flat
-[code_climate_coverage_badge]: https://codeclimate.com/github/michaeldv/awesome_print/badges/coverage.svg
+[travis_ci]: http://travis-ci.org/awesome-print/awesome_print
+[travis_ci_badge]: https://img.shields.io/travis/awesome-print/awesome_print/master.svg?style=flat
+[code_climate]: https://codeclimate.com/github/awesome-print/awesome_print
+[code_climate_badge]: http://img.shields.io/codeclimate/github/awesome-print/awesome_print.svg?style=flat
+[code_climate_coverage_badge]: https://codeclimate.com/github/awesome-print/awesome_print/badges/coverage.svg
