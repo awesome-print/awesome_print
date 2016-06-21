@@ -18,4 +18,4 @@ gemfile:
 
 addons:
   code_climate:
-    repo_token: 177e04fc590139a13502e44a2628979c4e8b94acdb10c78af7c6f913ef7950bd
+    repo_token: b84a33c35c698270ad54261655bc25161a0853386825a2d54fb1c7a11c2b2785
