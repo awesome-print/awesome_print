@@ -6,9 +6,9 @@ module AwesomePrint
 
       attr_reader :object, :variables, :inspector, :options
 
-      def initialize(object, variables, inspector)
+      def initialize(object, inspector)
         @object = object
-        @variables = variables
+        @variables = object.instance_variables
         @inspector = inspector
         @options = inspector.options
       end
@@ -42,13 +42,7 @@ module AwesomePrint
           end
 
           indented do
-            var_contents = if valid_instance_var?(var)
-              object.instance_variable_get(var)
-            else
-              object.send(var) # Enables handling of Struct attributes
-            end
-
-            key << colorize(" = ", :hash) + inspector.awesome(var_contents)
+            key << colorize(" = ", :hash) + inspector.awesome(object.instance_variable_get(var))
           end
         end
 

@@ -80,7 +80,7 @@ module AwesomePrint
     end
 
     def awesome_object(o)
-      Formatters::ObjectFormatter.new(o, o.instance_variables, @inspector).format
+      Formatters::ObjectFormatter.new(o, @inspector).format
     end
 
     def awesome_struct(s)
