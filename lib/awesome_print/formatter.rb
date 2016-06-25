@@ -84,7 +84,7 @@ module AwesomePrint
     end
 
     def awesome_struct(s)
-      Formatters::ObjectFormatter.new(s, s.members, @inspector).format
+      Formatters::StructFormatter.new(s, @inspector).format
     end
 
     def awesome_method(m)
