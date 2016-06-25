@@ -13,13 +13,10 @@ module AwesomePrint
       end
 
       def format
-        case
-        when array.empty?
-          empty_array
-        when awesome_array?
+        if array.empty?
+          "[]"
+        elsif methods_array?
           methods_array
-        when multiline_array?
-          multiline_array
         else
           simple_array
         end
@@ -27,28 +24,26 @@ module AwesomePrint
 
       private
 
-      def awesome_array?
+      def methods_array?
         array.instance_variable_defined?('@__awesome_methods__')
       end
 
-      def multiline_array?
-        options[:multiline]
-      end
-
-      def empty_array
-        "[]"
-      end
-
       def simple_array
-        "[ " << array.map{ |item| inspector.awesome(item) }.join(", ") << " ]"
+        if options[:multiline]
+          multiline_array
+        else
+          "[ " << array.map{ |item| inspector.awesome(item) }.join(", ") << " ]"
+        end
       end
 
       def multiline_array
-        data = generate_printable_array
-        data = limited(data, width(array)) if should_be_limited?
-        data = data.join(",\n")
+        data = unless should_be_limited?
+                   generate_printable_array
+               else
+                   limited(generate_printable_array, width(array))
+               end
 
-        "[\n#{data}\n#{outdent}]"
+        %Q([\n#{data.join(",\n")}\n#{outdent}])
       end
 
       def generate_printable_array
@@ -86,10 +81,9 @@ module AwesomePrint
       def tuple_template(item)
         name_width, args_width = name_and_args_width
 
-        str = ""
-        str += "#{colorize(item[0].rjust(name_width), :method)}"
-        str += "#{colorize(item[1].ljust(args_width), :args)} "
-        str += "#{colorize(item[2], :class)}"
+        str = "#{colorize(item[0].rjust(name_width), :method)}"
+        str << "#{colorize(item[1].ljust(args_width), :args)} "
+        str << "#{colorize(item[2], :class)}"
       end
 
       def tuples
@@ -97,14 +91,9 @@ module AwesomePrint
       end
 
       def name_and_args_width
-        name_width, args_width = 0, 0
+        name_and_args = tuples.transpose
 
-        tuples.each do |item|
-          name_width = [name_width, item[0].size].max
-          args_width = [args_width, item[1].size].max
-        end
-
-        return name_width, args_width
+        return name_and_args[0].map(&:size).max, name_and_args[1].map(&:size).max
       end
 
       def tuple_prefix(iteration, width)
