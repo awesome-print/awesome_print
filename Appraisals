@@ -49,4 +49,8 @@ end
 
 appraise 'nobrainer' do
   gem 'nobrainer'
+
+  # When activesupport 5 was released, it required ruby 2.2.2 as a minimum.
+  # Locking this down to 4.2.6 allows our Ruby 1.9 tests to keep working.
+  gem 'activesupport', '4.2.6', :platforms => :ruby_19
 end
