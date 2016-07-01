@@ -71,7 +71,8 @@ def normalize_object_id_strings(str, options)
 end
 
 def stub_dotfile!
-  dotfile = File.join(ENV["HOME"], ".aprc")
+  dotfile = File.join(ENV['HOME'], '.aprc')
+  allow(File).to receive(:readable?).and_call_original
   expect(File).to receive(:readable?).at_least(:once).with(dotfile).and_return(false)
 end
 

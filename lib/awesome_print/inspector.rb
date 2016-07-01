@@ -173,7 +173,7 @@ module AwesomePrint
     # Load ~/.aprc file with custom defaults that override default options.
     #------------------------------------------------------------------------------
     def merge_custom_defaults!
-      dotfile = File.join(ENV["HOME"], ".aprc")
+      dotfile = File.join(ENV['HOME'], '.aprc')
       load dotfile if File.readable?(dotfile)
       merge_options!(AwesomePrint.defaults) if AwesomePrint.defaults.is_a?(Hash)
     rescue => e
