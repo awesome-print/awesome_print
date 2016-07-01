@@ -1,5 +1,5 @@
 ## master (unreleased)
-
+  - Handles NoMethodError for IRB implicit `ai` [@jtnegrotto] - [#212]
 
 ## 1.7.0
   - Refactoring by extracting formatters into their own classes [@waldyr] - [#237]
@@ -129,6 +129,7 @@
   - Initial Release.
 
   [#200]: https://github.com/awesome-print/awesome_print/pull/200
+  [#212]: https://github.com/awesome-print/awesome_print/pull/212
   [#216]: https://github.com/awesome-print/awesome_print/pull/216
   [#217]: https://github.com/awesome-print/awesome_print/pull/217
   [#222]: https://github.com/awesome-print/awesome_print/pull/222
@@ -145,6 +146,7 @@
   [@clonezone]: https://github.com/clonezone
   [@cyberdelia]: https://github.com/cyberdelia
   [@gerrywastaken]: https://github.com/gerrywastaken
+  [@jtnegrotto]: https://github.com/jtnegrotto
   [@kemmason]: https://github.com/kemmason
   [@maurogeorge]: https://github.com/maurogeorge
   [@MaxPleaner]: https://github.com/MaxPleaner

@@ -246,5 +246,17 @@ EOS
       expect(capture! { ap({ :a => 1 }) }).to eq(nil)
       Object.instance_eval{ remove_const :IRB }
     end
+
+    it "handles NoMethodError on IRB implicit #ai" do
+      module IRB; class Irb; end; end
+      irb_context = double('irb_context', last_value: BasicObject.new)
+      IRB.define_singleton_method :version, -> { 'test_version' }
+      irb = IRB::Irb.new
+      irb.instance_eval { @context = irb_context }
+      AwesomePrint.irb!
+      expect(irb).to receive(:puts).with("(Object doesn't support #ai)")
+      expect { irb.output_value }.to_not raise_error
+      Object.instance_eval { remove_const :IRB }
+    end
   end
 end

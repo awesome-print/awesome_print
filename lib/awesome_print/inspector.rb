@@ -31,6 +31,8 @@ module AwesomePrint
         IRB::Irb.class_eval do
           def output_value
             ap @context.last_value
+          rescue NoMethodError
+            puts "(Object doesn't support #ai)"
           end
         end
       else # MacRuby
@@ -55,7 +57,7 @@ module AwesomePrint
     AP = :__awesome_print__
 
     def initialize(options = {})
-      @options = { 
+      @options = {
         :indent          => 4,      # Indent using 4 spaces.
         :index           => true,   # Display array indices.
         :html            => false,  # Use ANSI color codes rather than HTML.
@@ -65,7 +67,7 @@ module AwesomePrint
         :sort_keys       => false,  # Do not sort hash keys.
         :limit           => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
         :new_hash_syntax => false,  # Use the JSON like syntax { foo: 'bar' }, when the key is a symbol
-        :color => { 
+        :color => {
           :args       => :pale,
           :array      => :white,
           :bigdecimal => :blue,
@@ -104,7 +106,7 @@ module AwesomePrint
     def increase_indentation
       indentator.indent(&Proc.new)
     end
-  
+
     # Dispatcher that detects data nesting and invokes object-aware formatter.
     #------------------------------------------------------------------------------
     def awesome(object)
