@@ -3,6 +3,11 @@ module RailsVersions
     Gem::Version.new(Rails::VERSION::STRING)
   end
 
+  def rails_5_0?
+    Gem::Requirement.new('~> 5.0.0.racecar1').satisfied_by?(rails_version)
+  end
+  alias_method :activerecord_5_0?, :rails_5_0?
+
   def rails_4_2?
     Gem::Requirement.new('~> 4.2.0').satisfied_by?(rails_version)
   end
