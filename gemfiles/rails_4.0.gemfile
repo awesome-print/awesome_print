@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 4.0.0"
+gem "json", "~> 1.8", :platforms => :ruby_19
 gem "mime-types", "2.6.2", :platforms => :ruby_19
 
 gemspec :path => "../"

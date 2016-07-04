@@ -3,5 +3,6 @@
 source "https://rubygems.org"
 
 gem "mongoid", "~> 3.1.0"
+gem "json", "~> 1.8", :platforms => :ruby_19
 
 gemspec :path => "../"

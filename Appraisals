@@ -4,6 +4,7 @@ end
 
 appraise 'rails-4.0' do
   gem 'rails', '~> 4.0.0'
+  gem 'json',  '~> 1.8', :platforms => :ruby_19 # Json 2.0 requires Ruby >= 2.0
 
   # The last version that doesn't need Ruby 2.0 and works with version 4.0 of
   # Rails. This addresses a build problem with Travis for version 1.9.3 of Ruby
@@ -37,6 +38,7 @@ end
 
 appraise 'mongoid-3.1' do
   gem 'mongoid', '~> 3.1.0'
+  gem 'json',  '~> 1.8', :platforms => :ruby_19 # Json 2.0 requires Ruby >= 2.0
 end
 
 appraise 'mongoid-4.0' do
