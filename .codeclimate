@@ -1,3 +1,5 @@
 engines:
   rubocop:
     enabled: true
+  reek:
+    enabled: true
