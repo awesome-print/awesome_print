@@ -1,0 +1,3 @@
+engines:
+  rubocop:
+    enabled: true
