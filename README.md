@@ -33,35 +33,35 @@ ap object, options = {}
 Default options:
 
 ```ruby
-:indent          => 4,      # Indent using 4 spaces.
-:index           => true,   # Display array indices.
-:html            => false,  # Use ANSI color codes rather than HTML.
-:multiline       => true,   # Display in multiple lines.
-:plain           => false,  # Use colors.
-:raw             => false,  # Do not recursively format object instance variables.
-:sort_keys       => false,  # Do not sort hash keys.
-:limit           => false,  # Limit large output for arrays and hashes. Set to a boolean or integer.
-:new_hash_syntax => false,  # Use the JSON like syntax { foo: 'bar' }, when the key is a symbol
-:color => {
-  :args       => :pale,
-  :array      => :white,
-  :bigdecimal => :blue,
-  :class      => :yellow,
-  :date       => :greenish,
-  :falseclass => :red,
-  :fixnum     => :blue,
-  :float      => :blue,
-  :hash       => :pale,
-  :keyword    => :cyan,
-  :method     => :purpleish,
-  :nilclass   => :red,
-  :rational   => :blue,
-  :string     => :yellowish,
-  :struct     => :pale,
-  :symbol     => :cyanish,
-  :time       => :greenish,
-  :trueclass  => :green,
-  :variable   => :cyanish
+indent:          4,      # Number of spaces for indenting.
+index:           true,   # Display array indices.
+html:            false,  # Use ANSI color codes rather than HTML.
+multiline:       true,   # Display in multiple lines.
+plain:           false,  # Use colors.
+raw:             false,  # Do not recursively format instance variables.
+sort_keys:       false,  # Do not sort hash keys.
+limit:           false,  # Limit arrays & hashes. Accepts bool or int.
+new_hash_syntax: false,  # Use Ruby 1.9 hash syntax in output.
+color: {
+  args:       :pale,
+  array:      :white,
+  bigdecimal: :blue,
+  class:      :yellow,
+  date:       :greenish,
+  falseclass: :red,
+  fixnum:     :blue,
+  float:      :blue,
+  hash:       :pale,
+  keyword:    :cyan,
+  method:     :purpleish,
+  nilclass:   :red,
+  rational:   :blue,
+  string:     :yellowish,
+  struct:     :pale,
+  symbol:     :cyanish,
+  time:       :greenish,
+  trueclass:  :green,
+  variable:   :cyanish
 }
 ```
 
