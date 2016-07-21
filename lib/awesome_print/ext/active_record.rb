@@ -15,7 +15,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_active_record(object, type)
       cast = cast_without_active_record(object, type)
-      return cast if !defined?(::ActiveRecord)
+      return cast if !defined?(::ActiveRecord::Base)
 
       if object.is_a?(::ActiveRecord::Base)
         cast = :active_record_instance
