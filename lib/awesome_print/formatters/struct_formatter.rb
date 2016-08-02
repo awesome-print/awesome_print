@@ -2,13 +2,13 @@ require_relative 'base_formatter'
 
 module AwesomePrint
   module Formatters
-    class ObjectFormatter < BaseFormatter
+    class StructFormatter < BaseFormatter
 
-      attr_reader :object, :variables, :inspector, :options
+      attr_reader :struct, :variables, :inspector, :options
 
-      def initialize(object, inspector)
-        @object = object
-        @variables = object.instance_variables
+      def initialize(struct, inspector)
+        @struct = struct
+        @variables = struct.members
         @inspector = inspector
         @options = inspector.options
       end
@@ -16,10 +16,10 @@ module AwesomePrint
       def format
         vars = variables.map do |var|
           property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
-          accessor = if object.respond_to?(:"#{property}=")
-            object.respond_to?(property) ? :accessor : :writer
+          accessor = if struct.respond_to?(:"#{property}=")
+            struct.respond_to?(property) ? :accessor : :writer
           else
-            object.respond_to?(property) ? :reader : nil
+            struct.respond_to?(property) ? :reader : nil
           end
           if accessor
             [ "attr_#{accessor} :#{property}", var ]
@@ -42,7 +42,7 @@ module AwesomePrint
           end
 
           indented do
-            key << colorize(" = ", :hash) + inspector.awesome(object.instance_variable_get(var))
+            key << colorize(" = ", :hash) + inspector.awesome(struct.send(var))
           end
         end
 
@@ -53,14 +53,10 @@ module AwesomePrint
         end
       end
 
-      private 
-
-      def valid_instance_var?(variable_name)
-        variable_name.to_s.start_with?('@')
-      end
+      private
 
       def awesome_instance
-        "#{object.class}:0x%08x" % (object.__id__ * 2)
+        "#{struct.class.superclass}:#{struct.class}:0x%08x" % (struct.__id__ * 2)
       end
 
       def left_aligned
