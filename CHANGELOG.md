@@ -1,4 +1,5 @@
 ## master (unreleased)
+  - ActiveRecord: #joins now show the columns #select'ed [@adrianomitre] - [#211]
   - Handles NoMethodError for IRB implicit `ai` [@jtnegrotto] - [#212]
 
 ## 1.7.0
