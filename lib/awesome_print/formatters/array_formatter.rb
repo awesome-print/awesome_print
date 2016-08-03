@@ -13,60 +13,126 @@ module AwesomePrint
       end
 
       def format
-        return "[]" if array == []
-
-        if array.instance_variable_defined?('@__awesome_methods__')
-          methods_array(array)
-        elsif options[:multiline]
-          width = (array.size - 1).to_s.size
-
-          data = array.inject([]) do |arr, item|
-            index = indent
-            index << colorize("[#{arr.size.to_s.rjust(width)}] ", :array) if options[:index]
-            indented do
-              arr << (index << inspector.awesome(item))
-            end
-          end
-
-          data = limited(data, width) if should_be_limited?
-          "[\n" << data.join(",\n") << "\n#{outdent}]"
+        if array.empty?
+          "[]"
+        elsif methods_array?
+          methods_array
         else
-          "[ " << array.map{ |item| inspector.awesome(item) }.join(", ") << " ]"
+          simple_array
         end
       end
 
       private
 
-      def methods_array(a)
-        a.sort! { |x, y| x.to_s <=> y.to_s }                  # Can't simply a.sort! because of o.methods << [ :blah ]
-        object = a.instance_variable_get('@__awesome_methods__')
-        tuples = a.map do |name|
-          if name.is_a?(Symbol) || name.is_a?(String)         # Ignore garbage, ex. 42.methods << [ :blah ]
-            tuple = if object.respond_to?(name, true)         # Is this a regular method?
-              the_method = object.method(name) rescue nil     # Avoid potential ArgumentError if object#method is overridden.
-              if the_method && the_method.respond_to?(:arity) # Is this original object#method?
-                method_tuple(the_method)                      # Yes, we are good.
-              end
-            elsif object.respond_to?(:instance_method)              # Is this an unbound method?
-              method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
-            end                                                     # available (ex. File.lchmod on Ubuntu 12).
+      def methods_array?
+        array.instance_variable_defined?('@__awesome_methods__')
+      end
+
+      def simple_array
+        if options[:multiline]
+          multiline_array
+        else
+          "[ " << array.map{ |item| inspector.awesome(item) }.join(", ") << " ]"
+        end
+      end
+
+      def multiline_array
+        data = unless should_be_limited?
+                   generate_printable_array
+               else
+                   limited(generate_printable_array, width(array))
+               end
+
+        %Q([\n#{data.join(",\n")}\n#{outdent}])
+      end
+
+      def generate_printable_array
+        array.map.with_index do |item, index|
+          array_prefix(index, width(array)).tap do |temp|
+            indented { temp << inspector.awesome(item) } 
           end
-          tuple || [ name.to_s, '(?)', '?' ]                  # Return WTF default if all the above fails.
+        end
+      end
+
+      def array_prefix(iteration, width)
+        if options[:index]
+          indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
+        else
+          indent
+        end
+      end
+
+      def methods_array
+        array.map!(&:to_s).sort!
+
+        data = generate_printable_tuples.join("\n")
+
+        "[\n#{data}\n#{outdent}]"
+      end
+
+      def generate_printable_tuples
+        tuples.map.with_index do |item, index|
+          tuple_prefix(index, width(tuples)).tap do |temp|
+            indented { temp << tuple_template(item) }
+          end
+        end
+      end
+
+      def tuple_template(item)
+        name_width, args_width = name_and_args_width
+
+        str = "#{colorize(item[0].rjust(name_width), :method)}"
+        str << "#{colorize(item[1].ljust(args_width), :args)} "
+        str << "#{colorize(item[2], :class)}"
+      end
+
+      def tuples
+        @tuples ||= array.map { |name| generate_tuple(name) }
+      end
+
+      def name_and_args_width
+        name_and_args = tuples.transpose
+
+        return name_and_args[0].map(&:size).max, name_and_args[1].map(&:size).max
+      end
+
+      def tuple_prefix(iteration, width)
+        if options[:index]
+          indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
+        else
+          indent + " "
+        end
+      end
+
+      def generate_tuple(name)
+        meth = case name
+        when Symbol, String
+          find_method(name)
+        else
+          nil
         end
 
-        width = (tuples.size - 1).to_s.size
-        name_width = tuples.map { |item| item[0].size }.max || 0
-        args_width = tuples.map { |item| item[1].size }.max || 0
+        meth ? method_tuple(meth) : [ name.to_s, '(?)', '?' ]
+      end
 
-        data = tuples.inject([]) do |arr, item|
-          index = indent
-          index << "[#{arr.size.to_s.rjust(width)}]" if @options[:index]
-          indented do
-            arr << "#{index} #{colorize(item[0].rjust(name_width), :method)}#{colorize(item[1].ljust(args_width), :args)} #{colorize(item[2], :class)}"
-          end
+      def find_method(name)
+        object = array.instance_variable_get('@__awesome_methods__')
+
+        meth = begin
+          object.method(name)
+        rescue NameError, ArgumentError
+          nil
         end
 
-        "[\n" << data.join("\n") << "\n#{outdent}]"
+        meth ||= begin
+          object.instance_method(name)
+        rescue NameError
+          nil
+        end
+      end
+
+      def width(items)
+        (items.size - 1).to_s.size
       end
     end
   end
