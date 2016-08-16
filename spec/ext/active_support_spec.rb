@@ -14,7 +14,7 @@ RSpec.describe "AwesomePrint::ActiveSupport", skip: ->{ !ExtVerifier.has_rails? 
 
   it "should format HashWithIndifferentAccess as regular Hash" do
     hash = HashWithIndifferentAccess.new({ :hello => "world" })
-    expect(@ap.send(:awesome, hash)).to eq("{\n    \"hello\"\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}")
+    expect(@ap.send(:awesome, hash)).to eq("{\n    \e[0;33m\"hello\"\e[0m\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}")
   end
 
   # ActiveSupport sticks in instance variables to the date object. Make sure

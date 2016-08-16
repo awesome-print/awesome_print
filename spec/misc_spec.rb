@@ -110,7 +110,7 @@ RSpec.describe "AwesomePrint" do
       expect(markup.ai(:html => true)).to eq <<-EOS.strip_heredoc.strip
         <pre>[
             <kbd style="color:white">[0] </kbd>{
-                &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
+                <kbd style="color:brown">&quot;hello&quot;</kbd><kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
             }
         ]</pre>
       EOS
