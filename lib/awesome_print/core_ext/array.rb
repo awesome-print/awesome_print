@@ -18,8 +18,8 @@ class Array #:nodoc:
 
     define_method operator do |*args|
       arr = original_operator.bind(self).call(*args)
-      if self.instance_variable_defined?('@__awesome_methods__')
-        arr.instance_variable_set('@__awesome_methods__', self.instance_variable_get('@__awesome_methods__'))
+      if self.instance_variable_defined?(:@__awesome_methods__)
+        arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
         arr.sort! { |a, b| a.to_s <=> b.to_s }  # Need the block since Ruby 1.8.x can't sort arrays of symbols.
       end
       arr
@@ -72,8 +72,8 @@ class Array #:nodoc:
         yield match
       end
     end
-    if self.instance_variable_defined?('@__awesome_methods__')
-      arr.instance_variable_set('@__awesome_methods__', self.instance_variable_get('@__awesome_methods__'))
+    if self.instance_variable_defined?(:@__awesome_methods__)
+      arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
       arr.reject! { |item| !(item.is_a?(Symbol) || item.is_a?(String)) } # grep block might return crap.
     end
     arr

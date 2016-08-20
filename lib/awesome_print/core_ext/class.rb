@@ -15,7 +15,7 @@ class Class #:nodoc:
 
     define_method name do |*args|
       methods = original_method.bind(self).call(*args)
-      methods.instance_variable_set('@__awesome_methods__', self)
+      methods.instance_variable_set(:@__awesome_methods__, self)
       methods
     end
   end
