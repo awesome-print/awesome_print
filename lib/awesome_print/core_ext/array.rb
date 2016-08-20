@@ -13,18 +13,25 @@
 # If you could think of a better way please let me know :-)
 #
 class Array #:nodoc:
-  [ :-, :& ].each do |operator|
-    original_operator = instance_method(operator)
 
-    define_method operator do |*args|
-      arr = original_operator.bind(self).call(*args)
-      if self.instance_variable_defined?(:@__awesome_methods__)
-        arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
-        arr.sort! { |a, b| a.to_s <=> b.to_s }  # Need the block since Ruby 1.8.x can't sort arrays of symbols.
-      end
-      arr
+  alias :difference_without_awesome_print :-
+  def -(other_ary)
+    arr = difference_without_awesome_print(other_ary)
+    if self.instance_variable_defined?(:@__awesome_methods__)
+      arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
     end
+    arr
   end
+
+  alias :intersection_without_awesome_print :&
+  def &(other_ary)
+    arr = intersection_without_awesome_print(other_ary)
+    if self.instance_variable_defined?(:@__awesome_methods__)
+      arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
+    end
+    arr
+  end
+
   #
   # Intercepting Array#grep needs a special treatment since grep accepts
   # an optional block.
