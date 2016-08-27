@@ -23,8 +23,17 @@ Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
   require file
 end
 
-ExtVerifier.require_dependencies!(%w{rails active_record action_view
-                                  active_support/all mongoid mongo_mapper ripple nobrainer})
+ExtVerifier.require_dependencies!(
+  %w(
+    rails
+    active_record
+    action_view
+    active_support/all
+    mongoid
+    mongo_mapper
+    ripple nobrainer
+  )
+)
 require 'nokogiri'
 require 'awesome_print'
 
@@ -42,8 +51,8 @@ RSpec.configure do |config|
     mocks.syntax = :expect
     mocks.verify_partial_doubles = true
   end
-  if config.files_to_run.one?
-    config.default_formatter = 'doc'
+
+  config.default_formatter = 'doc' if config.files_to_run.one?
   end
 end
 
@@ -77,7 +86,8 @@ def stub_dotfile!
 end
 
 def capture!
-  standard, $stdout = $stdout, StringIO.new
+  standard = $stdout
+  $stdout = StringIO.new
   yield
 ensure
   $stdout = standard
