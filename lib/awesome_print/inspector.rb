@@ -137,11 +137,18 @@ module AwesomePrint
       @options.merge!(options)
     end
 
+    # This method needs to be mocked during testing so that it always loads
+    # predictable values
+    #---------------------------------------------------------------------------
+    def load_dotfile
+      dotfile = File.join(ENV['HOME'], '.aprc')
+      load dotfile if File.readable?(dotfile)
+    end
+
     # Load ~/.aprc file with custom defaults that override default options.
     #---------------------------------------------------------------------------
     def merge_custom_defaults!
-      dotfile = File.join(ENV['HOME'], '.aprc')
-      load dotfile if File.readable?(dotfile)
+      load_dotfile
       merge_options!(AwesomePrint.defaults) if AwesomePrint.defaults.is_a?(Hash)
     rescue => e
       $stderr.puts "Could not load #{dotfile}: #{e}"
