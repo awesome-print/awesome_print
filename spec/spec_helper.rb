@@ -53,6 +53,11 @@ RSpec.configure do |config|
   end
 
   config.default_formatter = 'doc' if config.files_to_run.one?
+
+  # Run before all examples. Using suite or all will not work as stubs are
+  # killed after each example ends.
+  config.before(:each) do |_example|
+    stub_dotfile!
   end
 end
 
@@ -80,9 +85,9 @@ def normalize_object_id_strings(str, options)
 end
 
 def stub_dotfile!
-  dotfile = File.join(ENV['HOME'], '.aprc')
-  allow(File).to receive(:readable?).and_call_original
-  expect(File).to receive(:readable?).at_least(:once).with(dotfile).and_return(false)
+  allow_any_instance_of(AwesomePrint::Inspector)
+    .to receive(:load_dotfile)
+    .and_return(true)
 end
 
 def capture!

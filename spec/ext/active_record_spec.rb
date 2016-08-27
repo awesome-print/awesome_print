@@ -2,12 +2,6 @@ require 'spec_helper'
 require 'active_record_helper'
 
 RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.call do
-
-  before do
-    stub_dotfile!
-  end
-
-  #------------------------------------------------------------------------------
   describe "ActiveRecord instance, attributes only (default)" do
     before do
       ActiveRecord::Base.default_timezone = :utc

@@ -26,7 +26,6 @@ RSpec.describe "AwesomePrint/NoBrainer", skip: ->{ !ExtVerifier.has_nobrainer? }
   end
 
   before do
-    stub_dotfile!
     @ap = AwesomePrint::Inspector.new :plain => true
   end
 

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapper? }.call do
-
   if ExtVerifier.has_mongo_mapper?
     before :all do
       class MongoUser
@@ -19,7 +18,6 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
   end
 
   before do
-    stub_dotfile!
     @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
   end
 

@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe "AwesomePrint/Nokogiri" do
-  before do
-    stub_dotfile!
-  end
-
   it "should colorize tags" do
     xml = Nokogiri::XML('<html><body><h1></h1></body></html>')
     expect(xml.ai).to eq  <<-EOS
