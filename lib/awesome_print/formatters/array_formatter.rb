@@ -15,7 +15,7 @@ module AwesomePrint
       def format
         return "[]" if array == []
 
-        if array.instance_variable_defined?('@__awesome_methods__')
+        if array.instance_variable_defined?(:@__awesome_methods__)
           methods_array(array)
         elsif options[:multiline]
           width = (array.size - 1).to_s.size
@@ -39,7 +39,7 @@ module AwesomePrint
 
       def methods_array(a)
         a.sort! { |x, y| x.to_s <=> y.to_s }                  # Can't simply a.sort! because of o.methods << [ :blah ]
-        object = a.instance_variable_get('@__awesome_methods__')
+        object = a.instance_variable_get(:@__awesome_methods__)
         tuples = a.map do |name|
           if name.is_a?(Symbol) || name.is_a?(String)         # Ignore garbage, ex. 42.methods << [ :blah ]
             tuple = if object.respond_to?(name, true)         # Is this a regular method?
