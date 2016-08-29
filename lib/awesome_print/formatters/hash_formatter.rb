@@ -47,7 +47,7 @@ module AwesomePrint
       private
 
       def symbol?(k)
-        k.first == ':'
+        k[0] == ':'
       end
 
       def ruby19_syntax(k, v, width)
