@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe "Objects" do
-  before do
-    stub_dotfile!
-  end
-
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end

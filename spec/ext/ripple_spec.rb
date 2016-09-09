@@ -20,7 +20,6 @@ RSpec.describe 'AwesomePrint/Ripple', skip: ->{ !ExtVerifier.has_ripple? }.call 
   end
 
   before do
-    stub_dotfile!
     @ap = AwesomePrint::Inspector.new :plain => true, :sort_keys => true
   end
 

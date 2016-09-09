@@ -4,10 +4,6 @@ require "rational"
 require "set"
 
 RSpec.describe "AwesomePrint" do
-  before do
-    stub_dotfile!
-  end
-
   describe "Array" do
     before do
       @arr = [ 1, :two, "three", [ nil, [ true, false] ] ]

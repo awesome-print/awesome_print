@@ -9,10 +9,6 @@ RSpec.describe "AwesomePrint" do
     end
   end
 
-  before do
-    stub_dotfile!
-  end
-
   describe "colorization" do
     PLAIN = '[ 1, :two, "three", [ nil, [ true, false ] ] ]'
     COLORIZED = "[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]"
@@ -67,7 +63,7 @@ RSpec.describe "AwesomePrint" do
       before do
         AwesomePrint.force_colors!
       end
-      
+
       it "still colorizes tty processes" do
         stub_tty!
         expect(@arr.ai(:multiline => false)).to eq(COLORIZED)
@@ -82,7 +78,7 @@ RSpec.describe "AwesomePrint" do
           ENV['ANSICON'] = term
         end
       end
-      
+
       it "colorizes dumb terminals" do
         begin
           stub_tty!

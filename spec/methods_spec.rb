@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe "Single method" do
-  before do
-    stub_dotfile!
-  end
-
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end
@@ -81,10 +77,6 @@ RSpec.describe "Single method" do
 end
 
 RSpec.describe "Object methods" do
-  before do
-    stub_dotfile!
-  end
-
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end
@@ -203,10 +195,6 @@ RSpec.describe "Object methods" do
 end
 
 RSpec.describe "Class methods" do
-  before do
-    stub_dotfile!
-  end
-
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end

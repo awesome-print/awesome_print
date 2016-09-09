@@ -3,10 +3,6 @@ require 'spec_helper'
 RSpec.describe "AwesomePrint" do
 
   describe "Misc" do
-    before do
-      stub_dotfile!
-    end
-
     it "handle weird objects that return nil on inspect" do
       weird = Class.new do
         def inspect
@@ -80,10 +76,6 @@ RSpec.describe "AwesomePrint" do
 
   #------------------------------------------------------------------------------
   describe "HTML output" do
-    before do
-      stub_dotfile!
-    end
-
     it "wraps ap output with plain <pre> tag" do
       markup = rand
       expect(markup.ai(:html => true, :plain => true)).to eq("<pre>#{markup}</pre>")
@@ -129,10 +121,6 @@ RSpec.describe "AwesomePrint" do
 
   #------------------------------------------------------------------------------
   describe "AwesomePrint.defaults" do
-    before do
-      stub_dotfile!
-    end
-
     after do
       AwesomePrint.defaults = nil
     end
@@ -154,10 +142,6 @@ RSpec.describe "AwesomePrint" do
 
   #------------------------------------------------------------------------------
   describe "Coexistence with the colorize gem" do
-    before do
-      stub_dotfile!
-    end
-
     before do # Redefine String#red just like colorize gem does it.
       @awesome_method = "".method(:red)
 

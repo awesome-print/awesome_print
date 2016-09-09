@@ -19,7 +19,6 @@ RSpec.describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.cal
   end
 
   before do
-    stub_dotfile!
     @ap = AwesomePrint::Inspector.new :plain => true, :sort_keys => true
   end
 
