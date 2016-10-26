@@ -72,6 +72,13 @@ Supported color names:
 :black, :redish, :greenish, :yellowish, :blueish, :purpleish, :cyanish, :pale
 ```
 
+Use methods such as `.red` to set string color:
+
+```ruby
+irb> puts "red text".red
+red text # (it's red)
+```
+
 Use `Object#ai` to return an ASCII encoded string:
 
 ```ruby
