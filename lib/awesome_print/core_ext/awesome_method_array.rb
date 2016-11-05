@@ -12,31 +12,24 @@
 #
 # If you could think of a better way please let me know :-)
 #
-class Array #:nodoc:
+module AwesomeMethodArray #:nodoc:
 
-  alias :difference_without_awesome_print :-
-  def -(other_ary)
-    arr = difference_without_awesome_print(other_ary)
-    if self.instance_variable_defined?(:@__awesome_methods__)
+  def -(_other_ary)
+    super.tap do |arr|
       arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
     end
-    arr
   end
 
-  alias :intersection_without_awesome_print :&
-  def &(other_ary)
-    arr = intersection_without_awesome_print(other_ary)
-    if self.instance_variable_defined?(:@__awesome_methods__)
+  def &(_other_ary)
+    super.tap do |arr|
       arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
     end
-    arr
   end
 
   #
   # Intercepting Array#grep needs a special treatment since grep accepts
   # an optional block.
   #
-  alias :original_grep :grep
   def grep(pattern, &blk)
     #
     # The following looks rather insane and I've sent numerous hours trying
@@ -62,9 +55,9 @@ class Array #:nodoc:
     # the comment :-)
     #
     arr = unless blk
-      original_grep(pattern)
+      super(pattern)
     else
-      original_grep(pattern) do |match|
+      super(pattern) do |match|
         #
         # The binding can only be used with Ruby-defined methods, therefore
         # we must rescue potential "ArgumentError: Can't create Binding from
@@ -79,10 +72,8 @@ class Array #:nodoc:
         yield match
       end
     end
-    if self.instance_variable_defined?(:@__awesome_methods__)
-      arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
-      arr.reject! { |item| !(item.is_a?(Symbol) || item.is_a?(String)) } # grep block might return crap.
-    end
+    arr.instance_variable_set(:@__awesome_methods__, self.instance_variable_get(:@__awesome_methods__))
+    arr.reject! { |item| !(item.is_a?(Symbol) || item.is_a?(String)) } # grep block might return crap.
     arr
   end
 end
