@@ -33,7 +33,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
       data = object.fields.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[1].name.to_sym] = (c[1].type || "undefined").to_s.underscore.intern
+        hash[c[1].name.to_sym] = (c[1].type || 'undefined').to_s.underscore.intern
         hash
       end
       "class #{object} < #{object.superclass} " << awesome_hash(data)

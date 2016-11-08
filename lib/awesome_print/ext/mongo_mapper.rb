@@ -38,7 +38,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:keys)
 
       data = object.keys.sort.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c.first] = (c.last.type || "undefined").to_s.underscore.intern
+        hash[c.first] = (c.last.type || 'undefined').to_s.underscore.intern
         hash
       end
 

@@ -1,7 +1,7 @@
-require "rubygems"
-require "bundler/setup"
+require 'rubygems'
+require 'bundler/setup'
 
-require "bundler"
+require 'bundler'
 Bundler::GemHelper.install_tasks
 
 task :default do
@@ -16,9 +16,9 @@ task :appraise do
   exec 'appraisal install && appraisal rake'
 end
 
-desc "Run all awesome_print gem specs"
+desc 'Run all awesome_print gem specs'
 task :spec do
   # Run plain rspec command without RSpec::Core::RakeTask overrides.
-  exec "rspec -c spec"
+  exec 'rspec -c spec'
 end
 

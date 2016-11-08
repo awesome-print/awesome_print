@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.call do
+RSpec.describe 'AwesomePrint/Mongoid', skip: ->{ !ExtVerifier.has_mongoid? }.call do
 
   if ExtVerifier.has_mongoid?
     before :all do
@@ -22,8 +22,8 @@ RSpec.describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.cal
     @ap = AwesomePrint::Inspector.new :plain => true, :sort_keys => true
   end
 
-  it "should print class instance" do
-    user = MongoUser.new :first_name => "Al", :last_name => "Capone"
+  it 'should print class instance' do
+    user = MongoUser.new :first_name => 'Al', :last_name => 'Capone'
     out = @ap.send :awesome, user
 
     object_id = user.id.inspect
@@ -37,7 +37,7 @@ RSpec.describe "AwesomePrint/Mongoid", skip: ->{ !ExtVerifier.has_mongoid? }.cal
     expect(out).to be_similar_to(str, {:skip_bson => true})
   end
 
-  it "should print the class" do
+  it 'should print the class' do
     class_spec = if mongoid_3_0?
                    <<-EOS.strip
 class MongoUser < Object {
@@ -68,7 +68,7 @@ class MongoUser < Object {
     expect(@ap.send(:awesome, MongoUser)).to eq class_spec
   end
 
-  it "should print the class when type is undefined" do
+  it 'should print the class when type is undefined' do
     class Chamelion
       include Mongoid::Document
       field :last_attribute

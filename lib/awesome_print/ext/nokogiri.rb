@@ -25,7 +25,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_nokogiri_xml_node(object)
       if object.is_a?(::Nokogiri::XML::NodeSet) && object.empty?
-        return "[]"
+        return '[]'
       end
       xml = object.to_xml(:indent => 2)
       #
