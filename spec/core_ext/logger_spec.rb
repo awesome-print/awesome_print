@@ -27,7 +27,7 @@ RSpec.describe 'AwesomePrint logging extensions' do
       end
 
       it 'should use the global user default if no level passed' do
-        AwesomePrint.defaults = { :log_level => :info }
+        AwesomePrint.defaults = { log_level: :info }
         expect(@logger).to receive(:info)
         @logger.ap(nil)
       end

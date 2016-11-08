@@ -7,8 +7,8 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: ->{ !ExtVerifier.has_mongoid? }.cal
       class MongoUser
         include Mongoid::Document
 
-        field :first_name, :type => String
-        field :last_name,  :type => String
+        field :first_name, type: String
+        field :last_name,  type: String
       end
     end
 
@@ -19,11 +19,11 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: ->{ !ExtVerifier.has_mongoid? }.cal
   end
 
   before do
-    @ap = AwesomePrint::Inspector.new :plain => true, :sort_keys => true
+    @ap = AwesomePrint::Inspector.new plain: true, sort_keys: true
   end
 
   it 'should print class instance' do
-    user = MongoUser.new :first_name => 'Al', :last_name => 'Capone'
+    user = MongoUser.new first_name: 'Al', last_name: 'Capone'
     out = @ap.send :awesome, user
 
     object_id = user.id.inspect
@@ -34,7 +34,7 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: ->{ !ExtVerifier.has_mongoid? }.cal
      :last_name => "Capone"
 }
     EOS
-    expect(out).to be_similar_to(str, {:skip_bson => true})
+    expect(out).to be_similar_to(str, {skip_bson: true})
   end
 
   it 'should print the class' do

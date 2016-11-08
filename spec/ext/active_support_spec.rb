@@ -12,7 +12,7 @@ RSpec.describe 'AwesomePrint::ActiveSupport', skip: ->{ !ExtVerifier.has_rails? 
   end
 
   it 'should format HashWithIndifferentAccess as regular Hash' do
-    hash = HashWithIndifferentAccess.new({ :hello => 'world' })
+    hash = HashWithIndifferentAccess.new({ hello: 'world' })
     expect(@ap.send(:awesome, hash)).to eq("{\n    \"hello\"\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}")
   end
 
@@ -20,7 +20,7 @@ RSpec.describe 'AwesomePrint::ActiveSupport', skip: ->{ !ExtVerifier.has_rails? 
   # we ignore that and format Date instance as regular date.
   it 'should formate Date object as date' do
     date = Date.new(2003, 5, 26)
-    expect(date.ai(:plain => true)).to eq('Mon, 26 May 2003')
+    expect(date.ai(plain: true)).to eq('Mon, 26 May 2003')
     expect(date.ai).to eq("\e[0;32mMon, 26 May 2003\e[0m")
   end
 end
