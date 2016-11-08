@@ -18,7 +18,7 @@ RSpec.describe 'Objects' do
       end
 
       hello = Hello.new
-      out = hello.ai(:plain => true, :raw => true)
+      out = hello.ai(plain: true, raw: true)
       str = <<-EOS.strip
 #<Hello:placeholder_id
     attr_accessor :dabra = 3,
@@ -27,7 +27,7 @@ RSpec.describe 'Objects' do
 >
 EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
     end
 
     it 'instance variables' do
@@ -38,7 +38,7 @@ EOS
       end
 
       hello = Hello.new
-      out = hello.ai(:plain => true, :raw => true)
+      out = hello.ai(plain: true, raw: true)
       str = <<-EOS.strip
 #<Hello:placeholder_id
     @abra = 1,
@@ -47,7 +47,7 @@ EOS
 >
 EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
     end
 
     it 'attributes and instance variables' do
@@ -63,7 +63,7 @@ EOS
       end
 
       hello = Hello.new
-      out = hello.ai(:plain => true, :raw => true)
+      out = hello.ai(plain: true, raw: true)
       str = <<-EOS.strip
 #<Hello:placeholder_id
     @doo = 1,
@@ -75,7 +75,7 @@ EOS
 >
 EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
     end
 
     it 'without the plain options print the colorized values' do
@@ -90,7 +90,7 @@ EOS
       end
 
       hello = Hello.new
-      out = hello.ai(:raw => true)
+      out = hello.ai(raw: true)
       str = <<-EOS.strip
 #<Hello:placeholder_id
     \e[0;36m@dabra\e[0m\e[0;37m = \e[0m\e[1;34m3\e[0m,
@@ -99,7 +99,7 @@ EOS
 >
 EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
     end
 
     it 'with multine as false show inline values' do
@@ -114,12 +114,12 @@ EOS
       end
 
       hello = Hello.new
-      out = hello.ai(:multiline => false, :plain => true, :raw => true)
+      out = hello.ai(multiline: false, plain: true, raw: true)
       str = <<-EOS.strip
 #<Hello:placeholder_id @dabra = 3, attr_reader :abra = 1, attr_writer :ca = 2>
 EOS
       expect(out).to be_similar_to(str)
-      expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
     end
   end
 end

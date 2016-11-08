@@ -20,11 +20,11 @@ RSpec.describe 'AwesomePrint/Ripple', skip: ->{ !ExtVerifier.has_ripple? }.call 
   end
 
   before do
-    @ap = AwesomePrint::Inspector.new :plain => true, :sort_keys => true
+    @ap = AwesomePrint::Inspector.new plain: true, sort_keys: true
   end
 
   it 'should print class instance' do
-    user = RippleUser.new :_id => '12345', :first_name => 'Al', :last_name => 'Capone'
+    user = RippleUser.new _id: '12345', first_name: 'Al', last_name: 'Capone'
     out = @ap.send :awesome, user
 
     expect(out).to be_similar_to <<-EOS.strip

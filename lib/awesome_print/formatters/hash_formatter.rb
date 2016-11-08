@@ -36,7 +36,7 @@ module AwesomePrint
           end
         end
 
-        data = limited(data, width, :hash => true) if should_be_limited?
+        data = limited(data, width, hash: true) if should_be_limited?
         if options[:multiline]
           "{\n" << data.join(",\n") << "\n#{outdent}}"
         else

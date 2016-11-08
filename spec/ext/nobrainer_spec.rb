@@ -14,8 +14,8 @@ RSpec.describe 'AwesomePrint/NoBrainer', skip: ->{ !ExtVerifier.has_nobrainer? }
       class SomeModel
         include NoBrainer::Document
 
-        field :first_name, :type => String
-        field :last_name,  :type => String
+        field :first_name, type: String
+        field :last_name,  type: String
         field :some_field
       end
     end
@@ -26,11 +26,11 @@ RSpec.describe 'AwesomePrint/NoBrainer', skip: ->{ !ExtVerifier.has_nobrainer? }
   end
 
   before do
-    @ap = AwesomePrint::Inspector.new :plain => true
+    @ap = AwesomePrint::Inspector.new plain: true
   end
 
   it 'should print class instance' do
-    user = SomeModel.new :first_name => 'Al', :last_name => 'Capone'
+    user = SomeModel.new first_name: 'Al', last_name: 'Capone'
     out = @ap.send :awesome, user
 
     object_id = user.id.inspect

@@ -18,15 +18,15 @@ RSpec.describe 'AwesomePrint/MongoMapper', skip: ->{ !ExtVerifier.has_mongo_mapp
   end
 
   before do
-    @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
+    @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true)
   end
 
   describe 'with the raw option set to true' do
     # before { @ap.options[:raw] = true }
-    before { @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true, :raw => true) }
+    before { @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true, raw: true) }
 
     it 'should print class instance' do
-      user = MongoUser.new(:first_name => 'Al', :last_name => 'Capone')
+      user = MongoUser.new(first_name: 'Al', last_name: 'Capone')
 
       out = @ap.send(:awesome, user)
       out.gsub!(/#\<Proc:.+?\>/, 'AWESOME_PRINT_PROC_STUB')
@@ -187,7 +187,7 @@ class Parent < Object {
       end
 
       it 'should render an instance as normal' do
-        parent = Parent.new(:name => 'test')
+        parent = Parent.new(name: 'test')
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
 #<Parent:placeholder_id> {
@@ -201,7 +201,7 @@ class Parent < Object {
 
     describe 'with show associations turned on and inline embedded turned off' do
       before :each do
-        @ap = AwesomePrint::Inspector.new(:plain => true, :mongo_mapper => { :show_associations => true })
+        @ap = AwesomePrint::Inspector.new(plain: true, mongo_mapper: { show_associations: true })
       end
 
       it 'should render the class with associations shown' do
@@ -216,7 +216,7 @@ class Parent < Object {
       end
 
       it 'should render an instance with associations shown' do
-        parent = Parent.new(:name => 'test')
+        parent = Parent.new(name: 'test')
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
 #<Parent:placeholder_id> {
@@ -232,16 +232,16 @@ class Parent < Object {
 
     describe 'with show associations turned on and inline embedded turned on' do
       before :each do
-        @ap = AwesomePrint::Inspector.new(:plain => true,
-                                          :mongo_mapper => {
-          :show_associations => true,
-          :inline_embedded   => true
+        @ap = AwesomePrint::Inspector.new(plain: true,
+                                          mongo_mapper: {
+          show_associations: true,
+          inline_embedded: true
         }
                                          )
       end
 
       it 'should render an instance with associations shown and embeds there' do
-        parent = Parent.new(:name => 'test', :child => Child.new(:data => 5))
+        parent = Parent.new(name: 'test', child: Child.new(data: 5))
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
 #<Parent:placeholder_id> {

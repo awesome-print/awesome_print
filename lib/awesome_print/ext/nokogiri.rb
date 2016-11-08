@@ -27,7 +27,7 @@ module AwesomePrint
       if object.is_a?(::Nokogiri::XML::NodeSet) && object.empty?
         return '[]'
       end
-      xml = object.to_xml(:indent => 2)
+      xml = object.to_xml(indent: 2)
       #
       # Colorize tag, id/class name, and contents.
       #
