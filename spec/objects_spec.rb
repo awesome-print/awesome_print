@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-RSpec.describe "Objects" do
+RSpec.describe 'Objects' do
   after do
     Object.instance_eval{ remove_const :Hello } if defined?(Hello)
   end
 
-  describe "Formatting an object" do
-    it "attributes" do
+  describe 'Formatting an object' do
+    it 'attributes' do
       class Hello
         attr_reader   :abra
         attr_writer   :ca
@@ -30,7 +30,7 @@ EOS
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
-    it "instance variables" do
+    it 'instance variables' do
       class Hello
         def initialize
           @abra, @ca, @dabra = 1, 2, 3
@@ -50,7 +50,7 @@ EOS
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
-    it "attributes and instance variables" do
+    it 'attributes and instance variables' do
       class Hello
         attr_reader   :abra
         attr_writer   :ca
@@ -78,7 +78,7 @@ EOS
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
-    it "without the plain options print the colorized values" do
+    it 'without the plain options print the colorized values' do
       class Hello
         attr_reader   :abra
         attr_writer   :ca
@@ -102,7 +102,7 @@ EOS
       expect(hello.ai(:plain => true, :raw => false)).to eq(hello.inspect)
     end
 
-    it "with multine as false show inline values" do
+    it 'with multine as false show inline values' do
       class Hello
         attr_reader   :abra
         attr_writer   :ca

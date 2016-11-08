@@ -13,7 +13,7 @@ module AwesomePrint
       end
 
       def format
-        return "{}" if hash == {}
+        return '{}' if hash == {}
 
         keys = hash.keys
         keys = keys.sort { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
@@ -52,11 +52,11 @@ module AwesomePrint
 
       def ruby19_syntax(k, v, width)
         k[0] = ''
-        align(k, width - 1) << colorize(": ", :hash) << inspector.awesome(v)
+        align(k, width - 1) << colorize(': ', :hash) << inspector.awesome(v)
       end
 
       def pre_ruby19_syntax(k, v, width)
-        align(k, width) << colorize(" => ", :hash) << inspector.awesome(v)
+        align(k, width) << colorize(' => ', :hash) << inspector.awesome(v)
       end
 
       def plain_single_line

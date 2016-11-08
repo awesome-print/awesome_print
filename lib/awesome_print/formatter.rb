@@ -52,7 +52,7 @@ module AwesomePrint
     end
 
     def awesome_bigdecimal(n)
-      o = n.to_s("F")
+      o = n.to_s('F')
       type = :bigdecimal
       awesome_simple(o, type, @inspector)
     end

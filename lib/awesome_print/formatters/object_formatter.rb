@@ -42,7 +42,7 @@ module AwesomePrint
           end
 
           indented do
-            key << colorize(" = ", :hash) + inspector.awesome(object.instance_variable_get(var))
+            key << colorize(' = ', :hash) + inspector.awesome(object.instance_variable_get(var))
           end
         end
 

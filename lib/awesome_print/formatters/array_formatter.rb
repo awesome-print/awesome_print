@@ -13,7 +13,7 @@ module AwesomePrint
       end
 
       def format
-        return "[]" if array == []
+        return '[]' if array == []
 
         if array.instance_variable_defined?(:@__awesome_methods__)
           methods_array(array)
@@ -31,7 +31,7 @@ module AwesomePrint
           data = limited(data, width) if should_be_limited?
           "[\n" << data.join(",\n") << "\n#{outdent}]"
         else
-          "[ " << array.map{ |item| inspector.awesome(item) }.join(", ") << " ]"
+          '[ ' << array.map{ |item| inspector.awesome(item) }.join(', ') << ' ]'
         end
       end
 

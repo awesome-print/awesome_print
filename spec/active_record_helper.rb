@@ -7,7 +7,7 @@ if ExtVerifier.has_rails?
   end
 
   # Establish connection to in-memory SQLite DB
-  ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
+  ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: ':memory:'
 
   # Create the users table
   ActiveRecord::Migration.verbose = false

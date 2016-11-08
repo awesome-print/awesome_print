@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapper? }.call do
+RSpec.describe 'AwesomePrint/MongoMapper', skip: ->{ !ExtVerifier.has_mongo_mapper? }.call do
   if ExtVerifier.has_mongo_mapper?
     before :all do
       class MongoUser
@@ -21,18 +21,18 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
     @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
   end
 
-  describe "with the raw option set to true" do
+  describe 'with the raw option set to true' do
     # before { @ap.options[:raw] = true }
     before { @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true, :raw => true) }
 
-    it "should print class instance" do
-      user = MongoUser.new(:first_name => "Al", :last_name => "Capone")
+    it 'should print class instance' do
+      user = MongoUser.new(:first_name => 'Al', :last_name => 'Capone')
 
       out = @ap.send(:awesome, user)
       out.gsub!(/#\<Proc:.+?\>/, 'AWESOME_PRINT_PROC_STUB')
       out.gsub!(/BSON::ObjectId\('[\da-f]+?'\)/, "BSON::ObjectId('123456789')")
 
-      if MongoMapper::Version >= "0.13"
+      if MongoMapper::Version >= '0.13'
         str = <<-EOS.strip
 #<MongoUser:placeholder_id
     @__mm_default_keys = [
@@ -127,7 +127,7 @@ RSpec.describe "AwesomePrint/MongoMapper", skip: ->{ !ExtVerifier.has_mongo_mapp
       expect(out).to be_similar_to(str)
     end
 
-    it "should print the class" do
+    it 'should print the class' do
       expect(@ap.send(:awesome, MongoUser)).to eq <<-EOS.strip
 class MongoUser < Object {
            "_id" => :object_id,
@@ -137,7 +137,7 @@ class MongoUser < Object {
       EOS
     end
 
-    it "should print the class when type is undefined" do
+    it 'should print the class when type is undefined' do
       class Chamelion
         include MongoMapper::Document
         key :last_attribute
@@ -152,7 +152,7 @@ class Chamelion < Object {
     end
   end
 
-  describe "with associations" do
+  describe 'with associations' do
 
     if ExtVerifier.has_mongo_mapper?
       before :all do
@@ -176,8 +176,8 @@ class Chamelion < Object {
       end
     end
 
-    describe "with show associations turned off (default)" do
-      it "should render the class as normal" do
+    describe 'with show associations turned off (default)' do
+      it 'should render the class as normal' do
         expect(@ap.send(:awesome, Parent)).to eq <<-EOS.strip
 class Parent < Object {
      "_id" => :object_id,
@@ -186,7 +186,7 @@ class Parent < Object {
         EOS
       end
 
-      it "should render an instance as normal" do
+      it 'should render an instance as normal' do
         parent = Parent.new(:name => 'test')
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
@@ -199,12 +199,12 @@ class Parent < Object {
       end
     end
 
-    describe "with show associations turned on and inline embedded turned off" do
+    describe 'with show associations turned on and inline embedded turned off' do
       before :each do
         @ap = AwesomePrint::Inspector.new(:plain => true, :mongo_mapper => { :show_associations => true })
       end
 
-      it "should render the class with associations shown" do
+      it 'should render the class with associations shown' do
         expect(@ap.send(:awesome, Parent)).to eq <<-EOS.strip
 class Parent < Object {
         "_id" => :object_id,
@@ -215,7 +215,7 @@ class Parent < Object {
         EOS
       end
 
-      it "should render an instance with associations shown" do
+      it 'should render an instance with associations shown' do
         parent = Parent.new(:name => 'test')
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip
@@ -230,7 +230,7 @@ class Parent < Object {
       end
     end
 
-    describe "with show associations turned on and inline embedded turned on" do
+    describe 'with show associations turned on and inline embedded turned on' do
       before :each do
         @ap = AwesomePrint::Inspector.new(:plain => true,
                                           :mongo_mapper => {
@@ -240,7 +240,7 @@ class Parent < Object {
                                          )
       end
 
-      it "should render an instance with associations shown and embeds there" do
+      it 'should render an instance with associations shown and embeds there' do
         parent = Parent.new(:name => 'test', :child => Child.new(:data => 5))
         out = @ap.send(:awesome, parent)
         str = <<-EOS.strip

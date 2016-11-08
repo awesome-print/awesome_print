@@ -59,7 +59,7 @@ module AwesomePrint
     # Format ActiveRecord class object.
     #------------------------------------------------------------------------------
     def awesome_active_record_class(object)
-      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == "ActiveRecord::Base"
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns) || object.to_s == 'ActiveRecord::Base'
       return awesome_class(object) if object.respond_to?(:abstract_class?) && object.abstract_class?
 
       data = object.columns.inject(::ActiveSupport::OrderedHash.new) do |hash, c|

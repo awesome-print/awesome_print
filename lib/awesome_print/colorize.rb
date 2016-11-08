@@ -1,4 +1,4 @@
-autoload :CGI, "cgi"
+autoload :CGI, 'cgi'
 
 module AwesomePrint
   module Colorize

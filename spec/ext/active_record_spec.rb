@@ -1,16 +1,16 @@
 require 'spec_helper'
 require 'active_record_helper'
 
-RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.call do
-  describe "ActiveRecord instance, attributes only (default)" do
+RSpec.describe 'AwesomePrint/ActiveRecord', skip: ->{ !ExtVerifier.has_rails? }.call do
+  describe 'ActiveRecord instance, attributes only (default)' do
     before do
       ActiveRecord::Base.default_timezone = :utc
-      @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
-      @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
+      @diana = User.new(:name => 'Diana', :rank => 1, :admin => false, :created_at => '1992-10-10 12:30:00')
+      @laura = User.new(:name => 'Laura', :rank => 2, :admin => true,  :created_at => '2003-05-26 14:15:00')
       @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true)
     end
 
-    it "display single record" do
+    it 'display single record' do
       out = @ap.awesome(@diana)
       str = <<-EOS.strip
 #<User:placeholder_id> {
@@ -29,7 +29,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       expect(out).to be_similar_to(str)
     end
 
-    it "display multiple records" do
+    it 'display multiple records' do
       out = @ap.awesome([ @diana, @laura ])
       str = <<-EOS.strip
 [
@@ -59,7 +59,7 @@ RSpec.describe "AwesomePrint/ActiveRecord", skip: ->{ !ExtVerifier.has_rails? }.
       expect(out).to be_similar_to(str)
     end
 
-    it "display multiple records on a relation" do
+    it 'display multiple records on a relation' do
       @diana.save
       @laura.save
       out = @ap.awesome(User.all)
@@ -114,15 +114,15 @@ EOS
   end
 
   #------------------------------------------------------------------------------
-  describe "ActiveRecord instance (raw)" do
+  describe 'ActiveRecord instance (raw)' do
     before do
       ActiveRecord::Base.default_timezone = :utc
-      @diana = User.new(:name => "Diana", :rank => 1, :admin => false, :created_at => "1992-10-10 12:30:00")
-      @laura = User.new(:name => "Laura", :rank => 2, :admin => true,  :created_at => "2003-05-26 14:15:00")
+      @diana = User.new(:name => 'Diana', :rank => 1, :admin => false, :created_at => '1992-10-10 12:30:00')
+      @laura = User.new(:name => 'Laura', :rank => 2, :admin => true,  :created_at => '2003-05-26 14:15:00')
       @ap = AwesomePrint::Inspector.new(:plain => true, :sort_keys => true, :raw => true)
     end
 
-    it "display single record" do
+    it 'display single record' do
       out = @ap.awesome(@diana)
 
       raw_object_string =
@@ -149,7 +149,7 @@ EOS
       expect(out).to be_similar_to(raw_object_string)
     end
 
-    it "display multiple records" do
+    it 'display multiple records' do
       out = @ap.awesome([ @diana, @laura ])
 
       raw_object_string =
@@ -179,12 +179,12 @@ EOS
   end
 
   #------------------------------------------------------------------------------
-  describe "ActiveRecord class" do
+  describe 'ActiveRecord class' do
     before do
       @ap = AwesomePrint::Inspector.new(:plain => true)
     end
 
-    it "should print the class" do
+    it 'should print the class' do
       expect(@ap.awesome(User)).to eq <<-EOS.strip
 class User < ActiveRecord::Base {
             :id => :integer,
@@ -196,7 +196,7 @@ class User < ActiveRecord::Base {
       EOS
     end
 
-    it "should print the class for non-direct subclasses of ActiveRecord::Base" do
+    it 'should print the class for non-direct subclasses of ActiveRecord::Base' do
       out = @ap.awesome(SubUser)
       expect(out).to eq <<-EOS.strip
 class SubUser < User {
@@ -209,23 +209,23 @@ class SubUser < User {
       EOS
     end
 
-    it "should print ActiveRecord::Base objects (ex. ancestors)" do
+    it 'should print ActiveRecord::Base objects (ex. ancestors)' do
       expect { @ap.awesome(User.ancestors) }.not_to raise_error
     end
   end
 
   #------------------------------------------------------------------------------
-  describe "ActiveRecord methods formatting" do
+  describe 'ActiveRecord methods formatting' do
     before do
       @ap = AwesomePrint::Inspector.new(:plain => true)
     end
 
-    it "should format class methods properly" do
+    it 'should format class methods properly' do
       # spec 1
       out = @ap.awesome(User.methods.grep(/first/))
 
-      if ActiveRecord::VERSION::STRING >= "3.2"
-        if RUBY_VERSION >= "1.9"
+      if ActiveRecord::VERSION::STRING >= '3.2'
+        if RUBY_VERSION >= '1.9'
           expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
         else
           expect(out).to match(/\sfirst\(\*arg1\)\s+Class \(ActiveRecord::Querying\)/)
