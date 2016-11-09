@@ -32,7 +32,7 @@ module AwesomePrint
         hash[c[0].to_sym] = c[1]
         hash
       end
-      data = {errors: object.errors, values: data} if !object.errors.empty?
+      data = { errors: object.errors, values: data } if !object.errors.empty?
       "#{object} #{awesome_hash(data)}"
     end
 
@@ -45,7 +45,7 @@ module AwesomePrint
     # Format Sequel Model class.
     #------------------------------------------------------------------------------
     def awesome_sequel_model_class(object)
-      data = object.db_schema.inject({}) {|h, (name,data)| h.merge(name => data[:db_type])}
+      data = object.db_schema.inject({}) { |h, (name, data)| h.merge(name => data[:db_type]) }
       "class #{object} < #{object.superclass} " << awesome_hash(data)
     end
   end

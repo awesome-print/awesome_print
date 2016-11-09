@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Single method' do
   after do
-    Object.instance_eval{ remove_const :Hello } if defined?(Hello)
+    Object.instance_eval { remove_const :Hello } if defined?(Hello)
   end
 
   it 'plain: should handle a method with no arguments' do
@@ -65,7 +65,7 @@ RSpec.describe 'Single method' do
 
   it 'color: should handle an unbound method' do
     class Hello
-      def world(a,b); end
+      def world(a, b); end
     end
     method = Hello.instance_method(:world)
     if RUBY_VERSION < '1.9.2'
@@ -78,7 +78,7 @@ end
 
 RSpec.describe 'Object methods' do
   after do
-    Object.instance_eval{ remove_const :Hello } if defined?(Hello)
+    Object.instance_eval { remove_const :Hello } if defined?(Hello)
   end
 
   describe 'object.methods' do
@@ -130,7 +130,7 @@ RSpec.describe 'Object methods' do
     it 'no index: should handle object.protected_methods' do
       class Hello
         protected
-        def m3(a,b); end
+        def m3(a, b); end
       end
       if RUBY_VERSION < '1.9.2'
         expect(Hello.new.protected_methods.ai(plain: true, index: false)).to eq("[\n     m3(arg1, arg2) Hello\n]")
@@ -156,7 +156,7 @@ RSpec.describe 'Object methods' do
     it 'no index: should handle object.private_methods' do
       class Hello
         private
-        def m3(a,b); end
+        def m3(a, b); end
       end
       out = Hello.new.private_methods.ai(plain: true).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
@@ -182,7 +182,7 @@ RSpec.describe 'Object methods' do
 
     it 'no index: should handle object.singleton_methods' do
       class Hello
-        def self.m3(a,b); end
+        def self.m3(a, b); end
       end
       out = Hello.singleton_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
@@ -196,7 +196,7 @@ end
 
 RSpec.describe 'Class methods' do
   after do
-    Object.instance_eval{ remove_const :Hello } if defined?(Hello)
+    Object.instance_eval { remove_const :Hello } if defined?(Hello)
   end
 
   describe 'class.instance_methods' do
@@ -212,7 +212,7 @@ RSpec.describe 'Class methods' do
 
     it 'no index: should handle unbound class.instance_methods' do
       class Hello
-        def m3(a,b); end
+        def m3(a, b); end
       end
       out = Hello.instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
@@ -236,7 +236,7 @@ RSpec.describe 'Class methods' do
 
     it 'no index: should handle class.public_instance_methods' do
       class Hello
-        def m3(a,b); end
+        def m3(a, b); end
       end
       out = Hello.public_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
@@ -262,7 +262,7 @@ RSpec.describe 'Class methods' do
     it 'no index: should handle class.protected_instance_methods' do
       class Hello
         protected
-        def m3(a,b); end
+        def m3(a, b); end
       end
       out = Hello.protected_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
@@ -288,7 +288,7 @@ RSpec.describe 'Class methods' do
     it 'no index: should handle class.private_instance_methods' do
       class Hello
         private
-        def m3(a,b); end
+        def m3(a, b); end
       end
       out = Hello.private_instance_methods.ai(plain: true, index: false).split("\n").grep(/m\d/)
       if RUBY_VERSION < '1.9.2'
@@ -307,7 +307,7 @@ if RUBY_VERSION >= '1.9.2'
     end
 
     after do
-      Object.instance_eval{ remove_const :Hello } if defined?(Hello)
+      Object.instance_eval { remove_const :Hello } if defined?(Hello)
     end
 
     it '()' do
@@ -354,8 +354,8 @@ end
 
 RSpec.describe 'Methods arrays' do
   after do
-    Object.instance_eval{ remove_const :Hello } if defined?(Hello)
-    Object.instance_eval{ remove_const :World } if defined?(World)
+    Object.instance_eval { remove_const :Hello } if defined?(Hello)
+    Object.instance_eval { remove_const :World } if defined?(World)
   end
 
   it 'obj1.methods - obj2.methods should be awesome printed' do
@@ -432,11 +432,11 @@ RSpec.describe 'Methods arrays' do
     end
 
     hello = Hello.new
-    expect((hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }).to eq([ :him, :his ])
+    expect((hello.send(:his) - hello.send(:her)).sort_by { |x| x.to_s }).to eq([:him, :his])
   end
 
   it 'appending garbage to methods array should not raise error' do
-    arr = 42.methods << [ :wtf ]
+    arr = 42.methods << [:wtf]
     expect { arr.ai(plain: true) }.not_to raise_error
     if RUBY_VERSION < '1.9.2'
       expect(arr.ai(plain: true)).to match(/\s+wtf\(\?\)\s+\?/)      # [ :wtf ].to_s => "wtf"

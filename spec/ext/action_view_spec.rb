@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint ActionView extensions', skip: ->{ !ExtVerifier.has_rails? }.call do
+RSpec.describe 'AwesomePrint ActionView extensions', skip: -> { !ExtVerifier.has_rails? }.call do
 
   before do
     @view = ActionView::Base.new

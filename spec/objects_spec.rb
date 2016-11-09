@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Objects' do
   after do
-    Object.instance_eval{ remove_const :Hello } if defined?(Hello)
+    Object.instance_eval { remove_const :Hello } if defined?(Hello)
   end
 
   describe 'Formatting an object' do

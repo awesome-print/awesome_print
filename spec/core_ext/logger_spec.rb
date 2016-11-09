@@ -15,12 +15,12 @@ RSpec.describe 'AwesomePrint logging extensions' do
       expect(object).to receive(:ai)
       @logger.ap object
     end
-    
+
     describe 'the log level' do
       before do
         AwesomePrint.defaults = {}
       end
-      
+
       it 'should fallback to the default :debug log level' do
         expect(@logger).to receive(:debug)
         @logger.ap(nil)

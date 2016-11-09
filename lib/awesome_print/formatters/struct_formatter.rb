@@ -22,9 +22,9 @@ module AwesomePrint
             struct.respond_to?(property) ? :reader : nil
           end
           if accessor
-            [ "attr_#{accessor} :#{property}", var ]
+            ["attr_#{accessor} :#{property}", var]
           else
-            [ var.to_s, var ]
+            [var.to_s, var]
           end
         end
 

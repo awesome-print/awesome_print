@@ -48,7 +48,7 @@ module AwesomePrint
         hash[c[0].to_sym] = c[1]
         hash
       end
-      data = {errors: object.errors, attributes: data} if !object.errors.empty?
+      data = { errors: object.errors, attributes: data } if !object.errors.empty?
       "#{object} #{awesome_hash(data)}"
     end
 

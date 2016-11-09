@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint/MongoMapper', skip: ->{ !ExtVerifier.has_mongo_mapper? }.call do
+RSpec.describe 'AwesomePrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_mapper? }.call do
   if ExtVerifier.has_mongo_mapper?
     before :all do
       class MongoUser
@@ -12,8 +12,8 @@ RSpec.describe 'AwesomePrint/MongoMapper', skip: ->{ !ExtVerifier.has_mongo_mapp
     end
 
     after :all do
-      Object.instance_eval{ remove_const :MongoUser }
-      Object.instance_eval{ remove_const :Chamelion }
+      Object.instance_eval { remove_const :MongoUser }
+      Object.instance_eval { remove_const :Chamelion }
     end
   end
 

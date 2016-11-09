@@ -19,11 +19,11 @@ module AwesomePrint
         keys = keys.sort { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
         data = keys.map do |key|
           plain_single_line do
-            [ inspector.awesome(key), hash[key] ]
+            [inspector.awesome(key), hash[key]]
           end
         end
 
-        width = data.map { |key, | key.size }.max || 0
+        width = data.map { |key, _value| key.size }.max || 0
         width += indentation if options[:indent] > 0
 
         data = data.map do |key, value|

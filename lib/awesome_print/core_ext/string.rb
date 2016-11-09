@@ -17,11 +17,11 @@ class String
   %w(gray red green yellow blue purple cyan white).zip(
   %w(black darkred darkgreen brown navy darkmagenta darkcyan slategray)).each_with_index do |(color, shade), i|
     define_method color do |*html|
-      html[0] ? %Q|<kbd style="color:#{color}">#{self}</kbd>| : "\e[1;#{30+i}m#{self}\e[0m"
+      html[0] ? %Q|<kbd style="color:#{color}">#{self}</kbd>| : "\e[1;#{30 + i}m#{self}\e[0m"
     end
 
     define_method "#{color}ish" do |*html|
-      html[0] ? %Q|<kbd style="color:#{shade}">#{self}</kbd>| : "\e[0;#{30+i}m#{self}\e[0m"
+      html[0] ? %Q|<kbd style="color:#{shade}">#{self}</kbd>| : "\e[0;#{30 + i}m#{self}\e[0m"
     end
   end
 

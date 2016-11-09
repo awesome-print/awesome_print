@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint/Mongoid', skip: ->{ !ExtVerifier.has_mongoid? }.call do
+RSpec.describe 'AwesomePrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.call do
 
   if ExtVerifier.has_mongoid?
     before :all do
@@ -13,8 +13,8 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: ->{ !ExtVerifier.has_mongoid? }.cal
     end
 
     after :all do
-      Object.instance_eval{ remove_const :MongoUser }
-      Object.instance_eval{ remove_const :Chamelion }
+      Object.instance_eval { remove_const :MongoUser }
+      Object.instance_eval { remove_const :Chamelion }
     end
   end
 
@@ -34,7 +34,7 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: ->{ !ExtVerifier.has_mongoid? }.cal
      :last_name => "Capone"
 }
     EOS
-    expect(out).to be_similar_to(str, {skip_bson: true})
+    expect(out).to be_similar_to(str, { skip_bson: true })
   end
 
   it 'should print the class' do
