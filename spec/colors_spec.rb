@@ -32,7 +32,8 @@ RSpec.describe 'AwesomePrint' do
       it "colorizes processes with ENV['ANSICON'] by default" do
         begin
           stub_tty!
-          term, ENV['ANSICON'] = ENV['ANSICON'], '1'
+          term = ENV['ANSICON']
+          ENV['ANSICON'] = '1'
           expect(@arr.ai(multiline: false)).to eq(COLORIZED)
         ensure
           ENV['ANSICON'] = term
@@ -42,7 +43,8 @@ RSpec.describe 'AwesomePrint' do
       it 'does not colorize tty processes running in dumb terminals by default' do
         begin
           stub_tty!
-          term, ENV['TERM'] = ENV['TERM'], 'dumb'
+          term = ENV['TERM']
+          ENV['TERM'] = 'dumb'
           expect(@arr.ai(multiline: false)).to eq(PLAIN)
         ensure
           ENV['TERM'] = term
@@ -72,7 +74,8 @@ RSpec.describe 'AwesomePrint' do
       it "colorizes processes with ENV['ANSICON'] set to 0" do
         begin
           stub_tty!
-          term, ENV['ANSICON'] = ENV['ANSICON'], '1'
+          term = ENV['ANSICON']
+          ENV['ANSICON'] = '1'
           expect(@arr.ai(multiline: false)).to eq(COLORIZED)
         ensure
           ENV['ANSICON'] = term
@@ -82,7 +85,8 @@ RSpec.describe 'AwesomePrint' do
       it 'colorizes dumb terminals' do
         begin
           stub_tty!
-          term, ENV['TERM'] = ENV['TERM'], 'dumb'
+          term = ENV['TERM']
+          ENV['TERM'] = 'dumb'
           expect(@arr.ai(multiline: false)).to eq(COLORIZED)
         ensure
           ENV['TERM'] = term

@@ -44,7 +44,7 @@ module AwesomePrint
     def awesome_self(object, type)
       if @options[:raw] && object.instance_variables.any?
         awesome_object(object)
-      elsif hash = convert_to_hash(object)
+      elsif (hash = convert_to_hash(object))
         awesome_hash(hash)
       else
         awesome_simple(object.inspect.to_s, type, @inspector)

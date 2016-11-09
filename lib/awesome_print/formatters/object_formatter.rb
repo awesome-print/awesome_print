@@ -64,7 +64,8 @@ module AwesomePrint
       end
 
       def left_aligned
-        current, options[:indent] = options[:indent], 0
+        current = options[:indent]
+        options[:indent] = 0
         yield
       ensure
         options[:indent] = current

@@ -32,8 +32,8 @@ RSpec.describe 'AwesomePrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
       out.gsub!(/#\<Proc:.+?\>/, 'AWESOME_PRINT_PROC_STUB')
       out.gsub!(/BSON::ObjectId\('[\da-f]+?'\)/, "BSON::ObjectId('123456789')")
 
-      if MongoMapper::Version >= '0.13'
-        str = <<-EOS.strip
+      str = if MongoMapper::Version >= '0.13'
+              <<-EOS.strip
 #<MongoUser:placeholder_id
     @__mm_default_keys = [
         [0] #<MongoMapper::Plugins::Keys::Key:placeholder_id
@@ -108,9 +108,9 @@ RSpec.describe 'AwesomePrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
          "last_name" => nil
     }
 >
-        EOS
-      else
-        str = <<-EOS.strip
+              EOS
+            else
+              <<-EOS.strip
 #<MongoUser:placeholder_id
     @_new = true,
     attr_accessor :first_name = "Al",
@@ -122,8 +122,8 @@ RSpec.describe 'AwesomePrint/MongoMapper', skip: -> { !ExtVerifier.has_mongo_map
     attr_reader :first_name_before_type_cast = "Al",
     attr_reader :last_name_before_type_cast = "Capone"
 >
-        EOS
-      end
+              EOS
+            end
       expect(out).to be_similar_to(str)
     end
 
