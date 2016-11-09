@@ -60,11 +60,14 @@ module AwesomePrint
       end
 
       def plain_single_line
-        plain, multiline = options[:plain], options[:multiline]
-        options[:plain], options[:multiline] = true, false
+        plain = options[:plain]
+        multiline = options[:multiline]
+        options[:plain] = true
+        options[:multiline] = false
         yield
       ensure
-        options[:plain], options[:multiline] = plain, multiline
+        options[:plain] = plain
+        options[:multiline] = multiline
       end
     end
   end

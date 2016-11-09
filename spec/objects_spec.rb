@@ -13,7 +13,9 @@ RSpec.describe 'Objects' do
         attr_accessor :dabra
 
         def initialize
-          @abra, @ca, @dabra = 1, 2, 3
+          @abra = 1
+          @ca = 2
+          @dabra = 3
         end
       end
 
@@ -33,7 +35,9 @@ EOS
     it 'instance variables' do
       class Hello
         def initialize
-          @abra, @ca, @dabra = 1, 2, 3
+          @abra = 1
+          @ca = 2
+          @dabra = 3
         end
       end
 
@@ -57,8 +61,12 @@ EOS
         attr_accessor :dabra
 
         def initialize
-          @abra, @ca, @dabra = 1, 2, 3
-          @scooby, @dooby, @doo = 3, 2, 1
+          @abra = 1
+          @ca = 2
+          @dabra = 3
+          @scooby = 3
+          @dooby = 2
+          @doo = 1
         end
       end
 
@@ -84,7 +92,8 @@ EOS
         attr_writer   :ca
 
         def initialize
-          @abra, @ca = 1, 2
+          @abra = 1
+          @ca = 2
           @dabra = 3
         end
       end
@@ -108,7 +117,8 @@ EOS
         attr_writer   :ca
 
         def initialize
-          @abra, @ca = 1, 2
+          @abra = 1
+          @ca = 2
           @dabra = 3
         end
       end

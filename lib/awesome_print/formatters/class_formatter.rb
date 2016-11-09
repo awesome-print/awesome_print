@@ -13,7 +13,8 @@ module AwesomePrint
       end
 
       def format
-        if superclass = klass.superclass # <-- Assign and test if nil.
+        superclass = klass.superclass
+        if superclass
           colorize("#{klass.inspect} < #{superclass}", :class)
         else
           colorize(klass.inspect, :class)

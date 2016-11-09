@@ -52,11 +52,11 @@ module AwesomePrint
           # Add the proper elements to the temp array and format the separator.
           temp = data[0, head] + [nil] + data[-tail, tail]
 
-          if is_hash
-            temp[head] = "#{indent}#{data[head].strip} .. #{data[data.length - tail - 1].strip}"
-          else
-            temp[head] = "#{indent}[#{head.to_s.rjust(width)}] .. [#{data.length - tail - 1}]"
-          end
+          temp[head] = if is_hash
+                         "#{indent}#{data[head].strip} .. #{data[data.length - tail - 1].strip}"
+                       else
+                         "#{indent}[#{head.to_s.rjust(width)}] .. [#{data.length - tail - 1}]"
+                       end
 
           temp
         end
@@ -90,7 +90,8 @@ module AwesomePrint
         # #<UnboundMethod: Hello#world>
         #
         if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
-          unbound, klass = $1 && '(unbound)', $2
+          unbound = $1 && '(unbound)'
+          klass = $2
           if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord-style class?
             klass.sub!($1, '')                    # Yes, strip the fields leaving class name only.
           end

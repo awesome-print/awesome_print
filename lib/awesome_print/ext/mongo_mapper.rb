@@ -73,11 +73,11 @@ module AwesomePrint
       # Add in associations
       if @options[:mongo_mapper][:show_associations]
         object.associations.each do |name, assoc|
-          if @options[:mongo_mapper][:inline_embedded] and assoc.embeddable?
-            data[name.to_s] = object.send(name)
-          else
-            data[name.to_s] = assoc
-          end
+          data[name.to_s] = if @options[:mongo_mapper][:inline_embedded] and assoc.embeddable?
+                              object.send(name)
+                            else
+                              assoc
+                            end
         end
       end
 
