@@ -38,7 +38,7 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_nobrainer_document(object)
       data = object.inspectable_attributes.symbolize_keys
-      data = {errors: object.errors, attributes: data} if object.errors.present?
+      data = { errors: object.errors, attributes: data } if object.errors.present?
       "#{object} #{awesome_hash(data)}"
     end
   end

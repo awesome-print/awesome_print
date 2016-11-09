@@ -87,7 +87,7 @@ RSpec.describe 'AwesomePrint' do
     end
 
     it 'wraps multiline ap output with <pre> tag with colorized <kbd>' do
-      markup = [ 1, :two, 'three' ]
+      markup = [1, :two, 'three']
       expect(markup.ai(html: true)).to eq <<-EOS.strip_heredoc.strip
         <pre>[
             <kbd style="color:white">[0] </kbd><kbd style="color:blue">1</kbd>,
@@ -98,7 +98,7 @@ RSpec.describe 'AwesomePrint' do
     end
 
     it 'wraps hash ap output with only an outer <pre> tag' do
-      markup = [ { 'hello' => 'world' } ]
+      markup = [{ 'hello' => 'world' }]
       expect(markup.ai(html: true)).to eq <<-EOS.strip_heredoc.strip
         <pre>[
             <kbd style="color:white">[0] </kbd>{
@@ -191,7 +191,7 @@ RSpec.describe 'AwesomePrint' do
       ENV.delete('RAILS_ENV')
       expect(AwesomePrint.console?).to eq(true)
       expect(AwesomePrint.rails_console?).to eq(false)
-      Object.instance_eval{ remove_const :IRB }
+      Object.instance_eval { remove_const :IRB }
     end
 
     it 'should detect Pry' do
@@ -199,7 +199,7 @@ RSpec.describe 'AwesomePrint' do
       ENV.delete('RAILS_ENV')
       expect(AwesomePrint.console?).to eq(true)
       expect(AwesomePrint.rails_console?).to eq(false)
-      Object.instance_eval{ remove_const :Pry }
+      Object.instance_eval { remove_const :Pry }
     end
 
     it 'should detect Rails::Console' do
@@ -207,8 +207,8 @@ RSpec.describe 'AwesomePrint' do
       module Rails; class Console; end; end
       expect(AwesomePrint.console?).to eq(true)
       expect(AwesomePrint.rails_console?).to eq(true)
-      Object.instance_eval{ remove_const :IRB }
-      Object.instance_eval{ remove_const :Rails }
+      Object.instance_eval { remove_const :IRB }
+      Object.instance_eval { remove_const :Rails }
     end
 
     it "should detect ENV['RAILS_ENV']" do
@@ -216,19 +216,19 @@ RSpec.describe 'AwesomePrint' do
       ENV['RAILS_ENV'] = 'development'
       expect(AwesomePrint.console?).to eq(true)
       expect(AwesomePrint.rails_console?).to eq(true)
-      Object.instance_eval{ remove_const :Pry }
+      Object.instance_eval { remove_const :Pry }
     end
 
     it 'should return the actual object when *not* running under console' do
-      expect(capture! { ap([ 1, 2, 3 ]) }).to eq([ 1, 2, 3 ])
+      expect(capture! { ap([1, 2, 3]) }).to eq([1, 2, 3])
       expect(capture! { ap({ a: 1 }) }).to eq({ a: 1 })
     end
 
     it 'should return nil when running under console' do
       class IRB; end
-      expect(capture! { ap([ 1, 2, 3 ]) }).to eq(nil)
+      expect(capture! { ap([1, 2, 3]) }).to eq(nil)
       expect(capture! { ap({ a: 1 }) }).to eq(nil)
-      Object.instance_eval{ remove_const :IRB }
+      Object.instance_eval { remove_const :IRB }
     end
 
     it 'handles NoMethodError on IRB implicit #ai' do

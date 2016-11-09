@@ -50,7 +50,7 @@ module AwesomePrint
           tail = head - (limit - 1) % 2
 
           # Add the proper elements to the temp array and format the separator.
-          temp = data[0, head] + [ nil ] + data[-tail, tail]
+          temp = data[0, head] + [nil] + data[-tail, tail]
 
           if is_hash
             temp[head] = "#{indent}#{data[head].strip} .. #{data[data.length - tail - 1].strip}"
@@ -97,7 +97,7 @@ module AwesomePrint
           owner = "#{klass}#{unbound}".gsub('(', ' (')
         end
 
-        [ method.name.to_s, "(#{args.join(', ')})", owner.to_s ]
+        [method.name.to_s, "(#{args.join(', ')})", owner.to_s]
       end
 
       #

@@ -22,9 +22,9 @@ module AwesomePrint
             object.respond_to?(property) ? :reader : nil
           end
           if accessor
-            [ "attr_#{accessor} :#{property}", var ]
+            ["attr_#{accessor} :#{property}", var]
           else
-            [ var.to_s, var ]
+            [var.to_s, var]
           end
         end
 
@@ -53,7 +53,7 @@ module AwesomePrint
         end
       end
 
-      private 
+      private
 
       def valid_instance_var?(variable_name)
         variable_name.to_s.start_with?('@')

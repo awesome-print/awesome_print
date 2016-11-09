@@ -18,7 +18,7 @@ module AwesomePrint
       cast = cast_without_mongo_mapper(object, type)
 
       if defined?(::MongoMapper::Document)
-        if object.is_a?(Class) && (object.ancestors & [ ::MongoMapper::Document, ::MongoMapper::EmbeddedDocument ]).size > 0
+        if object.is_a?(Class) && (object.ancestors & [::MongoMapper::Document, ::MongoMapper::EmbeddedDocument]).size > 0
           cast = :mongo_mapper_class
         elsif object.is_a?(::MongoMapper::Document) || object.is_a?(::MongoMapper::EmbeddedDocument)
           cast = :mongo_mapper_instance
@@ -65,7 +65,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      data = object.keys.keys.sort_by{|k| k}.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+      data = object.keys.keys.sort_by { |k| k }.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
         hash[name] = object[name]
         hash
       end
@@ -93,7 +93,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      association = object.class.name.split('::').last.titleize.downcase.sub(/ association$/,'')
+      association = object.class.name.split('::').last.titleize.downcase.sub(/ association$/, '')
       association = "embeds #{association}" if object.embeddable?
       class_name = object.class_name
 

@@ -6,7 +6,7 @@ require 'set'
 RSpec.describe 'AwesomePrint' do
   describe 'Array' do
     before do
-      @arr = [ 1, :two, 'three', [ nil, [ true, false] ] ]
+      @arr = [1, :two, 'three', [nil, [true, false]]]
     end
 
     it 'empty array' do
@@ -127,7 +127,7 @@ EOS
   #------------------------------------------------------------------------------
   describe 'Nested Array' do
     before do
-      @arr = [ 1, 2 ]
+      @arr = [1, 2]
       @arr << @arr
     end
 
@@ -384,7 +384,7 @@ EOS
   #------------------------------------------------------------------------------
   describe 'Hash with several keys' do
     before do
-      @hash = {'b' => 'b', :a => 'a', :z => 'z', 'alpha' => 'alpha'}
+      @hash = { 'b' => 'b', :a => 'a', :z => 'z', 'alpha' => 'alpha' }
     end
 
     it 'plain multiline' do
@@ -439,7 +439,7 @@ EOS
     end
 
     it 'nested hash keys should be indented (array of hashes)' do
-      arr = [ { a: 1, bb: 22, ccc: 333}, { 1 => :a, 22 => :bb, 333 => :ccc} ]
+      arr = [{ a: 1, bb: 22, ccc: 333 }, { 1 => :a, 22 => :bb, 333 => :ccc }]
       out = arr.ai(plain: true, indent: -4, sort_keys: true)
       expect(out).to eq <<-EOS.strip
 [
@@ -458,7 +458,7 @@ EOS
     end
 
     it 'nested hash keys should be indented (hash of hashes)' do
-      arr = { first: { a: 1, bb: 22, ccc: 333}, second: { 1 => :a, 22 => :bb, 333 => :ccc} }
+      arr = { first: { a: 1, bb: 22, ccc: 333 }, second: { 1 => :a, 22 => :bb, 333 => :ccc } }
       out = arr.ai(plain: true, indent: -4, sort_keys: true)
       expect(out).to eq <<-EOS.strip
 {
@@ -543,7 +543,7 @@ EOS
   #------------------------------------------------------------------------------
   describe 'Set' do
     before do
-      @arr = [1, :two, 'three' ]
+      @arr = [1, :two, 'three']
       @set = Set.new(@arr)
     end
 
@@ -569,19 +569,19 @@ EOS
       end
     else # Prior to Ruby 1.9 the order of set values is unpredicatble.
       it 'plain multiline' do
-        expect(@set.sort_by{ |x| x.to_s }.ai(plain: true)).to eq(@arr.sort_by{ |x| x.to_s }.ai(plain: true))
+        expect(@set.sort_by { |x| x.to_s }.ai(plain: true)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true))
       end
 
       it 'plain multiline indented' do
-        expect(@set.sort_by{ |x| x.to_s }.ai(plain: true, indent: 1)).to eq(@arr.sort_by{ |x| x.to_s }.ai(plain: true, indent: 1))
+        expect(@set.sort_by { |x| x.to_s }.ai(plain: true, indent: 1)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true, indent: 1))
       end
 
       it 'plain single line' do
-        expect(@set.sort_by{ |x| x.to_s }.ai(plain: true, multiline: false)).to eq(@arr.sort_by{ |x| x.to_s }.ai(plain: true, multiline: false))
+        expect(@set.sort_by { |x| x.to_s }.ai(plain: true, multiline: false)).to eq(@arr.sort_by { |x| x.to_s }.ai(plain: true, multiline: false))
       end
 
       it 'colored multiline (default)' do
-        expect(@set.sort_by{ |x| x.to_s }.ai).to eq(@arr.sort_by{ |x| x.to_s }.ai)
+        expect(@set.sort_by { |x| x.to_s }.ai).to eq(@arr.sort_by { |x| x.to_s }.ai)
       end
     end
   end
@@ -648,13 +648,13 @@ EOS
   #------------------------------------------------------------------------------
   describe 'Inherited from standard Ruby classes' do
     after do
-      Object.instance_eval{ remove_const :My } if defined?(My)
+      Object.instance_eval { remove_const :My } if defined?(My)
     end
 
     it 'inherited from Array should be displayed as Array' do
       class My < Array; end
 
-      my = My.new([ 1, :two, 'three', [ nil, [ true, false ] ] ])
+      my = My.new([1, :two, 'three', [nil, [true, false]]])
       expect(my.ai(plain: true)).to eq <<-EOS.strip
 [
     [0] 1,
@@ -674,7 +674,7 @@ EOS
     it 'inherited from Hash should be displayed as Hash' do
       class My < Hash; end
 
-      my = My[ { 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } } ]
+      my = My[{ 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }]
       expect(my.ai(plain: true)).to eq <<-EOS.strip
 {
     1 => {

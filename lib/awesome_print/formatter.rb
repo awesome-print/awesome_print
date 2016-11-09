@@ -11,7 +11,7 @@ module AwesomePrint
 
     attr_reader :inspector, :options
 
-    CORE = [ :array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod ]
+    CORE = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
 
     def initialize(inspector)
       @inspector   = inspector
@@ -88,7 +88,7 @@ module AwesomePrint
     end
 
     def awesome_method(m)
-      Formatters::MethodFormatter.new(m, @inspector).format  
+      Formatters::MethodFormatter.new(m, @inspector).format
     end
     alias :awesome_unboundmethod :awesome_method
 
@@ -107,7 +107,7 @@ module AwesomePrint
     # Utility methods.
     #------------------------------------------------------------------------------
     def convert_to_hash(object)
-      if ! object.respond_to?(:to_hash)
+      if !object.respond_to?(:to_hash)
         return nil
       end
 
@@ -116,7 +116,7 @@ module AwesomePrint
       end
 
       hash = object.to_hash
-      if ! hash.respond_to?(:keys) || ! hash.respond_to?('[]')
+      if !hash.respond_to?(:keys) || !hash.respond_to?('[]')
         return nil
       end
 

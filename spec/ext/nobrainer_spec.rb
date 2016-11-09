@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint/NoBrainer', skip: ->{ !ExtVerifier.has_nobrainer? }.call do
+RSpec.describe 'AwesomePrint/NoBrainer', skip: -> { !ExtVerifier.has_nobrainer? }.call do
 
   if ExtVerifier.has_nobrainer?
     before :all do
@@ -21,7 +21,7 @@ RSpec.describe 'AwesomePrint/NoBrainer', skip: ->{ !ExtVerifier.has_nobrainer? }
     end
 
     after :all do
-      Object.instance_eval{ remove_const :SomeModel }
+      Object.instance_eval { remove_const :SomeModel }
     end
   end
 

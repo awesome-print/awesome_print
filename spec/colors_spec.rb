@@ -16,7 +16,7 @@ RSpec.describe 'AwesomePrint' do
     before do
       ENV['TERM'] = 'xterm-colors'
       ENV.delete('ANSICON')
-      @arr = [ 1, :two, 'three', [ nil, [ true, false] ] ]
+      @arr = [1, :two, 'three', [nil, [true, false]]]
     end
 
     describe 'default settings (no forced colors)' do

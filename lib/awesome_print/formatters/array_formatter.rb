@@ -31,7 +31,7 @@ module AwesomePrint
           data = limited(data, width) if should_be_limited?
           "[\n" << data.join(",\n") << "\n#{outdent}]"
         else
-          '[ ' << array.map{ |item| inspector.awesome(item) }.join(', ') << ' ]'
+          '[ ' << array.map { |item| inspector.awesome(item) }.join(', ') << ' ]'
         end
       end
 
@@ -51,7 +51,7 @@ module AwesomePrint
               method_tuple(object.instance_method(name)) rescue nil # Rescue to avoid NameError when the method is not
             end                                                     # available (ex. File.lchmod on Ubuntu 12).
           end
-          tuple || [ name.to_s, '(?)', '?' ]                  # Return WTF default if all the above fails.
+          tuple || [name.to_s, '(?)', '?']                  # Return WTF default if all the above fails.
         end
 
         width = (tuples.size - 1).to_s.size

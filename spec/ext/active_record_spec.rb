@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'active_record_helper'
 
-RSpec.describe 'AwesomePrint/ActiveRecord', skip: ->{ !ExtVerifier.has_rails? }.call do
+RSpec.describe 'AwesomePrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }.call do
   describe 'ActiveRecord instance, attributes only (default)' do
     before do
       ActiveRecord::Base.default_timezone = :utc
@@ -30,7 +30,7 @@ RSpec.describe 'AwesomePrint/ActiveRecord', skip: ->{ !ExtVerifier.has_rails? }.
     end
 
     it 'display multiple records' do
-      out = @ap.awesome([ @diana, @laura ])
+      out = @ap.awesome([@diana, @laura])
       str = <<-EOS.strip
 [
     [0] #<User:placeholder_id> {
@@ -150,7 +150,7 @@ EOS
     end
 
     it 'display multiple records' do
-      out = @ap.awesome([ @diana, @laura ])
+      out = @ap.awesome([@diana, @laura])
 
       raw_object_string =
         if activerecord_5_0?
