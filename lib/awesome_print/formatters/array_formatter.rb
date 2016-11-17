@@ -3,7 +3,6 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class ArrayFormatter < BaseFormatter
-
       attr_reader :array, :inspector, :options
 
       def initialize(array, inspector)
@@ -14,7 +13,7 @@ module AwesomePrint
 
       def format
         if array.empty?
-          "[]"
+          '[]'
         elsif methods_array?
           methods_array
         else
@@ -32,15 +31,15 @@ module AwesomePrint
         if options[:multiline]
           multiline_array
         else
-          "[ " << array.map{ |item| inspector.awesome(item) }.join(", ") << " ]"
+          '[ ' << array.map { |item| inspector.awesome(item) }.join(', ') << ' ]'
         end
       end
 
       def multiline_array
         data = unless should_be_limited?
-                   generate_printable_array
+                 generate_printable_array
                else
-                   limited(generate_printable_array, width(array))
+                 limited(generate_printable_array, width(array))
                end
 
         %Q([\n#{data.join(",\n")}\n#{outdent}])
@@ -81,9 +80,12 @@ module AwesomePrint
       def tuple_template(item)
         name_width, args_width = name_and_args_width
 
-        str = "#{colorize(item[0].rjust(name_width), :method)}"
-        str << "#{colorize(item[1].ljust(args_width), :args)} "
-        str << "#{colorize(item[2], :class)}"
+        [
+          colorize(item[0].rjust(name_width), :method),
+          colorize(item[1].ljust(args_width), :args),
+          ' ',
+          colorize(item[2], :class)
+        ].join
       end
 
       def tuples
@@ -100,19 +102,17 @@ module AwesomePrint
         if options[:index]
           indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
         else
-          indent + " "
+          indent + ' '
         end
       end
 
       def generate_tuple(name)
         meth = case name
-        when Symbol, String
-          find_method(name)
-        else
-          nil
-        end
+               when Symbol, String
+                 find_method(name)
+               end
 
-        meth ? method_tuple(meth) : [ name.to_s, '(?)', '?' ]
+        meth ? method_tuple(meth) : [name.to_s, '(?)', '?']
       end
 
       def find_method(name)
@@ -124,7 +124,7 @@ module AwesomePrint
           nil
         end
 
-        meth ||= begin
+        meth || begin
           object.instance_method(name)
         rescue NameError
           nil
