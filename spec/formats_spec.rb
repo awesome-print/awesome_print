@@ -774,6 +774,28 @@ EOS
         my = My.new
         expect { my.ai(plain: true) }.not_to raise_error
       end
+
+      it "that responds to #to_hash but doesn't define it" do
+        class My
+          def method_missing(method_name, *args)
+            if method_name == :to_hash
+              {}
+            else
+              super
+            end
+          end
+          def respond_to?(*args)
+            if method_name == :to_hash
+              true
+            else
+              super
+            end
+          end
+        end
+
+        my = My.new
+        expect { my.ai(plain: true) }.not_to raise_error
+      end
     end
   end
 end

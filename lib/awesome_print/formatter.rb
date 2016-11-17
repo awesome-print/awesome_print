@@ -107,7 +107,7 @@ module AwesomePrint
     # Utility methods.
     #------------------------------------------------------------------------------
     def convert_to_hash(object)
-      if !object.respond_to?(:to_hash)
+      if !object.public_methods.include?(:to_hash)
         return nil
       end
 
