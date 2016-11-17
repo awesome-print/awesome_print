@@ -54,11 +54,7 @@ module AwesomePrint
       end
 
       def array_prefix(iteration, width)
-        if options[:index]
-          indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
-        else
-          indent
-        end
+        generic_prefix(iteration, width)
       end
 
       def methods_array
@@ -99,11 +95,7 @@ module AwesomePrint
       end
 
       def tuple_prefix(iteration, width)
-        if options[:index]
-          indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
-        else
-          indent + ' '
-        end
+        generic_prefix(iteration, width, ' ')
       end
 
       def generate_tuple(name)
@@ -128,6 +120,14 @@ module AwesomePrint
           object.instance_method(name)
         rescue NameError
           nil
+        end
+      end
+
+      def generic_prefix(iteration, width, padding='')
+        if options[:index]
+          indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
+        else
+          indent + padding
         end
       end
 
