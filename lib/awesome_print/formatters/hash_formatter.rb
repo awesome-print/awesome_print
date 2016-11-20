@@ -3,7 +3,6 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class HashFormatter < BaseFormatter
-
       attr_reader :hash, :inspector, :options
 
       def initialize(hash, inspector)
@@ -13,10 +12,9 @@ module AwesomePrint
       end
 
       def format
-        case
-        when hash.empty?
+        if hash.empty?
           empty_hash
-        when multiline_hash?
+        elsif multiline_hash?
           multiline_hash
         else
           simple_hash
@@ -26,7 +24,7 @@ module AwesomePrint
       private
 
       def empty_hash
-        "{}"
+        '{}'
       end
 
       def multiline_hash?
@@ -59,11 +57,13 @@ module AwesomePrint
       end
 
       def left_width(keys)
-        options[:indent] > 0 ? indentation + max_key_width(keys) : max_key_width(keys)
+        result = max_key_width(keys)
+        result += indentation if options[:indent] > 0
+        result
       end
 
       def max_key_width(keys)
-        keys.map { |key, | key.size }.max || 0
+        keys.map { |key, _value| key.size }.max || 0
       end
 
       def printable_keys
@@ -73,22 +73,22 @@ module AwesomePrint
 
         keys.map! do |key|
           plain_single_line do
-            [ inspector.awesome(key), hash[key] ]
+            [inspector.awesome(key), hash[key]]
           end
         end
       end
 
-      def symbol?(k)
-        k[0] == ':'
+      def symbol?(key)
+        key[0] == ':'
       end
 
-      def ruby19_syntax(k, v, width)
-        k[0] = ''
-        align(k, width - 1) << colorize(': ', :hash) << inspector.awesome(v)
+      def ruby19_syntax(key, value, width)
+        key[0] = ''
+        align(key, width - 1) << colorize(': ', :hash) << inspector.awesome(value)
       end
 
-      def pre_ruby19_syntax(k, v, width)
-        align(k, width) << colorize(' => ', :hash) << inspector.awesome(v)
+      def pre_ruby19_syntax(key, value, width)
+        align(key, width) << colorize(' => ', :hash) << inspector.awesome(value)
       end
 
       def plain_single_line
