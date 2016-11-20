@@ -3,7 +3,6 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class HashFormatter < BaseFormatter
-
       attr_reader :hash, :inspector, :options
 
       def initialize(hash, inspector)
@@ -13,20 +12,38 @@ module AwesomePrint
       end
 
       def format
-        return '{}' if hash == {}
-
-        keys = hash.keys
-        keys = keys.sort { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
-        data = keys.map do |key|
-          plain_single_line do
-            [inspector.awesome(key), hash[key]]
-          end
+        if hash.empty?
+          empty_hash
+        elsif multiline_hash?
+          multiline_hash
+        else
+          simple_hash
         end
+      end
 
-        width = data.map { |key, _value| key.size }.max || 0
-        width += indentation if options[:indent] > 0
+      private
 
-        data = data.map do |key, value|
+      def empty_hash
+        '{}'
+      end
+
+      def multiline_hash?
+        options[:multiline]
+      end
+
+      def multiline_hash
+        "{\n" << printable_hash.join(",\n") << "\n#{outdent}}"
+      end
+
+      def simple_hash
+        "{ #{printable_hash.join(', ')} }"
+      end
+
+      def printable_hash
+        data = printable_keys
+        width = left_width(data)
+
+        data.map! do |key, value|
           indented do
             if options[:ruby19_syntax] && symbol?(key)
               ruby19_syntax(key, value, width)
@@ -36,27 +53,42 @@ module AwesomePrint
           end
         end
 
-        data = limited(data, width, hash: true) if should_be_limited?
-        if options[:multiline]
-          "{\n" << data.join(",\n") << "\n#{outdent}}"
-        else
-          "{ #{data.join(', ')} }"
+        should_be_limited? ? limited(data, width, hash: true) : data
+      end
+
+      def left_width(keys)
+        result = max_key_width(keys)
+        result += indentation if options[:indent] > 0
+        result
+      end
+
+      def max_key_width(keys)
+        keys.map { |key, _value| key.size }.max || 0
+      end
+
+      def printable_keys
+        keys = hash.keys
+
+        keys.sort! { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
+
+        keys.map! do |key|
+          plain_single_line do
+            [inspector.awesome(key), hash[key]]
+          end
         end
       end
 
-      private
-
-      def symbol?(k)
-        k[0] == ':'
+      def symbol?(key)
+        key[0] == ':'
       end
 
-      def ruby19_syntax(k, v, width)
-        k[0] = ''
-        align(k, width - 1) << colorize(': ', :hash) << inspector.awesome(v)
+      def ruby19_syntax(key, value, width)
+        key[0] = ''
+        align(key, width - 1) << colorize(': ', :hash) << inspector.awesome(value)
       end
 
-      def pre_ruby19_syntax(k, v, width)
-        align(k, width) << colorize(' => ', :hash) << inspector.awesome(v)
+      def pre_ruby19_syntax(key, value, width)
+        align(key, width) << colorize(' => ', :hash) << inspector.awesome(value)
       end
 
       def plain_single_line
