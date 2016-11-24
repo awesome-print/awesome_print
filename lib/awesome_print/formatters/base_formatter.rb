@@ -65,7 +65,8 @@ module AwesomePrint
 
       def method_tuple(method)
         if method.respond_to?(:parameters) # Ruby 1.9.2+
-          # See http://ruby.runpaint.org/methods#method-objects-parameters
+          # See http://readruby.chengguangnan.com/methods#method-objects-parameters
+          # (mirror: http://archive.is/XguCA#selection-3381.1-3381.11)
           args = method.parameters.inject([]) do |arr, (type, name)|
             name ||= (type == :block ? 'block' : "arg#{arr.size + 1}")
             arr << case type
