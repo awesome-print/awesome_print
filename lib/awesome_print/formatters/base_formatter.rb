@@ -28,7 +28,7 @@ module AwesomePrint
       # ]
       #------------------------------------------------------------------------------
       def should_be_limited?
-        options[:limit] or (options[:limit].is_a?(Fixnum) and options[:limit] > 0)
+        options[:limit] or (options[:limit].is_a?(Integer) and options[:limit] > 0)
       end
 
       def get_limit_size
