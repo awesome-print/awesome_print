@@ -28,7 +28,7 @@ module AwesomePrint
           end
         end
 
-        data = vars.sort.map do |declaration, var|
+        data = (options[:sort_vars] ? vars.sort : vars).map do |declaration, var|
           key = left_aligned do
             align(declaration, declaration.size)
           end

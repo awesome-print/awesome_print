@@ -131,5 +131,41 @@ EOS
       expect(out).to be_similar_to(str)
       expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
     end
+
+    it 'without the sort_vars option does not sort instance variables' do
+      class Hello
+        attr_reader   :abra
+        attr_writer   :ca
+        attr_accessor :dabra
+
+        def initialize
+          @abra = 1
+          @ca = 2
+          @dabra = 3
+          @scooby = 3
+          @dooby = 2
+          @doo = 1
+        end
+
+        def instance_variables
+          [:@scooby, :@dooby, :@doo, :@abra, :@ca, :@dabra]
+        end
+      end
+
+      hello = Hello.new
+      out = hello.ai(plain: true, raw: true, sort_vars: false)
+      str = <<-EOS.strip
+#<Hello:placeholder_id
+    @scooby = 3,
+    @dooby = 2,
+    @doo = 1,
+    attr_reader :abra = 1,
+    attr_writer :ca = 2,
+    attr_accessor :dabra = 3
+>
+EOS
+      expect(out).to be_similar_to(str)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+    end
   end
 end
