@@ -60,7 +60,9 @@ module AwesomePrint
       end
 
       def awesome_instance
-        "#{object.class}:0x%08x" % (object.__id__ * 2)
+        str = object.send(options[:class_name]).to_s
+        str << ":0x%08x" % (object.__id__ * 2) if options[:object_id]
+        str
       end
 
       def left_aligned

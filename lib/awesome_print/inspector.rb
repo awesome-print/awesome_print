@@ -23,6 +23,8 @@ module AwesomePrint
         sort_vars:     true,   # Sort instance variables.
         limit:         false,  # Limit arrays & hashes. Accepts bool or int.
         ruby19_syntax: false,  # Use Ruby 1.9 hash syntax in output.
+        class_name:    :class, # Method used to get Instance class name.
+        object_id:     true,   # Show object_id.
         color: {
           args:       :pale,
           array:      :white,
