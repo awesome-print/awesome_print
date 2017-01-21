@@ -19,8 +19,8 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.rubyforge_project = 'awesome_print'
 
-  s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/*'] + ['.gitignore']
-  s.test_files    = Dir['spec/*']
+  s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/**/*'] + ['.gitignore']
+  s.test_files    = Dir['spec/**/*']
   s.executables   = []
   s.require_paths = ['lib']
 
