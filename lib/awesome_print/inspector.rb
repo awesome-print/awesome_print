@@ -22,6 +22,8 @@ module AwesomePrint
         sort_keys:     false,  # Do not sort hash keys.
         limit:         false,  # Limit arrays & hashes. Accepts bool or int.
         ruby19_syntax: false,  # Use Ruby 1.9 hash syntax in output.
+        classname:     :class, # Method used to get Instance class name.
+        object_id:     true,   # Show object_id.
         color: {
           args:       :pale,
           array:      :white,

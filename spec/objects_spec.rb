@@ -131,5 +131,55 @@ EOS
       expect(out).to be_similar_to(str)
       expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
     end
+
+    it 'object_id' do
+      class Hello
+        def initialize
+          @abra = 1
+          @ca = 2
+          @dabra = 3
+        end
+      end
+
+      hello = Hello.new
+      out = hello.ai(plain: true, raw: true, object_id: false)
+      str = <<-EOS.strip
+#<Hello
+    @abra = 1,
+    @ca = 2,
+    @dabra = 3
+>
+EOS
+      expect(out).to be_similar_to(str)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+    end
+
+    it 'classname' do
+      class Hello
+        def initialize
+          @abra = 1
+          @ca = 2
+          @dabra = 3
+        end
+
+        def to_s
+          "CustomizedHello"
+        end
+      end
+
+      hello = Hello.new
+      out = hello.ai(plain: true, raw: true, classname: :to_s)
+      str = <<-EOS.strip
+#<CustomizedHello:placeholder_id
+    @abra = 1,
+    @ca = 2,
+    @dabra = 3
+>
+EOS
+      expect(out).to be_similar_to(str)
+      expect(hello.ai(plain: true, raw: false)).to eq(hello.inspect)
+    end
+
+
   end
 end
