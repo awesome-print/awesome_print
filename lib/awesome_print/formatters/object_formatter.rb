@@ -60,7 +60,7 @@ module AwesomePrint
       end
 
       def awesome_instance
-        str = object.send(options[:classname])
+        str = object.send(options[:classname]).to_s
         str << ":0x%08x" % (object.__id__ * 2) if options[:object_id]
         str
       end
