@@ -19,6 +19,8 @@ module AwesomePrint
 
       if object.is_a?(::ActiveRecord::Base)
         cast = :active_record_instance
+      elsif object.is_a?(::ActiveModel::Errors)
+        cast = :active_model_error
       elsif object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
         cast = :active_record_class
       elsif type == :activerecord_relation || object.class.ancestors.include?(::ActiveRecord::Relation)
@@ -67,6 +69,29 @@ module AwesomePrint
         hash
       end
       "class #{object} < #{object.superclass} " << awesome_hash(data)
+    end
+
+    # Format ActiveModel error object.
+    #------------------------------------------------------------------------------
+    def awesome_active_model_error(object)
+      return object.inspect if !defined?(::ActiveSupport::OrderedHash)
+      return awesome_object(object) if @options[:raw]
+
+      object_dump = object.marshal_dump.first
+      data = if object_dump.class.column_names != object_dump.attributes.keys
+               object_dump.attributes
+             else
+               object_dump.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+                 if object_dump.has_attribute?(name) || object_dump.new_record?
+                   value = object_dump.respond_to?(name) ? object_dump.send(name) : object_dump.read_attribute(name)
+                   hash[name.to_sym] = value
+                 end
+                 hash
+               end
+             end
+
+      data.merge!({details: object.details, messages: object.messages})
+      "#{object} " << awesome_hash(data)
     end
   end
 end
