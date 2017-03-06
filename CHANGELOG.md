@@ -1,4 +1,5 @@
 ## master (unreleased)
+  - Remove Rails strip_heredoc dependency since Rails is not listed as a add_development_dependency [@kstephens] - [#302]
   - ActiveRecord: #joins now show the columns #select'ed [@adrianomitre] - [#211]
   - Handles NoMethodError for IRB implicit `ai` [@jtnegrotto] - [#212]
   - Replaced Fixnum reference with Integer 
