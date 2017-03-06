@@ -88,23 +88,23 @@ RSpec.describe 'AwesomePrint' do
 
     it 'wraps multiline ap output with <pre> tag with colorized <kbd>' do
       markup = [1, :two, 'three']
-      expect(markup.ai(html: true)).to eq <<-EOS.strip_heredoc.strip
-        <pre>[
-            <kbd style="color:white">[0] </kbd><kbd style="color:blue">1</kbd>,
-            <kbd style="color:white">[1] </kbd><kbd style="color:darkcyan">:two</kbd>,
-            <kbd style="color:white">[2] </kbd><kbd style="color:brown">&quot;three&quot;</kbd>
-        ]</pre>
+      expect(markup.ai(html: true)).to eq <<-EOS.strip
+<pre>[
+    <kbd style="color:white">[0] </kbd><kbd style="color:blue">1</kbd>,
+    <kbd style="color:white">[1] </kbd><kbd style="color:darkcyan">:two</kbd>,
+    <kbd style="color:white">[2] </kbd><kbd style="color:brown">&quot;three&quot;</kbd>
+]</pre>
       EOS
     end
 
     it 'wraps hash ap output with only an outer <pre> tag' do
       markup = [{ 'hello' => 'world' }]
-      expect(markup.ai(html: true)).to eq <<-EOS.strip_heredoc.strip
-        <pre>[
-            <kbd style="color:white">[0] </kbd>{
-                &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
-            }
-        ]</pre>
+      expect(markup.ai(html: true)).to eq <<-EOS.strip
+<pre>[
+    <kbd style="color:white">[0] </kbd>{
+        &quot;hello&quot;<kbd style="color:slategray"> =&gt; </kbd><kbd style="color:brown">&quot;world&quot;</kbd>
+    }
+]</pre>
       EOS
     end
 
@@ -130,12 +130,12 @@ RSpec.describe 'AwesomePrint' do
       AwesomePrint.defaults = { indent: -2, sort_keys: true }
       hash = { [0, 0, 255] => :yellow, :red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
       out = hash.ai(plain: true)
-      expect(out).to eq <<-EOS.strip_heredoc.strip
-        {
-          [ 0, 0, 255 ] => :yellow,
-          "magenta"     => "rgb(255, 0, 255)",
-          :red          => "rgb(255, 0, 0)"
-        }
+      expect(out).to eq <<-EOS.strip
+{
+  [ 0, 0, 255 ] => :yellow,
+  "magenta"     => "rgb(255, 0, 255)",
+  :red          => "rgb(255, 0, 0)"
+}
       EOS
     end
   end
