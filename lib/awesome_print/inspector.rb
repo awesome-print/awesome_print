@@ -143,8 +143,16 @@ module AwesomePrint
     #---------------------------------------------------------------------------
     def load_dotfile
       dotfile = File.join(ENV['HOME'], '.aprc')
-      load dotfile if File.readable?(dotfile)
+      load dotfile if dotfile_readable?(dotfile)
     end
+
+    def dotfile_readable? dotfile
+      if @@dotfile_readable.nil? || @@dotfile != dotfile
+        @@dotfile_readable = File.readable?(@@dotfile = dotfile)
+      end
+      @@dotfile_readable
+    end
+    @@dotfile_readable = @@dotfile = nil
 
     # Load ~/.aprc file with custom defaults that override default options.
     #---------------------------------------------------------------------------
