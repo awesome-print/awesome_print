@@ -134,6 +134,7 @@ module AwesomePrint
     # keys.
     #---------------------------------------------------------------------------
     def merge_options!(options = {})
+      options = options.dup
       @options[:color].merge!(options.delete(:color) || {})
       @options.merge!(options)
     end

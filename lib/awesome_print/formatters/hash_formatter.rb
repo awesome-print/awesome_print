@@ -73,7 +73,7 @@ module AwesomePrint
 
         keys.map! do |key|
           plain_single_line do
-            [inspector.awesome(key), hash[key]]
+            [key.ai(@options), hash[key]]
           end
         end
       end
@@ -84,11 +84,11 @@ module AwesomePrint
 
       def ruby19_syntax(key, value, width)
         key[0] = ''
-        align(key, width - 1) << colorize(': ', :hash) << inspector.awesome(value)
+        align(key, width - 1) << colorize(': ', :hash) << value.ai(@options)
       end
 
       def pre_ruby19_syntax(key, value, width)
-        align(key, width) << colorize(' => ', :hash) << inspector.awesome(value)
+        align(key, width) << colorize(' => ', :hash) << value.ai(@options)
       end
 
       def plain_single_line

@@ -42,7 +42,7 @@ module AwesomePrint
           end
 
           indented do
-            key << colorize(' = ', :hash) + inspector.awesome(struct.send(var))
+            key << colorize(' = ', :hash) + struct.send(var).ai(@options)
           end
         end
 
