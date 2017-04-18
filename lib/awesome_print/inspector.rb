@@ -13,16 +13,17 @@ module AwesomePrint
 
     def initialize(options = {})
       @options = {
-        indent:        4,      # Number of spaces for indenting.
-        index:         true,   # Display array indices.
-        html:          false,  # Use ANSI color codes rather than HTML.
-        multiline:     true,   # Display in multiple lines.
-        plain:         false,  # Use colors.
-        raw:           false,  # Do not recursively format instance variables.
-        sort_keys:     false,  # Do not sort hash keys.
-        sort_vars:     true,   # Sort instance variables.
-        limit:         false,  # Limit arrays & hashes. Accepts bool or int.
-        ruby19_syntax: false,  # Use Ruby 1.9 hash syntax in output.
+        indent:              4,      # Number of spaces for indenting.
+        current_indentation: nil,      # The current amount of indentation.
+        index:               true,   # Display array indices.
+        html:                false,  # Use ANSI color codes rather than HTML.
+        multiline:           true,   # Display in multiple lines.
+        plain:               false,  # Use colors.
+        raw:                 false,  # Do not recursively format instance variables.
+        sort_keys:           false,  # Do not sort hash keys.
+        sort_vars:           true,   # Sort instance variables.
+        limit:               false,  # Limit arrays & hashes. Accepts bool or int.
+        ruby19_syntax:       false,  # Use Ruby 1.9 hash syntax in output.
         color: {
           args:       :pale,
           array:      :white,
@@ -51,7 +52,8 @@ module AwesomePrint
       merge_options!(options)
 
       @formatter = AwesomePrint::Formatter.new(self)
-      @indentator = AwesomePrint::Indentator.new(@options[:indent].abs)
+
+      @indentator = AwesomePrint::Indentator.new(@options[:indent].abs, @options[:current_indentation])
       Thread.current[AP] ||= []
     end
 

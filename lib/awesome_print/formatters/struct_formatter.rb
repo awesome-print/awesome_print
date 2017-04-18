@@ -42,7 +42,7 @@ module AwesomePrint
           end
 
           indented do
-            key << colorize(' = ', :hash) + struct.send(var).ai(@options)
+            key << colorize(' = ', :hash) + struct.send(var).ai(@options.merge(current_indentation: inspector.current_indentation))
           end
         end
 

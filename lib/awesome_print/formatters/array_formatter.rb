@@ -31,7 +31,7 @@ module AwesomePrint
         if options[:multiline]
           multiline_array
         else
-          '[ ' << array.map { |item| item.ai(@options) }.join(', ') << ' ]'
+          '[ ' << array.map { |item| item.ai(@options.merge(current_indentation: inspector.current_indentation)) }.join(', ') << ' ]'
         end
       end
 
@@ -48,7 +48,7 @@ module AwesomePrint
       def generate_printable_array
         array.map.with_index do |item, index|
           array_prefix(index, width(array)).tap do |temp|
-            indented { temp << item.ai(@options) }
+            indented { temp << item.ai(@options.merge(current_indentation: inspector.current_indentation)) }
           end
         end
       end

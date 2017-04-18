@@ -84,11 +84,11 @@ module AwesomePrint
 
       def ruby19_syntax(key, value, width)
         key[0] = ''
-        align(key, width - 1) << colorize(': ', :hash) << value.ai(@options)
+        align(key, width - 1) << colorize(': ', :hash) << value.ai(@options.merge(current_indentation: inspector.current_indentation))
       end
 
       def pre_ruby19_syntax(key, value, width)
-        align(key, width) << colorize(' => ', :hash) << value.ai(@options)
+        align(key, width) << colorize(' => ', :hash) << value.ai(@options.merge(current_indentation: inspector.current_indentation))
       end
 
       def plain_single_line
