@@ -1,4 +1,5 @@
 ## master (unreleased)
+  - stat("$HOME/.aprc") once [@kstephens] - [#304]
   - ActiveRecord: #joins now show the columns #select'ed [@adrianomitre] - [#211]
   - Handles NoMethodError for IRB implicit `ai` [@jtnegrotto] - [#212]
   - Replaced Fixnum reference with Integer 
