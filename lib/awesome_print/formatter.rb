@@ -63,7 +63,7 @@ module AwesomePrint
       awesome_simple(o, type, @inspector)
     end
 
-    def awesome_simple(o, type, inspector)
+    def awesome_simple(o, type, inspector = @inspector)
       AwesomePrint::Formatters::SimpleFormatter.new(o, type, inspector).format
     end
 
