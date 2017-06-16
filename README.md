@@ -305,6 +305,14 @@ With other web frameworks (ex: in Sinatra templates) you can explicitly request 
 formatting:
 
     <%= ap @accounts.first, :html => true %>
+    
+### String Convenience Methods ###
+Use methods such as `.red` to set string color:
+
+```ruby
+irb> puts "red text".red
+red text # (it's red)
+```
 
 ### Setting Custom Defaults ###
 You can set your own default options by creating ``.aprc`` file in your home
