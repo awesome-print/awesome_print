@@ -1,4 +1,7 @@
 ## master (unreleased)
+  - new things!
+
+## 1.8.0
   - stat("$HOME/.aprc") once [@kstephens] - [#304]
   - ActiveRecord: #joins now show the columns #select'ed [@adrianomitre] - [#211]
   - Handles NoMethodError for IRB implicit `ai` [@jtnegrotto] - [#212]
