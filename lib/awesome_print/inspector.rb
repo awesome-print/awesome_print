@@ -31,6 +31,7 @@ module AwesomePrint
           date:       :greenish,
           falseclass: :red,
           fixnum:     :blue,
+          integer:    :blue,
           float:      :blue,
           hash:       :pale,
           keyword:    :cyan,

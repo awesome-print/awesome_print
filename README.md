@@ -50,7 +50,7 @@ color: {
   class:      :yellow,
   date:       :greenish,
   falseclass: :red,
-  fixnum:     :blue,
+  integer:    :blue,
   float:      :blue,
   hash:       :pale,
   keyword:    :cyan,
