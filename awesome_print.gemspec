@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.email       = 'mike@dvorkin.net'
   s.homepage    = 'https://github.com/awesome-print/awesome_print'
   s.summary     = 'Pretty print Ruby objects with proper indentation and colors'
-  s.description = 'Great Ruby dubugging companion: pretty print Ruby objects to visualize their structure. Supports custom object formatting via plugins'
+  s.description = 'Great Ruby debugging companion: pretty print Ruby objects to visualize their structure. Supports custom object formatting via plugins'
   s.license     = 'MIT'
   s.rubyforge_project = 'awesome_print'
 
