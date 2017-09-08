@@ -23,6 +23,7 @@ module AwesomePrint
         sort_vars:     true,   # Sort instance variables.
         limit:         false,  # Limit arrays & hashes. Accepts bool or int.
         ruby19_syntax: false,  # Use Ruby 1.9 hash syntax in output.
+        justify_hash:  true,   # Format justified hash key-value pairs.
         color: {
           args:       :pale,
           array:      :white,

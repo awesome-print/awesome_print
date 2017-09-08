@@ -1,11 +1,12 @@
 ## master (unreleased)
   - new things!
+  - Added :justify_hash => false option to not justify hash key-value pair output [@Pysis868] (as described in Issue [#317]).
 
 ## 1.8.0
   - stat("$HOME/.aprc") once [@kstephens] - [#304]
   - ActiveRecord: #joins now show the columns #select'ed [@adrianomitre] - [#211]
   - Handles NoMethodError for IRB implicit `ai` [@jtnegrotto] - [#212]
-  - Replaced Fixnum reference with Integer 
+  - Replaced Fixnum reference with Integer
   - Colorize ORM class names [@ixti]
 
 ## 1.7.0
@@ -136,6 +137,7 @@
   - Initial Release.
 
   [#200]: https://github.com/awesome-print/awesome_print/pull/200
+  [#211]: https://github.com/awesome-print/awesome_print/pull/211
   [#212]: https://github.com/awesome-print/awesome_print/pull/212
   [#216]: https://github.com/awesome-print/awesome_print/pull/216
   [#217]: https://github.com/awesome-print/awesome_print/pull/217
@@ -148,7 +150,11 @@
   [#231]: https://github.com/awesome-print/awesome_print/pull/231
   [#232]: https://github.com/awesome-print/awesome_print/pull/232
   [#237]: https://github.com/awesome-print/awesome_print/pull/237
+  [#304]: https://github.com/awesome-print/awesome_print/pull/304
+  [#317]: https://github.com/awesome-print/awesome_print/pull/317
 
+
+  [@adrianomitre]: https://github.com/adrianomitre
   [@aleandros]: https://github.com/aleandros
   [@clonezone]: https://github.com/clonezone
   [@cyberdelia]: https://github.com/cyberdelia
@@ -158,5 +164,6 @@
   [@kemmason]: https://github.com/kemmason
   [@maurogeorge]: https://github.com/maurogeorge
   [@MaxPleaner]: https://github.com/MaxPleaner
+  [@Pysis868]: https://github.com/Pysis868
   [@nviennot]: https://github.com/nviennot
   [@waldyr]: https://github.com/waldyr

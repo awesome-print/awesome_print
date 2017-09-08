@@ -39,10 +39,10 @@ module AwesomePrint
         "{ #{printable_hash.join(', ')} }"
       end
 
-      def printable_hash
+      def printable_hash # rubocop:disable Metrics/MethodLength
         data = printable_keys
-        width = left_width(data)
 
+        width = left_width(data) if options[:justify_hash]
         data.map! do |key, value|
           indented do
             if options[:ruby19_syntax] && symbol?(key)

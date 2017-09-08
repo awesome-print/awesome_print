@@ -6,9 +6,9 @@ We love pull requests. Here's a quick guide:
 
 1. Create your feature branch (`git checkout -b my-new-feature`)
 
-1. Update [CHANGELOG.md](https://github.com/awesome-print/awesome_print/blob/master/CHANGELOG.md) with a brief description of your changes under the `unreleased` heading.
+1. Update [CHANGELOG.md](https://github.com/awesome-print/awesome_print/blob/master/CHANGELOG.md) with a brief description of your changes under the `unreleased` heading as a new item.
 
-1. Add/Update tests were appropriate
+1. Add/Update tests where appropriate
 
 1. Commit your changes (`git commit -am 'Added some feature'`)
 
@@ -68,6 +68,7 @@ Special thanks goes to awesome team of contributors, namely:
 * Nami-Doc -- https://github.com/Nami-Doc
 * Nicolas Viennot -- https://github.com/nviennot
 * Nikolaj Nikolajsen -- https://github.com/nikolajsen
+* Pysis868 -- https://github.com/Pysis868
 * Richard Hall -- https://github.com/richardardrichard
 * Ryan Schlesinger -- https://github.com/ryansch
 * Scott Hyndman -- https://github.com/shyndman

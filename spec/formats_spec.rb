@@ -124,7 +124,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Nested Array' do
     before do
       @arr = [1, 2]
@@ -156,7 +156,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Limited Output Array' do
     before(:each) do
       @arr = (1..1000).to_a
@@ -224,7 +224,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Limited Output Hash' do
     before(:each) do
       @hash = ('a'..'z').inject({}) { |h, v| h.merge({ v => v.to_sym }) }
@@ -245,7 +245,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Hash' do
     before do
       @hash = { 1 => { sym: { 'str' => { [1, 2, 3] => { { k: :v } => Hash } } } } }
@@ -361,7 +361,7 @@ EOS
 
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Nested Hash' do
     before do
       @hash = {}
@@ -381,7 +381,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Hash with several keys' do
     before do
       @hash = { 'b' => 'b', :a => 'a', :z => 'z', 'alpha' => 'alpha' }
@@ -418,9 +418,23 @@ EOS
 EOS
     end
 
+    it 'plain multiline with no justification' do
+      # Setting the indent to be different than the default 4, just to try to
+      # show any latent errors better, like in the related, new negative indent
+      # test.
+      out = @hash.ai(plain: true, indent: 2, justify_hash: false)
+      expect(out).to eq <<-EOS.strip
+{
+  "b" => "b",
+  :a => "a",
+  :z => "z",
+  "alpha" => "alpha"
+}
+EOS
+    end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Negative options[:indent]' do
     #
     # With Ruby < 1.9 the order of hash keys is not defined so we can't
@@ -434,6 +448,29 @@ EOS
     [ 0, 0, 255 ] => :yellow,
     "magenta"     => "rgb(255, 0, 255)",
     :red          => "rgb(255, 0, 0)"
+}
+EOS
+    end
+
+    it 'plain multiline with no justification' do
+      hash = {
+        [0, 0, 255] => :yellow,
+        :red => 'rgb(255, 0, 0)',
+        'magenta' => 'rgb(255, 0, 255)'
+      }
+      # Not using `-4` since that value matches the default indentation, and it
+      # coincidentally provides a false positive result.
+      out = hash.ai(
+        plain: true,
+        indent: -2,
+        sort_keys: true,
+        justify_hash: false
+      )
+      expect(out).to eq <<-EOS.strip
+{
+  [ 0, 0, 255 ] => :yellow,
+  "magenta" => "rgb(255, 0, 255)",
+  :red => "rgb(255, 0, 0)"
 }
 EOS
     end
@@ -477,7 +514,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Class' do
     it 'should show superclass (plain)' do
       expect(self.class.ai(plain: true)).to eq("#{self.class} < #{self.class.superclass}")
@@ -488,7 +525,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'File' do
     it 'should display a file (plain)' do
       File.open(__FILE__, 'r') do |f|
@@ -497,7 +534,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Dir' do
     it 'should display a direcory (plain)' do
       Dir.open(File.dirname(__FILE__)) do |d|
@@ -506,7 +543,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'BigDecimal and Rational' do
     it 'should present BigDecimal object with arbitrary precision' do
       big = BigDecimal('201020102010201020102010201020102010.4')
@@ -529,7 +566,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Utility methods' do
     it 'should merge options' do
       ap = AwesomePrint::Inspector.new
@@ -540,7 +577,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Set' do
     before do
       @arr = [1, :two, 'three']
@@ -586,7 +623,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Struct' do
     before do
       @struct = unless defined?(Struct::SimpleStruct)
@@ -645,7 +682,7 @@ EOS
     end
   end
 
-  #------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   describe 'Inherited from standard Ruby classes' do
     after do
       Object.instance_eval { remove_const :My } if defined?(My)
