@@ -143,7 +143,7 @@ module AwesomePrint
     # predictable values
     #---------------------------------------------------------------------------
     def load_dotfile
-      dotfile = File.join(ENV['HOME'], '.aprc')
+      dotfile = File.join(ENV['HOME'].to_s, '.aprc')
       load dotfile if dotfile_readable?(dotfile)
     end
 
