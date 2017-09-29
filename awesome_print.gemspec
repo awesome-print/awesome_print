@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
   s.summary     = 'Pretty print Ruby objects with proper indentation and colors'
   s.description = 'Great Ruby debugging companion: pretty print Ruby objects to visualize their structure. Supports custom object formatting via plugins'
   s.license     = 'MIT'
-  s.rubyforge_project = 'awesome_print'
 
   s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/**/*'] + ['.gitignore']
   s.test_files    = Dir['spec/**/*']
