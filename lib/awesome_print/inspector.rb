@@ -143,7 +143,7 @@ module AwesomePrint
     # predictable values
     #---------------------------------------------------------------------------
     def load_dotfile
-      dotfile = File.join(ENV['HOME'].to_s, '.aprc')
+      dotfile = File.join(ENV['HOME'], '.aprc')
       load dotfile if dotfile_readable?(dotfile)
     end
 
@@ -161,7 +161,7 @@ module AwesomePrint
       load_dotfile
       merge_options!(AwesomePrint.defaults) if AwesomePrint.defaults.is_a?(Hash)
     rescue => e
-      $stderr.puts "Could not load #{dotfile}: #{e}"
+      $stderr.puts "Could not load '~/.aprc': #{e}"
     end
   end
 end
