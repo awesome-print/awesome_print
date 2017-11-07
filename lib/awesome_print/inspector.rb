@@ -31,6 +31,7 @@ module AwesomePrint
           date:       :greenish,
           falseclass: :red,
           fixnum:     :blue,
+          integer:    :blue,
           float:      :blue,
           hash:       :pale,
           keyword:    :cyan,
@@ -143,8 +144,16 @@ module AwesomePrint
     #---------------------------------------------------------------------------
     def load_dotfile
       dotfile = File.join(ENV['HOME'], '.aprc')
-      load dotfile if File.readable?(dotfile)
+      load dotfile if dotfile_readable?(dotfile)
     end
+
+    def dotfile_readable? dotfile
+      if @@dotfile_readable.nil? || @@dotfile != dotfile
+        @@dotfile_readable = File.readable?(@@dotfile = dotfile)
+      end
+      @@dotfile_readable
+    end
+    @@dotfile_readable = @@dotfile = nil
 
     # Load ~/.aprc file with custom defaults that override default options.
     #---------------------------------------------------------------------------
@@ -152,7 +161,7 @@ module AwesomePrint
       load_dotfile
       merge_options!(AwesomePrint.defaults) if AwesomePrint.defaults.is_a?(Hash)
     rescue => e
-      $stderr.puts "Could not load #{dotfile}: #{e}"
+      $stderr.puts "Could not load '.aprc' from ENV['HOME']: #{e}"
     end
   end
 end
