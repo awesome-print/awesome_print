@@ -161,7 +161,7 @@ module AwesomePrint
       load_dotfile
       merge_options!(AwesomePrint.defaults) if AwesomePrint.defaults.is_a?(Hash)
     rescue => e
-      $stderr.puts "Could not load '~/.aprc': #{e}"
+      $stderr.puts "Could not load '.aprc' from ENV['HOME']: #{e}"
     end
   end
 end
