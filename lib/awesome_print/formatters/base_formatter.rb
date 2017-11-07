@@ -113,8 +113,8 @@ module AwesomePrint
         inspector.increase_indentation(&Proc.new)
       end
 
-      def indent
-        ' ' * indentation
+      def indent(indentation_offset = 0)
+        ' ' * (indentation + indentation_offset)
       end
 
       def outdent
@@ -123,18 +123,29 @@ module AwesomePrint
 
       def align(value, width)
         if options[:multiline]
-          if options[:indent] > 0
-            value.rjust(width)
-          elsif options[:indent] == 0
-            indent + value.ljust(width)
+          if options[:justify_hash]
+            align_justify(value, width)
           else
-            indent[0, indentation + options[:indent]] + value.ljust(width)
+            align_no_justify(value)
           end
         else
           value
         end
       end
 
+      def align_justify(value, width) # rubocop:disable Metrics/AbcSize
+        if options[:indent] > 0
+          value.rjust(width)
+        elsif options[:indent] == 0
+          indent + value.ljust(width)
+        else
+          indent(options[:indent]) + value.ljust(width)
+        end
+      end
+
+      def align_no_justify(value)
+        indent(-options[:indent].abs) + value
+      end
     end
   end
 end
