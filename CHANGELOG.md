@@ -1,5 +1,5 @@
 ## master (unreleased)
-  - new things!
+  - ArrayFormatter now returns arrays for has_many :through associations [@chadh13] - [#332]
 
 ## 1.8.0
   - stat("$HOME/.aprc") once [@kstephens] - [#304]
