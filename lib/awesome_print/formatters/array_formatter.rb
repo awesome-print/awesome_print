@@ -21,7 +21,7 @@ module AwesomePrint
       private
 
       def methods_array?
-        array.instance_variable_defined?('@__awesome_methods__')
+        array.instance_variable_defined?(:@__awesome_methods__)
       end
 
       def simple_array
