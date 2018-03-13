@@ -32,7 +32,7 @@ end
 
 
 class Array
-  def self.awesome_print_name
+  def self.awesome_print_type
     :array
   end
 end
