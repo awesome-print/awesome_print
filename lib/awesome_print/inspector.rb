@@ -67,11 +67,13 @@ module AwesomePrint
     # Dispatcher that detects data nesting and invokes object-aware formatter.
     #---------------------------------------------------------------------------
     def awesome(object)
-      if Thread.current[AP].include?(object.object_id)
+      oid = object.object_id # cache
+
+      if Thread.current[AP].include?(oid)
         nested(object)
       else
         begin
-          Thread.current[AP] << object.object_id
+          Thread.current[AP] << oid
           unnested(object)
         ensure
           Thread.current[AP].pop
