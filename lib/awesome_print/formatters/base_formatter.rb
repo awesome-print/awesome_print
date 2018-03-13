@@ -113,22 +113,28 @@ module AwesomePrint
         inspector.increase_indentation(&blk)
       end
 
-      def indent
-        ' ' * indentation
+      # precompute common indentations
+      INDENT_CACHE = (0..100).map { |i| ' ' * i }.map(&:freeze).freeze
+
+      def indent(n = indentation)
+        INDENT_CACHE[n] or ' ' * n
       end
 
       def outdent
-        ' ' * (indentation - options[:indent].abs)
+        i = indentation - options[:indent].abs
+
+        INDENT_CACHE[i] or ' ' * i
       end
 
       def align(value, width)
         if options[:multiline]
-          if options[:indent] > 0
+          indent_option = options[:indent]
+          if indent_option > 0
             value.rjust(width)
-          elsif options[:indent] == 0
-            indent + value.ljust(width)
+          elsif indent_option == 0
+            "#{indent}#{value.ljust(width)}"
           else
-            indent[0, indentation + options[:indent]] + value.ljust(width)
+            "#{indent(indentation + indent_option)}#{value.ljust(width)}"
           end
         else
           value
