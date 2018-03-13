@@ -117,7 +117,7 @@ module AwesomePrint
       end
 
       hash = object.to_hash
-      if !hash.respond_to?(:keys) || !hash.respond_to?('[]')
+      if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
         return nil
       end
 
