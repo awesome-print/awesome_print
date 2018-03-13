@@ -4,15 +4,12 @@ module AwesomePrint
   module Formatters
     class StructFormatter < BaseFormatter
 
-      attr_reader :variables
-
-      def initialize(struct, inspector)
-        super
-        @variables = struct.members
-      end
-
       def struct
         @object
+      end
+
+      def variables
+        @object.members
       end
 
       def format

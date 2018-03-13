@@ -4,11 +4,8 @@ module AwesomePrint
   module Formatters
     class ObjectFormatter < BaseFormatter
 
-      attr_reader :variables
-
-      def initialize(object, inspector)
-        super
-        @variables = object.instance_variables
+      def variables
+        @object.instance_variables
       end
 
       def format
