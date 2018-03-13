@@ -19,8 +19,13 @@ module AwesomePrint
 
       # Set object and delegate to {#format}.
       def format_object(obj)
-        @object = obj
+        # NOTE: This makes use of the stack to allow reusing this formatter for
+        # sub objects in nested structures.
+
+        previous, @object = @object, obj # push
         format
+      ensure
+        @object = previous # pop
       end
 
 
