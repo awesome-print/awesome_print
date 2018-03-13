@@ -84,13 +84,17 @@ module AwesomePrint
     def colorize?
       AwesomePrint.force_colors ||= false
       AwesomePrint.force_colors || (
-        STDOUT.tty? && (
-          (
-            ENV['TERM'] &&
-            ENV['TERM'] != 'dumb'
-          ) ||
-          ENV['ANSICON']
-        )
+        if defined? @colorize_STDOUT
+          @colorize_STDOUT
+        else
+          @colorize_STDOUT = STDOUT.tty? && (
+            (
+              ENV['TERM'] &&
+              ENV['TERM'] != 'dumb'
+            ) ||
+            ENV['ANSICON']
+          )
+        end
       )
     end
 
