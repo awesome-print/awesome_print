@@ -5,6 +5,25 @@ module AwesomePrint
     class BaseFormatter
       include Colorize
 
+      attr_accessor :object
+
+      attr_reader :inspector
+
+      attr_reader :options
+
+      def initialize(object, inspector)
+        @object = object
+        @inspector = inspector
+        @options = inspector.options
+      end
+
+      # Set object and delegate to {#format}.
+      def format_object(obj)
+        @object = obj
+        format
+      end
+
+
       DEFAULT_LIMIT_SIZE = 7
 
       # To support limited output, for example:

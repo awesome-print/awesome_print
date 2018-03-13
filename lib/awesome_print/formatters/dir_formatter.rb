@@ -5,12 +5,8 @@ module AwesomePrint
   module Formatters
     class DirFormatter < BaseFormatter
 
-      attr_reader :dir, :inspector, :options
-
-      def initialize(dir, inspector)
-        @dir = dir
-        @inspector = inspector
-        @options = inspector.options
+      def dir
+        @object
       end
 
       def format

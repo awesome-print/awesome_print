@@ -5,12 +5,8 @@ module AwesomePrint
   module Formatters
     class FileFormatter < BaseFormatter
 
-      attr_reader :file, :inspector, :options
-
-      def initialize(file, inspector)
-        @file = file
-        @inspector = inspector
-        @options = inspector.options
+      def file
+        @object
       end
 
       def format

@@ -3,12 +3,9 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class ArrayFormatter < BaseFormatter
-      attr_reader :array, :inspector, :options
 
-      def initialize(array, inspector)
-        @array = array
-        @inspector = inspector
-        @options = inspector.options
+      def array
+        @object
       end
 
       def format
