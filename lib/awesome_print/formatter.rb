@@ -4,6 +4,7 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 require 'awesome_print/formatters'
+require 'set'
 
 module AwesomePrint
   class Formatter
@@ -11,7 +12,7 @@ module AwesomePrint
 
     attr_reader :inspector, :options
 
-    CORE = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
+    CORE = Set.new [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
 
     def initialize(inspector)
       @inspector   = inspector
@@ -33,8 +34,8 @@ module AwesomePrint
     # Hook this when adding custom formatters. Check out lib/awesome_print/ext
     # directory for custom formatters that ship with awesome_print.
     #------------------------------------------------------------------------------
-    def cast(object, type)
-      CORE.grep(type)[0] || :self
+    def cast(_object, type)
+      CORE.include?(type) ? type : :self
     end
 
     private
