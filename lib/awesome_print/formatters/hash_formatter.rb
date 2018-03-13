@@ -65,7 +65,7 @@ module AwesomePrint
       def printable_keys
         keys = hash.keys
 
-        keys.sort! { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
+        keys = keys.sort_by { |k| k.to_s } if options[:sort_keys]
 
         keys.map! do |key|
           plain_single_line do
