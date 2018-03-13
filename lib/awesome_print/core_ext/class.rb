@@ -20,4 +20,48 @@ class Class #:nodoc:
       methods
     end
   end
+
+
+  # Turn class name into symbol, ex: Hello::World => :hello_world. Classes
+  # that inherit from Array, Hash, File, Dir, and Struct are treated as the
+  # base class.
+  def awesome_print_type
+    @awesome_print_type ||= to_s.gsub(/:+/, '_').downcase.to_sym
+  end
 end
+
+
+class Array
+  def self.awesome_print_name
+    :array
+  end
+end
+
+
+class Hash
+  def self.awesome_print_type
+    :hash
+  end
+end
+
+
+class File
+  def self.awesome_print_type
+    :file
+  end
+end
+
+
+class Dir
+  def self.awesome_print_type
+    :dir
+  end
+end
+
+
+class Struct
+  def self.awesome_print_type
+    :struct
+  end
+end
+
