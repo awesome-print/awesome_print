@@ -29,8 +29,9 @@ module AwesomePrint
           end
 
           unless options[:plain]
-            if key =~ /(@\w+)/
-              key.sub!($1, colorize($1, :variable))
+            if index = (key =~ /(@\w+)/)
+              # NOTE: Reusing index to avoid calling String#sub! and find the pattern again.
+              key[index, $1.length] = colorize($1, :variable)
             else
               key.sub!(/(attr_\w+)\s(\:\w+)/, "#{colorize('\\1', :keyword)} #{colorize('\\2', :method)}")
             end
