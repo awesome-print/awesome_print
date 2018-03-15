@@ -1,5 +1,6 @@
 ## master (unreleased)
   - new things!
+  - Improve performance [@paddor] - [#333]
 
 ## 1.8.0
   - stat("$HOME/.aprc") once [@kstephens] - [#304]
