@@ -4,12 +4,8 @@ module AwesomePrint
   module Formatters
     class ClassFormatter < BaseFormatter
 
-      attr_reader :klass, :inspector, :options
-
-      def initialize(klass, inspector)
-        @klass = klass
-        @inspector = inspector
-        @options = inspector.options
+      def klass
+        @object
       end
 
       def format

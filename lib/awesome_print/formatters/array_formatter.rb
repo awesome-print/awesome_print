@@ -3,12 +3,9 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class ArrayFormatter < BaseFormatter
-      attr_reader :array, :inspector, :options
 
-      def initialize(array, inspector)
-        @array = array
-        @inspector = inspector
-        @options = inspector.options
+      def array
+        @object
       end
 
       def format
@@ -24,7 +21,7 @@ module AwesomePrint
       private
 
       def methods_array?
-        array.instance_variable_defined?('@__awesome_methods__')
+        array.instance_variable_defined?(:@__awesome_methods__)
       end
 
       def simple_array
@@ -36,21 +33,54 @@ module AwesomePrint
       end
 
       def multiline_array
-        data = unless should_be_limited?
-                 generate_printable_array
+        data = if should_be_limited?
+                 generate_limited_printable_array
                else
-                 limited(generate_printable_array, width(array))
+                 generate_printable_array
                end
 
         %Q([\n#{data.join(",\n")}\n#{outdent}])
       end
 
       def generate_printable_array
+        array_width = width(array) # cache
+
         array.map.with_index do |item, index|
-          array_prefix(index, width(array)).tap do |temp|
+          array_prefix(index, array_width).tap do |temp|
             indented { temp << inspector.awesome(item) }
           end
         end
+      end
+
+      # Avoids colorizing a possibly huge array and THEN only limitting it.
+      # This should be much faster.
+      def generate_limited_printable_array
+        limit = get_limit_size
+        return generate_printable_array if array.length <= limit
+
+        # cache
+        array_width = width(array)
+        inspector = inspector()
+
+        # Calculate how many elements to be displayed above and below the separator.
+        nhead = limit / 2
+        ntail = nhead - (limit - 1) % 2
+
+        head = array.first(nhead).map.with_index do |item, index|
+          array_prefix(index, array_width).tap do |temp|
+            indented { temp << inspector.awesome(item) }
+          end
+        end
+
+        separator = "#{indent}[#{nhead.to_s.rjust(array_width)}] .. [#{array.length - ntail - 1}]"
+
+        tail = array.last(ntail).map.with_index(array.length - ntail) do |item, index|
+          array_prefix(index, array_width).tap do |temp|
+            indented { temp << inspector.awesome(item) }
+          end
+        end
+
+        [ *head, separator, *tail ]
       end
 
       def array_prefix(iteration, width)

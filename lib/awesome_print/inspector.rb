@@ -60,18 +60,20 @@ module AwesomePrint
       indentator.indentation
     end
 
-    def increase_indentation
-      indentator.indent(&Proc.new)
+    def increase_indentation(&blk)
+      indentator.indent(&blk)
     end
 
     # Dispatcher that detects data nesting and invokes object-aware formatter.
     #---------------------------------------------------------------------------
     def awesome(object)
-      if Thread.current[AP].include?(object.object_id)
+      oid = object.object_id # cache
+
+      if Thread.current[AP].include?(oid)
         nested(object)
       else
         begin
-          Thread.current[AP] << object.object_id
+          Thread.current[AP] << oid
           unnested(object)
         ensure
           Thread.current[AP].pop
@@ -84,13 +86,17 @@ module AwesomePrint
     def colorize?
       AwesomePrint.force_colors ||= false
       AwesomePrint.force_colors || (
-        STDOUT.tty? && (
-          (
-            ENV['TERM'] &&
-            ENV['TERM'] != 'dumb'
-          ) ||
-          ENV['ANSICON']
-        )
+        if defined? @colorize_STDOUT
+          @colorize_STDOUT
+        else
+          @colorize_STDOUT = STDOUT.tty? && (
+            (
+              ENV['TERM'] &&
+              ENV['TERM'] != 'dumb'
+            ) ||
+            ENV['ANSICON']
+          )
+        end
       )
     end
 
@@ -103,7 +109,7 @@ module AwesomePrint
     #   => { :a => 1, :b => {...} }
     #---------------------------------------------------------------------------
     def nested(object)
-      case printable(object)
+      case object.class.awesome_print_type
       when :array  then @formatter.colorize('[...]', :array)
       when :hash   then @formatter.colorize('{...}', :hash)
       when :struct then @formatter.colorize('{...}', :struct)
@@ -113,22 +119,7 @@ module AwesomePrint
 
     #---------------------------------------------------------------------------
     def unnested(object)
-      @formatter.format(object, printable(object))
-    end
-
-    # Turn class name into symbol, ex: Hello::World => :hello_world. Classes
-    # that inherit from Array, Hash, File, Dir, and Struct are treated as the
-    # base class.
-    #---------------------------------------------------------------------------
-    def printable(object)
-      case object
-      when Array  then :array
-      when Hash   then :hash
-      when File   then :file
-      when Dir    then :dir
-      when Struct then :struct
-      else object.class.to_s.gsub(/:+/, '_').downcase.to_sym
-      end
+      @formatter.format(object, object.class.awesome_print_type)
     end
 
     # Update @options by first merging the :color hash and then the remaining

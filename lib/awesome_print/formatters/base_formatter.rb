@@ -5,6 +5,30 @@ module AwesomePrint
     class BaseFormatter
       include Colorize
 
+      attr_accessor :object
+
+      attr_reader :inspector
+
+      attr_reader :options
+
+      def initialize(object, inspector)
+        @object = object
+        @inspector = inspector
+        @options = inspector.options
+      end
+
+      # Set object and delegate to {#format}.
+      def format_object(obj)
+        # NOTE: This makes use of the stack to allow reusing this formatter for
+        # sub objects in nested structures.
+
+        previous, @object = @object, obj # push
+        format
+      ensure
+        @object = previous # pop
+      end
+
+
       DEFAULT_LIMIT_SIZE = 7
 
       # To support limited output, for example:
@@ -109,26 +133,32 @@ module AwesomePrint
         inspector.current_indentation
       end
 
-      def indented
-        inspector.increase_indentation(&Proc.new)
+      def indented(&blk)
+        inspector.increase_indentation(&blk)
       end
 
-      def indent
-        ' ' * indentation
+      # precompute common indentations
+      INDENT_CACHE = (0..100).map { |i| ' ' * i }.map(&:freeze).freeze
+
+      def indent(n = indentation)
+        INDENT_CACHE[n] or ' ' * n
       end
 
       def outdent
-        ' ' * (indentation - options[:indent].abs)
+        i = indentation - options[:indent].abs
+
+        INDENT_CACHE[i] or ' ' * i
       end
 
       def align(value, width)
         if options[:multiline]
-          if options[:indent] > 0
+          indent_option = options[:indent]
+          if indent_option > 0
             value.rjust(width)
-          elsif options[:indent] == 0
-            indent + value.ljust(width)
+          elsif indent_option == 0
+            "#{indent}#{value.ljust(width)}"
           else
-            indent[0, indentation + options[:indent]] + value.ljust(width)
+            "#{indent(indentation + indent_option)}#{value.ljust(width)}"
           end
         else
           value

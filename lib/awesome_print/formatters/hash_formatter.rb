@@ -3,12 +3,8 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class HashFormatter < BaseFormatter
-      attr_reader :hash, :inspector, :options
-
-      def initialize(hash, inspector)
-        @hash = hash
-        @inspector = inspector
-        @options = inspector.options
+      def hash
+        @object
       end
 
       def format
@@ -69,7 +65,7 @@ module AwesomePrint
       def printable_keys
         keys = hash.keys
 
-        keys.sort! { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
+        keys = keys.sort_by { |k| k.to_s } if options[:sort_keys]
 
         keys.map! do |key|
           plain_single_line do

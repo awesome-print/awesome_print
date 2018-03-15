@@ -4,12 +4,8 @@ module AwesomePrint
   module Formatters
     class MethodFormatter < BaseFormatter
 
-      attr_reader :method, :inspector, :options
-
-      def initialize(method, inspector)
-        @method = method
-        @inspector = inspector
-        @options = inspector.options
+      def method
+        @object
       end
 
       def format

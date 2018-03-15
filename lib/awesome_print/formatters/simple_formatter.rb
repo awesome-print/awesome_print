@@ -4,13 +4,16 @@ module AwesomePrint
   module Formatters
     class SimpleFormatter < BaseFormatter
 
-      attr_reader :string, :type, :inspector, :options
+      attr_accessor :type
+
+      def string
+        @object
+      end
+
 
       def initialize(string, type, inspector)
-        @string = string
+        super(string, inspector)
         @type = type
-        @inspector = inspector
-        @options = inspector.options
       end
 
       def format
