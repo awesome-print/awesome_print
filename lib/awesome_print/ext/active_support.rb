@@ -18,6 +18,8 @@ module AwesomePrint
           cast = :active_support_time
         elsif object.is_a?(::HashWithIndifferentAccess)
           cast = :hash_with_indifferent_access
+        elsif defined?(::ActionController::Parameters) && object.is_a?(::ActionController::Parameters)
+          cast = :action_controller_parameters
         end
       end
       cast
@@ -33,6 +35,12 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def awesome_hash_with_indifferent_access(object)
       awesome_hash(object)
+    end
+
+    # Format ActionController::Parameters as standard Hash.
+    #------------------------------------------------------------------------------
+    def awesome_action_controller_parameters(object)
+      awesome_hash(object.to_unsafe_h)
     end
   end
 end
