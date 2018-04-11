@@ -5,4 +5,4 @@ source "https://rubygems.org"
 gem "tzinfo"
 gem "ripple"
 
-gemspec :path => "../"
+gemspec path: "../"
