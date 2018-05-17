@@ -126,7 +126,11 @@ EOS
       out = @ap.awesome(@diana)
 
       raw_object_string =
-        if activerecord_5_0?
+        if activerecord_5_2?
+          ActiveRecordData.raw_5_2_diana
+        elsif activerecord_5_1?
+          ActiveRecordData.raw_5_1_diana
+        elsif activerecord_5_0?
           ActiveRecordData.raw_5_0_diana
         elsif activerecord_4_2?
           if RUBY_VERSION > '1.9.3'
@@ -153,7 +157,11 @@ EOS
       out = @ap.awesome([@diana, @laura])
 
       raw_object_string =
-        if activerecord_5_0?
+        if activerecord_5_2?
+          ActiveRecordData.raw_5_2_multi
+        elsif activerecord_5_1?
+          ActiveRecordData.raw_5_1_multi
+        elsif activerecord_5_0?
           ActiveRecordData.raw_5_0_multi
         elsif activerecord_4_2?
           if RUBY_VERSION > '1.9.3'
