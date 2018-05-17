@@ -7,12 +7,20 @@ RSpec.describe 'Single method' do
 
   it 'plain: should handle a method with no arguments' do
     method = ''.method(:upcase)
-    expect(method.ai(plain: true)).to eq('String#upcase()')
+    if RUBY_VERSION >= '2.4.0'
+      expect(method.ai(plain: true)).to eq('String#upcase(*arg1)')
+    else
+      expect(method.ai(plain: true)).to eq('String#upcase()')
+    end
   end
 
   it 'color: should handle a method with no arguments' do
     method = ''.method(:upcase)
-    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m()\e[0m")
+    if RUBY_VERSION >= '2.4.0'
+      expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m(*arg1)\e[0m")
+    else
+      expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m()\e[0m")
+    end
   end
 
   it 'plain: should handle a method with one argument' do
