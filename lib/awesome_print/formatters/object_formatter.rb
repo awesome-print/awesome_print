@@ -42,7 +42,7 @@ module AwesomePrint
           end
 
           indented do
-            key << colorize(' = ', :hash) + inspector.awesome(object.instance_variable_get(var))
+            key << colorize(' = ', :hash) + object.instance_variable_get(var).ai(@options.merge(current_indentation: inspector.current_indentation))
           end
         end
 

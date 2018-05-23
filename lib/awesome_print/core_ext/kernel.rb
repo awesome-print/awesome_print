@@ -6,10 +6,10 @@
 module Kernel
 
   def ai(options = {})
-    ap = AwesomePrint::Inspector.new(options)
-    awesome = ap.awesome self
+    inspector = AwesomePrint::Inspector.new(options.merge(top_layer: false))
+    awesome = inspector.awesome self
     if options[:html]
-      awesome = "<pre>#{awesome}</pre>"
+      awesome = "<pre>#{awesome}</pre>" unless options[:top_layer] == false
       awesome = awesome.html_safe if defined? ActiveSupport
     end
     awesome

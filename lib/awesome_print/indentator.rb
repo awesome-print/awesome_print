@@ -3,8 +3,8 @@ module AwesomePrint
 
     attr_reader :shift_width, :indentation
 
-    def initialize(indentation)
-      @indentation = indentation
+    def initialize(indentation, current = nil)
+      @indentation = current ? current : indentation
       @shift_width = indentation.freeze
     end
 
