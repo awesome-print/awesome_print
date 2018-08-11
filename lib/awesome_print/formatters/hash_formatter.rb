@@ -32,7 +32,7 @@ module AwesomePrint
       end
 
       def multiline_hash
-        "{\n" << printable_hash.join(",\n") << "\n#{outdent}}"
+        ["{\n", printable_hash.join(",\n"), "\n#{outdent}}"].join
       end
 
       def simple_hash
