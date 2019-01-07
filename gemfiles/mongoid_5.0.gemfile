@@ -2,6 +2,6 @@
 
 source "https://rubygems.org"
 
-gem "mongo_mapper"
+gem "mongoid", "~> 5.0.0"
 
 gemspec path: "../"

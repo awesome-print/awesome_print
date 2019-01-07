@@ -18,32 +18,31 @@ appraise 'rails-5.2' do
   gem 'rails', '>= 5.2.0', '< 5.3'
 end
 
-appraise 'mongoid-3.0' do
-  gem 'mongoid', '~> 3.0.0'
-end
-
-appraise 'mongoid-3.1' do
-  gem 'mongoid', '~> 3.1.0'
-  gem 'json',  '~> 1.8', :platforms => :ruby_19 # Json 2.0 requires Ruby >= 2.0
-end
-
 appraise 'mongoid-4.0' do
   gem 'mongoid', '~> 4.0.0'
 end
 
-appraise 'mongo_mapper' do
-  gem 'mongo_mapper'
+appraise 'mongoid-5.0' do
+  gem 'mongoid', '~> 5.0.0'
 end
 
-appraise 'ripple' do
-  gem 'tzinfo'
-  gem 'ripple'
+appraise 'mongoid-6.0' do
+  gem 'mongoid', '~> 6.0.0'
 end
 
-appraise 'nobrainer' do
-  gem 'nobrainer'
-
-  # When activesupport 5 was released, it required ruby 2.2.2 as a minimum.
-  # Locking this down to 4.2.6 allows our Ruby 1.9 tests to keep working.
-  gem 'activesupport', '4.2.6', :platforms => :ruby_19
-end
+# appraise 'mongo_mapper' do
+#   gem 'mongo_mapper'
+# end
+#
+# appraise 'ripple' do
+#   gem 'tzinfo'
+#   gem 'ripple'
+# end
+#
+# appraise 'nobrainer' do
+#   gem 'nobrainer'
+#
+#   # When activesupport 5 was released, it required ruby 2.2.2 as a minimum.
+#   # Locking this down to 4.2.6 allows our Ruby 1.9 tests to keep working.
+#   gem 'activesupport', '4.2.6', :platforms => :ruby_19
+# end
