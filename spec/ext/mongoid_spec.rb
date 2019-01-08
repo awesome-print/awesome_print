@@ -38,32 +38,13 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
   end
 
   it 'should print the class' do
-    class_spec = if mongoid_3_0?
-                   <<-EOS.strip
-class MongoUser < Object {
-           :_id => :"moped/bson/object_id",
-         :_type => :string,
-    :first_name => :string,
-     :last_name => :string
-}
-                   EOS
-                 elsif mongoid_3_1?
-                   <<-EOS.strip
-class MongoUser < Object {
-           :_id => :"moped/bson/object_id",
-    :first_name => :string,
-     :last_name => :string
-}
-                   EOS
-                 elsif mongoid_4_0?
-                   <<-EOS.strip
+    class_spec = <<-EOS.strip
 class MongoUser < Object {
            :_id => :"bson/object_id",
     :first_name => :string,
      :last_name => :string
 }
                    EOS
-                 end
 
     expect(@ap.send(:awesome, MongoUser)).to eq class_spec
   end
@@ -74,30 +55,12 @@ class MongoUser < Object {
       field :last_attribute
     end
 
-    class_spec = if mongoid_3_0?
-                   <<-EOS.strip
-class Chamelion < Object {
-               :_id => :"moped/bson/object_id",
-             :_type => :string,
-    :last_attribute => :object
-}
-                   EOS
-                 elsif mongoid_3_1?
-                   <<-EOS.strip
-class Chamelion < Object {
-               :_id => :"moped/bson/object_id",
-    :last_attribute => :object
-}
-                   EOS
-                 elsif mongoid_4_0?
-                   <<-EOS.strip
+    class_spec = <<-EOS.strip
 class Chamelion < Object {
                :_id => :"bson/object_id",
     :last_attribute => :object
 }
                    EOS
-                 end
-
 
     expect(@ap.send(:awesome, Chamelion)).to eq class_spec
   end

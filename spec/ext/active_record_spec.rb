@@ -233,7 +233,7 @@ class SubUser < User {
       out = @ap.awesome(User.methods.grep(/first/))
 
       if ActiveRecord::VERSION::STRING >= '3.2'
-        if RUBY_VERSION >= '2.5'
+        if RUBY_VERSION >= '2.4.4'
           expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
         elsif RUBY_VERSION >= '1.9'
           expect(out).to match(/\sfirst\(\*args,\s&block\)\s+Class \(ActiveRecord::Querying\)/)
@@ -246,7 +246,7 @@ class SubUser < User {
 
       # spec 2
       out = @ap.awesome(User.methods.grep(/primary_key/))
-      if RUBY_VERSION >= '2.5'
+      if RUBY_VERSION >= '2.4.4'
         expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
       else
         expect(out).to match(/\sprimary_key\(.*?\)\s+Class \(ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods\)/)
@@ -258,7 +258,7 @@ class SubUser < User {
       if ActiveRecord::VERSION::MAJOR < 3
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       else
-        if RUBY_VERSION >= '2.5'
+        if RUBY_VERSION >= '2.4.4'
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
         else
           expect(out).to match(/\svalidate\(\*arg.*?\)\s+Class \(ActiveModel::Validations::ClassMethods\)/)
