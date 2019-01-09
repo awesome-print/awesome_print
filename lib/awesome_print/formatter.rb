@@ -11,7 +11,7 @@ module AwesomePrint
 
     attr_reader :inspector, :options
 
-    CORE = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
+    CORE_FORMATTERS = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
 
     def initialize(inspector)
       @inspector   = inspector
@@ -34,7 +34,7 @@ module AwesomePrint
     # directory for custom formatters that ship with awesome_print.
     #------------------------------------------------------------------------------
     def cast(object, type)
-      CORE.grep(type)[0] || :self
+      CORE_FORMATTERS.include?(type) ? type : :self
     end
 
     private
