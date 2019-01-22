@@ -2,11 +2,13 @@
 # so do nothing for subsequent requires.
 #
 unless defined?(AwesomePrint::Inspector)
+  # FIXME: not sure we need these, but..
+  require 'awesome_print/custom_defaults'
+
   %w(active_support awesome_method_array string object class kernel).each do |file|
     require "awesome_print/core_ext/#{file}"
   end
 
-  require 'awesome_print/custom_defaults'
   require 'awesome_print/inspector'
   require 'awesome_print/formatter'
 
