@@ -2,17 +2,15 @@ require_relative '../base_formatter'
 
 module AwesomePrint
   module Formatters
-    class NokogiriNodesetFormatter < BaseFormatter
+    class NokogiriDocumentFormatter < BaseFormatter
 
-      formatter_for :nokogiri_xml_nodeset
+      formatter_for :nokogiri_xml_document
 
       def self.formattable?(object)
-        defined?(::Nokogiri) && object.is_a?(::Nokogiri::XML::NodeSet)
+        defined?(::Nokogiri) && object.is_a?(::Nokogiri::XML::Document)
       end
 
       def format(object)
-
-        return '[]' if object.empty?
 
         xml = object.to_xml(indent: 2)
         #
