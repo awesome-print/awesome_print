@@ -119,7 +119,7 @@ EOS
 EOS
     end
 
-    it 'colored single line' do
+    it 'colored single line', focus: true do
       expect(@arr.ai(multiline: false)).to eq("[ \e[1;34m1\e[0m, \e[0;36m:two\e[0m, \e[0;33m\"three\"\e[0m, [ \e[1;31mnil\e[0m, [ \e[1;32mtrue\e[0m, \e[1;31mfalse\e[0m ] ] ]")
     end
   end

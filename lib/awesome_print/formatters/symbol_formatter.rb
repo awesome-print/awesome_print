@@ -1,10 +1,10 @@
-require_relative 'base_formatter'
+require_relative 'simple_formatter'
 
 module AwesomePrint
   module Formatters
-    class SimpleFormatter < BaseFormatter
+    class SymbolFormatter < SimpleFormatter
 
-      formatter_for :simple
+      formatter_for :symbol
 
       def self.formattable?(object)
         object.respond_to?(:to_s)
@@ -13,7 +13,6 @@ module AwesomePrint
       def format(object)
         colorize(object.to_s, self.class.formatted_object_type)
       end
-
     end
   end
 end

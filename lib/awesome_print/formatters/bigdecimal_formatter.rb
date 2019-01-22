@@ -2,16 +2,16 @@ require_relative 'base_formatter'
 
 module AwesomePrint
   module Formatters
-    class SimpleFormatter < BaseFormatter
+    class BigdecimalFormatter < BaseFormatter
 
-      formatter_for :simple
+      formatter_for :bigdecimal
 
       def self.formattable?(object)
-        object.respond_to?(:to_s)
+        true
       end
 
       def format(object)
-        colorize(object.to_s, self.class.formatted_object_type)
+        colorize(object.to_s('F'), self.class.formatted_object_type)
       end
 
     end

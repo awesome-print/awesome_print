@@ -3,15 +3,20 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class HashFormatter < BaseFormatter
-      attr_reader :hash, :inspector, :options
 
-      def initialize(hash, inspector)
-        @hash = hash
-        @inspector = inspector
-        @options = inspector.options
+      attr_reader :hash
+
+      formatter_for :hash
+
+      def self.formattable?(object)
+        object.is_a?(Hash)
       end
 
-      def format
+      # INSTANCE METHODS BELOW
+
+      def format(hash)
+        @hash = hash
+
         if hash.empty?
           empty_hash
         elsif multiline_hash?

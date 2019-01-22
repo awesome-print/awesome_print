@@ -42,6 +42,7 @@ module AwesomePrint
           rational:   :blue,
           string:     :yellowish,
           struct:     :pale,
+          openstruct: :pale,
           symbol:     :cyanish,
           time:       :greenish,
           trueclass:  :green,
@@ -106,9 +107,10 @@ module AwesomePrint
     #---------------------------------------------------------------------------
     def nested(object)
       case printable(object)
-      when :array  then @formatter.colorize('[...]', :array)
-      when :hash   then @formatter.colorize('{...}', :hash)
-      when :struct then @formatter.colorize('{...}', :struct)
+      when :array   then @formatter.colorize('[...]', :array)
+      when :hash    then @formatter.colorize('{...}', :hash)
+      when :struct  then @formatter.colorize('{...}', :struct)
+      when :openstruct then @formatter.colorize('{...}', :openstruct)
       else @formatter.colorize("...#{object.class}...", :class)
       end
     end
@@ -123,14 +125,7 @@ module AwesomePrint
     # base class.
     #---------------------------------------------------------------------------
     def printable(object)
-      case object
-      when Array  then :array
-      when Hash   then :hash
-      when File   then :file
-      when Dir    then :dir
-      when Struct then :struct
-      else object.class.to_s.gsub(/:+/, '_').downcase.to_sym
-      end
+      object.class.to_s.gsub(/:+/, '_').downcase.to_sym
     end
 
     # Update @options by first merging the :color hash and then the remaining

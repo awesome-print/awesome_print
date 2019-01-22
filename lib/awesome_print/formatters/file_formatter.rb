@@ -5,15 +5,13 @@ module AwesomePrint
   module Formatters
     class FileFormatter < BaseFormatter
 
-      attr_reader :file, :inspector, :options
+      formatter_for :file
 
-      def initialize(file, inspector)
-        @file = file
-        @inspector = inspector
-        @options = inspector.options
+      def self.formattable?(object)
+        object.is_a?(File)
       end
 
-      def format
+      def format(file)
         ls = File.directory?(file) ? `ls -adlF #{file.path.shellescape}` : `ls -alF #{file.path.shellescape}`
         colorize(ls.empty? ? file.inspect : "#{file.inspect}\n#{ls.chop}", :file)
       end

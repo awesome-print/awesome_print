@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ostruct'
 
 RSpec.describe 'AwesomePrint Ostruct extension' do
   before do

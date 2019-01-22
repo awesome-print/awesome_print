@@ -4,16 +4,18 @@ module AwesomePrint
   module Formatters
     class ObjectFormatter < BaseFormatter
 
-      attr_reader :object, :variables, :inspector, :options
+      formatter_for :object
 
-      def initialize(object, inspector)
-        @object = object
-        @variables = object.instance_variables
-        @inspector = inspector
-        @options = inspector.options
+      def self.formattable?(object)
+        object.is_a?(Object)
       end
 
-      def format
+      attr_reader :variables
+
+      def format(object)
+        @object = object
+        @variables = object.instance_variables
+
         vars = variables.map do |var|
           property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if object.respond_to?(:"#{property}=")

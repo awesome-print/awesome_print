@@ -4,16 +4,15 @@ module AwesomePrint
   module Formatters
     class ClassFormatter < BaseFormatter
 
-      attr_reader :klass, :inspector, :options
+      formatter_for :class
 
-      def initialize(klass, inspector)
-        @klass = klass
-        @inspector = inspector
-        @options = inspector.options
+      def self.formattable?(object)
+        object.is_a?(Class)
       end
 
-      def format
+      def format(klass)
         superclass = klass.superclass
+
         if superclass
           colorize("#{klass.inspect} < #{superclass}", :class)
         else

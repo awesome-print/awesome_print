@@ -4,16 +4,18 @@ module AwesomePrint
   module Formatters
     class StructFormatter < BaseFormatter
 
-      attr_reader :struct, :variables, :inspector, :options
+      formatter_for :struct
 
-      def initialize(struct, inspector)
-        @struct = struct
-        @variables = struct.members
-        @inspector = inspector
-        @options = inspector.options
+      def self.formattable?(object)
+        object.is_a?(Struct)
       end
 
-      def format
+      attr_reader :struct, :variables
+
+      def format(struct)
+        @struct = struct
+        @variables = struct.members
+
         vars = variables.map do |var|
           property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if struct.respond_to?(:"#{property}=")
