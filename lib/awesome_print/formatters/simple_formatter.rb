@@ -6,6 +6,10 @@ module AwesomePrint
 
       formatter_for :simple
 
+      def self.core?
+        true
+      end
+
       def self.formattable?(object)
         object.respond_to?(:to_s)
       end

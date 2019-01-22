@@ -35,6 +35,7 @@ RSpec.describe 'AwesomePrint' do
 
       require 'tmpdir'
       my = My.new(Dir.tmpdir)
+
       expect(my.ai(plain: true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
     end
 

@@ -12,6 +12,10 @@ module AwesomePrint
         true
       end
 
+      def self.core?
+        true
+      end
+
       def format(object)
         if @options[:raw] && object.instance_variables.any?
           Formatters::ObjectFormatter.new(@inspector).format(object)

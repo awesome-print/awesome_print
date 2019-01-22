@@ -6,6 +6,10 @@ module AwesomePrint
 
       formatter_for :method
 
+      def self.core?
+        true
+      end
+
       def self.formattable?(object)
         puts "formattable? for METHOD..."
         true

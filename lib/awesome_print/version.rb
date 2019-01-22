@@ -4,6 +4,11 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 module AwesomePrint
+
+  def self.debug
+    false
+  end
+
   def self.version
     '1.8.0'
   end

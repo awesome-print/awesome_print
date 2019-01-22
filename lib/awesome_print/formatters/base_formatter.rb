@@ -12,6 +12,14 @@ module AwesomePrint
 
       attr_reader :object, :inspector, :options
 
+      def self.formattable?(obj)
+        false
+      end
+
+      def self.core?
+        false
+      end
+
       def initialize(inspector)
         @inspector = inspector
         @options = inspector.options

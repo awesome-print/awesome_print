@@ -15,6 +15,7 @@ unless defined?(AwesomePrint::Inspector)
   require 'awesome_print/custom_defaults'
   require 'awesome_print/inspector'
   require 'awesome_print/formatter'
+
   Dir["./lib/awesome_print/formatters/**/*.rb"].each { |f| require f }
 
   require 'awesome_print/version'

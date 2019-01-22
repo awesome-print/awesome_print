@@ -6,7 +6,7 @@ module AwesomePrint
     # Pick the color and apply it to the given string as necessary.
     #------------------------------------------------------------------------------
     def colorize(str, type)
-      puts "[COLORIZING] - using #{options[:color][type]} for #{type}"
+      puts "[COLORIZING] - using #{options[:color][type]} for #{type}" if AwesomePrint.debug
 
       str = CGI.escapeHTML(str) if options[:html]
       if options[:plain] || !options[:color][type] || !inspector.colorize?

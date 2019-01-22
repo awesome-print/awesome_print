@@ -1,4 +1,5 @@
 require_relative 'base_formatter'
+require 'bigdecimal'
 
 module AwesomePrint
   module Formatters
@@ -7,7 +8,7 @@ module AwesomePrint
       formatter_for :bigdecimal
 
       def self.formattable?(object)
-        true
+        object.is_a?(BigDecimal)
       end
 
       def format(object)

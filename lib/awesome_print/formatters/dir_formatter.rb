@@ -8,7 +8,7 @@ module AwesomePrint
       formatter_for :dir
 
       def self.formattable?(object)
-        object.is_a?(Dir)
+        object.kind_of?(Dir)
       end
 
       def format(dir)

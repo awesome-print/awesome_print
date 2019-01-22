@@ -6,6 +6,10 @@ module AwesomePrint
 
       formatter_for :rational
 
+      def self.formattable?(object)
+        object.is_a?(Rational)
+      end
+
     end
   end
 end
