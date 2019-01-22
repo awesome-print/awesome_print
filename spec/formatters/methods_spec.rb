@@ -62,7 +62,9 @@ RSpec.describe 'Single method' do
     method = ''.method(:is_a?)
     expect(method.ai).to eq("\e[1;33mString (Kernel)\e[0m#\e[0;35mis_a?\e[0m\e[0;37m(arg1)\e[0m")
   end
+end
 
+RSpec.describe 'unbound methods' do
   it 'plain: should handle an unbound method' do
     class Hello
       def world; end
@@ -76,11 +78,8 @@ RSpec.describe 'Single method' do
       def world(a, b); end
     end
     method = Hello.instance_method(:world)
-    if RUBY_VERSION < '1.9.2'
-      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m")
-    else
-      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
-    end
+    puts "\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m"
+    expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
   end
 end
 

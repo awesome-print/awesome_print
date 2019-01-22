@@ -11,8 +11,7 @@ module AwesomePrint
       end
 
       def self.formattable?(object)
-        puts "formattable? for METHOD..."
-        true
+        object.is_a?(Method)
       end
 
       def format(method)
