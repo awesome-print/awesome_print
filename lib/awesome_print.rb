@@ -1,9 +1,3 @@
-# Copyright (c) 2010-2016 Michael Dvorkin and contributors
-#
-# Awesome Print is freely distributable under the terms of MIT license.
-# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
-#------------------------------------------------------------------------------
-#
 # AwesomePrint might be loaded implicitly through ~/.irbrc or ~/.pryrc
 # so do nothing for subsequent requires.
 #
@@ -34,11 +28,4 @@ unless defined?(AwesomePrint::Inspector)
   #     require 'awesome_print/ext/action_view'
   #   end
   # end
-  # require 'awesome_print/ext/mongo_mapper'   if defined?(MongoMapper)
-  # require 'awesome_print/ext/mongoid'        if defined?(Mongoid)
-  # require 'awesome_print/ext/nokogiri'       if defined?(Nokogiri)
-  # require 'awesome_print/ext/nobrainer'      if defined?(NoBrainer)
-  # require 'awesome_print/ext/ripple'         if defined?(Ripple)
-  # require 'awesome_print/ext/sequel'         if defined?(Sequel)
-  # require 'awesome_print/ext/ostruct'        if defined?(OpenStruct)
 end
