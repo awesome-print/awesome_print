@@ -6,6 +6,9 @@ module AwesomePrint
 
       formatter_for :string
 
+      def format(object)
+        colorize("\"#{object.to_s}\"", self.class.formatted_object_type)
+      end
     end
   end
 end

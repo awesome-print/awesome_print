@@ -11,7 +11,7 @@ module AwesomePrint
       end
 
       def format(object)
-        colorize(object.to_s, self.class.formatted_object_type)
+        colorize(":#{object.to_s}", self.class.formatted_object_type)
       end
     end
   end
