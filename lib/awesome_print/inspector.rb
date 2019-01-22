@@ -27,6 +27,7 @@ module AwesomePrint
           class:      :yellow,
           date:       :greenish,
           falseclass: :red,
+          simple:     :blue,
           fixnum:     :blue,
           integer:    :blue,
           float:      :blue,

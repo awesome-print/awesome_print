@@ -18,7 +18,7 @@ RSpec.describe 'AwesomePrint' do
           'ice'.freeze
         end
       end
-      expect(weird.new.ai(plain: false)).to eq('ice')
+      expect(weird.new.ai(plain: true)).to eq('ice')
     end
 
     # See https://github.com/awesome-print/awesome_print/issues/35
@@ -45,7 +45,7 @@ RSpec.describe 'AwesomePrint' do
 
     # Require different file name this time (lib/ap.rb vs. lib/awesome_print).
     it "several require 'awesome_print' should do no harm" do
-      require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
+      require File.expand_path(File.dirname(__FILE__) + '/../lib/awesome_print')
       expect { rand.ai }.not_to raise_error
     end
 
@@ -58,7 +58,7 @@ RSpec.describe 'AwesomePrint' do
     it 'IPAddr workaround' do
       require 'ipaddr'
       ipaddr = IPAddr.new('3ffe:505:2::1')
-      expect(ipaddr.ai).to eq('#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>')
+      expect(ipaddr.ai(plain: true)).to eq('#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>')
     end
 
     # See https://github.com/awesome-print/awesome_print/issues/139

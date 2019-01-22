@@ -20,6 +20,11 @@ module AwesomePrint
         @object = object
         @variables = object.instance_variables
 
+        # special case for ENV hashes, as they are objects but hash.
+        if object.to_s == 'ENV' && object.respond_to?(:to_h)
+          return Formatters::HashFormatter.new(@inspector).format(object.to_h)
+        end
+
         vars = variables.map do |var|
           property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if object.respond_to?(:"#{property}=")
