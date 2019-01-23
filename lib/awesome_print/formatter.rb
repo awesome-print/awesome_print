@@ -31,10 +31,10 @@ module AwesomePrint
     # type is determined by Inspector#printable
     #------------------------------------------------------------------------------
     def format(object, type = nil)
-      puts "[FORMAT] #{type.to_s.red} >>> #{object}" if AwesomePrint.debug
+      puts "\n\n[FMT] #{type.to_s.red} >>> #{object}" if AwesomePrint.debug
 
       format_with = active_formatter(type)
-      puts "[ACTIVE] using > #{format_with.to_s.blueish} < to format" if AwesomePrint.debug
+      puts "[ACTIVE] using > #{format_with.to_s.blueish} < to format" if format_with && AwesomePrint.debug
 
       # if we have an active formatter, and it's good to go, lets return that
 
@@ -42,10 +42,14 @@ module AwesomePrint
 
       # if that's not working, lets try discover the format via formattable?
       self.class.registered_formatters.each do |fmt|
-        puts "[FORMATTABLE] trying to use #{fmt} - #{fmt.last.core?}" if AwesomePrint.debug
+        puts "[FIND] trying to use [#{fmt.first.to_s.greenish} - #{fmt.last.to_s.blue}] - core: #{fmt.last.core?}" if AwesomePrint.debug
+        #{fmt.last.core?}" if AwesomePrint.debug
         next if fmt.last.core? # if it's a core level formatter, move on
 
-        return fmt.last.new(@inspector).format(object) if fmt.last.formattable?(object)
+        if fmt.last.formattable?(object)
+          puts "[FMT] Jackpot! using #{fmt.first.to_s.red} >>> #{object}" if AwesomePrint.debug
+          return fmt.last.new(@inspector).format(object) 
+        end
       end
 
       # we've run out of options. lets try and coerce into something we can work
