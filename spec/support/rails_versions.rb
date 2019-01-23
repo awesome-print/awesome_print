@@ -1,6 +1,6 @@
 module RailsVersions
   def rails_version
-    Gem::Version.new(Rails::VERSION::STRING)
+    Gem::Version.new(::Rails::VERSION::STRING)
   end
 
   def rails_5_2?

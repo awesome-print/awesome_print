@@ -28,8 +28,6 @@ ExtVerifier.require_dependencies!(
     action_view
     active_support/all
     mongoid
-    mongo_mapper
-    ripple nobrainer
   )
 )
 require 'nokogiri'

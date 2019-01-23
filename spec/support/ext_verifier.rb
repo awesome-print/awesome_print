@@ -19,21 +19,6 @@ module ExtVerifier
     defined?(Mongoid)
   end
   module_function :has_mongoid?
-
-  def has_mongo_mapper?
-    defined?(MongoMapper)
-  end
-  module_function :has_mongo_mapper?
-
-  def has_ripple?
-    defined?(Ripple)
-  end
-  module_function :has_ripple?
-
-  def has_nobrainer?
-    defined?(NoBrainer)
-  end
-  module_function :has_nobrainer?
 end
 
 RSpec.configure do |config|
