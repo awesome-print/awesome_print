@@ -78,7 +78,6 @@ RSpec.describe 'unbound methods' do
       def world(a, b); end
     end
     method = Hello.instance_method(:world)
-    puts "\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m"
     expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
   end
 end
