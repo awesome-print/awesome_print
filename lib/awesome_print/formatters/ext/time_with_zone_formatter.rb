@@ -9,7 +9,7 @@ module AwesomePrint
 
       def self.formattable?(object)
         (defined?(::ActiveSupport::TimeWithZone) && object.is_a?(::ActiveSupport::TimeWithZone)) ||
-          object.is_a?(::DateTime) || Object.is_a?(::Time)
+          object.is_a?(::DateTime) || object.is_a?(::Time) || object.is_a?(::Date)
       end
 
       def format(object)
