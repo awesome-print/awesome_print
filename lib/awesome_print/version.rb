@@ -5,6 +5,6 @@ module AwesomePrint
   end
 
   def self.version
-    '1.8.0'
+    '2.0.0-pre'
   end
 end

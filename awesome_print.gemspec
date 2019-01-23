@@ -4,9 +4,8 @@ require 'awesome_print/version'
 Gem::Specification.new do |s|
   s.name        = 'awesome_print'
   s.version     = AwesomePrint.version
-  s.authors     = 'Michael Dvorkin'
+  s.authors     = 'Michael Dvorkin, James Cox & contributors'
   s.date        = Time.now.strftime('%Y-%m-%d')
-  s.email       = 'mike@dvorkin.net'
   s.homepage    = 'https://github.com/awesome-print/awesome_print'
   s.summary     = 'Pretty print Ruby objects with proper indentation and colors'
   s.description = 'Great Ruby debugging companion: pretty print Ruby objects to visualize their structure. Supports custom object formatting via plugins'
