@@ -4,15 +4,16 @@ module AwesomePrint
   module Formatters
     class ActiveRecordClassFormatter < BaseFormatter
 
-      formatter_for :active_record_class
+      formatter_for :activerecord_base_class
 
       def self.formattable?(object)
-        defined?(::ActiveRecord) &&
-          (object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base))
+        defined?(::ActiveRecord) && object.is_a?(Class) &&
+          (object.superclass == ::ActiveRecord::Base ||
+           object.ancestors.include?(::ActiveRecord::Base))
       end
 
       def format(object)
-        if @options[:raw]
+        if @options[:raw] || object.to_s == "ActiveRecord::Base"
           return Formatters::ObjectFormatter.new(@inspector).format(object)
         end
 
@@ -23,7 +24,6 @@ module AwesomePrint
         if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:columns)
           return Formatters::SimpleFormatter.new(@inspector).format(object.inspect)
         end
-
 
         data = object.columns.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
           hash[c.name.to_sym] = c.type
