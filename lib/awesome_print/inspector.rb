@@ -123,7 +123,13 @@ module AwesomePrint
     # base class.
     #---------------------------------------------------------------------------
     def printable(object)
-      object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+      # FIXME: rails specific hack. this needs to be extracted into a
+      # awesome_print-rails binding lib or something.
+      if defined?(::ActiveRecord) && object.respond_to?(:ancestors) && object.ancestors.to_a.include?(::ActiveRecord::Base)
+        :activerecord_base_class
+      else
+        object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+      end
     end
 
     # Update @options by first merging the :color hash and then the remaining
