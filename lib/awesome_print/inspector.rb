@@ -127,6 +127,8 @@ module AwesomePrint
       # awesome_print-rails binding lib or something.
       if defined?(::ActiveRecord) && object.respond_to?(:ancestors) && object.ancestors.to_a.include?(::ActiveRecord::Base)
         :activerecord_base_class
+      elsif defined?(::Mongoid) && object.respond_to?(:ancestors) && object.ancestors.to_a.include?(::Mongoid::Document)
+        :mongoid_document
       else
         object.class.to_s.gsub(/:+/, '_').downcase.to_sym
       end

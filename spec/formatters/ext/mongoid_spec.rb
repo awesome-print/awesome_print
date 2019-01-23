@@ -40,7 +40,7 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
   it 'should print the class' do
     class_spec = <<-EOS.strip
 class MongoUser < Object {
-           :_id => :"bson/object_id",
+           :_id => :bson/object_id,
     :first_name => :string,
      :last_name => :string
 }
@@ -57,7 +57,7 @@ class MongoUser < Object {
 
     class_spec = <<-EOS.strip
 class Chamelion < Object {
-               :_id => :"bson/object_id",
+               :_id => :bson/object_id,
     :last_attribute => :object
 }
                    EOS

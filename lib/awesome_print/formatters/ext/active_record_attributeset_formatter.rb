@@ -11,7 +11,9 @@ module AwesomePrint
       end
 
       def self.formattable?(object)
-        defined?(::ActiveRecord) && object.is_a?(ActiveRecord::AttributeSet)
+        defined?(::ActiveRecord) &&
+          defined?(::ActiveRecord::AttributeSet) &&
+          object.is_a?(ActiveRecord::AttributeSet)
       end
 
       def format(object)

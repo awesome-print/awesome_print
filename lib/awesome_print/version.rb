@@ -1,7 +1,7 @@
 module AwesomePrint
 
   def self.debug
-    false
+    false #true
   end
 
   def self.version
