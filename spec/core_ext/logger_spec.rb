@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-
-require 'logger'
-require 'awesome_print/core_ext/logger'
-
 RSpec.describe 'AwesomePrint logging extensions' do
   before(:all) do
     @logger = Logger.new('/dev/null') rescue Logger.new('nul')

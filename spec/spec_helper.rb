@@ -30,6 +30,8 @@ ExtVerifier.require_dependencies!(
     mongoid
   )
 )
+
+require 'logger'
 require 'nokogiri'
 require 'awesome_print'
 

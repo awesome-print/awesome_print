@@ -1,3 +1,5 @@
+require_relative 'formatter'
+
 module AwesomePrint
   module Registrar
 
