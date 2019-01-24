@@ -1,8 +1,3 @@
-# Copyright (c) 2010-2016 Michael Dvorkin and contributors
-#
-# Awesome Print is freely distributable under the terms of MIT license.
-# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
-#------------------------------------------------------------------------------
 module AwesomePrint
   module Logger
 
@@ -16,5 +11,5 @@ module AwesomePrint
   end
 end
 
-Logger.send(:include, AwesomePrint::Logger)
+Logger.send(:include, AwesomePrint::Logger) if defined?(Logger)
 ActiveSupport::BufferedLogger.send(:include, AwesomePrint::Logger) if defined?(ActiveSupport::BufferedLogger)

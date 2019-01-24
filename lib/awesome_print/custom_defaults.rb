@@ -1,13 +1,5 @@
 module AwesomePrint
   class << self
-    attr_accessor :defaults, :force_colors
-
-    # Class accessor to force colorized output (ex. forked subprocess where TERM
-    # might be dumb).
-    #---------------------------------------------------------------------------
-    def force_colors!(value = true)
-      @force_colors = value
-    end
 
     def console?
       boolean(defined?(IRB) || defined?(Pry))

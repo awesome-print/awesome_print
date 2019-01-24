@@ -4,16 +4,27 @@ module AwesomePrint
   module Formatters
     class ObjectFormatter < BaseFormatter
 
-      attr_reader :object, :variables, :inspector, :options
+      formatter_for :object
 
-      def initialize(object, inspector)
-        @object = object
-        @variables = object.instance_variables
-        @inspector = inspector
-        @options = inspector.options
+      def self.core?
+        true
       end
 
-      def format
+      def self.formattable?(object)
+        object.is_a?(Object)
+      end
+
+      attr_reader :variables
+
+      def format(object)
+        @object = object
+        @variables = object.instance_variables
+
+        # special case for ENV hashes, as they are objects but hash.
+        if object.to_s == 'ENV' && object.respond_to?(:to_h)
+          return Formatters::HashFormatter.new(@inspector).format(object.to_h)
+        end
+
         vars = variables.map do |var|
           property = var.to_s[1..-1].to_sym # to_s because of some monkey patching done by Puppet.
           accessor = if object.respond_to?(:"#{property}=")

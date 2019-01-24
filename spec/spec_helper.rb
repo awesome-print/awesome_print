@@ -1,9 +1,3 @@
-# Copyright (c) 2010-2016 Michael Dvorkin and contributors
-#
-# Awesome Print is freely distributable under the terms of MIT license.
-# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
-#------------------------------------------------------------------------------
-#
 # Running specs from the command line:
 #   $ rake spec                   # Entire spec suite.
 #   $ rspec spec/objects_spec.rb  # Individual spec file.
@@ -25,6 +19,8 @@ Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
   require file
 end
 
+require 'byebug'
+
 ExtVerifier.require_dependencies!(
   %w(
     rails
@@ -32,10 +28,10 @@ ExtVerifier.require_dependencies!(
     action_view
     active_support/all
     mongoid
-    mongo_mapper
-    ripple nobrainer
   )
 )
+
+require 'logger'
 require 'nokogiri'
 require 'awesome_print'
 

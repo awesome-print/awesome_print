@@ -1,126 +1,66 @@
-# Copyright (c) 2010-2016 Michael Dvorkin and contributors
-#
-# Awesome Print is freely distributable under the terms of MIT license.
-# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
-#------------------------------------------------------------------------------
-require 'awesome_print/formatters'
+require_relative 'colorize'
 
 module AwesomePrint
   class Formatter
+
     include Colorize
 
     attr_reader :inspector, :options
 
-    CORE_FORMATTERS = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
+    # Acts as a class ivar
+    @registered_formatters = {}
+
+    # make it accessible
+    def self.registered_formatters
+      @registered_formatters
+    end
+
+    # register a new formatter..
+    #------------------------------------------------------------------------------
+    def self.register(formatter)
+      @registered_formatters[formatter.formatted_object_type.to_sym] = formatter
+    end
 
     def initialize(inspector)
-      @inspector   = inspector
-      @options     = inspector.options
+      @inspector = inspector
+      @options   = inspector.options
     end
+
 
     # Main entry point to format an object.
+    # type is determined by Inspector#printable
     #------------------------------------------------------------------------------
     def format(object, type = nil)
-      core_class = cast(object, type)
-      awesome = if core_class != :self
-        send(:"awesome_#{core_class}", object) # Core formatters.
-      else
-        awesome_self(object, type) # Catch all that falls back to object.inspect.
-      end
-      awesome
-    end
+      puts "\n\n[FMT] #{type.to_s.red} >>> #{object}" if AwesomePrint.debug
 
-    # Hook this when adding custom formatters. Check out lib/awesome_print/ext
-    # directory for custom formatters that ship with awesome_print.
-    #------------------------------------------------------------------------------
-    def cast(object, type)
-      CORE_FORMATTERS.include?(type) ? type : :self
-    end
+      format_with = active_formatter(type)
+      puts "[ACTIVE] using > #{format_with.to_s.blueish} < to format" if format_with && AwesomePrint.debug
 
-    private
+      # if we have an active formatter, and it's good to go, lets return that
 
-    # Catch all method to format an arbitrary object.
-    #------------------------------------------------------------------------------
-    def awesome_self(object, type)
-      if @options[:raw] && object.instance_variables.any?
-        awesome_object(object)
-      elsif (hash = convert_to_hash(object))
-        awesome_hash(hash)
-      else
-        awesome_simple(object.inspect.to_s, type, @inspector)
-      end
-    end
+      return format_with.new(@inspector).format(object) if format_with&.formattable?(object)
 
-    def awesome_bigdecimal(n)
-      o = n.to_s('F')
-      type = :bigdecimal
-      awesome_simple(o, type, @inspector)
-    end
+      # if that's not working, lets try discover the format via formattable?
+      self.class.registered_formatters.each do |fmt|
+        puts "[FIND] trying to use [#{fmt.first.to_s.greenish} - #{fmt.last.to_s.blue}] - core: #{fmt.last.core?}" if AwesomePrint.debug
+        #{fmt.last.core?}" if AwesomePrint.debug
+        next if fmt.last.core? # if it's a core level formatter, move on
 
-    def awesome_rational(n)
-      o = n.to_s
-      type = :rational
-      awesome_simple(o, type, @inspector)
-    end
-
-    def awesome_simple(o, type, inspector = @inspector)
-      AwesomePrint::Formatters::SimpleFormatter.new(o, type, inspector).format
-    end
-
-    def awesome_array(a)
-      Formatters::ArrayFormatter.new(a, @inspector).format
-    end
-
-    def awesome_set(s)
-      Formatters::ArrayFormatter.new(s.to_a, @inspector).format
-    end
-
-    def awesome_hash(h)
-      Formatters::HashFormatter.new(h, @inspector).format
-    end
-
-    def awesome_object(o)
-      Formatters::ObjectFormatter.new(o, @inspector).format
-    end
-
-    def awesome_struct(s)
-      Formatters::StructFormatter.new(s, @inspector).format
-    end
-
-    def awesome_method(m)
-      Formatters::MethodFormatter.new(m, @inspector).format
-    end
-    alias :awesome_unboundmethod :awesome_method
-
-    def awesome_class(c)
-      Formatters::ClassFormatter.new(c, @inspector).format
-    end
-
-    def awesome_file(f)
-      Formatters::FileFormatter.new(f, @inspector).format
-    end
-
-    def awesome_dir(d)
-      Formatters::DirFormatter.new(d, @inspector).format
-    end
-
-    # Utility methods.
-    #------------------------------------------------------------------------------
-    def convert_to_hash(object)
-      if !object.respond_to?(:to_hash)
-        return nil
+        if fmt.last.formattable?(object)
+          puts "[FMT] Jackpot! using #{fmt.first.to_s.red} >>> #{object}" if AwesomePrint.debug
+          return fmt.last.new(@inspector).format(object) 
+        end
       end
 
-      if object.method(:to_hash).arity != 0
-        return nil
-      end
+      # we've run out of options. lets try and coerce into something we can work
+      # with
+      puts "[FALLBACK] well darn, we're just gonna have to fb" if AwesomePrint.debug
+      AwesomePrint::Formatters::FallbackFormatter.new(@inspector).format(object)
+    end
 
-      hash = object.to_hash
-      if !hash.respond_to?(:keys) || !hash.respond_to?('[]')
-        return nil
-      end
-
-      return hash
+    def active_formatter(type)
+      self.class.registered_formatters[type]
     end
   end
 end
+

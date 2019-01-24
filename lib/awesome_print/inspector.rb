@@ -1,8 +1,3 @@
-# Copyright (c) 2010-2016 Michael Dvorkin and contributors
-#
-# Awesome Print is freely distributable under the terms of MIT license.
-# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
-#------------------------------------------------------------------------------
 require_relative 'indentator'
 
 module AwesomePrint
@@ -30,10 +25,13 @@ module AwesomePrint
           array:      :white,
           bigdecimal: :blue,
           class:      :yellow,
+          module:     :green,
           date:       :greenish,
           falseclass: :red,
+          simple:     :blue,
           fixnum:     :blue,
           integer:    :blue,
+          range:      :blue,
           float:      :blue,
           hash:       :pale,
           keyword:    :cyan,
@@ -42,6 +40,7 @@ module AwesomePrint
           rational:   :blue,
           string:     :yellowish,
           struct:     :pale,
+          openstruct: :pale,
           symbol:     :cyanish,
           time:       :greenish,
           trueclass:  :green,
@@ -106,9 +105,10 @@ module AwesomePrint
     #---------------------------------------------------------------------------
     def nested(object)
       case printable(object)
-      when :array  then @formatter.colorize('[...]', :array)
-      when :hash   then @formatter.colorize('{...}', :hash)
-      when :struct then @formatter.colorize('{...}', :struct)
+      when :array   then @formatter.colorize('[...]', :array)
+      when :hash    then @formatter.colorize('{...}', :hash)
+      when :struct  then @formatter.colorize('{...}', :struct)
+      when :openstruct then @formatter.colorize('{...}', :openstruct)
       else @formatter.colorize("...#{object.class}...", :class)
       end
     end
@@ -123,13 +123,14 @@ module AwesomePrint
     # base class.
     #---------------------------------------------------------------------------
     def printable(object)
-      case object
-      when Array  then :array
-      when Hash   then :hash
-      when File   then :file
-      when Dir    then :dir
-      when Struct then :struct
-      else object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+      # FIXME: rails specific hack. this needs to be extracted into a
+      # awesome_print-rails binding lib or something.
+      if defined?(::ActiveRecord) && object.respond_to?(:ancestors) && object.ancestors.to_a.include?(::ActiveRecord::Base)
+        :activerecord_base_class
+      elsif defined?(::Mongoid) && object.respond_to?(:ancestors) && object.ancestors.to_a.include?(::Mongoid::Document)
+        :mongoid_document
+      else
+        object.class.to_s.gsub(/:+/, '_').downcase.to_sym
       end
     end
 

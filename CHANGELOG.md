@@ -1,4 +1,10 @@
 ## master (unreleased)
+
+## 2.0.0-pre
+  - Massive overhaul in the way formatters work. Now they are registered with a factory pattern, which includes 
+    a simple method to determine if that formatter can handle the content. [@imajes]
+  - Remove support for mongo mapper, and ruby pre 2.x [@imajes]
+  - It's probably faster? :)
   - Fixes spec suite to properly work via travis, gets a clean build [@imajes, others]
   - Adds support for ActiveModel::Errors [@dshinzie] - [#301]
   - removes use of `strip_heredoc` from specs as it's a rails dep [@kstephens] - [#303]

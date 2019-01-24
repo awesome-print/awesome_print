@@ -4,15 +4,17 @@ module AwesomePrint
   module Formatters
     class MethodFormatter < BaseFormatter
 
-      attr_reader :method, :inspector, :options
+      formatter_for :method
 
-      def initialize(method, inspector)
-        @method = method
-        @inspector = inspector
-        @options = inspector.options
+      def self.core?
+        true
       end
 
-      def format
+      def self.formattable?(object)
+        object.is_a?(Method)
+      end
+
+      def format(method)
         name, args, owner = method_tuple(method)
 
         "#{colorize(owner, :class)}##{colorize(name, :method)}#{colorize(args, :args)}"

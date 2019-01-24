@@ -4,18 +4,20 @@ module AwesomePrint
   module Formatters
     class SimpleFormatter < BaseFormatter
 
-      attr_reader :string, :type, :inspector, :options
+      formatter_for :simple
 
-      def initialize(string, type, inspector)
-        @string = string
-        @type = type
-        @inspector = inspector
-        @options = inspector.options
+      def self.core?
+        true
       end
 
-      def format
-        colorize(string, type)
+      def self.formattable?(object)
+        object.respond_to?(:to_s)
       end
+
+      def format(object)
+        colorize(object.to_s, self.class.formatted_object_type)
+      end
+
     end
   end
 end

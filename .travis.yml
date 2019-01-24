@@ -24,8 +24,8 @@ matrix:
   include:
     - rvm: ruby-head
       env: RUBYOPT="--enable-frozen-string-literal"
-  # allow_failures:
-  #   - rvm: ruby-head
+  allow_failures:
+    - rvm: ruby-head
 
 addons:
   code_climate:
