@@ -16,7 +16,7 @@ RSpec.describe 'AwesomePrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails?
     expect(@ap.send(:awesome, hash)).to eq("{\n    \"hello\"\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}")
   end
 
-  it 'should format ActionController::Parameters as regular Hash' do
+  it 'should format ActionController::Parameters as regular Hash', skip: !defined?(ActionController::Parameters) do
     params = ActionController::Parameters.new({ hello: 'world' })
     expect(@ap.send(:awesome, params)).to eq("{\n    \"hello\"\e[0;37m => \e[0m\e[0;33m\"world\"\e[0m\n}")
   end
