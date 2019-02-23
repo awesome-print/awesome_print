@@ -137,8 +137,8 @@ module AwesomePrint
     # keys.
     #---------------------------------------------------------------------------
     def merge_options!(options = {})
-      @options[:color].merge!(options.delete(:color) || {})
-      @options.merge!(options)
+      @options[:color].merge!(options[:color] || {})
+      @options.merge!(options.reject { |key, _value| key == :color })
     end
 
     # This method needs to be mocked during testing so that it always loads
