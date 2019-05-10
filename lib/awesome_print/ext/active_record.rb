@@ -44,18 +44,7 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      data = if object.class.column_names != object.attributes.keys
-               object.attributes
-             else
-               object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
-                 if object.has_attribute?(name) || object.new_record?
-                   value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
-                   hash[name.to_sym] = value
-                 end
-                 hash
-               end
-             end
-      "#{object} " << awesome_hash(data)
+      "#{object} " << awesome_hash(awesome_retrieve_attributes(object))
     end
 
     # Format ActiveRecord class object.
@@ -82,20 +71,26 @@ module AwesomePrint
       return awesome_object(object) if @options[:raw]
 
       object_dump = object.marshal_dump.first
-      data = if object_dump.class.column_names != object_dump.attributes.keys
-               object_dump.attributes
-             else
-               object_dump.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
-                 if object_dump.has_attribute?(name) || object_dump.new_record?
-                   value = object_dump.respond_to?(name) ? object_dump.send(name) : object_dump.read_attribute(name)
-                   hash[name.to_sym] = value
-                 end
-                 hash
-               end
-             end
+      data = awesome_retrieve_attributes(object_dump)
 
       data.merge!({details: object.details, messages: object.messages})
       "#{object} " << awesome_hash(data)
+    end
+
+    # Return attributes from ActiveRecord/ActiveModel objects
+    #------------------------------------------------------------------------------
+    def awesome_retrieve_attributes(object)
+      if object.class.column_names != object.attributes.keys
+        object.attributes
+      else
+        object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+          if object.has_attribute?(name) || object.new_record?
+            value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name) rescue nil
+            hash[name.to_sym] = value
+          end
+          hash
+        end
+      end
     end
   end
 end

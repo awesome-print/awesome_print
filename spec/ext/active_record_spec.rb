@@ -10,6 +10,29 @@ RSpec.describe 'AwesomePrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }
       @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true)
     end
 
+    it 'ignores accessors raising errors' do
+      def @diana.name
+        raise "Oh no! I'm a deprecated method, you can't access me"
+      end
+
+      out = @ap.awesome(@diana)
+      str = <<-EOS.strip
+#<User:placeholder_id> {
+         :admin => false,
+    :created_at => ?,
+            :id => nil,
+          :name => nil,
+          :rank => 1
+}
+      EOS
+      if RUBY_VERSION < '1.9'
+        str.sub!('?', 'Sat Oct 10 12:30:00 UTC 1992')
+      else
+        str.sub!('?', '1992-10-10 12:30:00 UTC')
+      end
+      expect(out).to be_similar_to(str)
+    end
+
     it 'display single record' do
       out = @ap.awesome(@diana)
       str = <<-EOS.strip
