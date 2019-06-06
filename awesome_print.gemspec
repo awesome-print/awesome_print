@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec',  '>= 3.0.0'
   s.add_development_dependency 'appraisal'
   s.add_development_dependency 'fakefs', '>= 0.2.1'
-  s.add_development_dependency 'sqlite3'
+  s.add_development_dependency 'sqlite3', '~> 1.3.6'
   s.add_development_dependency 'nokogiri', '>= 1.6.5'
   # s.add_development_dependency 'simplecov'
   # s.add_development_dependency 'codeclimate-test-reporter'
