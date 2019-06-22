@@ -8,7 +8,7 @@ module AwesomePrint
     # Use HTML colors and add default "debug_dump" class to the resulting HTML.
     def ap_debug(object, options = {})
       object.ai(
-        options.merge(html: true)
+        {html: true}.merge(options)
       ).sub(
         /^<pre([\s>])/,
         '<pre class="debug_dump"\\1'
