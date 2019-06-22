@@ -7,12 +7,16 @@ module AwesomePrint
   module ActionView
     # Use HTML colors and add default "debug_dump" class to the resulting HTML.
     def ap_debug(object, options = {})
-      object.ai(
-        {html: true}.merge(options)
-      ).sub(
-        /^<pre([\s>])/,
-        '<pre class="debug_dump"\\1'
-      )
+      options = {html: true}.merge(options)
+      output  = object.ai options
+      if options[:html]
+        output.sub(
+          /^<pre([\s>])/,
+          '<pre class="debug_dump"\\1'
+        )
+      else
+        output
+      end
     end
 
     alias ap ap_debug
