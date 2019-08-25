@@ -24,8 +24,7 @@ matrix:
   include:
     - rvm: 2.6
       env: RUBYOPT="--enable-frozen-string-literal"
-  # allow_failures:
-  #   - rvm: ruby-head
+      gemfile: gemfiles/rails_5.2.gemfile
 
 addons:
   code_climate:
