@@ -27,6 +27,8 @@ matrix:
       rvm: 2.3
     - gemfile: gemfiles/rails_6.0.gemfile
       rvm: 2.4
+  allow_failures:
+    - rvm: ruby-head
 
 addons:
   code_climate:
