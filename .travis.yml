@@ -22,9 +22,6 @@ gemfile:
   - gemfiles/mongoid_6.0.gemfile
 
 matrix:
-  include:
-    - rvm: ruby-head
-      env: RUBYOPT="--enable-frozen-string-literal"
   exclude:
     - gemfile: gemfiles/rails_6.0.gemfile
       rvm: 2.3
