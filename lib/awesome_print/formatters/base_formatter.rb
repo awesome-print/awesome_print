@@ -109,7 +109,7 @@ module AwesomePrint
         inspector.current_indentation
       end
 
-      def indented
+      def indented(&block)
         inspector.increase_indentation(&block)
       end
 
