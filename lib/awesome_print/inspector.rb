@@ -62,7 +62,7 @@ module AwesomePrint
       indentator.indentation
     end
 
-    def increase_indentation
+    def increase_indentation(&block)
       indentator.indent(&block)
     end
 
