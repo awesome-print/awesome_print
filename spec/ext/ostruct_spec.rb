@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint Ostruct extension' do
+RSpec.describe 'AwesomerPrint Ostruct extension' do
   before do
-    @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true)
+    @ap = AwesomerPrint::Inspector.new(plain: true, sort_keys: true)
   end
 
   it 'empty hash' do

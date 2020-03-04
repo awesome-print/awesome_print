@@ -6,10 +6,6 @@
 #   gem 'mime-types', '2.6.2', :platforms => :ruby_19
 # end
 
-appraise 'rails-5.0' do
-  gem 'rails', '>= 5.0.0', '< 5.1'
-end
-
 appraise 'rails-5.1' do
   gem 'rails', '>= 5.1.0', '< 5.2'
 end

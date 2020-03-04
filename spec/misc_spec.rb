@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint' do
+RSpec.describe 'AwesomerPrint' do
 
   describe 'Misc' do
     it 'handle weird objects that return nil on inspect' do
@@ -21,14 +21,14 @@ RSpec.describe 'AwesomePrint' do
       expect(weird.new.ai(plain: false)).to eq('ice')
     end
 
-    # See https://github.com/awesome-print/awesome_print/issues/35
+    # See https://github.com/awesome-print/awesomer_print/issues/35
     it 'handle array grep when pattern contains / chapacter' do
       hash = { '1/x' => 1,  '2//x' => :"2" }
       grepped = hash.keys.sort.grep(/^(\d+)\//) { $1 }
       expect(grepped.ai(plain: true, multiline: false)).to eq('[ "1", "2" ]')
     end
 
-    # See https://github.com/awesome-print/awesome_print/issues/85
+    # See https://github.com/awesome-print/awesomer_print/issues/85
     if RUBY_VERSION >= '1.8.7'
       it "handle array grep when a method is defined in C and thus doesn't have a binding" do
         arr = (0..6).to_a
@@ -43,8 +43,8 @@ RSpec.describe 'AwesomePrint' do
       expect(ap object).to eq(object)
     end
 
-    # Require different file name this time (lib/ap.rb vs. lib/awesome_print).
-    it "several require 'awesome_print' should do no harm" do
+    # Require different file name this time (lib/ap.rb vs. lib/awesomer_print).
+    it "several require 'awesomer_print' should do no harm" do
       require File.expand_path(File.dirname(__FILE__) + '/../lib/ap')
       expect { rand.ai }.not_to raise_error
     end
@@ -54,14 +54,14 @@ RSpec.describe 'AwesomePrint' do
       expect(ENV.ai).to eq(ENV.to_hash.ai)
     end
 
-    # See https://github.com/awesome-print/awesome_print/issues/134
+    # See https://github.com/awesome-print/awesomer_print/issues/134
     it 'IPAddr workaround' do
       require 'ipaddr'
       ipaddr = IPAddr.new('3ffe:505:2::1')
       expect(ipaddr.ai).to eq('#<IPAddr: IPv6:3ffe:0505:0002:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>')
     end
 
-    # See https://github.com/awesome-print/awesome_print/issues/139
+    # See https://github.com/awesome-print/awesomer_print/issues/139
     it 'Object that overrides == and expects the :id method' do
       weird = Class.new do
         # Raises NoMethodError: undefined method `id' when "other" is nil or ENV.
@@ -120,14 +120,14 @@ RSpec.describe 'AwesomePrint' do
   end
 
   #------------------------------------------------------------------------------
-  describe 'AwesomePrint.defaults' do
+  describe 'AwesomerPrint.defaults' do
     after do
-      AwesomePrint.defaults = nil
+      AwesomerPrint.defaults = nil
     end
 
-    # See https://github.com/awesome-print/awesome_print/issues/98
+    # See https://github.com/awesome-print/awesomer_print/issues/98
     it 'should properly merge the defaults' do
-      AwesomePrint.defaults = { indent: -2, sort_keys: true }
+      AwesomerPrint.defaults = { indent: -2, sort_keys: true }
       hash = { [0, 0, 255] => :yellow, :red => 'rgb(255, 0, 0)', 'magenta' => 'rgb(255, 0, 255)' }
       out = hash.ai(plain: true)
       expect(out).to eq <<-EOS.strip
@@ -189,24 +189,24 @@ RSpec.describe 'AwesomePrint' do
     it 'should detect IRB' do
       class IRB; end
       ENV.delete('RAILS_ENV')
-      expect(AwesomePrint.console?).to eq(true)
-      expect(AwesomePrint.rails_console?).to eq(false)
+      expect(AwesomerPrint.console?).to eq(true)
+      expect(AwesomerPrint.rails_console?).to eq(false)
       Object.instance_eval { remove_const :IRB }
     end
 
     it 'should detect Pry' do
       class Pry; end
       ENV.delete('RAILS_ENV')
-      expect(AwesomePrint.console?).to eq(true)
-      expect(AwesomePrint.rails_console?).to eq(false)
+      expect(AwesomerPrint.console?).to eq(true)
+      expect(AwesomerPrint.rails_console?).to eq(false)
       Object.instance_eval { remove_const :Pry }
     end
 
     it 'should detect Rails::Console' do
       class IRB; end
       module Rails; class Console; end; end
-      expect(AwesomePrint.console?).to eq(true)
-      expect(AwesomePrint.rails_console?).to eq(true)
+      expect(AwesomerPrint.console?).to eq(true)
+      expect(AwesomerPrint.rails_console?).to eq(true)
       Object.instance_eval { remove_const :IRB }
       Object.instance_eval { remove_const :Rails }
     end
@@ -214,8 +214,8 @@ RSpec.describe 'AwesomePrint' do
     it "should detect ENV['RAILS_ENV']" do
       class Pry; end
       ENV['RAILS_ENV'] = 'development'
-      expect(AwesomePrint.console?).to eq(true)
-      expect(AwesomePrint.rails_console?).to eq(true)
+      expect(AwesomerPrint.console?).to eq(true)
+      expect(AwesomerPrint.rails_console?).to eq(true)
       Object.instance_eval { remove_const :Pry }
     end
 
@@ -237,7 +237,7 @@ RSpec.describe 'AwesomePrint' do
       IRB.define_singleton_method :version, -> { 'test_version' }
       irb = IRB::Irb.new
       irb.instance_eval { @context = irb_context }
-      AwesomePrint.irb!
+      AwesomerPrint.irb!
       expect(irb).to receive(:puts).with("(Object doesn't support #ai)")
       expect { irb.output_value }.to_not raise_error
       Object.instance_eval { remove_const :IRB }

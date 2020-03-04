@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint' do
+RSpec.describe 'AwesomerPrint' do
   def stub_tty!(output = true, stream = STDOUT)
     if output
       stream.instance_eval { def tty?;  true; end }
@@ -21,7 +21,7 @@ RSpec.describe 'AwesomePrint' do
 
     describe 'default settings (no forced colors)' do
       before do
-        AwesomePrint.force_colors! false
+        AwesomerPrint.force_colors! false
       end
 
       it 'colorizes tty processes by default' do
@@ -63,7 +63,7 @@ RSpec.describe 'AwesomePrint' do
 
     describe 'forced colors override' do
       before do
-        AwesomePrint.force_colors!
+        AwesomerPrint.force_colors!
       end
 
       it 'still colorizes tty processes' do
