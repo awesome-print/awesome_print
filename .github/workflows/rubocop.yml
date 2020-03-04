@@ -1,0 +1,10 @@
+name: Lint
+
+on: [push]
+
+jobs:
+  build:
+    steps:
+    - name: Rubocop checks
+      uses: gimenete/rubocop-action@1.0
+
