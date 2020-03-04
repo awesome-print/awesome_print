@@ -1,0 +1,24 @@
+name: RSpec
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7.x
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install libsqlite3-dev
+    - name: Build and test with RSpec
+      run: |
+        gem install bundler
+        bundle install --retry 3
+        bundle exec rspec
