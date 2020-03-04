@@ -16,9 +16,8 @@ task :appraise do
   exec 'appraisal install && appraisal rake'
 end
 
-desc 'Run all awesome_print gem specs'
+desc 'Run all awesomer_print gem specs'
 task :spec do
   # Run plain rspec command without RSpec::Core::RakeTask overrides.
   exec 'rspec -c spec'
 end
-

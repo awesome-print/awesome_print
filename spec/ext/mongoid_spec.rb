@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.call do
+RSpec.describe 'AwesomerPrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.call do
 
   if ExtVerifier.has_mongoid?
     before :all do
@@ -19,7 +19,7 @@ RSpec.describe 'AwesomePrint/Mongoid', skip: -> { !ExtVerifier.has_mongoid? }.ca
   end
 
   before do
-    @ap = AwesomePrint::Inspector.new plain: true, sort_keys: true
+    @ap = AwesomerPrint::Inspector.new plain: true, sort_keys: true
   end
 
   it 'should print class instance' do

@@ -270,7 +270,7 @@ code to your ~/.irbrc file:
 
 ```ruby
 require "awesome_print"
-AwesomePrint.irb!
+AwesomerPrint.irb!
 ```
 
 ### PRY integration ###
@@ -279,7 +279,7 @@ of the formatting which comes with pry. Add the following code to your ~/.pryrc:
 
 ```ruby
 require "awesome_print"
-AwesomePrint.pry!
+AwesomerPrint.pry!
 ```
 
 ### Logger Convenience Method ###
@@ -318,12 +318,12 @@ red text # (it's red)
 
 ### Setting Custom Defaults ###
 You can set your own default options by creating ``.aprc`` file in your home
-directory. Within that file assign your  defaults to ``AwesomePrint.defaults``.
+directory. Within that file assign your  defaults to ``AwesomerPrint.defaults``.
 For example:
 
 ```ruby
 # ~/.aprc file.
-AwesomePrint.defaults = {
+AwesomerPrint.defaults = {
   :indent => -2,
   :color => {
     :hash  => :pale,
@@ -334,7 +334,7 @@ AwesomePrint.defaults = {
 
 ## Versioning
 
-AwesomePrint follows the [Semantic Versioning](http://semver.org/) standard.
+AwesomerPrint follows the [Semantic Versioning](http://semver.org/) standard.
 
 ### Contributing ###
 See [CONTRIBUTING.md](CONTRIBUTING.md) for information.

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'AwesomePrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call do
+RSpec.describe 'AwesomerPrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call do
 
   if ExtVerifier.has_ripple?
     before :all do
@@ -20,7 +20,7 @@ RSpec.describe 'AwesomePrint/Ripple', skip: -> { !ExtVerifier.has_ripple? }.call
   end
 
   before do
-    @ap = AwesomePrint::Inspector.new plain: true, sort_keys: true
+    @ap = AwesomerPrint::Inspector.new plain: true, sort_keys: true
   end
 
   it 'should print class instance' do
