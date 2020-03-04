@@ -6,7 +6,6 @@ rvm:
   - 2.4
   - 2.5
   - 2.6
-  - 2.7
   - ruby-head
 
 before_install:
@@ -23,8 +22,8 @@ matrix:
   include:
     - rvm: ruby-head
       env: RUBYOPT="--enable-frozen-string-literal"
-  # allow_failures:
-  #   - rvm: ruby-head
+  allow_failures:
+    - rvm: ruby-head
 
 addons:
   code_climate:
