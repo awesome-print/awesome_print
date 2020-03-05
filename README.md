@@ -1,32 +1,30 @@
-## Awesome Print ##
+## Awesomer Print ##
 
 [![RubyGems][gem_version_badge]][ruby_gems]
 [![Travis CI][travis_ci_badge]][travis_ci]
 [![Code Climate][code_climate_badge]][code_climate]
 [![Code Climate Coverage][code_climate_coverage_badge]][code_climate]
 [![RubyGems][gem_downloads_badge]][ruby_gems]
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/awesome-print/awesome_print?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/awesomer-print/community.svg)](https://gitter.im/awesomer-print/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+Awesomer Print is a fork of [Awesome Print](https://github.com/awesomer-print/awesomer_print) which became stale and should be used in it's place to avoid conflicts. It is a Ruby library that pretty prints Ruby objects in full color exposing their internal structure with proper indentation. Rails ActiveRecord objects and usage within Rails templates are supported via included mixins.
 
-Awesome Print is a Ruby library that pretty prints Ruby objects in full color
-exposing their internal structure with proper indentation. Rails ActiveRecord
-objects and usage within Rails templates are supported via included mixins.
+### Supported Versions ###
 
-__NOTE__: awesome_print v1.2.0 is the last release supporting Ruby versions
-prior to v1.9.3 and Rails versions prior to v3.0. The upcoming awesome_print
-v2.0 will *require* Ruby v1.9.3 or later and Rails v3.0 or later.
+- Ruby >= 2.3
+- Rails >= 5.1
 
 ### Installation ###
     # Installing as Ruby gem
-    $ gem install awesome_print
+    $ gem install awesomer_print
 
     # Cloning the repository
-    $ git clone git://github.com/awesome-print/awesome_print.git
+    $ git clone git://github.com/awesomer-print/awesomer_print.git
 
 ### Usage ###
 
 ```ruby
-require "awesome_print"
+require "awesomer_print"
 ap object, options = {}
 ```
 
@@ -86,7 +84,7 @@ irb> "awesome print".ai
 
 ```ruby
 $ cat > 1.rb
-require "awesome_print"
+require "awesomer_print"
 data = [ false, 42, %w(forty two), { :now => Time.now, :class => Time.now.class, :distance => 42e42 } ]
 ap data
 ^D
@@ -106,7 +104,7 @@ $ ruby 1.rb
 ]
 
 $ cat > 2.rb
-require "awesome_print"
+require "awesomer_print"
 data = { :now => Time.now, :class => Time.now.class, :distance => 42e42 }
 ap data, :indent => -2  # <-- Left align hash keys.
 ^D
@@ -118,7 +116,7 @@ $ ruby 2.rb
 }
 
 $ cat > 3.rb
-require "awesome_print"
+require "awesomer_print"
 data = [ false, 42, %w(forty two) ]
 data << data  # <-- Nested array.
 ap data, :multiline => false
@@ -127,7 +125,7 @@ $ ruby 3.rb
 [ false, 42, [ "forty", "two" ], [...] ]
 
 $ cat > 4.rb
-require "awesome_print"
+require "awesomer_print"
 class Hello
   def self.world(x, y, z = nil, &blk)
   end
@@ -140,7 +138,7 @@ $ ruby 4.rb
 ]
 
 $ cat > 5.rb
-require "awesome_print"
+require "awesomer_print"
 ap (''.methods - Object.methods).grep(/!/)
 ^D
 $ ruby 5.rb
@@ -168,14 +166,14 @@ $ ruby 5.rb
 ]
 
 $ cat > 6.rb
-require "awesome_print"
+require "awesomer_print"
 ap 42 == ap(42)
 ^D
 $ ruby 6.rb
 42
 true
 $ cat 7.rb
-require "awesome_print"
+require "awesomer_print"
 some_array = (1..1000).to_a
 ap some_array, :limit => true
 ^D
@@ -191,7 +189,7 @@ $ ruby 7.rb
 ]
 
 $ cat 8.rb
-require "awesome_print"
+require "awesomer_print"
 some_array = (1..1000).to_a
 ap some_array, :limit => 5
 ^D
@@ -208,7 +206,7 @@ $ ruby 8.rb
 ### Example (Rails console) ###
 ```ruby
 $ rails console
-rails> require "awesome_print"
+rails> require "awesomer_print"
 rails> ap Account.limit(2).all
 [
     [0] #<Account:0x1033220b8> {
@@ -265,25 +263,25 @@ rails>
 ```
 
 ### IRB integration ###
-To use awesome_print as default formatter in irb and Rails console add the following
+To use awesomer_print as default formatter in irb and Rails console add the following
 code to your ~/.irbrc file:
 
 ```ruby
-require "awesome_print"
+require "awesomer_print"
 AwesomerPrint.irb!
 ```
 
 ### PRY integration ###
-If you miss awesome_print's way of formatting output, here's how you can use it in place
+If you miss awesomer_print's way of formatting output, here's how you can use it in place
 of the formatting which comes with pry. Add the following code to your ~/.pryrc:
 
 ```ruby
-require "awesome_print"
+require "awesomer_print"
 AwesomerPrint.pry!
 ```
 
 ### Logger Convenience Method ###
-awesome_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
+awesomer_print adds the 'ap' method to the Logger and ActiveSupport::BufferedLogger classes
 letting you call:
 
     logger.ap object
@@ -297,7 +295,7 @@ in the custom defaults (see below). You can also override on a per call basis wi
     logger.ap object, :warn
 
 ### ActionView Convenience Method ###
-awesome_print adds the 'ap' method to the ActionView::Base class making it available
+awesomer_print adds the 'ap' method to the ActionView::Base class making it available
 within Rails templates. For example:
 
     <%= ap @accounts.first %>   # ERB
@@ -348,11 +346,11 @@ http://www.dvorkin.net
 
 Released under the MIT license. See LICENSE file for details.
 
-[gem_version_badge]: https://img.shields.io/gem/v/awesome_print.svg?style=flat
-[gem_downloads_badge]: http://img.shields.io/gem/dt/awesome_print.svg?style=flat
-[ruby_gems]: http://rubygems.org/gems/awesome_print
-[travis_ci]: http://travis-ci.org/awesome-print/awesome_print
-[travis_ci_badge]: https://img.shields.io/travis/awesome-print/awesome_print/master.svg?style=flat
-[code_climate]: https://codeclimate.com/github/awesome-print/awesome_print
-[code_climate_badge]: http://img.shields.io/codeclimate/github/awesome-print/awesome_print.svg?style=flat
-[code_climate_coverage_badge]: https://codeclimate.com/github/awesome-print/awesome_print/badges/coverage.svg
+[gem_version_badge]: https://img.shields.io/gem/v/awesomer_print.svg?style=flat
+[gem_downloads_badge]: http://img.shields.io/gem/dt/awesomer_print.svg?style=flat
+[ruby_gems]: http://rubygems.org/gems/awesomer_print
+[travis_ci]: http://travis-ci.org/awesomer-print/awesomer_print
+[travis_ci_badge]: https://img.shields.io/travis/awesomer-print/awesomer_print/master.svg?style=flat
+[code_climate]: https://codeclimate.com/github/awesomer-print/awesomer_print
+[code_climate_badge]: http://img.shields.io/codeclimate/github/awesomer-print/awesomer_print.svg?style=flat
+[code_climate_coverage_badge]: https://codeclimate.com/github/awesomer-print/awesomer_print/badges/coverage.svg
