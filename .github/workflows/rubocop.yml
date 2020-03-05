@@ -4,6 +4,8 @@ on: [push]
 
 jobs:
   build:
+    runs-on: ubuntu-18.04
+
     steps:
     - name: Rubocop checks
       uses: gimenete/rubocop-action@1.0
