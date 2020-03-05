@@ -9,4 +9,6 @@ jobs:
     steps:
     - name: Rubocop checks
       uses: gimenete/rubocop-action@1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
