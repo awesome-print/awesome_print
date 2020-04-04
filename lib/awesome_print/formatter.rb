@@ -125,10 +125,15 @@ module AwesomePrint
       # https://api.rubyonrails.org/classes/ActionController/Parameters.html
       return nil if object.respond_to?(:permitted?) && !object.permitted?
 
-      hash = object.to_hash
-      return nil if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
+      begin
+        hash = object.to_hash
+        return nil if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
 
-      hash
+        hash
+      rescue
+        # TODO: see if return object would not be better
+        return nil
+      end
     end
   end
 end
