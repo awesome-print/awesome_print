@@ -131,8 +131,7 @@ module AwesomePrint
 
         hash
       rescue
-        # TODO: see if return object would not be better
-        return nil
+        return { class: object.class.name, contents: object.inspect }
       end
     end
   end
