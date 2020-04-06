@@ -115,12 +115,16 @@ module AwesomePrint
         return nil
       end
 
-      hash = object.to_hash
-      if !hash.respond_to?(:keys) || !hash.respond_to?('[]')
-        return nil
-      end
+      begin
+        hash = object.to_hash
+        if !hash.respond_to?(:keys) || !hash.respond_to?('[]')
+          return nil
+        end
 
-      return hash
+        return hash
+      rescue
+        return { class: object.class.name, contents: object.inspect }
+      end
     end
   end
 end
