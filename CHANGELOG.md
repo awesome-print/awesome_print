@@ -3,6 +3,7 @@
   - Adds support for ActiveModel::Errors [@dshinzie] - [#301]
   - removes use of `strip_heredoc` from specs as it's a rails dep [@kstephens] - [#303]
   - ArrayFormatter now returns arrays for has_many :through associations [@chadh13] - [#332]
+  - Fixes warning: Capturing the given block using Proc.new is deprecated; use `&block` instead [@yart] - [#385]
 
 ## 1.8.0
   - stat("$HOME/.aprc") once [@kstephens] - [#304]
