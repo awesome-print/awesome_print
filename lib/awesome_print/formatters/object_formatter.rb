@@ -22,7 +22,7 @@ module AwesomePrint
             object.respond_to?(property) ? :reader : nil
           end
           if accessor
-            ["attr_#{accessor} :#{property}", var]
+            [String.new("attr_#{accessor} :#{property}"), var]
           else
             [var.to_s, var]
           end
@@ -60,7 +60,8 @@ module AwesomePrint
       end
 
       def awesome_instance
-        str = object.send(options[:class_name]).to_s
+        str = String.new
+        str << object.send(options[:class_name]).to_s
         str << ":0x%08x" % (object.__id__ * 2) if options[:object_id]
         str
       end

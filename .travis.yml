@@ -5,7 +5,7 @@ rvm:
   - 2.3
   - 2.4
   - 2.5
-  - ruby-head
+  - 2.6
 
 before_install:
   - gem install bundler
@@ -22,10 +22,9 @@ gemfile:
 
 matrix:
   include:
-    - rvm: ruby-head
+    - rvm: 2.6
       env: RUBYOPT="--enable-frozen-string-literal"
-  # allow_failures:
-  #   - rvm: ruby-head
+      gemfile: gemfiles/rails_5.2.gemfile
 
 addons:
   code_climate:

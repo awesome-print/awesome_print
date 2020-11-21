@@ -73,7 +73,7 @@ module AwesomePrint
 
         keys.map! do |key|
           plain_single_line do
-            [inspector.awesome(key), hash[key]]
+            [String.new(inspector.awesome(key)), hash[key]]
           end
         end
       end
