@@ -31,7 +31,7 @@ module AwesomePrint
           args:       '#ECF0F1',
           array:      '#fff',
           bigdecimal: '#3498DB',
-          class:      '#F1C40F',
+          class:      ['#F1C40F', :italic],
           date:       '#1ABC9C',
           falseclass: '#E74C3C',
           fixnum:     '#3498DB',
@@ -41,6 +41,7 @@ module AwesomePrint
           keyword:    '#9B59B6',
           method:     '#8E44AD',
           nilclass:   '#E74C3C',
+          proc:       ['#E6B0AA', :italic],
           rational:   '#3498DB',
           string:     '#F1C40F',
           struct:     '#ECF0F1',
@@ -48,6 +49,10 @@ module AwesomePrint
           time:       '#1ABC9C',
           trueclass:  '#2ECC71',
           variable:   '#8E44AD',
+
+          bold:       :bold,
+          italic:     :italic,
+          unknown:    '#FF0000',
         }
       }
 

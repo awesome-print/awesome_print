@@ -8,20 +8,22 @@ module AwesomePrint
     # Pick the color and apply it to the given string as necessary.
     #------------------------------------------------------------------------------
     def colorize(str, types)
-      if !types.is_a?(::Array)
-        types = [types]
-      end
+      types = [types] if !types.is_a?(::Array)
 
-      types = types.map { |type| options[:color][type] || type }
+      types = types
+        .map { |type| options[:color][type] || options[:color][:unknown] }
+        .flatten
+        .compact
 
       if options[:plain] || !inspector.colorize?
         str
       elsif options[:html]
         styles = types.map do |el|
-          if type == 'italic'
+          case type.to_s
+          when 'italic'
             "font-style: italic"
-          elsif type == 'bold'
-            "font-weight: bold;"
+          when 'bold'
+            "font-weight: bold"
           else
             "color: #{ type }"
           end
