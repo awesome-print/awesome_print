@@ -32,11 +32,11 @@ module AwesomePrint
       end
 
       def multiline_hash
-        ["{\n", printable_hash.join(",\n"), "\n#{outdent}}"].join
+        ["#<Hash:#{ @hash.object_id }> ", "{\n", printable_hash.join(",\n"), "\n#{outdent}}"].join
       end
 
       def simple_hash
-        "{ #{printable_hash.join(', ')} }"
+        "#<Hash:#{ @hash.object_id }> { #{printable_hash.join(', ')} }"
       end
 
       def printable_hash

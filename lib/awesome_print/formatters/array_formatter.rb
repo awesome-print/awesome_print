@@ -31,7 +31,7 @@ module AwesomePrint
         if options[:multiline]
           multiline_array
         else
-          "[ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
+          "#<Array:#{ @array.object_id }> [ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
         end
       end
 
@@ -42,7 +42,7 @@ module AwesomePrint
                  limited(generate_printable_array, width(array))
                end
 
-        %Q([\n#{data.join(",\n")}\n#{outdent}])
+        %Q(#<Array:#{ @array.object_id }> [\n#{data.join(",\n")}\n#{outdent}])
       end
 
       def generate_printable_array
