@@ -3,6 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
+=begin
 class String
   #
   # ANSI color codes:
@@ -29,3 +30,4 @@ class String
   alias :pale  :whiteish
 
 end
+=end

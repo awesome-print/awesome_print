@@ -28,26 +28,26 @@ module AwesomePrint
         object_id:         true,   # Show object_id.
         recursive_nesting: true,   # Hide already displayed nested Hash / Array
         color: {
-          args:       :pale,
-          array:      :white,
-          bigdecimal: :blue,
-          class:      :yellow,
-          date:       :greenish,
-          falseclass: :red,
-          fixnum:     :blue,
-          integer:    :blue,
-          float:      :blue,
-          hash:       :pale,
-          keyword:    :cyan,
-          method:     :purpleish,
-          nilclass:   :red,
-          rational:   :blue,
-          string:     :yellowish,
-          struct:     :pale,
-          symbol:     :cyanish,
-          time:       :greenish,
-          trueclass:  :green,
-          variable:   :cyanish
+          args:       '#ECF0F1',
+          array:      '#fff',
+          bigdecimal: '#3498DB',
+          class:      '#F1C40F',
+          date:       '#1ABC9C',
+          falseclass: '#E74C3C',
+          fixnum:     '#3498DB',
+          integer:    '#3498DB',
+          float:      '#3498DB',
+          hash:       '#ECF0F1',
+          keyword:    '#9B59B6',
+          method:     '#8E44AD',
+          nilclass:   '#E74C3C',
+          rational:   '#3498DB',
+          string:     '#F1C40F',
+          struct:     '#ECF0F1',
+          symbol:     '#8E44AD',
+          time:       '#1ABC9C',
+          trueclass:  '#2ECC71',
+          variable:   '#8E44AD',
         }
       }
 
@@ -137,7 +137,7 @@ module AwesomePrint
       end
 
       str = "#<#{ object_class.to_s.capitalize }:#{ current_object_id }#{ object_name ? " #{ object_name }" : '' }>"
-      @formatter.colorize(str, object_type)
+      @formatter.colorize(str, :italic)
     end
 
     #---------------------------------------------------------------------------

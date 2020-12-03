@@ -31,7 +31,8 @@ module AwesomePrint
         if options[:multiline]
           multiline_array
         else
-          "#<Array:#{ @array.object_id }> [ #{array.map { |item| inspector.awesome(item) }.join(', ')} ]"
+          object_type = colorize("#<Array:#{ @array.object_id }> ", :italic)
+          "#{ object_type }[ #{ array.map { |item| inspector.awesome(item) }.join(', ') } ]"
         end
       end
 
@@ -42,7 +43,8 @@ module AwesomePrint
                  limited(generate_printable_array, width(array))
                end
 
-        %Q(#<Array:#{ @array.object_id }> [\n#{data.join(",\n")}\n#{outdent}])
+        object_type = colorize("#<Array:#{ @array.object_id }> ", :italic)
+        %Q(#{ object_type }[\n#{ data.join(",\n") }\n#{ outdent }])
       end
 
       def generate_printable_array

@@ -32,11 +32,13 @@ module AwesomePrint
       end
 
       def multiline_hash
-        ["#<Hash:#{ @hash.object_id }> ", "{\n", printable_hash.join(",\n"), "\n#{outdent}}"].join
+        object_type = colorize("#<Hash:#{ @hash.object_id }> ", :italic)
+        [object_type, "{\n", printable_hash.join(",\n"), "\n#{outdent}}"].join
       end
 
       def simple_hash
-        "#<Hash:#{ @hash.object_id }> { #{printable_hash.join(', ')} }"
+        object_type = colorize("#<Hash:#{ @hash.object_id }> ", :italic)
+        "#{ object_type }{ #{printable_hash.join(', ')} }"
       end
 
       def printable_hash
