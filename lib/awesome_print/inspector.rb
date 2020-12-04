@@ -12,6 +12,25 @@ module AwesomePrint
     APN  = :__awesome_print_nesting__
     APGN = :__awesome_print_global_nesting__
 
+    MONOKAI_PRO = {
+      red:    '#ff6188',
+      orange: '#fc9867',
+      yellow: '#ffd866',
+      green:  '#a9dc76',
+      blue:   '#78dce8',
+      purple: '#ab9df2',
+      base0:  '#19181a',
+      base1:  '#221f22',
+      base2:  '#2d2a2e',
+      base3:  '#403e41',
+      base4:  '#5b595c',
+      base5:  '#727072',
+      base6:  '#939293',
+      #base7:  '#c1c0c0',
+      base7:  '#cecec1',
+      base8:  '#fcfcfa',
+    }
+
     def initialize(options = {})
       @options = {
         indent:            4,      # Number of spaces for indenting.
@@ -26,33 +45,44 @@ module AwesomePrint
         ruby19_syntax:     false,  # Use Ruby 1.9 hash syntax in output.
         class_name:        :class, # Method used to get Instance class name.
         object_id:         true,   # Show object_id.
-        recursive_nesting: true,   # Hide already displayed nested Hash / Array
+
+        recursive_nesting:        true,   # Hide already displayed nested Hash / Array.
+        display_object_reference: true, # Show object_id, mostly useful when hiding already displayed objects.
+
         color: {
-          args:       '#ECF0F1',
-          array:      '#fff',
-          bigdecimal: '#3498DB',
-          class:      ['#F1C40F', :italic],
-          date:       '#1ABC9C',
-          falseclass: '#E74C3C',
-          fixnum:     '#3498DB',
-          integer:    '#3498DB',
-          float:      '#3498DB',
-          hash:       '#ECF0F1',
-          keyword:    '#9B59B6',
-          method:     '#8E44AD',
-          nilclass:   '#E74C3C',
-          proc:       ['#E6B0AA', :italic],
-          rational:   '#3498DB',
-          string:     '#F1C40F',
-          struct:     '#ECF0F1',
-          symbol:     '#8E44AD',
-          time:       '#1ABC9C',
-          trueclass:  '#2ECC71',
-          variable:   '#8E44AD',
+          args:       MONOKAI_PRO[:base8],
+          array:      MONOKAI_PRO[:base8],
+          bigdecimal: MONOKAI_PRO[:purple],
+          class:      [MONOKAI_PRO[:green], :italic],
+          date:       MONOKAI_PRO[:purple],
+          falseclass: MONOKAI_PRO[:purple],
+          fixnum:     MONOKAI_PRO[:purple],
+          integer:    MONOKAI_PRO[:purple],
+          float:      MONOKAI_PRO[:purple],
+          hash:       MONOKAI_PRO[:base8],
+          keyword:    MONOKAI_PRO[:green],
+          method:     MONOKAI_PRO[:base8],
+          nilclass:   MONOKAI_PRO[:purple],
+          proc:       [MONOKAI_PRO[:green], :italic],
+          rational:   MONOKAI_PRO[:purple],
+          string:     MONOKAI_PRO[:yellow],
+          struct:     MONOKAI_PRO[:base8],
+          symbol:     MONOKAI_PRO[:orange],
+          time:       MONOKAI_PRO[:purple],
+          trueclass:  MONOKAI_PRO[:purple],
+          variable:   MONOKAI_PRO[:purple],
+
+          object_reference: [MONOKAI_PRO[:base7], :italic],
+
+          array_indices: [MONOKAI_PRO[:base6], :italic],
+          array_syntax:  MONOKAI_PRO[:base6],
+
+          hash_syntax:   MONOKAI_PRO[:base6],
+          syntax:        MONOKAI_PRO[:base6],
 
           bold:       :bold,
           italic:     :italic,
-          unknown:    '#FF0000',
+          unknown:    '#ff2f2f',
         }
       }
 
@@ -84,7 +114,7 @@ module AwesomePrint
 
       Thread.current[APGN] = {} if recursive_nesting && top_level
 
-      if Thread.current[APN].include?(current_object_id) || (recursive_nesting && Thread.current[APGN][current_object_id] && (object.is_a?(::Hash) || object.is_a?(::Array)))
+      if Thread.current[APN].include?(current_object_id) || (recursive_nesting && Thread.current[APGN][current_object_id] && (object.is_a?(::Hash) || object.is_a?(::Array))) || (object.respond_to?(:__ap_nest__) && object.__ap_nest__)
         result = nested(object)
       else
         begin
@@ -142,7 +172,7 @@ module AwesomePrint
       end
 
       str = "#<#{ object_class.to_s.capitalize }:#{ current_object_id }#{ object_name ? " #{ object_name }" : '' }>"
-      @formatter.colorize(str, :italic)
+      @formatter.colorize(str, :object_reference)
     end
 
     #---------------------------------------------------------------------------
@@ -154,15 +184,21 @@ module AwesomePrint
     # that inherit from Array, Hash, File, Dir, and Struct are treated as the
     # base class.
     #---------------------------------------------------------------------------
-    def printable(object)
+    def self.printable(object)
       case object
       when Array  then :array
       when Hash   then :hash
       when File   then :file
       when Dir    then :dir
       when Struct then :struct
+      when String then :string
+      when Symbol then :symbol
       else object.class.to_s.gsub(/:+/, '_').downcase.to_sym
       end
+    end
+
+    def printable(object)
+      self.class.printable(object)
     end
 
     # Update @options by first merging the :color hash and then the remaining

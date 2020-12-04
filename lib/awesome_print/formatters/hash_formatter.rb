@@ -5,10 +5,11 @@ module AwesomePrint
     class HashFormatter < BaseFormatter
       attr_reader :hash, :inspector, :options
 
-      def initialize(hash, inspector)
-        @hash = hash
+      def initialize(hash, inspector, options = {})
+        @hash      = hash
         @inspector = inspector
-        @options = inspector.options
+        @options   = inspector.options
+        @options   = @options.merge(options) if !options.empty?
       end
 
       def format
@@ -24,7 +25,7 @@ module AwesomePrint
       private
 
       def empty_hash
-        '{}'
+        colorize('{}', :hash_syntax)
       end
 
       def multiline_hash?
@@ -32,13 +33,34 @@ module AwesomePrint
       end
 
       def multiline_hash
-        object_type = colorize("#<Hash:#{ @hash.object_id }> ", :italic)
-        [object_type, "{\n", printable_hash.join(",\n"), "\n#{outdent}}"].join
+        object_type = ''
+        if options[:display_object_reference]
+          object_type = colorize("#<Hash:#{ hash.object_id }> ", :object_reference)
+        end
+
+        [
+          object_type,
+          colorize('{', :hash_syntax),
+          "\n",
+          printable_hash.join(",\n"),
+          "\n",
+          outdent,
+          colorize('}', :hash_syntax),
+        ].join('')
       end
 
       def simple_hash
-        object_type = colorize("#<Hash:#{ @hash.object_id }> ", :italic)
-        "#{ object_type }{ #{printable_hash.join(', ')} }"
+        object_type = ''
+        if options[:display_object_reference]
+          object_type = colorize("#<Hash:#{ hash.object_id }> ", :object_reference)
+        end
+
+        [
+          object_type,
+          colorize('{ ', :hash_syntax),
+          printable_hash.join(', '),
+          colorize(' }', :hash_syntax),
+        ].join('')
       end
 
       def printable_hash
@@ -85,12 +107,18 @@ module AwesomePrint
       end
 
       def ruby19_syntax(key, value, width)
-        key[0] = ''
-        align(key, width - 1) << colorize(': ', :hash) << inspector.awesome(value)
+        key      = key[1..-1].to_sym
+        key_fmtd = inspector.awesome(key)
+
+        smart_align(value: key, fmtd_value: key_fmtd, width: width - 1) << colorize(': ', :hash_syntax) << inspector.awesome(value)
       end
 
       def pre_ruby19_syntax(key, value, width)
-        align(key, width) << colorize(' => ', :hash) << inspector.awesome(value)
+        key = key[1..-1].to_sym if symbol?(key)
+
+        key_fmtd = inspector.awesome(key)
+
+        smart_align(value: key, fmtd_value: key_fmtd, width: width) << colorize(' => ', :hash_syntax) << inspector.awesome(value)
       end
 
       def plain_single_line

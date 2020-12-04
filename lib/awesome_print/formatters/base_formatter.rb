@@ -135,6 +135,22 @@ module AwesomePrint
         end
       end
 
+      def smart_align(value:, fmtd_value:, width:)
+        offset = fmtd_value.size - value.size
+        width  += offset
+        if options[:multiline]
+          if options[:indent] > 0
+            fmtd_value.rjust(width)
+          elsif options[:indent] == 0
+            indent + fmtd_value.ljust(width)
+          else
+            indent[0, indentation + options[:indent]] + fmtd_value.ljust(width)
+          end
+        else
+          fmtd_value
+        end
+      end
+
     end
   end
 end

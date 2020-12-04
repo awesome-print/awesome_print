@@ -55,7 +55,12 @@ module AwesomePrint
                  hash
                end
              end
-      "#{object} #{awesome_hash(data)}"
+
+      [
+        colorize(object, :object_reference),
+        ' ',
+        awesome_hash(data, display_object_reference: false),
+      ].join('')
     end
 
     # Format ActiveRecord class object.

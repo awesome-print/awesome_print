@@ -9,6 +9,8 @@ module AwesomePrint
     require 'awesome_print/formatters/class_formatter'
     require 'awesome_print/formatters/dir_formatter'
     require 'awesome_print/formatters/file_formatter'
+    require 'awesome_print/formatters/string_formatter'
+    require 'awesome_print/formatters/symbol_formatter'
     require 'awesome_print/colorize'
   end
 end

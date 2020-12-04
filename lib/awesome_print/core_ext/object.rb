@@ -22,5 +22,6 @@ class Object #:nodoc:
   end
 
   attr_accessor :__ap_log_name__
+  attr_accessor :__ap_nest__
 
 end

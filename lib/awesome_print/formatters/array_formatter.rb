@@ -5,15 +5,16 @@ module AwesomePrint
     class ArrayFormatter < BaseFormatter
       attr_reader :array, :inspector, :options
 
-      def initialize(array, inspector)
-        @array = array
+      def initialize(array, inspector, options = {})
+        @array     = array
         @inspector = inspector
-        @options = inspector.options
+        @options   = inspector.options
+        @options   = @options.merge(options) if !options.empty?
       end
 
       def format
         if array.length.zero?
-          '[]'
+          colorize('[]', :array_syntax)
         elsif methods_array?
           methods_array
         else
@@ -31,8 +32,17 @@ module AwesomePrint
         if options[:multiline]
           multiline_array
         else
-          object_type = colorize("#<Array:#{ @array.object_id }> ", :italic)
-          "#{ object_type }[ #{ array.map { |item| inspector.awesome(item) }.join(', ') } ]"
+          object_type = ''
+          if options[:display_object_reference]
+            object_type = colorize("#<Array:#{ array.object_id }> ", :object_reference)
+          end
+
+          [
+            object_type,
+            colorize('[', :array_syntax),
+            array.map { |item| inspector.awesome(item) }.join(', '),
+            colorize(']', :array_syntax),
+          ].join('')
         end
       end
 
@@ -43,9 +53,21 @@ module AwesomePrint
                  limited(generate_printable_array, width(array))
                end
 
-        object_type = colorize("#<Array:#{ @array.object_id }> ", :italic)
-        %Q(#{ object_type }[\n#{ data.join(",\n") }\n#{ outdent }])
-      end
+        object_type = ''
+        if options[:display_object_reference]
+          object_type = colorize("#<Array:#{ array.object_id }> ", :object_reference)
+        end
+
+        [
+          object_type,
+          colorize('[', :array_syntax),
+          "\n",
+          data.join(",\n"),
+          "\n",
+          outdent,
+          colorize(']', :array_syntax),
+        ].join('')
+     end
 
       def generate_printable_array
         array.map.with_index do |item, index|
@@ -64,7 +86,14 @@ module AwesomePrint
 
         data = generate_printable_tuples.join("\n")
 
-        "[\n#{data}\n#{outdent}]"
+        [
+          colorize('[', :array_syntax),
+          "\n",
+          data,
+          "\n",
+          outdent,
+          colorize(']', :array_syntax),
+        ].join('')
       end
 
       def generate_printable_tuples
@@ -127,7 +156,7 @@ module AwesomePrint
 
       def generic_prefix(iteration, width, padding='')
         if options[:index]
-          indent + colorize("[#{iteration.to_s.rjust(width)}] ", :array)
+          indent + colorize("[#{ iteration.to_s.rjust(width) }] ", :array_indices)
         else
           indent + padding
         end
