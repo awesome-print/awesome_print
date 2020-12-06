@@ -15,7 +15,7 @@ module AwesomePrint
       def format
         if hash.empty?
           empty_hash
-        elsif multiline_hash?
+        elsif options[:multiline]
           multiline_hash
         else
           simple_hash
@@ -26,10 +26,6 @@ module AwesomePrint
 
       def empty_hash
         colorize('{}', :hash_syntax)
-      end
-
-      def multiline_hash?
-        options[:multiline]
       end
 
       def multiline_hash
@@ -64,15 +60,15 @@ module AwesomePrint
       end
 
       def printable_hash
-        data = printable_keys
+        data  = printable_keys
         width = left_width(data)
 
-        data.map! do |key, value|
+        data.map! do |key, fmtd_key, value|
           indented do
-            if options[:ruby19_syntax] && symbol?(key)
-              ruby19_syntax(key, value, width)
+            if options[:ruby19_syntax] && key.is_a?(::Symbol)
+              ruby19_syntax(key, fmtd_key, value, width)
             else
-              pre_ruby19_syntax(key, value, width)
+              pre_ruby19_syntax(key, fmtd_key, value, width)
             end
           end
         end
@@ -81,7 +77,7 @@ module AwesomePrint
       end
 
       def left_width(keys)
-        result = max_key_width(keys)
+        result  = max_key_width(keys)
         result += indentation if options[:indent] > 0
         result
       end
@@ -93,44 +89,48 @@ module AwesomePrint
       def printable_keys
         keys = hash.keys
 
-        keys.sort! { |a, b| a.to_s <=> b.to_s } if options[:sort_keys]
+        if options[:sort_keys]
+          keys = keys.sort { |a, b| a.to_s <=> b.to_s }
+        end
 
-        keys.map! do |key|
-          plain_single_line do
-            [String.new(inspector.awesome(key)), hash[key]]
+        keys.map do |key|
+          awesome_with_options(multiline: false, plain: false) do
+            [key, inspector.awesome(key), hash[key]]
           end
         end
       end
 
-      def symbol?(key)
-        key[0] == ':'
+      def ruby19_syntax(key, fmtd_key, value, width)
+        fmtd_key_plain = uncolorize(fmtd_key)
+
+        [
+          smart_align(value_plain: fmtd_key_plain, value: fmtd_key, width: width - 1),
+          colorize(': ', :hash_syntax),
+          inspector.awesome(value),
+        ].join('')
       end
 
-      def ruby19_syntax(key, value, width)
-        key      = key[1..-1].to_sym
-        key_fmtd = inspector.awesome(key)
+      def pre_ruby19_syntax(key, fmtd_key, value, width)
+        fmtd_key_plain = uncolorize(fmtd_key)
 
-        smart_align(value: key, fmtd_value: key_fmtd, width: width - 1) << colorize(': ', :hash_syntax) << inspector.awesome(value)
+        [
+          smart_align(value_plain: fmtd_key_plain, value: fmtd_key, width: width),
+          colorize(' => ', :hash_syntax),
+          inspector.awesome(value),
+        ].join('')
       end
 
-      def pre_ruby19_syntax(key, value, width)
-        key = key[1..-1].to_sym if symbol?(key)
-
-        key_fmtd = inspector.awesome(key)
-
-        smart_align(value: key, fmtd_value: key_fmtd, width: width) << colorize(' => ', :hash_syntax) << inspector.awesome(value)
-      end
-
-      def plain_single_line
-        plain = options[:plain]
-        multiline = options[:multiline]
-        options[:plain] = true
-        options[:multiline] = false
+      def awesome_with_options(plain:, multiline:)
+        saved_plain         = options[:plain]
+        saved_multiline     = options[:multiline]
+        options[:plain]     = plain
+        options[:multiline] = multiline
         yield
       ensure
-        options[:plain] = plain
-        options[:multiline] = multiline
+        options[:plain]     = saved_plain
+        options[:multiline] = saved_multiline
       end
+
     end
   end
 end

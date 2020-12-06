@@ -5,6 +5,14 @@ require 'paint'
 module AwesomePrint
   module Colorize
 
+    UNCOLORIZE_REGEXP = /\e\[([;\d]+)?m/
+
+    # ### References
+    # - https://stackoverflow.com/questions/16032726/removing-color-decorations-from-strings-before-writing-them-to-logfiles
+    def uncolorize(str)
+      str.gsub(UNCOLORIZE_REGEXP, '')
+    end
+
     # Pick the color and apply it to the given string as necessary.
     #------------------------------------------------------------------------------
     def colorize(str, types)
