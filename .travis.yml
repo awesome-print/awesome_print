@@ -2,8 +2,6 @@ language: ruby
 cache: bundler
 
 rvm:
-  - 2.3
-  - 2.4
   - 2.5
   - 2.6
 
@@ -11,12 +9,9 @@ before_install:
   - gem install bundler
 
 gemfile:
-  # ignore 4.2 for now as the cost to run these tests is too high
-  # - gemfiles/rails_4.2.gemfile
   - gemfiles/rails_5.0.gemfile
   - gemfiles/rails_5.1.gemfile
   - gemfiles/rails_5.2.gemfile
-  - gemfiles/mongoid_4.0.gemfile
   - gemfiles/mongoid_5.0.gemfile
   - gemfiles/mongoid_6.0.gemfile
 
