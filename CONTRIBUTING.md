@@ -51,6 +51,7 @@ Special thanks goes to awesome team of contributors, namely:
 * Barry Allard -- https://github.com/steakknife
 * Benoit Daloze -- http://github.com/eregon
 * Brandon Zylstra -- https://github.com/brandondrew
+* Bryan Hanks, PMP -- https://github.com/bryanh
 * Dan Lynn -- https://github.com/danlynn
 * Daniel Johnson -- https://github.com/adhd360
 * Daniel Bretoi -- http://github.com/danielb2

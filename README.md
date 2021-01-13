@@ -12,9 +12,8 @@ Awesome Print is a Ruby library that pretty prints Ruby objects in full color
 exposing their internal structure with proper indentation. Rails ActiveRecord
 objects and usage within Rails templates are supported via included mixins.
 
-__NOTE__: awesome_print v1.2.0 is the last release supporting Ruby versions
-prior to v1.9.3 and Rails versions prior to v3.0. The upcoming awesome_print
-v2.0 will *require* Ruby v1.9.3 or later and Rails v3.0 or later.
+__NOTE__: awesome_print v1.9.0 may not work on Ruby versions 2.4 or older or Rails versions 4.2 or older.
+The upcoming awesome_print v2.0 will *require* Ruby v1.9.3 or later and Rails v3.0 or later.
 
 ### Installation ###
     # Installing as Ruby gem
@@ -307,7 +306,7 @@ With other web frameworks (ex: in Sinatra templates) you can explicitly request 
 formatting:
 
     <%= ap @accounts.first, :html => true %>
-    
+
 ### String Convenience Methods ###
 Use methods such as `.red` to set string color:
 
