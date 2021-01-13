@@ -109,8 +109,8 @@ module AwesomePrint
         inspector.current_indentation
       end
 
-      def indented
-        inspector.increase_indentation(&Proc.new)
+      def indented(&block)
+        inspector.increase_indentation(&block)
       end
 
       def indent
