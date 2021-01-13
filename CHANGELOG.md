@@ -1,4 +1,5 @@
 ## master (unreleased)
+  - Fixes block and proc definition to work with Ruby 3.0.0 [@csalvato] - [#392]
   - Removed check for Ruby 2.4 and earlier [@bryanh]
 	- Rails 5.0 builds are failing, because the sqlite3 version being installed is wrong version [#366]
   - Fixes spec suite to properly work via travis, gets a clean build [@imajes, others]
