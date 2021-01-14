@@ -9,8 +9,6 @@ rvm:
   - 2.7
   - ruby-head
 
-allow-failures:
-  - rvm: ruby-head
 
 before_install:
   - gem install bundler
@@ -23,6 +21,8 @@ gemfile:
   - gemfiles/mongoid_6.0.gemfile
 
 jobs:
+  allow-failures:
+    - rvm: ruby-head
   include:
     - rvm: 2.6
       env: RUBYOPT="--enable-frozen-string-literal"
