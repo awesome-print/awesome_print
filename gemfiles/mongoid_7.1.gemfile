@@ -2,6 +2,6 @@
 
 source "https://rubygems.org"
 
-gem "mongoid", "~> 7.0.0"
+gem "mongoid", "~> 7.1.0"
 
 gemspec path: "../"
