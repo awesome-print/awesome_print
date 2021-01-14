@@ -21,7 +21,7 @@ gemfile:
   - gemfiles/mongoid_6.0.gemfile
 
 jobs:
-  allow-failures:
+  allow_failures:
     - rvm: ruby-head
   include:
     - rvm: 2.6
