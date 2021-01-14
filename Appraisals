@@ -19,16 +19,20 @@ appraise 'rails-5.2' do
   gem 'rails', '>= 5.2.0', '< 5.3'
 end
 
-appraise 'mongoid-4.0' do
-  gem 'mongoid', '~> 4.0.0'
-end
-
 appraise 'mongoid-5.0' do
   gem 'mongoid', '~> 5.0.0'
 end
 
 appraise 'mongoid-6.0' do
   gem 'mongoid', '~> 6.0.0'
+end
+
+appraise 'mongoid-7.0' do
+  gem 'mongoid', '~> 7.0.0'
+end
+
+appraise 'mongoid-7.1' do
+  gem 'mongoid', '~> 7.1.0'
 end
 
 # appraise 'mongo_mapper' do
