@@ -1,9 +1,16 @@
 language: ruby
 cache: bundler
+os: linux
+dist: xenial
 
 rvm:
   - 2.5
   - 2.6
+  - 2.7
+  - ruby-head
+
+allow-failures:
+  - rvm: ruby-head
 
 before_install:
   - gem install bundler
@@ -15,7 +22,7 @@ gemfile:
   - gemfiles/mongoid_5.0.gemfile
   - gemfiles/mongoid_6.0.gemfile
 
-matrix:
+jobs:
   include:
     - rvm: 2.6
       env: RUBYOPT="--enable-frozen-string-literal"
