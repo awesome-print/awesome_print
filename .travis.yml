@@ -16,6 +16,8 @@ gemfile:
   - gemfiles/rails_6.1.gemfile
   - gemfiles/mongoid_5.0.gemfile
   - gemfiles/mongoid_6.0.gemfile
+  - gemfiles/mongoid_7.0.gemfile
+  - gemfiles/mongoid_7.1.gemfile
 
 matrix:
   include:
