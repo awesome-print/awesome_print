@@ -1,9 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe 'AwesomePrint ActionView extensions', skip: -> { !ExtVerifier.has_rails? }.call do
-
   before do
-    @view = ActionView::Base.new
+    @view = if rails_6_1?
+              ActionView::Base.new(ActionView::LookupContext.new([]), {}, {})
+            else
+              ActionView::Base.new
+            end
   end
 
   it "uses HTML and adds 'debug_dump' class to plain <pre> tag" do
