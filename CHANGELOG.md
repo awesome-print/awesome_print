@@ -1,7 +1,11 @@
 ## master (unreleased)
+  - 
+
+## 1.9.0
+  - Update method signature after change in IRB [@febeling]
   - Fixes block and proc definition to work with Ruby 3.0.0 [@csalvato] - [#392]
   - Removed check for Ruby 2.4 and earlier [@bryanh]
-	- Rails 5.0 builds are failing, because the sqlite3 version being installed is wrong version [#366]
+  - Rails 5.0 builds are failing, because the sqlite3 version being installed is wrong version [#366]
   - Fixes spec suite to properly work via travis, gets a clean build [@imajes, others]
   - Adds support for ActiveModel::Errors [@dshinzie] - [#301]
   - removes use of `strip_heredoc` from specs as it's a rails dep [@kstephens] - [#303]
