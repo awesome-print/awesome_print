@@ -6,6 +6,7 @@
   - Adds support for ActiveModel::Errors [@dshinzie] - [#301]
   - removes use of `strip_heredoc` from specs as it's a rails dep [@kstephens] - [#303]
   - ArrayFormatter now returns arrays for has_many :through associations [@chadh13] - [#332]
+  - Fixes struct formatting [@randyjap] - [#361]
 
 ## 1.8.0
   - stat("$HOME/.aprc") once [@kstephens] - [#304]
