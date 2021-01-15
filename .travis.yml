@@ -24,7 +24,9 @@ gemfile:
 
 jobs:
   allow_failures:
-    - rvm: ruby-head
+    - rvm
+      - 2.7
+      - ruby-head
   include:
     - rvm: 2.6
       env: RUBYOPT="--enable-frozen-string-literal"
