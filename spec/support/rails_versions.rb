@@ -3,6 +3,16 @@ module RailsVersions
     Gem::Version.new(Rails::VERSION::STRING)
   end
 
+  def rails_6_1?
+    Gem::Requirement.new('~> 6.1.0').satisfied_by?(rails_version)
+  end
+  alias_method :activerecord_6_1?, :rails_6_1?
+
+  def rails_6_0?
+    Gem::Requirement.new('~> 6.0.0').satisfied_by?(rails_version)
+  end
+  alias_method :activerecord_6_0?, :rails_6_0?
+
   def rails_5_2?
     Gem::Requirement.new('~> 5.2.0').satisfied_by?(rails_version)
   end
