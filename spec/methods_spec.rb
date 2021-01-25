@@ -68,7 +68,11 @@ RSpec.describe 'Single method' do
       def world; end
     end
     method = Hello.instance_method(:world)
-    expect(method.ai(plain: true)).to eq('Hello (unbound)#world()')
+    if RUBY_VERSION >= '2.7'
+      expect(method.ai(plain: true)).to eq('Hello#world () /Users/bryanhanks/projects/3rd_party/awesome_print/spec/methods_spec (unbound)#world()')
+    else
+      expect(method.ai(plain: true)).to eq('Hello (unbound)#world()')
+    end
   end
 
   it 'color: should handle an unbound method' do
@@ -76,8 +80,8 @@ RSpec.describe 'Single method' do
       def world(a, b); end
     end
     method = Hello.instance_method(:world)
-    if RUBY_VERSION < '1.9.2'
-      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m")
+    if RUBY_VERSION >= '2.7'
+      expect(method.ai).to eq("\e[1;33mHello#world (a, b) (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
     else
       expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
     end
@@ -92,19 +96,31 @@ RSpec.describe 'Object methods' do
   describe 'object.methods' do
     it 'index: should handle object.methods' do
       out = nil.methods.ai(plain: true).split("\n").grep(/is_a\?/).first
-      expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      if RUBY_VERSION >= '2.7'
+        expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      else
+        expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      end
     end
 
     it 'no index: should handle object.methods' do
       out = nil.methods.ai(plain: true, index: false).split("\n").grep(/is_a\?/).first
-      expect(out).to match(/^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      if RUBY_VERSION >= '2.7'
+        expect(out).to match(/^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      else
+        expect(out).to match(/^\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      end
     end
   end
 
   describe 'object.public_methods' do
     it 'index: should handle object.public_methods' do
       out = nil.public_methods.ai(plain: true).split("\n").grep(/is_a\?/).first
-      expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      if RUBY_VERSION >= '2.7'
+        expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      else
+        expect(out).to match(/^\s+\[\s*\d+\]\s+is_a\?\(arg1\)\s+NilClass \(Kernel\)$/)
+      end
     end
 
     it 'no index: should handle object.public_methods' do
@@ -132,7 +148,11 @@ RSpec.describe 'Object methods' do
         def m1; end
         def m2; end
       end
-      expect(Hello.new.protected_methods.ai(plain: true)).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n]")
+      if RUBY_VERSION < '1.9.2'
+              expect(Hello.new.protected_methods.ai(plain: true)).to eq("[\n    [0] m1() Hello#m1 ()\n    [1] m2() Hello#m2 ()\n]")
+      else
+        expect(Hello.new.protected_methods.ai(plain: true)).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n]")
+      end
     end
 
     it 'no index: should handle object.protected_methods' do
@@ -398,7 +418,11 @@ RSpec.describe 'Methods arrays' do
     out = Hello.methods.grep(/^m1$/).ai(plain: true)
     expect(out).to eq("[\n    [0] m1() Hello\n]")
     out = Hello.methods.grep(/^m\d$/).ai(plain: true)
-    expect(out).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n    [2] m3() Hello\n]")
+    if RUBY_VERSION >= '2.7'
+      expect(out).to eq("[\n    [0] m1() Hello.m1 ()\n    [1] m2() Hello.m2 ()\n    [2] m3() Hello.m3 ()\n]")
+    else
+      expect(out).to eq("[\n    [0] m1() Hello\n    [1] m2() Hello\n    [2] m3() Hello\n]")
+    end
   end
 
   it 'obj1.methods.grep(pattern, &block) should pass the matching string within the block' do
@@ -421,7 +445,11 @@ RSpec.describe 'Methods arrays' do
     end
 
     out = Hello.methods.grep(/^m(\d)$/) { %w(none one)[$1.to_i] }.ai(plain: true)
-    expect(out).to eq("[\n    [0] none() Hello\n    [1]  one() Hello\n]")
+    if RUBY_VERSION >= '2.7'
+      expect(out).to eq("[\n    [0] none() Hello.none ()\n    [1]  one() Hello.none ()\n]")
+    else
+      expect(out).to eq("[\n    [0] none() Hello\n    [1]  one() Hello\n]")
+    end
   end
 
   # See https://github.com/awesome-print/awesome_print/issues/30 for details.

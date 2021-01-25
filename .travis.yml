@@ -26,7 +26,6 @@ gemfile:
 
 jobs:
   allow_failures:
-    - rvm: 2.7
     - rvm: ruby-head
   include:
     - rvm: 2.6

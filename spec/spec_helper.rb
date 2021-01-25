@@ -18,8 +18,8 @@
 # require 'simplecov'
 # SimpleCov.start
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+## $LOAD_PATH.unshift(File.dirname(__FILE__))
+## $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each do |file|
   require file
@@ -44,8 +44,7 @@ RSpec.configure do |config|
   # TODO: Make specs not order dependent
   # config.order = :random
   Kernel.srand config.seed
-  config.filter_run focus: true
-  config.run_all_when_everything_filtered = true
+  config.filter_run_when_matching focus: true
   config.expect_with :rspec do |expectations|
     expectations.syntax = :expect
   end
@@ -54,7 +53,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  config.default_formatter = 'doc' if config.files_to_run.one?
+#TODO - what is this?  config.default_formatter = 'doc' if config.files_to_run.one?
 
   # Run before all examples. Using suite or all will not work as stubs are
   # killed after each example ends.
