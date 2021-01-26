@@ -1,5 +1,5 @@
 ## master (unreleased)
-  - 
+  - Update awsome_print.gemspec nokogiri dependency to resolve CVEs [@gvwirth]
 
 ## 1.9.0
   - Update method signature after change in IRB [@febeling]
