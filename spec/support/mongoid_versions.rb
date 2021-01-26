@@ -3,16 +3,20 @@ module MongoidVersions
     Gem::Version.new(Mongoid::VERSION)
   end
 
-  def mongoid_4_0?
-    Gem::Requirement.new('~> 4.0.0').satisfied_by?(mongoid_version)
-  end
-
   def mongoid_5_0?
     Gem::Requirement.new('~> 5.0.0').satisfied_by?(mongoid_version)
   end
 
   def mongoid_6_0?
     Gem::Requirement.new('~> 6.0.0').satisfied_by?(mongoid_version)
+  end
+
+  def mongoid_7_0?
+    Gem::Requirement.new('~> 7.0.0').satisfied_by?(mongoid_version)
+  end
+
+  def mongoid_7_1?
+    Gem::Requirement.new('~> 7.1.0').satisfied_by?(mongoid_version)
   end
 end
 

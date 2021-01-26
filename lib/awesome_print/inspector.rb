@@ -62,8 +62,8 @@ module AwesomePrint
       indentator.indentation
     end
 
-    def increase_indentation
-      indentator.indent(&Proc.new)
+    def increase_indentation(&block)
+      indentator.indent(&block)
     end
 
     # Dispatcher that detects data nesting and invokes object-aware formatter.
