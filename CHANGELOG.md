@@ -1,5 +1,5 @@
 ## master (unreleased)
-  - 
+  - Fixes build errors due to sqlite3 compatibility with rails 5.0 [@paulodiovani]
 
 ## 1.9.0
   - Update method signature after change in IRB [@febeling]
