@@ -39,12 +39,14 @@ module AwesomePrint
           keyword:    :cyan,
           method:     :purpleish,
           nilclass:   :red,
+          proc:       :bisque,
           rational:   :blue,
           string:     :yellowish,
           struct:     :pale,
           symbol:     :cyanish,
           time:       :greenish,
           trueclass:  :green,
+          unknown:    :red,
           variable:   :cyanish
         }
       }

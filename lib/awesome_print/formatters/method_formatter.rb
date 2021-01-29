@@ -3,10 +3,11 @@ require_relative 'base_formatter'
 module AwesomePrint
   module Formatters
     class MethodFormatter < BaseFormatter
-
       attr_reader :method, :inspector, :options
 
       def initialize(method, inspector)
+        # RUBOCOP wants this, but it breaks the tests
+        # super
         @method = method
         @inspector = inspector
         @options = inspector.options
@@ -15,7 +16,7 @@ module AwesomePrint
       def format
         name, args, owner = method_tuple(method)
 
-        "#{colorize(owner, :class)}##{colorize(name, :method)}#{colorize(args, :args)}"
+        "#<#{colorize(owner, :class)}##{colorize(name, :method)}#{colorize(args, :args)}>"
       end
     end
   end

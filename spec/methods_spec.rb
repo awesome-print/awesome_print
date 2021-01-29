@@ -7,60 +7,52 @@ RSpec.describe 'Single method' do
 
   it 'plain: should handle a method with no arguments' do
     method = ''.method(:upcase)
-    if RUBY_VERSION >= '2.4.0'
-      expect(method.ai(plain: true)).to eq('String#upcase(*arg1)')
-    else
-      expect(method.ai(plain: true)).to eq('String#upcase()')
-    end
+    expect(method.ai(plain: true)).to eq('#<String#upcase(*arg1)>')
   end
 
   it 'color: should handle a method with no arguments' do
     method = ''.method(:upcase)
-    if RUBY_VERSION >= '2.4.0'
-      expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m(*arg1)\e[0m")
-    else
-      expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m()\e[0m")
-    end
+    expect(method.ai).to eq("#<\e[1;33mString\e[0m#\e[0;35mupcase\e[0m\e[0;37m(*arg1)\e[0m>")
   end
 
   it 'plain: should handle a method with one argument' do
     method = ''.method(:include?)
-    expect(method.ai(plain: true)).to eq('String#include?(arg1)')
+    expect(method.ai(plain: true)).to eq('#<String#include?(arg1)>')
   end
 
   it 'color: should handle a method with one argument' do
     method = ''.method(:include?)
-    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35minclude?\e[0m\e[0;37m(arg1)\e[0m")
+    expect(method.ai).to eq("#<\e[1;33mString\e[0m#\e[0;35minclude?\e[0m\e[0;37m(arg1)\e[0m>")
   end
 
   it 'plain: should handle a method with two arguments' do
     method = ''.method(:tr)
-    expect(method.ai(plain: true)).to eq('String#tr(arg1, arg2)')
+    expect(method.ai(plain: true)).to eq('#<String#tr(arg1, arg2)>')
   end
 
   it 'color: should handle a method with two arguments' do
     method = ''.method(:tr)
-    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35mtr\e[0m\e[0;37m(arg1, arg2)\e[0m")
+    expect(method.ai).to eq("#<\e[1;33mString\e[0m#\e[0;35mtr\e[0m\e[0;37m(arg1, arg2)\e[0m>")
   end
 
   it 'plain: should handle a method with multiple arguments' do
     method = ''.method(:split)
-    expect(method.ai(plain: true)).to eq('String#split(*arg1)')
+    expect(method.ai(plain: true)).to eq('#<String#split(*arg1)>')
   end
 
   it 'color: should handle a method with multiple arguments' do
     method = ''.method(:split)
-    expect(method.ai).to eq("\e[1;33mString\e[0m#\e[0;35msplit\e[0m\e[0;37m(*arg1)\e[0m")
+    expect(method.ai).to eq("#<\e[1;33mString\e[0m#\e[0;35msplit\e[0m\e[0;37m(*arg1)\e[0m>")
   end
 
   it 'plain: should handle a method defined in mixin' do
     method = ''.method(:is_a?)
-    expect(method.ai(plain: true)).to eq('String (Kernel)#is_a?(arg1)')
+    expect(method.ai(plain: true)).to eq('#<String (Kernel)#is_a?(arg1)>')
   end
 
   it 'color: should handle a method defined in mixin' do
     method = ''.method(:is_a?)
-    expect(method.ai).to eq("\e[1;33mString (Kernel)\e[0m#\e[0;35mis_a?\e[0m\e[0;37m(arg1)\e[0m")
+    expect(method.ai).to eq("#<\e[1;33mString (Kernel)\e[0m#\e[0;35mis_a?\e[0m\e[0;37m(arg1)\e[0m>")
   end
 
   it 'plain: should handle an unbound method' do
@@ -68,7 +60,7 @@ RSpec.describe 'Single method' do
       def world; end
     end
     method = Hello.instance_method(:world)
-    expect(method.ai(plain: true)).to eq('Hello (unbound)#world()')
+    expect(method.ai(plain: true)).to eq('#<Hello (unbound)#world()>')
   end
 
   it 'color: should handle an unbound method' do
@@ -79,7 +71,7 @@ RSpec.describe 'Single method' do
     if RUBY_VERSION < '1.9.2'
       expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(arg1, arg2)\e[0m")
     else
-      expect(method.ai).to eq("\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m")
+      expect(method.ai).to eq("#<\e[1;33mHello (unbound)\e[0m#\e[0;35mworld\e[0m\e[0;37m(a, b)\e[0m>")
     end
   end
 end
