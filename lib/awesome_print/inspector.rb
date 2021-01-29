@@ -151,7 +151,7 @@ module AwesomePrint
       load dotfile if dotfile_readable?(dotfile)
     end
 
-    def dotfile_readable? dotfile
+    def dotfile_readable?(dotfile)
       if @@dotfile_readable.nil? || @@dotfile != dotfile
         @@dotfile_readable = File.readable?(@@dotfile = dotfile)
       end
@@ -165,7 +165,7 @@ module AwesomePrint
       load_dotfile
       merge_options!(AwesomePrint.defaults) if AwesomePrint.defaults.is_a?(Hash)
     rescue => e
-      $stderr.puts "Could not load '.aprc' from ENV['HOME']: #{e}"
+      warn "Could not load '.aprc' from ENV['HOME']: #{e}"
     end
   end
 end
