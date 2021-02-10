@@ -1,3 +1,4 @@
+require 'net/http'
 require 'spec_helper'
 
 RSpec.describe 'AwesomePrint' do
@@ -71,6 +72,12 @@ RSpec.describe 'AwesomePrint' do
         alias :eql? :==
       end
       expect { weird.new.ai }.not_to raise_error
+    end
+
+    it 'handles attr_reader :method' do
+      uri = URI.parse('https://hello.nx/world')
+      req = Net::HTTP::Get.new(uri)
+      expect(req.ai(plain: true)).to eq('#<Net::HTTP::Get GET>')
     end
   end
 

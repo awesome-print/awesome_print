@@ -37,6 +37,7 @@ ExtVerifier.require_dependencies!(
   )
 )
 require 'nokogiri'
+require 'ostruct'
 require 'awesome_print'
 
 RSpec.configure do |config|

@@ -1,4 +1,5 @@
 ## master (unreleased)
+  - Tests work with Ruby 2.6.6, 2.7.2 and 3.0.0
   - Update awsome_print.gemspec nokogiri dependency to resolve CVEs [@gvwirth]
 
 ## 1.9.0
