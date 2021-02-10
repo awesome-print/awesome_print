@@ -83,6 +83,8 @@ irb> "awesome print".ai
 
 ### Examples ###
 
+#### Array
+
 ```ruby
 $ cat > 1.rb
 require "awesome_print"
@@ -103,7 +105,10 @@ $ ruby 1.rb
         :distance => 4.2e+43
     }
 ]
+```
+#### Hash
 
+```ruby
 $ cat > 2.rb
 require "awesome_print"
 data = { :now => Time.now, :class => Time.now.class, :distance => 42e42 }
@@ -115,7 +120,11 @@ $ ruby 2.rb
   :now      => Fri Apr 02 19:55:53 -0700 2010,
   :distance => 4.2e+43
 }
+```
 
+#### Nested array
+
+```ruby
 $ cat > 3.rb
 require "awesome_print"
 data = [ false, 42, %w(forty two) ]
@@ -125,6 +134,11 @@ ap data, :multiline => false
 $ ruby 3.rb
 [ false, 42, [ "forty", "two" ], [...] ]
 
+```
+
+#### Class methods
+
+```ruby
 $ cat > 4.rb
 require "awesome_print"
 class Hello
@@ -138,6 +152,11 @@ $ ruby 4.rb
     [0] world(x, y, *z, &blk) Hello
 ]
 
+```
+
+#### Object methods
+
+```ruby
 $ cat > 5.rb
 require "awesome_print"
 ap (''.methods - Object.methods).grep(/!/)
@@ -166,6 +185,11 @@ $ ruby 5.rb
     [19]     upcase!()           String
 ]
 
+```
+
+#### Compare output to value
+
+```ruby
 $ cat > 6.rb
 require "awesome_print"
 ap 42 == ap(42)
@@ -173,7 +197,13 @@ ap 42 == ap(42)
 $ ruby 6.rb
 42
 true
-$ cat 7.rb
+
+```
+
+#### Array with default output limit
+
+```ruby
+$ cat > 7.rb
 require "awesome_print"
 some_array = (1..1000).to_a
 ap some_array, :limit => true
@@ -188,8 +218,12 @@ $ ruby 7.rb
     [998] 999,
     [999] 1000
 ]
+```
 
-$ cat 8.rb
+#### Array with specific output limit
+
+```ruby
+$ cat > 8.rb
 require "awesome_print"
 some_array = (1..1000).to_a
 ap some_array, :limit => 5
@@ -204,7 +238,7 @@ $ ruby 8.rb
 ]
 ```
 
-### Example (Rails console) ###
+#### Rails console
 ```ruby
 $ rails console
 rails> require "awesome_print"
