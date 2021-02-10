@@ -90,7 +90,7 @@ module AwesomePrint
         # #<Method: User(id: integer, username: string)(ActiveRecord::Base).current>
         # #<UnboundMethod: Hello#world>
         #
-        if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
+        if method.to_s =~ /(Unbound)*Method: (.*?)[#\.]/
           unbound = $1 && '(unbound)'
           klass = $2
           if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord-style class?
