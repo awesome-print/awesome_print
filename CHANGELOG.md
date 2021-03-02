@@ -1,5 +1,5 @@
 ## master (unreleased)
-
+  - Fixes struct formatting [@randyjap] - [#361]
 
 ## 1.9.2
   - Tests work with Ruby 2.6.6, 2.7.2 and 3.0.0
