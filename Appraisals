@@ -29,6 +29,7 @@ end
 
 appraise 'mongoid-5.0' do
   gem 'mongoid', '~> 5.0.0'
+  gem 'bigdecimal', '~> 1.3.5'
 end
 
 appraise 'mongoid-6.0' do

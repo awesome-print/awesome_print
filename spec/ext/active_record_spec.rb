@@ -218,25 +218,43 @@ class SubUser < User {
       # spec 1
       out = @ap.awesome(User.methods.grep(/first/))
 
-      if ActiveRecord::VERSION::STRING >= '3.2'
-        expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
+      if RUBY_VERSION >= '3.0.0'
+        expect(out).to match(/\sfirst\(\*\*,\s&&\)/)
+      elsif RUBY_VERSION >= '2.7.0'
+        if ActiveRecord::VERSION::STRING >= '3.2'
+          expect(out).to match(/\sfirst\(\*\*,\s&&\)\s+User/)
+        else
+          expect(out).to match(/\sfirst\(\*\*,\s&&\)\s+User \(ActiveRecord::Base\)/)
+        end
       else
-        expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
+        if ActiveRecord::VERSION::STRING >= '3.2'
+          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
+        else
+          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
+        end
       end
 
       # spec 2
       out = @ap.awesome(User.methods.grep(/primary_key/))
-      expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
+      if RUBY_VERSION >= '3.0.0'
+        expect(out).to match(/\sprimary_key\(.*?\)/)
+      else
+        expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
+      end
 
       # spec 3
       out = @ap.awesome(User.methods.grep(/validate/))
-
       if ActiveRecord::VERSION::MAJOR < 3
         expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
       else
-        expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
+        if RUBY_VERSION >= '3.0.0'
+          expect(out).to match(/\svalidate\(\*arg.*?\)/)
+        else
+          expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
+        end
       end
 
     end
   end
 end
+
