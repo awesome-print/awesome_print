@@ -308,7 +308,8 @@ AwesomePrint.irb!
 
 ### PRY integration ###
 If you miss awesome_print's way of formatting output, here's how you can use it in place
-of the formatting which comes with pry. Add the following code to your ~/.pryrc:
+of the formatting which comes with pry. Add the following code to your `~/.pryrc` 
+or your project's `./.pryrc`:
 
 ```ruby
 require "awesome_print"
