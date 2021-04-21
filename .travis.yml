@@ -6,8 +6,6 @@ dist: xenial
 rvm:
   - 2.5
   - 2.6
-  - 2.7
-  - ruby-head
 
 
 before_install:
@@ -31,7 +29,7 @@ jobs:
   include:
     - rvm: 2.6
       env: RUBYOPT="--enable-frozen-string-literal"
-      gemfile: gemfiles/rails_5.2.gemfile
+      gemfile: gemfiles/rails_6.1.gemfile
 
 addons:
   code_climate:
