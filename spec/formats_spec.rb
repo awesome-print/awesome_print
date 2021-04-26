@@ -604,44 +604,44 @@ EOS
 
     it 'plain multiline' do
       s1 = <<-EOS.strip
-    address = \"1313 Mockingbird Lane\",
-    name = \"Herman Munster\"
+    attr_accessor :address = \"1313 Mockingbird Lane\",
+    attr_accessor :name = \"Herman Munster\"
 EOS
       s2 = <<-EOS.strip
-    name = \"Herman Munster\",
-    address = \"1313 Mockingbird Lane\"
+    attr_accessor :name = \"Herman Munster\",
+    attr_accessor :address = \"1313 Mockingbird Lane\"
 EOS
       expect(@struct.ai(plain: true)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
     it 'plain multiline indented' do
       s1 = <<-EOS.strip
- address = "1313 Mockingbird Lane",
- name = "Herman Munster"
+ attr_accessor :address = "1313 Mockingbird Lane",
+ attr_accessor :name = "Herman Munster"
 EOS
       s2 = <<-EOS.strip
- name = "Herman Munster",
- address = "1313 Mockingbird Lane"
+ attr_accessor :name = "Herman Munster",
+ attr_accessor :address = "1313 Mockingbird Lane"
 EOS
       expect(@struct.ai(plain: true, indent: 1)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
     it 'plain single line' do
-      s1 = 'address = "1313 Mockingbird Lane", name = "Herman Munster"'
-      s2 = 'name = "Herman Munster", address = "1313 Mockingbird Lane"'
+      s1 = 'attr_accessor :ddress = "1313 Mockingbird Lane", attr_accessor :name = "Herman Munster"'
+      s2 = 'attr_accessor :name = "Herman Munster", attr_accessor :address = "1313 Mockingbird Lane"'
       expect(@struct.ai(plain: true, multiline: false)).to satisfy { |out| out.match(s1) || out.match(s2) }
     end
 
     it 'colored multiline (default)' do
       s1 = <<-EOS.strip
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m
+    \e[1;36mattr_accessor\e[0m \e[0;35m:address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m,
+    \e[1;36mattr_accessor\e[0m \e[0;35m:name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m
 EOS
       s2 = <<-EOS.strip
-    name\e[0;37m = \e[0m\e[0;33m\"Herman Munster\"\e[0m,
-    address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
+    \e[1;36mattr_accessor\e[0m \e[0;35m:name\e[0;37m = \e[0m\e[0;33m\"Herman\e[1;36mattr_accessor\e[0m \e[0;35m: Munster\"\e[0m,
+    \e[1;36mattr_accessor\e[0m \e[0;35m:address\e[0;37m = \e[0m\e[0;33m\"1313 Mockingbird Lane\"\e[0m
 EOS
-      expect(@struct.ai).to satisfy { |out| out.include?(s1) || out.include?(s2) }
+      expect(@struct.ai).to satisfy { |out| out.include?(s1) && out.include?(s2) }
     end
   end
 
