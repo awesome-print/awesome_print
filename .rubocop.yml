@@ -1,2 +1,5 @@
 AllCops:
   DisabledByDefault: false
+  NewCops: enable
+require:
+  - rubocop-rspec
