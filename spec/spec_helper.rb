@@ -31,6 +31,7 @@ ExtVerifier.require_dependencies!(
     active_record
     action_view
     active_support/all
+    action_controller
     mongoid
     mongo_mapper
     ripple nobrainer
