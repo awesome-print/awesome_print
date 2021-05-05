@@ -7,15 +7,16 @@ module AwesomePrint
       attr_reader :string, :type, :inspector, :options
 
       def initialize(string, type, inspector)
-        @string = string
-        @type = type
+        @string    = string
+        @type      = type
         @inspector = inspector
-        @options = inspector.options
+        @options   = inspector.options
       end
 
       def format
         colorize(string, type)
       end
+
     end
   end
 end
