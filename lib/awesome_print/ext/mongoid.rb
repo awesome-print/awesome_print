@@ -32,8 +32,13 @@ module AwesomePrint
     def awesome_mongoid_class(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash) || !object.respond_to?(:fields)
 
+      aliases = object.aliased_fields.each_with_object({}) { |(k, v), o| o[v] ||= k }
       data = object.fields.sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[1].name.to_sym] = (c[1].type || 'undefined').to_s.underscore.intern
+        name = c[1].name
+        alias_name = aliases[name] unless name == '_id'
+        printed_name = alias_name ? "#{alias_name}(#{name})" : name
+
+        hash[printed_name.to_sym] = (c[1].type || 'undefined').to_s.underscore.intern
         hash
       end
 
@@ -48,8 +53,14 @@ module AwesomePrint
     def awesome_mongoid_document(object)
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
 
+      aliases = object.aliased_fields.each_with_object({}) { |(k, v), o| o[v] ||= k }
       data = (object.attributes || {}).sort_by { |key| key }.inject(::ActiveSupport::OrderedHash.new) do |hash, c|
-        hash[c[0].to_sym] = c[1]
+        name = c[0]
+        alias_name = aliases[name] unless name == '_id'
+        printed_name = alias_name ? "#{alias_name}(#{name})" : name
+
+
+        hash[printed_name.to_sym] = c[1]
         hash
       end
       data = { errors: object.errors, attributes: data } if !object.errors.empty?
