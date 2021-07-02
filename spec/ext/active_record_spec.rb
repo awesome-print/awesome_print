@@ -116,6 +116,19 @@ EOS
       @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true, raw: true)
     end
 
+    context 'when validations errors' do
+      before do
+        @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true, raw: false)
+      end
+
+      it 'with validation errors' do
+        @diana.name = nil
+        @diana.valid?
+        out = @ap.awesome(@diana.errors)
+        expect(out).to match("can't be blank")
+      end
+    end
+
     it 'display single record' do
       out = @ap.awesome(@diana)
 
@@ -257,4 +270,3 @@ class SubUser < User {
     end
   end
 end
-
