@@ -24,7 +24,7 @@ if ExtVerifier.has_rails?
   end
 
   # Create models
-  class User < ActiveRecord::Base; has_many :emails; end
+  class User < ActiveRecord::Base; validates :name, presence: true; has_many :emails; end
   class SubUser < User; end
   class Email < ActiveRecord::Base; belongs_to :user; end
 end
