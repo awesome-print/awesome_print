@@ -44,17 +44,15 @@ module AwesomePrint
       return object.inspect if !defined?(::ActiveSupport::OrderedHash)
       return awesome_object(object) if @options[:raw]
 
-      data = if object.class.column_names != object.attributes.keys
-               object.attributes
-             else
-               object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
-                 if object.has_attribute?(name) || object.new_record?
-                   value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
-                   hash[name.to_sym] = value
-                 end
-                 hash
-               end
-             end
+      # Kit: only show `.column_names` because of `allowed_attributes` behaviour.
+      #   (`.attributes` will show everything on the table)
+      data = object.class.column_names.inject(::ActiveSupport::OrderedHash.new) do |hash, name|
+        if object.has_attribute?(name) || object.new_record?
+          value = object.respond_to?(name) ? object.send(name) : object.read_attribute(name)
+          hash[name.to_sym] = value
+        end
+        hash
+      end
 
       [
         colorize(object, :object_reference),
