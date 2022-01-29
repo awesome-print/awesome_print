@@ -34,7 +34,11 @@ module AwesomePrint
     # directory for custom formatters that ship with awesome_print.
     #------------------------------------------------------------------------------
     def cast(object, type)
-      CORE_FORMATTERS.include?(type) ? type : :self
+      if object.class.to_s == 'ActiveAdmin::Resource::Name'
+        :self
+      else
+        CORE_FORMATTERS.include?(type) ? type : :self
+      end
     end
 
     private

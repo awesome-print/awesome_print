@@ -83,7 +83,7 @@ module AwesomePrint
       end
 
       def max_key_width(keys)
-        keys.map { |key, _value| key.size }.max || 0
+        keys.map { |key, _value| key.to_s.size }.max || 0
       end
 
       def printable_keys

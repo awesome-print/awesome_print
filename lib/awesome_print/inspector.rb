@@ -162,7 +162,9 @@ module AwesomePrint
       when :array, :hash, :struct
         object_class = object_type
       else
-        object.class = object.class
+        if object.respond_to?(:'class=')
+          object.class = object.class
+        end
         object_type  = :class
       end
 
