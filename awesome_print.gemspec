@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
   s.executables   = []
   s.require_paths = ['lib']
 
+  s.add_dependency 'paint', '~> 2.2'
+
   s.add_development_dependency 'rspec',  '>= 3.0.0'
   s.add_development_dependency 'appraisal'
   s.add_development_dependency 'fakefs', '>= 0.2.1'

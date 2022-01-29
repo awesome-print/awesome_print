@@ -3,7 +3,7 @@
 # Awesome Print is freely distributable under the terms of MIT license.
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-require 'awesome_print/formatters'
+require_relative 'formatters'
 
 module AwesomePrint
   class Formatter
@@ -11,7 +11,7 @@ module AwesomePrint
 
     attr_reader :inspector, :options
 
-    CORE_FORMATTERS = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :struct, :unboundmethod]
+    CORE_FORMATTERS = [:array, :bigdecimal, :class, :dir, :file, :hash, :method, :rational, :set, :string, :struct, :symbol, :unboundmethod]
 
     def initialize(inspector)
       @inspector   = inspector
@@ -34,7 +34,11 @@ module AwesomePrint
     # directory for custom formatters that ship with awesome_print.
     #------------------------------------------------------------------------------
     def cast(object, type)
-      CORE_FORMATTERS.include?(type) ? type : :self
+      if object.class.to_s == 'ActiveAdmin::Resource::Name'
+        :self
+      else
+        CORE_FORMATTERS.include?(type) ? type : :self
+      end
     end
 
     private
@@ -49,6 +53,14 @@ module AwesomePrint
       else
         awesome_simple(object.inspect.to_s, type, @inspector)
       end
+    end
+
+    def awesome_string(o)
+      Formatters::StringFormatter.new(o, @inspector).format
+    end
+
+    def awesome_symbol(o)
+      Formatters::SymbolFormatter.new(o, @inspector).format
     end
 
     def awesome_bigdecimal(n)
@@ -67,16 +79,16 @@ module AwesomePrint
       AwesomePrint::Formatters::SimpleFormatter.new(o, type, inspector).format
     end
 
-    def awesome_array(a)
-      Formatters::ArrayFormatter.new(a, @inspector).format
+    def awesome_array(a, options = {})
+      Formatters::ArrayFormatter.new(a, @inspector, options).format
     end
 
     def awesome_set(s)
       Formatters::ArrayFormatter.new(s.to_a, @inspector).format
     end
 
-    def awesome_hash(h)
-      Formatters::HashFormatter.new(h, @inspector).format
+    def awesome_hash(h, options = {})
+      Formatters::HashFormatter.new(h, @inspector, options).format
     end
 
     def awesome_object(o)

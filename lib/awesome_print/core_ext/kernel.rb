@@ -7,7 +7,7 @@ module Kernel
 
   def ai(options = {})
     ap = AwesomePrint::Inspector.new(options)
-    awesome = ap.awesome self
+    awesome = ap.awesome self, true
     if options[:html]
       awesome = "<pre>#{awesome}</pre>"
       awesome = awesome.html_safe if defined? ActiveSupport

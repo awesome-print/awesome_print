@@ -1,15 +1,17 @@
 module AwesomePrint
   module Formatters
-    require 'awesome_print/formatters/object_formatter'
-    require 'awesome_print/formatters/struct_formatter'
-    require 'awesome_print/formatters/hash_formatter'
-    require 'awesome_print/formatters/array_formatter'
-    require 'awesome_print/formatters/simple_formatter'
-    require 'awesome_print/formatters/method_formatter'
-    require 'awesome_print/formatters/class_formatter'
-    require 'awesome_print/formatters/dir_formatter'
-    require 'awesome_print/formatters/file_formatter'
-    require 'awesome_print/colorize'
+    require_relative 'formatters/object_formatter'
+    require_relative 'formatters/struct_formatter'
+    require_relative 'formatters/hash_formatter'
+    require_relative 'formatters/array_formatter'
+    require_relative 'formatters/simple_formatter'
+    require_relative 'formatters/method_formatter'
+    require_relative 'formatters/class_formatter'
+    require_relative 'formatters/dir_formatter'
+    require_relative 'formatters/file_formatter'
+    require_relative 'formatters/string_formatter'
+    require_relative 'formatters/symbol_formatter'
+    require_relative 'colorize'
   end
 end
 
