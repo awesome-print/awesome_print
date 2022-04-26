@@ -484,7 +484,7 @@ EOS
     end
 
     it 'should show superclass (color)' do
-      expect(self.class.ai).to eq("#{self.class} < #{self.class.superclass}".yellow)
+      expect(self.class.ai).to eq(AwesomePrint::Colorize.yellow("#{self.class} < #{self.class.superclass}"))
     end
   end
 

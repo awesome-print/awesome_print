@@ -8,7 +8,7 @@
 # so do nothing for subsequent requires.
 #
 unless defined?(AwesomePrint::Inspector)
-  %w(awesome_method_array string method object class kernel).each do |file|
+  %w(awesome_method_array method object class kernel).each do |file|
     require "awesome_print/core_ext/#{file}"
   end
 

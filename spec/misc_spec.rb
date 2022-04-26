@@ -150,19 +150,19 @@ RSpec.describe 'AwesomePrint' do
   #------------------------------------------------------------------------------
   describe 'Coexistence with the colorize gem' do
     before do # Redefine String#red just like colorize gem does it.
-      @awesome_method = ''.method(:red)
+      @awesome_method = AwesomePrint::Colorize.method(:red)
 
-      String.instance_eval do
-        define_method :red do   # Method arity is now 0 in Ruby 1.9+.
-          "[red]#{self}[/red]"
+      AwesomePrint::Colorize.instance_eval do
+        define_singleton_method :red do |*html|  # Method arity is now 0 in Ruby 1.9+.
+          "[red]#{html[0]}[/red]"
         end
       end
     end
 
     after do # Restore String#red method.
       awesome_method = @awesome_method
-      String.instance_eval do
-        define_method :red, awesome_method
+      AwesomePrint::Colorize.instance_eval do
+        define_singleton_method :red, awesome_method
       end
     end
 
