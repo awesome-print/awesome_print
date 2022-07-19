@@ -1,31 +1,37 @@
 language: ruby
 cache: bundler
+os: linux
+dist: xenial
 
 rvm:
-  - 2.3
-  - 2.4
   - 2.5
+  - 2.6
+  - 2.7
   - ruby-head
+
 
 before_install:
   - gem install bundler
 
 gemfile:
-  # ignore 4.2 for now as the cost to run these tests is too high
-  # - gemfiles/rails_4.2.gemfile
   - gemfiles/rails_5.0.gemfile
   - gemfiles/rails_5.1.gemfile
   - gemfiles/rails_5.2.gemfile
-  - gemfiles/mongoid_4.0.gemfile
+  - gemfiles/rails_6.0.gemfile
+  - gemfiles/rails_6.1.gemfile
   - gemfiles/mongoid_5.0.gemfile
   - gemfiles/mongoid_6.0.gemfile
+  - gemfiles/mongoid_7.0.gemfile
+  - gemfiles/mongoid_7.1.gemfile
 
-matrix:
-  include:
+jobs:
+  allow_failures:
+    - rvm: 2.7
     - rvm: ruby-head
+  include:
+    - rvm: 2.6
       env: RUBYOPT="--enable-frozen-string-literal"
-  # allow_failures:
-  #   - rvm: ruby-head
+      gemfile: gemfiles/rails_5.2.gemfile
 
 addons:
   code_climate:

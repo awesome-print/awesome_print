@@ -1,4 +1,19 @@
 ## master (unreleased)
+
+
+## 1.9.2
+  - Tests work with Ruby 2.6.6, 2.7.2 and 3.0.0
+  - Update awsome_print.gemspec nokogiri dependency to resolve CVEs [@gvwirth]
+
+## 1.9.1
+  - Updated code so it can be released to rubygems.
+  - Updated nokogiri to resolve vulnerability scan
+
+## 1.9.0
+  - Update method signature after change in IRB [@febeling]
+  - Fixes block and proc definition to work with Ruby 3.0.0 [@csalvato] - [#392]
+  - Removed check for Ruby 2.4 and earlier [@bryanh]
+  - Rails 5.0 builds are failing, because the sqlite3 version being installed is wrong version [#366]
   - Fixes spec suite to properly work via travis, gets a clean build [@imajes, others]
   - Adds support for ActiveModel::Errors [@dshinzie] - [#301]
   - removes use of `strip_heredoc` from specs as it's a rails dep [@kstephens] - [#303]

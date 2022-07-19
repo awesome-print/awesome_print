@@ -90,7 +90,7 @@ module AwesomePrint
         # #<Method: User(id: integer, username: string)(ActiveRecord::Base).current>
         # #<UnboundMethod: Hello#world>
         #
-        if method.to_s =~ /(Unbound)*Method: (.*)[#\.]/
+        if method.to_s =~ /(Unbound)*Method: (.*?)[#\.]/
           unbound = $1 && '(unbound)'
           klass = $2
           if klass && klass =~ /(\(\w+:\s.*?\))/  # Is this ActiveRecord-style class?
@@ -109,8 +109,8 @@ module AwesomePrint
         inspector.current_indentation
       end
 
-      def indented
-        inspector.increase_indentation(&Proc.new)
+      def indented(&block)
+        inspector.increase_indentation(&block)
       end
 
       def indent

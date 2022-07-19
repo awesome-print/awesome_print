@@ -26,6 +26,7 @@ Gemfile.lock
 /tmp
 /.bundle
 /gemfiles/.bundle
+/gemfiles/vendor/bundle
 
 ## PROJECT::RVM
 .rvmrc

@@ -106,21 +106,29 @@ module AwesomePrint
 
     # Utility methods.
     #------------------------------------------------------------------------------
-    def convert_to_hash(object)
-      if !object.respond_to?(:to_hash)
-        return nil
-      end
 
-      if object.method(:to_hash).arity != 0
-        return nil
-      end
+    # A class (ex. `Net::HTTP.Get`) might have `attr_reader :method` accessor
+    # which causes `object.method(:to_hash)` throw `ArgumentError (wrong number
+    # of arguments (given 1, expected 0))`. The following tries to avoid that.
+    def has_method_accessor?(object)
+      !object.method(:method)
+    rescue ArgumentError
+      true
+    end
+
+    def convert_to_hash(object)
+      return nil if has_method_accessor?(object)
+      return nil if !object.respond_to?(:to_hash) || object.method(:to_hash).arity != 0
+
+      # ActionController::Parameters will raise if they are not yet permitted
+      # and we try to convert to hash.
+      # https://api.rubyonrails.org/classes/ActionController/Parameters.html
+      return nil if object.respond_to?(:permitted?) && !object.permitted?
 
       hash = object.to_hash
-      if !hash.respond_to?(:keys) || !hash.respond_to?('[]')
-        return nil
-      end
+      return nil if !hash.respond_to?(:keys) || !hash.respond_to?(:[])
 
-      return hash
+      hash
     end
   end
 end

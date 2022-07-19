@@ -492,7 +492,7 @@ EOS
   describe 'File' do
     it 'should display a file (plain)' do
       File.open(__FILE__, 'r') do |f|
-        expect(f.ai(plain: true)).to eq("#{f.inspect}\n" << `ls -alF #{f.path}`.chop)
+        expect(f.ai(plain: true)).to eq("#{f.inspect}\n#{`ls -alF #{f.path}`.chop}")
       end
     end
   end
@@ -501,7 +501,7 @@ EOS
   describe 'Dir' do
     it 'should display a direcory (plain)' do
       Dir.open(File.dirname(__FILE__)) do |d|
-        expect(d.ai(plain: true)).to eq("#{d.inspect}\n" << `ls -alF #{d.path}`.chop)
+        expect(d.ai(plain: true)).to eq("#{d.inspect}\n#{`ls -alF #{d.path}`.chop}")
       end
     end
   end
@@ -694,7 +694,7 @@ EOS
       class My < File; end
 
       my = File.new('/dev/null') rescue File.new('nul')
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
+      expect(my.ai(plain: true)).to eq("#{my.inspect}\n#{`ls -alF #{my.path}`.chop}")
     end
 
     it 'inherited from Dir should be displayed as Dir' do
@@ -702,7 +702,7 @@ EOS
 
       require 'tmpdir'
       my = My.new(Dir.tmpdir)
-      expect(my.ai(plain: true)).to eq("#{my.inspect}\n" << `ls -alF #{my.path}`.chop)
+      expect(my.ai(plain: true)).to eq("#{my.inspect}\n#{`ls -alF #{my.path}`.chop}")
     end
 
     it 'should handle a class that defines its own #send method' do
