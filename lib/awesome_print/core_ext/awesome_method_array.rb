@@ -48,7 +48,7 @@ module AwesomeMethodArray #:nodoc:
     # back to 2003 when Ruby 1.8.0 was as fresh off the grill as Ruby 1.9.2
     # is in 2010 :-)
     #
-    # http://www.justskins.com/forums/bug-when-rerouting-string-52852.html
+    # https://rubytalk.org/t/bug-when-rerouting-string-gsub-with-a-block-using-1/7463
     #
     # BTW, if you figure out a better way of intercepting Array#grep please
     # let me know: twitter.com/mid -- or just say hi so I know you've read
