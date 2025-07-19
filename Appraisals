@@ -6,42 +6,95 @@
 #   gem 'mime-types', '2.6.2', :platforms => :ruby_19
 # end
 
-appraise 'rails-5.0' do
-  gem 'rails', '>= 5.0.0', '< 5.1'
-  gem 'sqlite3', '~> 1.3.6'
-end
+if RUBY_VERSION < '3.0.0'
+  appraise 'rails-5.0' do
+    gem 'rails', '>= 5.0.0', '< 5.1'
+    gem 'sqlite3', '~> 1.3.6'
+  end
 
-appraise 'rails-5.1' do
-  gem 'rails', '>= 5.1.0', '< 5.2'
-end
+  appraise 'rails-5.1' do
+    gem 'rails', '>= 5.1.0', '< 5.2'
+    gem 'sqlite3', '~> 1.3.0'
+  end
 
-appraise 'rails-5.2' do
-  gem 'rails', '>= 5.2.0', '< 5.3'
+  appraise 'rails-5.2' do
+    gem 'rails', '>= 5.2.0', '< 5.3'
+    gem 'sqlite3', '~> 1.3.0'
+  end
 end
 
 appraise 'rails-6.0' do
   gem 'rails', '>= 6.0.0', '< 6.1'
+  gem 'sqlite3', '~> 1.4'
+  gem 'bigdecimal' # for ruby 3.4+
+  gem 'mutex_m' # for ruby 3.4+
+  gem 'concurrent-ruby', '1.3.4'
 end
 
 appraise 'rails-6.1' do
   gem 'rails', '>= 6.1.0', '< 6.2'
+  gem 'sqlite3', '~> 1.4'
+  gem 'bigdecimal' # for ruby 3.4+
+  gem 'mutex_m' # for ruby 3.4+
+  gem 'concurrent-ruby', '1.3.4'
 end
 
-appraise 'mongoid-5.0' do
-  gem 'mongoid', '~> 5.0.0'
-  gem 'bigdecimal', '~> 1.3.5'
+if RUBY_VERSION > '2.7.0'
+  appraise 'rails-7.0' do
+    gem 'rails', '>= 7.0.0', '< 7.1'
+    gem 'sqlite3', '~> 1.4'
+    gem 'bigdecimal' # for ruby 3.4+
+    gem 'mutex_m' # for ruby 3.4+
+    gem 'concurrent-ruby', '1.3.4'
+  end
+
+  appraise 'rails-7.1' do
+    gem 'rails', '>= 7.1.0', '< 7.2'
+    gem 'sqlite3'
+    gem 'bigdecimal' # for ruby 3.4+
+    gem 'mutex_m' # for ruby 3.4+
+  end
 end
 
-appraise 'mongoid-6.0' do
-  gem 'mongoid', '~> 6.0.0'
+if RUBY_VERSION > '3.2.0'
+  appraise 'rails-7.2' do
+    gem 'rails', '>= 7.2.0', '< 8.0'
+    gem 'sqlite3'
+    gem 'bigdecimal' # for ruby 3.4+
+    gem 'mutex_m' # for ruby 3.4+
+  end
+
+  appraise 'rails-8.0' do
+    gem 'rails', '>= 8.0.0', '< 8.1'
+    gem 'sqlite3'
+    gem 'bigdecimal' # for ruby 3.4+
+    gem 'mutex_m' # for ruby 3.4+
+  end
+end
+
+if RUBY_VERSION < '3.0.0'
+  appraise 'mongoid-5.0' do
+    gem 'mongoid', '~> 5.0.0'
+    gem 'bigdecimal', '~> 1.3.5'
+  end
+
+  appraise 'mongoid-6.0' do
+    gem 'mongoid', '~> 6.0.0'
+  end
 end
 
 appraise 'mongoid-7.0' do
   gem 'mongoid', '~> 7.0.0'
+  gem 'bigdecimal' # for ruby 3.4+
+  gem 'mutex_m' # for ruby 3.4+
+  gem 'concurrent-ruby', '1.3.4'
 end
 
 appraise 'mongoid-7.1' do
   gem 'mongoid', '~> 7.1.0'
+  gem 'bigdecimal' # for ruby 3.4+
+  gem 'mutex_m' # for ruby 3.4+
+  gem 'concurrent-ruby', '1.3.4'
 end
 
 # appraise 'mongo_mapper' do

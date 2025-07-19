@@ -3,6 +3,26 @@ module RailsVersions
     Gem::Version.new(Rails::VERSION::STRING)
   end
 
+  def rails_8_0?
+    Gem::Requirement.new('~> 8.0.0').satisfied_by?(rails_version)
+  end
+  alias_method :activerecord_8_0?, :rails_8_0?
+
+  def rails_7_2?
+    Gem::Requirement.new('~> 7.2.0').satisfied_by?(rails_version)
+  end
+  alias_method :activerecord_7_2?, :rails_7_2?
+
+  def rails_7_1?
+    Gem::Requirement.new('~> 7.1.0').satisfied_by?(rails_version)
+  end
+  alias_method :activerecord_7_1?, :rails_7_1?
+
+  def rails_7_0?
+    Gem::Requirement.new('~> 7.0.0').satisfied_by?(rails_version)
+  end
+  alias_method :activerecord_7_0?, :rails_7_0?
+
   def rails_6_1?
     Gem::Requirement.new('~> 6.1.0').satisfied_by?(rails_version)
   end

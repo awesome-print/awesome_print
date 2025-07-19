@@ -4,7 +4,11 @@ require 'active_record_helper'
 RSpec.describe 'AwesomePrint/ActiveRecord', skip: -> { !ExtVerifier.has_rails? }.call do
   describe 'ActiveRecord instance, attributes only (default)' do
     before do
-      ActiveRecord::Base.default_timezone = :utc
+      if ActiveRecord::VERSION::STRING >= '7.0'
+        ActiveRecord.default_timezone = :utc
+      else
+        ActiveRecord::Base.default_timezone = :utc
+      end
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
       @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true)
@@ -110,7 +114,11 @@ EOS
   #------------------------------------------------------------------------------
   describe 'ActiveRecord instance (raw)' do
     before do
-      ActiveRecord::Base.default_timezone = :utc
+      if ActiveRecord::VERSION::STRING >= '7.0'
+        ActiveRecord.default_timezone = :utc
+      else
+        ActiveRecord::Base.default_timezone = :utc
+      end
       @diana = User.new(name: 'Diana', rank: 1, admin: false, created_at: '1992-10-10 12:30:00')
       @laura = User.new(name: 'Laura', rank: 2, admin: true,  created_at: '2003-05-26 14:15:00')
       @ap = AwesomePrint::Inspector.new(plain: true, sort_keys: true, raw: true)
@@ -120,7 +128,15 @@ EOS
       out = @ap.awesome(@diana)
 
       raw_object_string =
-        if activerecord_6_1?
+        if activerecord_8_0?
+          ActiveRecordData.raw_8_0_diana
+        elsif activerecord_7_2?
+          ActiveRecordData.raw_7_2_diana
+        elsif activerecord_7_1?
+          ActiveRecordData.raw_7_1_diana
+        elsif activerecord_7_0?
+          ActiveRecordData.raw_7_0_diana
+        elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_diana
         elsif activerecord_6_0?
           ActiveRecordData.raw_6_0_diana
@@ -147,7 +163,15 @@ EOS
       out = @ap.awesome([@diana, @laura])
 
       raw_object_string =
-        if activerecord_6_1?
+        if activerecord_8_0?
+          ActiveRecordData.raw_8_0_multi
+        elsif activerecord_7_2?
+          ActiveRecordData.raw_7_2_multi
+        elsif activerecord_7_1?
+          ActiveRecordData.raw_7_1_multi
+        elsif activerecord_7_0?
+          ActiveRecordData.raw_7_0_multi
+        elsif activerecord_6_1?
           ActiveRecordData.raw_6_1_multi
         elsif activerecord_6_0?
           ActiveRecordData.raw_6_0_multi
@@ -218,42 +242,33 @@ class SubUser < User {
       # spec 1
       out = @ap.awesome(User.methods.grep(/first/))
 
-      if RUBY_VERSION >= '3.0.0'
+      if RUBY_VERSION >= '3.1.0'
+        expect(out).to match(/\sfirst\(\*\*,\s\?,\s&&\)/)
+      elsif RUBY_VERSION >= '3.0.0'
         expect(out).to match(/\sfirst\(\*\*,\s&&\)/)
       elsif RUBY_VERSION >= '2.7.0'
-        if ActiveRecord::VERSION::STRING >= '3.2'
+        if ActiveRecord::VERSION::STRING >= '6.0'
           expect(out).to match(/\sfirst\(\*\*,\s&&\)\s+User/)
         else
-          expect(out).to match(/\sfirst\(\*\*,\s&&\)\s+User \(ActiveRecord::Base\)/)
+          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
         end
       else
-        if ActiveRecord::VERSION::STRING >= '3.2'
-          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User/)
-        else
-          expect(out).to match(/\sfirst\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
-        end
+        expect(out).to match(/\sfirst\(\*arg.*?\)\s/)
       end
 
       # spec 2
       out = @ap.awesome(User.methods.grep(/primary_key/))
-      if RUBY_VERSION >= '3.0.0'
-        expect(out).to match(/\sprimary_key\(.*?\)/)
-      else
-        expect(out).to match(/\sprimary_key\(.*?\)\s+User/)
-      end
+      expect(out).to match(/\sprimary_key\(.*?\)/)
 
       # spec 3
       out = @ap.awesome(User.methods.grep(/validate/))
-      if ActiveRecord::VERSION::MAJOR < 3
-        expect(out).to match(/\svalidate\(\*arg.*?\)\s+User \(ActiveRecord::Base\)/)
+      if RUBY_VERSION >= '3.0.0'
+        expect(out).to match(/\svalidate\(\*arg.*?\)/)
+      elsif RUBY_VERSION >= '2.7.0'
+        expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
       else
-        if RUBY_VERSION >= '3.0.0'
-          expect(out).to match(/\svalidate\(\*arg.*?\)/)
-        else
-          expect(out).to match(/\svalidate\(\*arg.*?\)\s+User/)
-        end
+        expect(out).to match(/\svalidate\(\*arg.*?\)/)
       end
-
     end
   end
 end

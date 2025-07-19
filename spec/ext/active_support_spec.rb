@@ -8,7 +8,9 @@ RSpec.describe 'AwesomePrint::ActiveSupport', skip: -> { !ExtVerifier.has_rails?
   it 'should format ActiveSupport::TimeWithZone as regular Time' do
     Time.zone = 'Eastern Time (US & Canada)'
     time = Time.utc(2007, 2, 10, 20, 30, 45).in_time_zone
-    if activerecord_6_1?
+    if ActiveRecord::VERSION::STRING >= '8.0'
+      expect(@ap.send(:awesome, time)).to eq("\e[0;32m2007-02-10 15:30:45.000000000 EST -05:00\e[0m")
+    elsif ActiveRecord::VERSION::STRING >= '6.1'
       expect(@ap.send(:awesome, time)).to eq("\e[0;32mSat, 10 Feb 2007 15:30:45.000000000 EST -05:00\e[0m")
     else
       expect(@ap.send(:awesome, time)).to eq("\e[0;32mSat, 10 Feb 2007 15:30:45 EST -05:00\e[0m")

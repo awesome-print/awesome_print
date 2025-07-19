@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'AwesomePrint ActionView extensions', skip: -> { !ExtVerifier.has_rails? }.call do
   before do
-    @view = if rails_6_1?
+    @view = if ActionView::VERSION::STRING >= '6.1'
               ActionView::Base.new(ActionView::LookupContext.new([]), {}, {})
             else
               ActionView::Base.new

@@ -1,7 +1,6 @@
 ## Awesome Print ##
 
 [![RubyGems][gem_version_badge]][ruby_gems]
-[![Travis CI][travis_ci_badge]][travis_ci]
 [![Code Climate][code_climate_badge]][code_climate]
 [![Code Climate Coverage][code_climate_coverage_badge]][code_climate]
 [![RubyGems][gem_downloads_badge]][ruby_gems]
@@ -385,8 +384,6 @@ Released under the MIT license. See LICENSE file for details.
 [gem_version_badge]: https://img.shields.io/gem/v/awesome_print.svg?style=flat
 [gem_downloads_badge]: http://img.shields.io/gem/dt/awesome_print.svg?style=flat
 [ruby_gems]: http://rubygems.org/gems/awesome_print
-[travis_ci]: http://travis-ci.org/awesome-print/awesome_print
-[travis_ci_badge]: https://img.shields.io/travis/awesome-print/awesome_print/master.svg?style=flat
 [code_climate]: https://codeclimate.com/github/awesome-print/awesome_print
 [code_climate_badge]: http://img.shields.io/codeclimate/github/awesome-print/awesome_print.svg?style=flat
 [code_climate_coverage_badge]: https://codeclimate.com/github/awesome-print/awesome_print/badges/coverage.svg
