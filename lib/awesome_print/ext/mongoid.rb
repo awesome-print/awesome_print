@@ -16,11 +16,11 @@ module AwesomePrint
     def cast_with_mongoid(object, type)
       cast = cast_without_mongoid(object, type)
       if defined?(::Mongoid::Document)
-        if object.is_a?(Class) && object.ancestors.include?(::Mongoid::Document)
+        if Class === object && object < ::Mongoid::Document
           cast = :mongoid_class
-        elsif object.class.ancestors.include?(::Mongoid::Document)
+        elsif ::Mongoid::Document === object
           cast = :mongoid_document
-        elsif (defined?(::BSON) && object.is_a?(::BSON::ObjectId)) || (defined?(::Moped::BSON) && object.is_a?(::Moped::BSON::ObjectId))
+        elsif (defined?(::BSON) && ::BSON::ObjectId === object) || (defined?(::Moped::BSON) && ::Moped::BSON::ObjectId === object)
           cast = :mongoid_bson_id
         end
       end

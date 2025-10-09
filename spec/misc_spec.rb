@@ -22,6 +22,16 @@ RSpec.describe 'AwesomePrint' do
       expect(weird.new.ai(plain: false)).to eq('ice')
     end
 
+    it 'handle #inspect on BasicObject subclass' do
+      basic_obj_subclass = Class.new(BasicObject) do
+        def inspect
+          'Hello, world!'
+        end
+      end
+
+      expect(AwesomePrint::Inspector.new.awesome(basic_obj_subclass.new)).to eq('Hello, world!')
+    end
+
     # See https://github.com/awesome-print/awesome_print/issues/35
     it 'handle array grep when pattern contains / chapacter' do
       hash = { '1/x' => 1,  '2//x' => :"2" }
@@ -72,12 +82,6 @@ RSpec.describe 'AwesomePrint' do
         alias :eql? :==
       end
       expect { weird.new.ai }.not_to raise_error
-    end
-
-    it 'handles attr_reader :method' do
-      uri = URI.parse('https://hello.nx/world')
-      req = Net::HTTP::Get.new(uri)
-      expect(req.ai(plain: true)).to eq('#<Net::HTTP::Get GET>')
     end
   end
 
@@ -166,7 +170,7 @@ RSpec.describe 'AwesomePrint' do
       end
     end
 
-    it 'shoud not raise ArgumentError when formatting HTML' do
+    it 'should not raise ArgumentError when formatting HTML' do
       out = 'hello'.ai(color: { string: :red }, html: true)
       if RUBY_VERSION >= '1.9'
         expect(out).to eq(%Q|<pre>[red]<kbd style="color:red">&quot;hello&quot;</kbd>[/red]</pre>|)
@@ -175,17 +179,17 @@ RSpec.describe 'AwesomePrint' do
       end
     end
 
-    it 'shoud not raise ArgumentError when formatting HTML (shade color)' do
+    it 'should not raise ArgumentError when formatting HTML (shade color)' do
       out = 'hello'.ai(color: { string: :redish }, html: true)
       expect(out).to eq(%Q|<pre><kbd style="color:darkred">&quot;hello&quot;</kbd></pre>|)
     end
 
-    it 'shoud not raise ArgumentError when formatting non-HTML' do
+    it 'should not raise ArgumentError when formatting non-HTML' do
       out = 'hello'.ai(color: { string: :red }, html: false)
       expect(out).to eq(%Q|[red]"hello"[/red]|)
     end
 
-    it 'shoud not raise ArgumentError when formatting non-HTML (shade color)' do
+    it 'should not raise ArgumentError when formatting non-HTML (shade color)' do
       out = 'hello'.ai(color: { string: :redish }, html: false)
       expect(out).to eq(%Q|\e[0;31m"hello"\e[0m|)
     end

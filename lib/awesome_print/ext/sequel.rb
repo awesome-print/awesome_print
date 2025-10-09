@@ -15,11 +15,11 @@ module AwesomePrint
     #------------------------------------------------------------------------------
     def cast_with_sequel(object, type)
       cast = cast_without_sequel(object, type)
-      if defined?(::Sequel::Model) && object.is_a?(::Sequel::Model)
+      if defined?(::Sequel::Model) && ::Sequel::Model == object
         cast = :sequel_document
-      elsif defined?(::Sequel::Model) && object.is_a?(Class) && object.ancestors.include?(::Sequel::Model)
+      elsif defined?(::Sequel::Model) && Class === object && object < ::Sequel::Model
         cast = :sequel_model_class
-      elsif defined?(::Sequel::Mysql2::Dataset) && object.class.ancestors.include?(::Sequel::Mysql2::Dataset)
+      elsif defined?(::Sequel::Mysql2::Dataset) && ::Sequel::Mysql2::Dataset === object
         cast = :sequel_dataset
       end
       cast

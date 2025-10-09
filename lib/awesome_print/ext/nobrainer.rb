@@ -16,9 +16,9 @@ module AwesomePrint
     def cast_with_nobrainer(object, type)
       cast = cast_without_nobrainer(object, type)
       if defined?(::NoBrainer::Document)
-        if object.is_a?(Class) && object < ::NoBrainer::Document
+        if Class === object && object < ::NoBrainer::Document
           cast = :nobrainer_class
-        elsif object.is_a?(::NoBrainer::Document)
+        elsif ::NoBrainer::Document === object
           cast = :nobrainer_document
         end
       end

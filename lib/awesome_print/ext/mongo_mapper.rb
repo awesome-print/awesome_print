@@ -18,13 +18,13 @@ module AwesomePrint
       cast = cast_without_mongo_mapper(object, type)
 
       if defined?(::MongoMapper::Document)
-        if object.is_a?(Class) && (object.ancestors & [::MongoMapper::Document, ::MongoMapper::EmbeddedDocument]).size > 0
+        if Class === object && object < ::MongoMapper::Document && object < ::MongoMapper::EmbeddedDocument
           cast = :mongo_mapper_class
-        elsif object.is_a?(::MongoMapper::Document) || object.is_a?(::MongoMapper::EmbeddedDocument)
+        elsif ::MongoMapper::Document === object || ::MongoMapper::EmbeddedDocument === object
           cast = :mongo_mapper_instance
-        elsif object.is_a?(::MongoMapper::Plugins::Associations::Base)
+        elsif ::MongoMapper::Plugins::Associations::Base === object
           cast = :mongo_mapper_association
-        elsif object.is_a?(::BSON::ObjectId)
+        elsif ::BSON::ObjectId === object
           cast = :mongo_mapper_bson_id
         end
       end

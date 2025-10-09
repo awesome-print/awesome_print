@@ -4,9 +4,12 @@
 # See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 require_relative 'indentator'
+require_relative 'reflection'
 
 module AwesomePrint
   class Inspector
+    include Reflection
+
     attr_accessor :options, :indentator
 
     AP = :__awesome_print__
@@ -55,7 +58,7 @@ module AwesomePrint
 
       @formatter = AwesomePrint::Formatter.new(self)
       @indentator = AwesomePrint::Indentator.new(@options[:indent].abs)
-      Thread.current[AP] ||= []
+      Thread.current[AP] ||= Set.new.compare_by_identity
     end
 
     def current_indentation
@@ -69,14 +72,14 @@ module AwesomePrint
     # Dispatcher that detects data nesting and invokes object-aware formatter.
     #---------------------------------------------------------------------------
     def awesome(object)
-      if Thread.current[AP].include?(object.object_id)
+      if Thread.current[AP].include?(object)
         nested(object)
       else
         begin
-          Thread.current[AP] << object.object_id
+          Thread.current[AP].add(object)
           unnested(object)
         ensure
-          Thread.current[AP].pop
+          Thread.current[AP].delete(object)
         end
       end
     end
@@ -129,7 +132,7 @@ module AwesomePrint
       when File   then :file
       when Dir    then :dir
       when Struct then :struct
-      else object.class.to_s.gsub(/:+/, '_').downcase.to_sym
+      else class_of(object).to_s.gsub(/:+/, '_').downcase.to_sym
       end
     end
 
