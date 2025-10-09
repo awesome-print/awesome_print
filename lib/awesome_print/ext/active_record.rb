@@ -17,13 +17,13 @@ module AwesomePrint
       cast = cast_without_active_record(object, type)
       return cast if !defined?(::ActiveRecord::Base)
 
-      if object.is_a?(::ActiveRecord::Base)
+      if ::ActiveRecord::Base === object
         cast = :active_record_instance
-      elsif object.is_a?(::ActiveModel::Errors)
+      elsif ::ActiveModel::Errors === object
         cast = :active_model_error
-      elsif object.is_a?(Class) && object.ancestors.include?(::ActiveRecord::Base)
+      elsif Class === object && object < ::ActiveRecord::Base
         cast = :active_record_class
-      elsif type == :activerecord_relation || object.class.ancestors.include?(::ActiveRecord::Relation)
+      elsif type == :activerecord_relation || ::ActiveRecord::Relation === object
         cast = :array
       end
       cast
